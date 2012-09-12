@@ -1,8 +1,19 @@
 var config = require('./config.js');
 
-var httpServer = require('http').createServer(function(req, response){ 
-    /* Serve your static files */ }
-)
+var http = require('http')
+  , url = require('url')
+  , fs = require('fs')
+  , sys = require('sys')
+  , nodestatic = require('node-static')
+  , server;
+  
+var file = new(nodestatic.Server)('./');
+var httpServer = http.createServer(function(req, res){
+  // all static files are served with node-static
+  req.addListener('end', function () {
+    file.serve(req, res);
+  });
+});
 httpServer.listen(config.port);
 
 var nowjs = require("now");
