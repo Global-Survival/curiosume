@@ -1,7 +1,6 @@
 //a suggestion rule for a specific condition.  
 //
 //each rule specifies:
-
 // condition predicate
 // reason string
 // target of the suggestion - product, URL, person, etc
