@@ -155,9 +155,18 @@
                 updateHeatmap();
             }
             
+            now.name = prompt("What's your name?", "");  
+            now.receive = function(name, message){
+              $("#messages").append("<br>"+name+": "+message);
+            }
+            
+            function send() {
+              now.distribute($("#text-input").val());
+            }
+            
             $(function() {
 		var tabs = $( "#tabs" ).tabs({
-                    selected: 1
+                    selected: 4
                 });
                 
                 initPresets();
@@ -171,7 +180,6 @@
                 //test EQ data
                 setTimeout(function() {
                     $.getScript("/indicator/geology/USGSEarthquake.client.js", function(data, textStatus, jqxhr) {
-                            console.log(USGSEarthquakeClient);
                             USGSEarthquakeClient.load();
                     });                                        
                 }, 3000);
@@ -199,12 +207,20 @@
             
             <div id="tabs">
                     <ul>
+                        <li><a href="#tabsTeam">Team</a></li>
                         <li><a href="#tabs-0">Presets</a></li>
                         <li><a href="#tabs-1">Interests</a></li>
                         <li><a href="#tabsSuggestions">Suggestions</a></li>
-                        <li><a href="#tabs-2">Help</a></li>
+                        <li><a href="#tabsHelp">Help</a></li>
                     </ul>
 
+                    <div id="tabsTeam">
+                        <div id="messages"></div>
+                        <br/>
+                        <input type='text' id="text-input"/>
+                        <input type='submit' id="send-button" onclick="send()" value="send"/>
+                    </div>
+                
                     <div id="tabs-0">
                         <ul id="presets">                            
                         </ul>    
@@ -281,7 +297,7 @@
                     <div id="tabsSuggestions">
                     </div>
                 
-                    <div id="tabs-2">
+                    <div id="tabsHelp">
                         <h1>What is GSS?</h1>
                         <p><button onclick="showGssPresentation()">Watch Presentation</button></p>
                         <p>Analyze all physical locations, and the transitions between them, to find those which seem appropriate for a biological organism - measured according to certain heuristics.</p>
@@ -302,8 +318,6 @@
                 
             </div>
             
-
-        
         </div>        
         
         <div id="map"></div>

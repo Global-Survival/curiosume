@@ -5,7 +5,7 @@ var USGSEarthquakeClient = {
 
     //CLIENT called when this plugin is activated, to load and parse any necessary remote data (from web server)
     load: function() { 
-        alert(now.USGSEarthquake['earthquakes'].length);
+        //alert(now.USGSEarthquake['earthquakes'].length);
     },
 
     //CLIENT called when de-activated, in case there is opportunity to free memory using JS "delete" operator
