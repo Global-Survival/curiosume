@@ -24,3 +24,6 @@ everyone.now.distribute = function(message){
   everyone.now.receive(this.now.name, message);
 };
 
+
+var earthquake = require('./indicator/geology/USGSEarthquake.js');
+earthquake.i.load(everyone, function() { console.log('USGSEarthquake ok')}, function() { });

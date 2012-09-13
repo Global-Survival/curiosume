@@ -27,6 +27,7 @@
         
         <script>
             var heatMapDetailLevel = 4;
+            var activeIndicators = [];
 
 
             function showGssPresentation() {
@@ -168,10 +169,12 @@
                 updateLocation();
 
                 //test EQ data
-                $.getScript("/indicator/geology/USGSEarthquake.js", function(data, textStatus, jqxhr) {
-                        console.log(data);
-                        USGSEarthquake.load();
-                });
+                setTimeout(function() {
+                    $.getScript("/indicator/geology/USGSEarthquake.client.js", function(data, textStatus, jqxhr) {
+                            console.log(USGSEarthquakeClient);
+                            USGSEarthquakeClient.load();
+                    });                                        
+                }, 3000);
             });
         </script>
         
@@ -236,7 +239,11 @@
                             </li>
                             <li>Supplies and Tools</li>
                             <li>Healthcare</li>
-                            <li>Weather, Climate, & Geology</li>
+                            <li>Weather, Climate, & Geology
+                                <ul>
+                                    <li>USGS Earthquakes</li>
+                                </ul>
+                            </li>
                             <li>Pollution
                                 <ul>
                                     <li>Nuclear Facilities<br/>
