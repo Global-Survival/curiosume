@@ -122,6 +122,8 @@
             function setSensorImportance(sensorID, newImportance) {
                 //console.log('sensor: ' + sensor + ' importance=' + newImportance);
                 var oldImportance = sensorImportance[sensorID];
+                if (oldImportance == newImportance)
+                    return;
                 
                 var sensor = getSensorItem(sensorID);
                 sensor.removeClass('sensorItem25');
@@ -155,6 +157,8 @@
                 }
                 
                 sensorImportance[sensorID] = newImportance;
+                
+                update();
             }
             
             function setSensorClient(sensorID, client) {
@@ -378,21 +382,21 @@
                 removeMapLayers();
                 
                 //TODO add map layers
+                $.each(sensorImportance, function(k,v) {
+                   if (v > 0) {
+                       var c = sensorClient[k];
+                       if (c != undefined)
+                           c.updateGlobal();
+                   } 
+                });
                 
-                var markers = new OpenLayers.Layer.Markers( "USGS Earthquakes" );
-                var size = new OpenLayers.Size(35,35);
-                var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-                var icon = new OpenLayers.Icon('/icon/quake.png',size,offset);
-                markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
-                addMapLayer(markers);
-
             }
             
             function updateHeatmapOpacity(o) { $('#mapHeat').css('opacity', o/100.0); }
             
             function updateHeatmapDetail(d) {
                 heatMapDetailLevel = d;
-                updateHeatmap();
+                update();
             }
             
             

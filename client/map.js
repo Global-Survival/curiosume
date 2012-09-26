@@ -13,15 +13,14 @@ function initMap(onMoveEnd) {
     theMap = new OpenLayers.Map({
         div: "map",
         //projection: "EPSG:3857",
-        //projection: fromProjection,
-        //displayProjection: toProjection,
+        projection: fromProjection,
+        displayProjection: toProjection,
         numZoomLevels: 18,
         eventListeners: {
             "moveend": onMoveEnd,
             "zoomend": onMoveEnd
         }
     });
-    var map = theMap;
 
     //Geolocation Example: http://openlayers.org/dev/examples/geolocation.js
 
@@ -50,11 +49,11 @@ function initMap(onMoveEnd) {
     // create a vector layer for drawing
     vector = new OpenLayers.Layer.Vector("Editable Vectors");
 
-    map.addLayers([
+    theMap.addLayers([
         mapnik, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ vector
     ]);
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
-    map.addControl(new OpenLayers.Control.EditingToolbar(vector));
+    theMap.addControl(new OpenLayers.Control.LayerSwitcher());
+    theMap.addControl(new OpenLayers.Control.EditingToolbar(vector));
 
     geolocate = new OpenLayers.Control.Geolocate({
         bind: false,
@@ -65,7 +64,7 @@ function initMap(onMoveEnd) {
         }
     });
 
-    map.addControl(geolocate);
+    theMap.addControl(geolocate);
 
     geolocate.events.register("locationupdated",geolocate,function(e) {
         vector.removeAllFeatures();
@@ -98,8 +97,8 @@ function initMap(onMoveEnd) {
             circle
         ]);
         if (firstGeolocation) {
-            map.zoomToExtent(vector.getDataExtent());
-            map.zoomTo(12);
+            theMap.zoomToExtent(vector.getDataExtent());
+            theMap.zoomTo(12);
 
             //pulsate(circle);
             firstGeolocation = false;
@@ -111,9 +110,9 @@ function initMap(onMoveEnd) {
         OpenLayers.Console.log('Location detection failed');
     });
 
-    map.setCenter(position, zoom );
+    theMap.setCenter(position, zoom );
 
-    return map;
+    return theMap;
 }
 
 function updateLocation() {
