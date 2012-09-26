@@ -40,7 +40,7 @@ exports.sensor = {
             sensor[i].earthquakes = quakes;
             
             if (onFinished!=undefined)
-                onFinished(quakes);
+                onFinished();
         });
     }
 };

@@ -109,9 +109,13 @@ function addSensor(path) {
     
     sensor[se.id()] = se;
 
-    se.refresh(sensor, function() { }, function() { });
+    se.refresh(sensor, function() { 
+        console.log('Added sensor: ' + se.id());
+    }, function() { 
+        console.error('Error adding sensor: ' + se.id());
+    });
 
-    console.log('Added sensor: ' + se.id());
+    
 };
 
 everyone.now.getSensors = function(withSensors) {
@@ -123,8 +127,7 @@ everyone.now.getSensor = function(id, withSensor) {
         withSensor(sensor[id]);
     }
     else {
-        //console.error('Unknown sensor: ' + id);
-        withSensor(null);
+        console.error('Unknown sensor: ' + id);
     }
 };
 

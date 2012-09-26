@@ -127,4 +127,8 @@ function geoDist(p1, p2) {
     return OpenLayers.Util.distVincenty( {lat:p1[0], lon:p1[1]}, {lat:p2[0], lon:p2[1]} );
 }
 
-
+function lonlat(lon, lat) {
+    var ll = new OpenLayers.LonLat(lon, lat);
+    ll.transform(fromProjection, toProjection);    
+    return ll;
+}

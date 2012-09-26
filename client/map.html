@@ -138,7 +138,13 @@
                 }
                 else {
                     if (oldImportance == 0) {
-                        var ch = '<input type="range" value="' + newImportance + '" min="25" max="100" step="25" alt="Importance" onChange="setSensorImportance(\'' + sensorID + '\', this.value);" />';
+                        var ch = '<input title="Importance" type="range" value="' + newImportance + '" min="25" max="100" step="25" alt="Importance" onChange="setSensorImportance(\'' + sensorID + '\', this.value);" />';
+                        if (sensorClient[sensorID]!=undefined) {
+                            if (sensorClient[sensorID].getControlHTML!=undefined) {
+                                ch = ch + sensorClient[sensorID].getControlHTML();
+                            }
+                        }
+                        
                         controls.html(ch);
                     }
 
@@ -171,20 +177,13 @@
 
                         
                         $.getScript(s['clientJS'])
-                            .done(function(script, textStatus) {
-                                //console.log('script: ' + script);
-                                //console.log( textStatus );
+                            .done(function(script, textStatus) {                                
                             })
                             .fail(function(jqxhr, settings, exception) {
                                 console.error('Loading clientJS:');
                                 console.dir( exception );
                                 console.dir( jqxhr );
                             });  
-                        
-//                        $.get(s['clientJS'], function(d) {
-//                            console.log(d);
-//                            console.dir(eval(d));
-//                        });
                         
                     }
                 }
@@ -194,22 +193,31 @@
             function addSensor(target, sensor) {
                 if (sensor.id === undefined) {
                     //Blank placeholder sensor
+                    var ii = nextControlID++;
                     sensor = {
-                        id: nextControlID++,
+                        id: ii,
                         name: sensor
                     };
+                    var controlID = 'sensorControl-' + sensor.id;
+
+                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
+
+                    sensors[sensor.id] = sensor;
+                    sensorImportance[sensor.id] = 0;
                 }
                 else {
                     //Defined sensor                    
                     now.getSensor(sensor.id, updateSensorClient);                    
+                    
+                    
+                    var controlID = 'sensorControl-' + sensor.id;
+
+                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
+
+                    sensors[sensor.id] = sensor;
+                    sensorImportance[sensor.id] = 0;
                 }
                 
-                var controlID = 'sensorControl-' + sensor.id;
-
-                $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
-
-                sensors[sensor.id] = sensor;
-                sensorImportance[sensor.id] = 0;
                 
             }
             
@@ -350,7 +358,6 @@
                         var c = getHeatmapColor(py, px); //(py + bh/2.0, px + bw/2.0);
 
                         var pp = theMap.getViewPortPxFromLonLat( pl.transform( fromProjection, toProjection) );
-                        //console.log(pp['x'], pp['y'], px, py);
                         
                         ctx.fillStyle="rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 1.0)";
                         ctx.fillRect(pp['x'],pp['y'],pw,ph);

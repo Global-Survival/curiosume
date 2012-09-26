@@ -16,32 +16,52 @@ setSensorClient('USGSEarthquake', {
     //called when this sensor has > 0 importance    
     updateGlobal: function(result) { 
         
+        if (this.markers!=undefined) {
+            addMapLayer(this.markers);
+            return;
+        }
+        
+        var markers = new OpenLayers.Layer.Markers( "USGS Earthquakes" );
+        this.markers = markers;
+        addMapLayer(markers);
+        
         now.getSensor('USGSEarthquake', function(s) { 
-            var markers = new OpenLayers.Layer.Markers( "USGS Earthquakes" );
-            addMapLayer(markers);
             
             var quakes = s.earthquakes;
-            var x = 0;
-            $.each(quakes, function(k, quake) {
+            var dateNow = Date.now();
+            var iconScale = 8.0;
+            
+            
+            for (var i = 0; i < quakes.length; i++) {
+                var quake = quakes[i];
+                
                 var lon = parseFloat(quake.lon);
                 var lat = parseFloat(quake.lat);
+                var magnitude = parseFloat(quake.magnitude);
+                var when = quake.when;
+                var ageDays = (dateNow - when) / (1000 /*ms*/ * 60 * 60 * 24);                                
                                 
-                var size = new OpenLayers.Size(35,35);
-                var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+                var opacity = Math.exp(-ageDays) * 0.5 + 0.5;
+                
+                var s = magnitude * iconScale;
+                var size = new OpenLayers.Size(s,s);
+                
+                var offset = new OpenLayers.Pixel(-(size.w/2), -(size.h/2));
                 var icon = new OpenLayers.Icon('/icon/quake.png',size,offset);
                 
-                var ll = new OpenLayers.LonLat(lon, lat);
-                console.dir(ll);
-                ll.transform(fromProjection, toProjection /*theMap.getProjectionObject()*/);
-                console.dir(ll);
+                var ll = lonlat(lon, lat);
                 
                 markers.addMarker(new OpenLayers.Marker(ll,icon));
-                //marker.setOpacity(0.2);
+                markers.setOpacity(opacity);
                 //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });                
-            });
+            }
             
         });
 
+    },
+    
+    getControlHTML : function() {
+        return 'controls';
     }
     
 });
