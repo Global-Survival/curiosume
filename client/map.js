@@ -1,6 +1,7 @@
 
 var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstGeolocation, geolocate;
 
+
 function initMap(onMoveEnd) {
     firstGeolocation = true;
     fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
@@ -45,6 +46,7 @@ function initMap(onMoveEnd) {
     );
 
 
+            
     // create a vector layer for drawing
     vector = new OpenLayers.Layer.Vector("Editable Vectors");
 
@@ -108,7 +110,6 @@ function initMap(onMoveEnd) {
     geolocate.events.register("locationfailed",this,function() {
         OpenLayers.Console.log('Location detection failed');
     });
-
 
     map.setCenter(position, zoom );
 

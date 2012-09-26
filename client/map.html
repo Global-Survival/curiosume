@@ -40,6 +40,8 @@
             var sensorImportance = { };
             var sensorClient = { };
             
+            var layers = [];
+            
             var now;
             var etherpadBaseURL = 'http://localhost:9001';
 
@@ -358,9 +360,32 @@
                 drawHeatmap(heatMapDetailLevel);                
             }
             
+            function removeMapLayers() {
+                for (i = 0; i < layers.length; i++) {
+                    theMap.removeLayer(layers[i]);
+                }
+                layers = [];
+            }            
+            
+            function addMapLayer(l) {
+                layers.push(l);
+                theMap.addLayer(l);
+            }
             
             function update() {
                 updateHeatmap();
+                
+                removeMapLayers();
+                
+                //TODO add map layers
+                
+                var markers = new OpenLayers.Layer.Markers( "USGS Earthquakes" );
+                var size = new OpenLayers.Size(35,35);
+                var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+                var icon = new OpenLayers.Icon('/icon/quake.png',size,offset);
+                markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
+                addMapLayer(markers);
+
             }
             
             function updateHeatmapOpacity(o) { $('#mapHeat').css('opacity', o/100.0); }
