@@ -1,0 +1,138 @@
+root { 
+    display: block;
+}
+body {
+    font-family: Arial, sans;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    margin: 0;
+}
+#controls {
+    width: 40%;
+    float: left;
+    height: 90%;
+}
+#map, #mapHeat {
+    width: 60%;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+#mapHeat {
+    z-index: 3000;
+    pointer-events: none;
+    opacity: 0.5;
+}
+#tabs {
+    border: none;
+    height: 95%;
+}
+#tabs-0, #tabs-1, #tabs-2, #tabs-3 {
+    overflow: auto;    
+    height: 100%;
+}
+#tree1 {
+    margin-left: 0px;
+    margin-top: 0px;
+}
+#tree1  {
+    font-size: 100%;
+    padding-top: 0.3em;    
+    padding-bottom: 0.3em;    
+    background-color: rgba(0,0,0,0.1);
+}
+#tree1 li b {
+    font-size: larger;
+    text-decoration: underline;
+}
+ul.mktree, ul.mktree ul, ul.mktree li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+ul.mktree ul {
+}
+ul.mktree li.libullet .bullet {
+    cursor: default;
+    background: none;
+    display: none;
+}
+
+
+#presets {
+    margin: 0px;
+    padding-left: 0px;
+}
+
+#presets li {
+    font-size: 120%;
+    list-style: none;
+}
+
+#presets li p {
+    margin-left: 2em;
+}
+
+/* http://www.quackit.com/css/css_color_codes.cfm */
+.sensorItem25 {
+    background-color: rgba(154,205,50,0.3);
+}
+.sensorItem50 {
+    background-color: rgba(255,255,0, 0.3);
+}
+.sensorItem75 {
+    background-color: rgba(255,165,0, 0.3);
+}
+.sensorItem100 {
+    background-color: rgba(220,20,60, 0.3);
+}
+
+
+div.sensorItem {
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+div.sensorControl {
+    margin-left: 3em;    
+}
+.controlDisabled {
+    display: none;
+}
+.controlEnabled {
+    display: block;
+}
+
+.table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+}
+.sf-menu {
+    margin-bottom: 0.5em;
+}
+.sf-menu a, .sf-menu a:visited {
+        color: #000;
+}
+.sf-menu li {
+	background:		#DDD;
+}
+.sf-menu li li {
+	background:		#EEE;
+}
+.sf-menu li li li {
+	background:		#FFF;
+}
+.sf-menu li:hover, .sf-menu li.sfHover,
+.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+	background:		#CFDEFF;
+	outline:		0;
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0.5em 0.7em;
+}

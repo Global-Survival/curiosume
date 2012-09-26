@@ -3,7 +3,7 @@ http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt
   CSV format
 (other feeds are available from USGS)
 */
-var csv = require('../../csv.js');
+var csv = require('../csv.js');
 var now = require('now');
 
 var id = 'USGSEarthquake';

@@ -4,7 +4,9 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>netjs2</name>
-            <source-roots/>
+            <source-roots>
+                <root id="src.netjs2.dir"/>
+            </source-roots>
             <test-roots/>
         </data>
     </configuration>

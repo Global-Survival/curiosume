@@ -12,10 +12,7 @@ var Indicator = {
     
     //list of named variables, their types, initial values, and limits, to generate UI controls for adjusting those variables
     options: function() { },
-    
-    //SERVER to refresh the data in this cache, should be called at least once at the beginning
-    refresh: function(onFinished, onError) { },
-    
+        
     //CLIENT called when this plugin is activated, to load and parse any necessary remote data (from web server)
     load: function() { },
 

@@ -1,0 +1,500 @@
+<html>
+    <head>
+        <script src="/nowjs/now.js"></script>
+        
+        <!-- openlayers -->
+        <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+
+        <!-- google maps -->
+        <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+
+        <!-- mktree -->
+        <script src="mktree/mktree.js"></script>
+        <link type="text/css" rel="stylesheet" href="mktree/mktree.css"/>
+        
+        <!-- jQuery and jQuery-UI -->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>                        
+        
+        <script src="/jquery-tmpl/jquery.tmpl.js"></script> <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script> -->
+        
+        <!-- Superfish -->
+        <script type="text/javascript" src="/superfish/js/superfish.js"></script>
+        <link rel="stylesheet" media="screen" href="/superfish/css/superfish.css">
+        <link rel="stylesheet" media="screen" href="/superfish/css/superfish-navbar.css">
+        <link rel="stylesheet" media="screen" href="/superfish/css/superfish-vertical.css">
+
+        <script src="map.js"></script>
+	<link rel="stylesheet" href="map.css" type="text/css" media="all" />
+                
+        <title>Global Survival System - Map</title>
+        
+        <script>
+            var heatMapDetailLevel = 4;
+            var activeIndicators = [];
+            var nextCategoryID = 0, nextNewsID = 0, nextControlID = 0;
+            var sensors = { };
+            var sensorImportance = { };
+            var now;
+            var etherpadBaseURL = 'http://localhost:9001';
+
+            function editNewPadFromForm() {
+                var title = $('#newPadTitle')[0].value;
+                editNewPad(title);
+            }
+
+            function editNewPad(title) {
+                now.newPad(title, '', function(pad, error) {
+                    if (error===null) {
+                        editPad(pad);
+                        updateStory();
+                    }
+                    else {
+                        console.log('newPad error: ' + error);
+                    }
+                });
+                
+            }
+            
+            function editPad(padID) {
+                var title = padID.split('$')[1];
+                
+                var h = '<iframe src="' + etherpadBaseURL + '/p/' + title + '&userName=' + now.name + '&showLineNumbers=' + false + '" style="width: 100%; height: 95%"></iframe>';
+                $('#edit').html(h);
+                $("#edit").dialog({
+			height: 650,
+                        width: '80%',
+                        zIndex: 5000,
+                        'title': title,
+			modal: false
+		});                
+            }
+            
+            function showHelp() {
+                $('#help').html('<center>Loading...</center>');
+                $("#help").dialog({
+			height: 650,
+                        width: '90%',
+                        zIndex: 5000,
+                        title: 'Help',
+			modal: true
+		});
+                $('#help').load('help.html');
+            }
+            
+            function addInterestButtons(indicator) {
+                
+            }
+            
+            function applyTemplate(template, params, target) {
+                $( template ).tmpl( params).appendTo( target );                          
+            }
+            
+            function templatize(template, params) {
+                return $( template ).tmpl( params);
+            }
+            
+            function toggleSensor(sensorID) {
+               var x = getSensorControls(sensorID);
+               var defaultSensorImportance = 25;
+               
+               var ce = "controlEnabled";
+               if (x.hasClass(ce)) {
+                    x.removeClass(ce);
+                    setSensorImportance(sensorID, 0);
+               }
+               else {
+                    x.addClass(ce);                   
+                    setSensorImportance(sensorID, defaultSensorImportance);
+               }
+            }
+            
+            function getSensorItem(sensor) { return $('#sensor-' + sensor); }
+            function getSensorControls(sensor) { return $('#sensorControl-' + sensor); }
+            
+            function setSensorImportance(sensorID, newImportance) {
+                //console.log('sensor: ' + sensor + ' importance=' + newImportance);
+                var oldImportance = sensorImportance[sensorID];
+                
+                var sensor = getSensorItem(sensorID);
+                sensor.removeClass('sensorItem25');
+                sensor.removeClass('sensorItem50');
+                sensor.removeClass('sensorItem75');
+                sensor.removeClass('sensorItem100');
+
+                var controls = getSensorControls(sensorID);
+                if (newImportance == 0) {
+                    if (oldImportance > 0)
+                        controls.html('');
+                }
+                else {
+                    if (oldImportance == 0) {
+                        var ch = '<input type="range" value="' + newImportance + '" min="25" max="100" step="25" alt="Importance" onChange="setSensorImportance(\'' + sensorID + '\', this.value);" />';
+                        controls.html(ch);
+                    }
+
+                    if (newImportance <= 25) {
+                        sensor.addClass('sensorItem25');
+                    }
+                    else if (newImportance <= 50) {
+                        sensor.addClass('sensorItem50');                    
+                    }
+                    else if (newImportance <= 75) {
+                        sensor.addClass('sensorItem75');                    
+                    }
+                    else /*if (newImportance <= 100)*/ {
+                        sensor.addClass('sensorItem100');                    
+                    }
+                }
+                
+                sensorImportance[sensorID] = newImportance;
+            }
+            
+            function addSensor(target, sensor) {
+                if (sensor.id === undefined) {
+                    sensor = {
+                        id: nextControlID++,
+                        name: sensor
+                    };
+                }
+                
+                //console.dir(sensor);
+                
+                var controlID = 'sensorControl-' + sensor.id;
+                
+                $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
+            
+                sensors[sensor.id] = sensor;
+                sensorImportance[sensor.id] = 0;
+            }
+            
+            function addSensorCategory(name) {
+                var i = 'sensorCategory-' + (nextCategoryID++);
+                var h = '<li id="' + i + '"><b>' + name + '</b><ul>';
+                h = h + '</ul></li>';
+                $('#tree1').append(h);
+                return '#' + i + ' ul';
+            }
+            
+            function initSensors() {
+                $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
+                    convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
+                });                                        
+                
+            }
+            
+            function initPresets() {
+                
+                applyTemplate("#presetTemplate", [
+                    
+                    { name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
+                    { name: "Camping", desc: "Camping in nature, away from civilization." },                            
+                    { name: "3rd World Civilization", desc: "Developing regions must be ready to adapt to environmental problems." },                     
+                    { name: "Food", desc: "Edible and drinkable substances" },
+                    { name: "Disaster", desc: "When evacuation becomes a priority, avoid disaster with a set of minimal but critical concerns." },                            
+                    { name: "Wellness", desc: "Healthcare, hospital, pharmacies, etc..." }
+                ], "#presetsSurvive" );    
+
+                applyTemplate("#presetTemplate", [
+                    
+                    { name: "Fun", desc: "Entertainment and enjoyment" },           
+                    { name: "Explore", desc: "Discover something new" },           
+                    { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
+                    { name: "Meet", desc: "Meet new people" },
+                    { name: "Learn", desc: "Educational resources" }
+
+                ], "#presetsGrow" );
+                
+                applyTemplate("#presetTemplate", [
+                    
+                    { name: "Paid Labor", desc: "Work and jobs that pay" },           
+                    { name: "Volunteer", desc: "Opportunities to contribute" },           
+                    { name: "Rescue", desc: "Help, liberate, or assist those in need or distress" }
+
+                ], "#presetsShare" );
+                
+                $(document).ready(function() { 
+                    $('#presetsMenu').superfish(); 
+                }); 
+ 
+            }
+            
+            function addNews(item) {
+                $('#tabNews').append(item);
+            }
+            
+            function addSuggestions(x) {
+                
+                //TODO append suggestions as uniquely ID'd div's, which can then be templated
+                
+                var s = [
+                    { name: "Adventure Medical Kits - Ultralight & Watertight", 
+                      link: 'http://www.amazon.com/3M-Scotch-Strength-1-88-Inch-60-Yard',
+                      imageURL: "http://ecx.images-amazon.com/images/I/41dcqml1aEL._AA115_.jpg",
+                      reason: "Hurricane in proximity.  Prevent windows from shattering by using duct tape.",
+                      price: "$8.77"
+                    },                            
+                    { name: "3M Scotch Pro Strength Duct Tape, 1.88-Inch by 60-Yard, 1-Pack", 
+                      link: 'http://www.amazon.com/Adventure-Medical-Kits-Ultralight-Watertight/dp/B000WXX016',
+                      imageURL: "http://ecx.images-amazon.com/images/I/41KMGevDemL._AA115_.jpg",
+                      reason: "You are far from medical support.  In case of emergency, carry a first-aid kit.",
+                      price: "$8.99"
+                    }
+                ];
+                
+                addNews( templatize("#productSuggestionTemplate", s) );
+            }
+            
+            function updateStory() {
+                now.getPads(function(pList) {
+                    var s = $('#padList');
+                    
+                    var h = '';
+                    for (i = 0; i < pList.length; i++) {
+                        var p = pList[i];
+                        
+                        var title = p.split('$')[1];
+                        var l = '<a href="#" onClick="editPad(\'' + p + '\')">' + title + '</a><br/>';
+                        
+                        h = h + l;
+                        
+                    }
+                    s.html(h);
+                });
+            }
+            
+            function getHeatmapColor(lat, lon) {
+
+                var d = geoDist( [lat, lon], [0,0])/1000.0;
+                var r = 1.0 / ( 1.0 + d);
+                var g = 0;
+                var b = 0;
+                
+                r = Math.floor(r*256.0);
+                g = Math.floor(g*256.0);
+                
+                return [ r, g, b ];
+            }
+
+            function drawHeatmap(divisions) {
+                var map = document.getElementById("map");
+                
+                var mapHeat = document.getElementById("mapHeat");
+                var w = theMap.size.w;
+                var h = theMap.size.h;
+
+                var ctx = mapHeat.getContext("2d");
+                ctx.clearRect(0, 0, w, h);
+                
+                var extent = theMap.getExtent().transform(toProjection, fromProjection);
+                var ul = new OpenLayers.LonLat(extent.left, extent.top);
+                var br = new OpenLayers.LonLat(extent.right, extent.bottom);
+
+                var bw = Math.abs(br['lon'] - ul['lon'])/divisions;
+                var bh = Math.abs(ul['lat'] - br['lat'])/divisions;
+                
+                var pw = Math.ceil(w / divisions);
+                var ph = Math.ceil(h / divisions);
+                
+                var py = ul['lat'], px;
+                for (var y = 0; y < divisions; y++) {
+                    px = ul['lon'];
+                    for (var x = 0; x < divisions; x++) {
+                        
+                        var pl = new OpenLayers.LonLat(px, py);
+                        var c = getHeatmapColor(py, px); //(py + bh/2.0, px + bw/2.0);
+
+                        var pp = theMap.getViewPortPxFromLonLat( pl.transform( fromProjection, toProjection) );
+                        //console.log(pp['x'], pp['y'], px, py);
+                        
+                        ctx.fillStyle="rgba(" + c[0] + ", " + c[1] + ", " + c[2] + ", 1.0)";
+                        ctx.fillRect(pp['x'],pp['y'],pw,ph);
+                        px += bw;
+                    }
+                    py -= bh;
+                }
+            }
+
+            function updateHeatmap() {
+                drawHeatmap(heatMapDetailLevel);                
+            }
+            
+            
+            function update() {
+                updateHeatmap();
+            }
+            
+            function updateHeatmapOpacity(o) { $('#mapHeat').css('opacity', o/100.0); }
+            
+            function updateHeatmapDetail(d) {
+                heatMapDetailLevel = d;
+                updateHeatmap();
+            }
+            
+            
+            function say(x) {
+                if (x === undefined)
+                  now.distribute($("#text-input").val());
+                else
+                  now.distribute(x);
+            }
+            
+            $(document).ready(function(){
+		var tabs = $( "#tabs" ).tabs({
+                    selected: 1
+                });
+                
+                initSensors();
+                initPresets();
+                
+                initMap(function() {
+                    update();
+                });
+                
+                updateLocation();
+
+                addSuggestions();
+                //test EQ data
+//                setTimeout(function() {
+//                    $.getScript("/indicator/geology/USGSEarthquake.client.js", function(data, textStatus, jqxhr) {
+//                            USGSEarthquakeClient.load();
+//                    });                                        
+//                }, 3000);
+
+            
+                //now.name = prompt("What's your name?", "");  
+                now.name = 'Anonymous';
+
+                now.receive = function(name, message){
+                  $("#messages").append("<br>"+name+": "+message);
+                }
+
+                //pause to allow now.js to load
+                setTimeout(function() {
+                    //say('(online)');
+                    updateStory();
+                }, 1000);
+
+                
+
+            });
+        </script>
+        
+        <script id="presetTemplate" type="text/x-jquery-tmpl">
+            <li>
+                <a href="">
+                    <p><b>${name}</b></p>
+                    <p>${desc}</p>
+                </a>
+            </li>
+        </script>
+        
+        <script id="productSuggestionTemplate" type="text/x-jquery-tmpl">            
+            May need: <a href="${link}">${name}</a><br/>
+            <div style="float: left; width: 40%"><img src="${imageURL}"/></div>
+            <div style="float: right; width: 55%"><p><b>${price}</b> ${reason}</p></div>
+            <div style="clear:both"></div>
+        </script>
+        
+    </head>
+
+
+    <body>
+        <div id="controls"> 
+            
+            <div id="tabs">
+                    <ul>
+                        <li><a href="#tabsTeam">Team</a></li>
+
+                        <!-- <li><a href="#tabsTeam">Items</a></li> -->
+
+                        <li><a href="#tabGoals">Goals</a></li>
+                        <li><a href="#tabNews">News</a></li>
+                        <li><a href="#tabStory">Story</a></li>
+                        
+                        <li><button onClick="showHelp()">Help</button></li>
+                    </ul>
+
+                    <div id="tabsTeam">
+                        <div id="messages"></div>
+                        <br/>
+                        <input type='text' id="text-input"/>
+                        <input type='submit' id="send-button" onclick="send()" value="send"/>
+                    </div>
+                                    
+                    <div id="tabGoals">
+
+                        <div class="table">
+                            <ul id="presetsMenu" class="sf-menu sf-js-enabled sf-shadow">
+                                <li>
+                                    <a href="#a">Survive</a>
+                                    <ul id="presetsSurvive"></ul>
+                                </li>
+                                <li>
+                                    <a href="#">Grow</a>
+                                    <ul id="presetsGrow"></ul>
+                                </li>
+                                <li>
+                                    <a href="#">Share</a>
+                                    <ul id="presetsShare"></ul>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Interests -->
+                        <ul class="mktree" id="tree1" style="clear: both">
+                            <li style="display:table; margin: 0 auto;">
+                                <button onClick="">Reset</button>
+                                <button onClick="expandTree('tree1');">Expand All</button>
+                                <button onClick="collapseTree('tree1');">Collapse All</button>
+                                <button onClick="">Save</button>
+                            </li>
+                            
+                            <!-- <A class="button" href="#" onClick="expandToItem('tree1','login'); return false;">Expand to a certain location</A> -->
+                        </ul>
+
+                        
+                        <p>
+                            Heatmap Transparency: <input type="range"  min="0" max="100" onchange="updateHeatmapOpacity(this.value)"/>
+                        </p>
+                        <p>
+                            Heatmap Detail: <input type="range"  min="2" max="32" step="1" onchange="updateHeatmapDetail(this.value)"/>
+                        </p>
+
+                    </div>
+                   
+                    <div id="tabNews">
+                    </div>
+                
+                    <div id="tabStory">
+                        <span>
+                            <input type="text" id="newPadTitle"/>
+                            <button onClick="editNewPadFromForm()">New</button>
+                        </span>
+                        
+                        <br/>
+                        <br/>
+                        
+                        <div id="padList">
+                        </div>
+                        
+                    </div>
+                
+                
+            </div>
+            
+        </div>        
+        
+        <div id="map"></div>
+        <canvas id="mapHeat"></canvas>
+        
+        <div id="edit"  style="display: none; z-index: 5000">
+        </div>
+        
+        <div id="help"  style="display: none; z-index: 5000">
+        </div>
+
+    </body>
+</html>
