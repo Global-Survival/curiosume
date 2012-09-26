@@ -28,8 +28,7 @@ var climate = addSensorCategory('Weather, Climate, & Geology');
 {
     addSensor(climate, { 
         id: 'USGSEarthquake',
-        name: 'USGS Earthquakes', 
-        script: 'geology/USGSEarthquake.client.js' 
+        name: 'USGS Earthquakes'
     });
 }
 

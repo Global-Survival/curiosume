@@ -1,3 +1,5 @@
+var sensor = { };
+
 var config = require('../config.js');
 
 var http = require('http')
@@ -12,7 +14,6 @@ var etherpadAPI = require('etherpad-lite-client');
 var file = new(nodestatic.Server)('./client');
 
 var httpServer = http.createServer(function(req, res){
-  // all static files are served with node-static
   req.addListener('end', function () {
     file.serve(req, res);
   });
@@ -62,6 +63,7 @@ function ep(author, f) {
         }
     });
 }
+
 everyone.now.getPads = function(padsAre) {
     ep(this.now.name, function(aid, gid) {
         etherpad.listPads( { groupID: gid }, function(error, data) {
@@ -93,5 +95,38 @@ everyone.now.newPad = function(title, text, newPadIs) {
     
 };
 
-//var earthquake = require('../sensor/geology/USGSEarthquake.js');
-//earthquake.i.load(everyone, function() { console.log('USGSEarthquake ok')}, function() { });
+
+function addSensor(path) {
+    var s = require('./../client/sensor/' + path + '.js');
+    var se = s.sensor;
+    
+    if ((s === undefined) || (se === undefined)) {
+        console.error('Sensor: ' + path + ' not found');
+        return;
+    }
+    
+    se.clientJS = '/sensor/' + path + '.client.js';
+    
+    sensor[se.id()] = se;
+
+    se.refresh(sensor, function() { }, function() { });
+
+    console.log('Added sensor: ' + se.id());
+};
+
+everyone.now.getSensors = function(withSensors) {
+    withSensors(sensor);
+};
+
+everyone.now.getSensor = function(id, withSensor) {
+    if (sensor[id]!=undefined) {
+        withSensor(sensor[id]);
+    }
+    else {
+        //console.error('Unknown sensor: ' + id);
+        withSensor(null);
+    }
+};
+
+addSensor('geology/USGSEarthquake');
+

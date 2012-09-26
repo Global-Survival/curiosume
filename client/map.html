@@ -35,8 +35,11 @@
             var heatMapDetailLevel = 4;
             var activeIndicators = [];
             var nextCategoryID = 0, nextNewsID = 0, nextControlID = 0;
+            
             var sensors = { };
             var sensorImportance = { };
+            var sensorClient = { };
+            
             var now;
             var etherpadBaseURL = 'http://localhost:9001';
 
@@ -152,22 +155,56 @@
                 sensorImportance[sensorID] = newImportance;
             }
             
+            function setSensorClient(sensorID, client) {
+                sensorClient[sensorID] = client;
+            }
+            
+            function updateSensorClient(s) {
+                if (s!=null) {
+                    if (s['clientJS'] != undefined) {
+
+                        
+                        $.getScript(s['clientJS'])
+                            .done(function(script, textStatus) {
+                                //console.log('script: ' + script);
+                                //console.log( textStatus );
+                            })
+                            .fail(function(jqxhr, settings, exception) {
+                                console.error('Loading clientJS:');
+                                console.dir( exception );
+                                console.dir( jqxhr );
+                            });  
+                        
+//                        $.get(s['clientJS'], function(d) {
+//                            console.log(d);
+//                            console.dir(eval(d));
+//                        });
+                        
+                    }
+                }
+                
+            }
+            
             function addSensor(target, sensor) {
                 if (sensor.id === undefined) {
+                    //Blank placeholder sensor
                     sensor = {
                         id: nextControlID++,
                         name: sensor
                     };
                 }
-                
-                //console.dir(sensor);
+                else {
+                    //Defined sensor                    
+                    now.getSensor(sensor.id, updateSensorClient);                    
+                }
                 
                 var controlID = 'sensorControl-' + sensor.id;
-                
+
                 $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
-            
+
                 sensors[sensor.id] = sensor;
                 sensorImportance[sensor.id] = 0;
+                
             }
             
             function addSensorCategory(name) {
@@ -341,12 +378,12 @@
                   now.distribute(x);
             }
             
+            
             $(document).ready(function(){
 		var tabs = $( "#tabs" ).tabs({
                     selected: 1
                 });
                 
-                initSensors();
                 initPresets();
                 
                 initMap(function() {
@@ -356,28 +393,24 @@
                 updateLocation();
 
                 addSuggestions();
-                //test EQ data
-//                setTimeout(function() {
-//                    $.getScript("/indicator/geology/USGSEarthquake.client.js", function(data, textStatus, jqxhr) {
-//                            USGSEarthquakeClient.load();
-//                    });                                        
-//                }, 3000);
-
-            
-                //now.name = prompt("What's your name?", "");  
-                now.name = 'Anonymous';
-
-                now.receive = function(name, message){
-                  $("#messages").append("<br>"+name+": "+message);
-                }
-
-                //pause to allow now.js to load
-                setTimeout(function() {
-                    //say('(online)');
-                    updateStory();
-                }, 1000);
-
                 
+                now.ready(function(){
+                    //now.name = prompt("What's your name?", "");  
+                    now.name = 'Anonymous';
+
+                    now.receive = function(name, message){
+                      $("#messages").append("<br>"+name+": "+message);
+                    }
+
+                    initSensors();
+                    
+                    //pause to allow now.js to load
+                    //setTimeout(function() {
+                        //say('(online)');
+                        //updateStory();
+                    //}, 1000);
+
+                });
 
             });
         </script>
