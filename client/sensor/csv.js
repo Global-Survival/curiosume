@@ -14,6 +14,11 @@ parseCsvFile('eqs7day-M1.txt', function(rec){
 function parseCsvUrl(url, callback, finished){
   request({uri: url}, function (error, response, body) {
 	  
+          if (error!=undefined) {
+              console.error('ParseCsvUrl: ' + error);
+              return;
+          }
+          
 	  var iteration = 0, header = [];
 
 	  var lines = body.split('\n');

@@ -34,7 +34,10 @@ var climate = addSensorCategory('Weather, Climate, & Geology');
 
 var pollution = addSensorCategory('Pollution');
 {
-    addSensor(pollution, 'Nuclear Facilities');
+    addSensor(pollution, {
+        id: 'IAEANuclear',
+        name: 'Nuclear Facilities'
+    });
     addSensor(pollution, 'Superfund Sites');
 }
 

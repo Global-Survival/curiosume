@@ -229,10 +229,17 @@
                 return '#' + i + ' ul';
             }
             
+            var sensorsInitted = false;
+            
             function initSensors() {
-                $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
-                    convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
-                });                                        
+                
+                if (!sensorsInitted) {
+                    sensorsInitted = true;
+
+                    $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
+                        convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
+                    });                                        
+                }
                 
             }
             

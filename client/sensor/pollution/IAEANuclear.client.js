@@ -1,9 +1,6 @@
-setSensorClient('USGSEarthquake', { 
+setSensorClient('IAEANuclear', { 
 
     load: function() { 
-        //console.dir(now.getSensor('USGSEarthquake'));
-        
-        //alert(now.USGSEarthquake['earthquakes'].length);
     },
     
     //CLIENT called when de-activated, in case there is opportunity to free memory using JS "delete" operator
@@ -21,38 +18,33 @@ setSensorClient('USGSEarthquake', {
             return;
         }
         
-        var markers = new OpenLayers.Layer.Markers( "USGS Earthquakes" );
+        var markers = new OpenLayers.Layer.Markers( "Nuclear Facilities" );
         this.markers = markers;
         addMapLayer(markers);
         
-        now.getSensor('USGSEarthquake', function(s) { 
+        now.getSensor('IAEANuclear', function(s) { 
             
-            var quakes = s.earthquakes;
-            var dateNow = Date.now();
-            var iconScale = 8.0;
+            var nuclear = s.nuclear;
             
+            var iconScale = 8.0;            
             
-            for (var i = 0; i < quakes.length; i++) {
-                var quake = quakes[i];
+            for (var i = 0; i < nuclear.length; i++) {
+                var nuke = nuclear[i];
                 
-                var lon = parseFloat(quake.lon);
-                var lat = parseFloat(quake.lat);
-                var magnitude = parseFloat(quake.magnitude);
-                var when = quake.when;
-                var ageDays = (dateNow - when) / (1000 /*ms*/ * 60 * 60 * 24);                                
-                                
-                var opacity = Math.exp(-ageDays) * 0.5 + 0.5;
-                
-                var ss = magnitude * iconScale;
+                var lon = nuke.lon;
+                var lat = nuke.lat;
+                var magnitude = nuke.reactors[0] + nuke.reactors[1] + nuke.reactors[2] + nuke.reactors[3];
+                                                
+                var ss = Math.log(1+magnitude) * iconScale;
                 var size = new OpenLayers.Size(ss,ss);
                 
                 var offset = new OpenLayers.Pixel(-(size.w/2), -(size.h/2));
-                var icon = new OpenLayers.Icon('/icon/quake.png',size,offset);
+                var icon = new OpenLayers.Icon('/icon/nuclear.png',size,offset);
                 
                 var ll = lonlat(lon, lat);
                 
                 markers.addMarker(new OpenLayers.Marker(ll,icon));
-                markers.setOpacity(opacity);
+                //markers.setOpacity(opacity);
                 //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });                
             }
             
@@ -61,7 +53,7 @@ setSensorClient('USGSEarthquake', {
     },
     
     getControlHTML : function() {
-        return 'controls';
+        return '';
     }
     
 });

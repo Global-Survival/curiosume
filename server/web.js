@@ -132,4 +132,5 @@ everyone.now.getSensor = function(id, withSensor) {
 };
 
 addSensor('geology/USGSEarthquake');
+addSensor('pollution/IAEANuclear');
 
