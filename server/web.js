@@ -13,7 +13,11 @@ var etherpadAPI = require('etherpad-lite-client');
 
 var file = new(nodestatic.Server)('./client');
 
+
+
+
 var httpServer = http.createServer(function(req, res){
+  
   req.addListener('end', function () {
     file.serve(req, res);
   });
@@ -133,4 +137,5 @@ everyone.now.getSensor = function(id, withSensor) {
 
 addSensor('geology/USGSEarthquake');
 addSensor('pollution/IAEANuclear');
+addSensor('geology/MODISFires');
 

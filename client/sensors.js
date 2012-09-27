@@ -30,6 +30,10 @@ var climate = addSensorCategory('Weather, Climate, & Geology');
         id: 'USGSEarthquake',
         name: 'USGS Earthquakes'
     });
+    addSensor(climate, { 
+        id: 'MODISFires',
+        name: 'MODIS Fires'
+    });
 }
 
 var pollution = addSensorCategory('Pollution');
