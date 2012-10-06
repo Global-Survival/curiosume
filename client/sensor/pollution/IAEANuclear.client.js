@@ -8,10 +8,27 @@ setSensorClient('IAEANuclear', {
     
     /*CLIENT adjust result vector for the conditions calculated at a certain geopoint according to hueristics defined by option variables
     result vector includes any markers or labels to be drawn on the map*/
-    updateLocal: function(geopoint, result) { },
+    updateLocal: function(geopoint, result) { 
+        var avgDist = 432, minDist = 3.4;
+        result.avgDistanceToFacility = {
+            label: 'Average Distance to Facility',
+            value: avgDist,
+            unit: 'km'
+        };
+        result.minDistanceToFacility = {
+            label: 'Minimum Distance to Facility',
+            value: minDist,
+            unit: 'km'
+        };
+    },
+    
     
     //called when this sensor has > 0 importance    
     updateGlobal: function(result) { 
+        if (result!=undefined)
+            result.numberFacilities = {
+                name: 'Number of nuclear facilities: ' + this.numFacilities
+            };
         
         if (this.markers!=undefined) {
             addMapLayer(this.markers);
@@ -21,6 +38,8 @@ setSensorClient('IAEANuclear', {
         var markers = new OpenLayers.Layer.Markers( "Nuclear Facilities" );
         this.markers = markers;
         addMapLayer(markers);
+        
+        var tt = this;
         
         now.getSensor('IAEANuclear', function(s) { 
             
@@ -47,6 +66,8 @@ setSensorClient('IAEANuclear', {
                 //markers.setOpacity(opacity);
                 //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });                
             }
+            
+            tt.numFacilities = nuclear.length;
             
         });
 

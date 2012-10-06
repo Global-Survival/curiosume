@@ -68,6 +68,8 @@ function initMap(onMoveEnd) {
 
     geolocate.events.register("locationupdated",geolocate,function(e) {
         vector.removeAllFeatures();
+        
+        
         var circle = new OpenLayers.Feature.Vector(
             OpenLayers.Geometry.Polygon.createRegularPolygon(
                 new OpenLayers.Geometry.Point(e.point.x, e.point.y),
@@ -99,6 +101,8 @@ function initMap(onMoveEnd) {
         if (firstGeolocation) {
             theMap.zoomToExtent(vector.getDataExtent());
             theMap.zoomTo(12);
+            
+            Self.geolocation = e.point;
 
             //pulsate(circle);
             firstGeolocation = false;
@@ -116,7 +120,12 @@ function initMap(onMoveEnd) {
 }
 
 function updateLocation() {
-    vector.removeAllFeatures();
+    if (theMap==undefined)
+        return;
+    
+    if (vector!=undefined)
+        vector.removeAllFeatures();
+    
     geolocate.deactivate();
     geolocate.watch = false;
     firstGeolocation = true;
@@ -131,4 +140,9 @@ function lonlat(lon, lat) {
     var ll = new OpenLayers.LonLat(lon, lat);
     ll.transform(fromProjection, toProjection);    
     return ll;
+}
+
+//opens a modal dialog box to choose current location on a small map widget
+function setLocation() {
+
 }

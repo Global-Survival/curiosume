@@ -27,6 +27,8 @@
         <link rel="stylesheet" media="screen" href="/superfish/css/superfish-vertical.css">
 
         <script src="map.js"></script>
+        <script src="status.js"></script>
+        
 	<link rel="stylesheet" href="map.css" type="text/css" media="all" />
                 
         <title>Global Survival System - Map</title>
@@ -43,8 +45,11 @@
             var layers = [];
             
             var now;
-            var etherpadBaseURL = 'http://localhost:9001';
+            //var etherpadBaseURL = 'http://localhost:9001';
+            var Self = { };
 
+
+/* //Move this to etherpad.js
             function editNewPadFromForm() {
                 var title = $('#newPadTitle')[0].value;
                 editNewPad(title);
@@ -75,7 +80,7 @@
                         'title': title,
 			modal: false
 		});                
-            }
+            }*/
             
             function showHelp() {
                 $('#help').html('<center>Loading...</center>');
@@ -391,18 +396,23 @@
             }
             
             function update() {
-                updateHeatmap();
-                
-                removeMapLayers();
-                
-                //TODO add map layers
-                $.each(sensorImportance, function(k,v) {
-                   if (v > 0) {
-                       var c = sensorClient[k];
-                       if (c != undefined)
-                           c.updateGlobal();
-                   } 
-                });
+                if (currentMode == 'map') {
+                    updateHeatmap();
+
+                    removeMapLayers();
+
+                    //TODO add map layers
+                    $.each(sensorImportance, function(k,v) {
+                       if (v > 0) {
+                           var c = sensorClient[k];
+                           if (c != undefined)
+                               c.updateGlobal();
+                       } 
+                    });
+                }
+                else if (currentMode == 'status') {
+                    updateStatus();
+                }
                 
             }
             
@@ -421,17 +431,37 @@
                   now.distribute(x);
             }
             
+            var mapInitted = false;
+            var currentMode;
+            
+            function setMode(m) {
+                $('#map, #status').hide();
+
+                $('#' + m).show();                
+                
+                currentMode = m;
+                
+                if (m == 'map') {
+                    if (mapInitted == false) {
+                        initMap(function() {
+                            update();
+                        });
+
+                        mapInitted = true;
+                    }
+                }
+                
+                update();
+            }
             
             $(document).ready(function(){
 		var tabs = $( "#tabs" ).tabs({
                     selected: 1
                 });
                 
+                Self.geolocation = [0,0];
+
                 initPresets();
-                
-                initMap(function() {
-                    update();
-                });
                 
                 updateLocation();
 
@@ -439,7 +469,8 @@
                 
                 now.ready(function(){
                     //now.name = prompt("What's your name?", "");  
-                    now.name = 'Anonymous';
+                    
+                    now.name = Self.name = 'Anonymous';
 
                     now.receive = function(name, message){
                       $("#messages").append("<br>"+name+": "+message);
@@ -447,13 +478,9 @@
 
                     initSensors();
                     
-                    //pause to allow now.js to load
-                    //setTimeout(function() {
-                        //say('(online)');
-                        //updateStory();
-                    //}, 1000);
-
                 });
+                
+                setMode('status');
 
             });
         </script>
@@ -484,12 +511,10 @@
                     <ul>
                         <li><a href="#tabsTeam">Team</a></li>
 
-                        <!-- <li><a href="#tabsTeam">Items</a></li> -->
-
                         <li><a href="#tabGoals">Goals</a></li>
-                        <li><a href="#tabNews">News</a></li>
-                        <li><a href="#tabStory">Story</a></li>
                         
+                        <li><button onClick="setMode('status')">Status</button></li>
+                        <li><button onClick="setMode('map')">Map</button></li>
                         <li><button onClick="showHelp()">Help</button></li>
                     </ul>
 
@@ -541,30 +566,23 @@
 
                     </div>
                    
-                    <div id="tabNews">
-                    </div>
                 
-                    <div id="tabStory">
-                        <span>
-                            <input type="text" id="newPadTitle"/>
-                            <button onClick="editNewPadFromForm()">New</button>
-                        </span>
-                        
-                        <br/>
-                        <br/>
-                        
-                        <div id="padList">
-                        </div>
-                        
-                    </div>
                 
                 
             </div>
             
         </div>        
+
+        <div id="status">
+            <div id="statusWrap">
+                <div id="statusHeader"></div>
+                <div id="statusContent"></div>            
+            </div>
+        </div>        
+        <div id="map">
+            <canvas id="mapHeat"></canvas>            
+        </div>
         
-        <div id="map"></div>
-        <canvas id="mapHeat"></canvas>
         
         <div id="edit"  style="display: none; z-index: 5000">
         </div>

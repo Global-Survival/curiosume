@@ -15,7 +15,15 @@ h1 {
     float: left;
     height: 90%;
 }
-#map, #mapHeat {
+#status, #map {
+    display: none;
+}
+
+#statusWrap {
+    padding: 1em;
+}
+
+#status, #map, #mapHeat {
     width: 60%;
     height: 100%;
     position: fixed;
@@ -135,4 +143,10 @@ div.sensorControl {
 
 .ui-tabs .ui-tabs-panel {
     padding: 0.5em 0.7em;
+}
+
+.inlineAlert {
+    color: #a00;
+    border: 1px solid gray;
+    padding: 0.5em;
 }

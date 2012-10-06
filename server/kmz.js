@@ -99,21 +99,25 @@ function parseKMLFile(kmlfilePath) {
                 if (F.NetworkLink!=undefined) {
                     for (var nl = 0; nl < F.NetworkLink.length; nl++) {
                         var NL = F.NetworkLink[nl];
+                        
                         console.log(fName + '.' + NL.name);
+                        
                         var u = '';
                         if (NL.Url!=undefined) {
-                            console.log('URL');
                             u = NL.Url[0].href[0];
                         }
                         else if (NL.Link!=undefined) {
-                            console.log('LINK');
                             u = NL.Link[0].href[0];
                         }
-                        if (endsWith(u, '.kmz')) {
-                            console.log('  NEEDS UNZIPPED: ' + u);                                
+                        
+                        if ((u.indexOf('kml')!=-1) || (u.indexOf('Kml')!=-1)) {
+                            console.log('  layer = ' + u);                            
+                        }
+                        else if (u.indexOf('kmz')!=-1) {
+                            console.log('  kmz = ' + u);                                
                         }
                         else {
-                            console.log('  ' + u);
+                            console.log('  unknown = ' + u);
                         }
                     }
                 }
