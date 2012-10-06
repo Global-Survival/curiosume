@@ -243,6 +243,7 @@
 
                     $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
                         convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
+                        expandTree('tree1');
                     });                                        
                 }
                 
@@ -456,7 +457,7 @@
             
             $(document).ready(function(){
 		var tabs = $( "#tabs" ).tabs({
-                    selected: 1
+                    selected: 0
                 });
                 
                 Self.geolocation = [0,0];
@@ -478,6 +479,7 @@
 
                     initSensors();
                     
+                    
                 });
                 
                 setMode('status');
@@ -487,7 +489,7 @@
         
         <script id="presetTemplate" type="text/x-jquery-tmpl">
             <li>
-                <a href="">
+                <a href="javascript:enablePreset('${name}');">
                     <p><b>${name}</b></p>
                     <p>${desc}</p>
                 </a>
@@ -509,9 +511,9 @@
             
             <div id="tabs">
                     <ul>
-                        <li><a href="#tabsTeam">Team</a></li>
+                        <li><a href="#tabSensors">Sensors</a></li>
 
-                        <li><a href="#tabGoals">Goals</a></li>
+                        <li><a href="#tabsTeam">Team</a></li>
                         
                         <li><button onClick="setMode('status')">Status</button></li>
                         <li><button onClick="setMode('map')">Map</button></li>
@@ -525,7 +527,7 @@
                         <input type='submit' id="send-button" onclick="send()" value="send"/>
                     </div>
                                     
-                    <div id="tabGoals">
+                    <div id="tabSensors">
 
                         <div class="table">
                             <ul id="presetsMenu" class="sf-menu sf-js-enabled sf-shadow">

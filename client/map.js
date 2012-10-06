@@ -1,11 +1,27 @@
 
 var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstGeolocation, geolocate;
 
+fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
+function initMiniMap(target) {
+    var m = new OpenLayers.Map({
+        div: target,
+        projection: fromProjection,
+        displayProjection: toProjection,
+        numZoomLevels: 9
+    });
+    var mapnik = new OpenLayers.Layer.OSM();
+    m.addLayers([
+        mapnik //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ vector
+    ]);
+    m.setCenter(new OpenLayers.LonLat(0,0), 9);
+    
+    return m;
+}
 
 function initMap(onMoveEnd) {
     firstGeolocation = true;
-    fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-    toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
     zoom           = 9; 
     position = new OpenLayers.LonLat(0,0);
@@ -145,4 +161,8 @@ function lonlat(lon, lat) {
 //opens a modal dialog box to choose current location on a small map widget
 function setLocation() {
 
+}
+
+function enablePreset(p) {
+    alert('The preset ' + p + ' is not complete yet.  Presets enable certain sensors.');
 }

@@ -23,6 +23,17 @@ h1 {
     padding: 1em;
 }
 
+#statusHeaderLeft {
+    float: left;
+    width: 40%;
+}
+#statusHeaderRight {
+    float: right;
+    width: 58%;    
+    height: 256px;
+}
+
+
 #status, #map, #mapHeat {
     width: 60%;
     height: 100%;
@@ -30,6 +41,7 @@ h1 {
     right: 0;
     top: 0;
 }
+
 #mapHeat {
     z-index: 3000;
     pointer-events: none;

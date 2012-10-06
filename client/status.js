@@ -1,13 +1,39 @@
+var statusInitted = false;
+
 function updateStatus() {
     var s = $('#statusHeader');
 
-    var h = '';
-    h = h + '<h1>' + Self.name + '</h1>';
+    if (!statusInitted) {
+        var h = '';
+        h = h + '<div id="statusHeaderLeft">'
+            h = h + '<h1>' + Self.name + '</h1>';
 
-    h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
+            h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
 
-    h = h + '<h2>Sensors</h2><ul>';
+        h = h + '</div>';
 
+        h = h + '<div id="statusHeaderRight">'
+            h = h + '<div id="statusMap"></div>'
+            
+        h = h + '</div>';    
+        h = h + '<div style="clear: both"></div>'
+
+
+        h = h + '<ul id="statusSensors">';
+        h = h + '</ul>';
+        
+        statusInitted = true;
+        
+        s.html(h);
+
+        initMiniMap('statusMap');
+        
+    }
+    
+    var ss = $('#statusSensors');
+
+    ss.html('');
+    
     var sensorsListed = 0;
 
     for (var k in sensorImportance) {
@@ -36,15 +62,13 @@ function updateStatus() {
                }
                x = x + '</ul>';
                
-               h += '<li>' + x + '</li>';
+               ss.append('<li>' + x + '</li>');
                sensorsListed++;
            }
        } 
     }
-    h = h + '</ul>';
     if (sensorsListed == 0) {
-        h = h + '<div class="inlineAlert">No sensors are activated.  Activate some sensors in the Goals menu.  You can also select a preset to activate a set of related sensors.</div>';
+        ss.append('<div class="inlineAlert">No sensors are activated.  You can also select a preset to activate a set of related sensors.</div>');
     }
-
-    s.html(h);
+    
 }
