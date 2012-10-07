@@ -1,4 +1,3 @@
-
 var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstGeolocation, geolocate;
 
 fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
@@ -114,16 +113,21 @@ function initMap(onMoveEnd) {
             ),
             circle
         ]);
+        
+        
         if (firstGeolocation) {
             theMap.zoomToExtent(vector.getDataExtent());
             theMap.zoomTo(12);
             
-            Self.geolocation = e.point;
 
             //pulsate(circle);
             firstGeolocation = false;
             this.bind = true;
+            
+            unproject(e.point);
+            setGeolocation( [ e.point.y, e.point.x ] );
         }
+        
     });
 
     geolocate.events.register("locationfailed",this,function() {
@@ -133,6 +137,11 @@ function initMap(onMoveEnd) {
     theMap.setCenter(position, zoom );
 
     return theMap;
+}
+
+function setGeolocation(p) {
+    Self.geolocation = p;
+    update();
 }
 
 function updateLocation() {
@@ -148,8 +157,16 @@ function updateLocation() {
     geolocate.activate();
 }
 
+//variable cache, avoids having to recreate a new associative array for each geodistance
+var gp1 = { lat:0, lon:0 };
+var gp2 = { lat:0, lon:0 };
+
 function geoDist(p1, p2) {
-    return OpenLayers.Util.distVincenty( {lat:p1[0], lon:p1[1]}, {lat:p2[0], lon:p2[1]} );
+    gp1.lat = p1[0];
+    gp1.lon = p1[1];
+    gp2.lat = p2[0];
+    gp2.lon = p2[1];
+    return OpenLayers.Util.distVincenty( gp1, gp2 );
 }
 
 function lonlat(lon, lat) {
@@ -157,12 +174,28 @@ function lonlat(lon, lat) {
     ll.transform(fromProjection, toProjection);    
     return ll;
 }
+function unproject(x) {
+    x.transform(toProjection, fromProjection);
+    return x;
+}
 
 //opens a modal dialog box to choose current location on a small map widget
 function setLocation() {
 
 }
 
+function requestUserSupport(message) {
+    $('#userSupportMessage').html(message);
+    $("#userSupport").dialog({
+            height: 450,
+            width: '70%',
+            zIndex: 5000,
+            title: 'requestUserSupport()',
+            modal: true
+    });    
+}
+
 function enablePreset(p) {
-    alert('The preset ' + p + ' is not complete yet.  Presets enable certain sensors.');
+    requestUserSupport('"' + p + '" preset');
+    
 }

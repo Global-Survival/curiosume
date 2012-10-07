@@ -48,40 +48,6 @@
             //var etherpadBaseURL = 'http://localhost:9001';
             var Self = { };
 
-
-/* //Move this to etherpad.js
-            function editNewPadFromForm() {
-                var title = $('#newPadTitle')[0].value;
-                editNewPad(title);
-            }
-
-            function editNewPad(title) {
-                now.newPad(title, '', function(pad, error) {
-                    if (error===null) {
-                        editPad(pad);
-                        updateStory();
-                    }
-                    else {
-                        console.log('newPad error: ' + error);
-                    }
-                });
-                
-            }
-            
-            function editPad(padID) {
-                var title = padID.split('$')[1];
-                
-                var h = '<iframe src="' + etherpadBaseURL + '/p/' + title + '&userName=' + now.name + '&showLineNumbers=' + false + '" style="width: 100%; height: 95%"></iframe>';
-                $('#edit').html(h);
-                $("#edit").dialog({
-			height: 650,
-                        width: '80%',
-                        zIndex: 5000,
-                        'title': title,
-			modal: false
-		});                
-            }*/
-            
             function showHelp() {
                 $('#help').html('<center>Loading...</center>');
                 $("#help").dialog({
@@ -343,6 +309,9 @@
             }
 
             function drawHeatmap(divisions) {
+                if (heatmapOpacity == 0)
+                    return;
+                
                 var map = document.getElementById("map");
                 
                 var mapHeat = document.getElementById("mapHeat");
@@ -397,27 +366,34 @@
             }
             
             function update() {
-                if (currentMode == 'map') {
-                    updateHeatmap();
+                updateHeatmap();
 
-                    removeMapLayers();
+                removeMapLayers();
 
-                    //TODO add map layers
-                    $.each(sensorImportance, function(k,v) {
-                       if (v > 0) {
-                           var c = sensorClient[k];
-                           if (c != undefined)
-                               c.updateGlobal();
-                       } 
-                    });
-                }
-                else if (currentMode == 'status') {
-                    updateStatus();
-                }
+                //TODO add map layers
+                $.each(sensorImportance, function(k,v) {
+                   if (v > 0) {
+                       var c = sensorClient[k];
+                       if (c != undefined)
+                           c.updateGlobal();
+                   } 
+                });
+                
+                updateStatus();
                 
             }
             
-            function updateHeatmapOpacity(o) { $('#mapHeat').css('opacity', o/100.0); }
+            var heatmapOpacity = 0;
+            function updateHeatmapOpacity(o) { 
+                heatmapOpacity = o;
+                if (o == 0) {
+                    $('#mapHeat').hide();
+                }
+                else {
+                    $('#mapHeat').show();                    
+                }
+                $('#mapHeat').css('opacity', o/100.0); 
+            }
             
             function updateHeatmapDetail(d) {
                 heatMapDetailLevel = d;
@@ -431,40 +407,21 @@
                 else
                   now.distribute(x);
             }
-            
-            var mapInitted = false;
-            var currentMode;
-            
-            function setMode(m) {
-                $('#map, #status').hide();
 
-                $('#' + m).show();                
-                
-                currentMode = m;
-                
-                if (m == 'map') {
-                    if (mapInitted == false) {
-                        initMap(function() {
-                            update();
-                        });
-
-                        mapInitted = true;
-                    }
-                }
-                
-                update();
-            }
-            
             $(document).ready(function(){
 		var tabs = $( "#tabs" ).tabs({
                     selected: 0
                 });
-                
-                Self.geolocation = [0,0];
+
 
                 initPresets();
-                
+             
+                initMap(function() {
+                    update();
+                });
+
                 updateLocation();
+
 
                 addSuggestions();
                 
@@ -482,8 +439,6 @@
                     
                 });
                 
-                setMode('status');
-
             });
         </script>
         
@@ -515,8 +470,6 @@
 
                         <li><a href="#tabsTeam">Team</a></li>
                         
-                        <li><button onClick="setMode('status')">Status</button></li>
-                        <li><button onClick="setMode('map')">Map</button></li>
                         <li><button onClick="showHelp()">Help</button></li>
                     </ul>
 
@@ -552,7 +505,7 @@
                                 <button onClick="">Reset</button>
                                 <button onClick="expandTree('tree1');">Expand All</button>
                                 <button onClick="collapseTree('tree1');">Collapse All</button>
-                                <button onClick="">Save</button>
+                                <button onClick="requestUserSupport('Saving the current sensors to a preset')">Save</button>
                             </li>
                             
                             <!-- <A class="button" href="#" onClick="expandToItem('tree1','login'); return false;">Expand to a certain location</A> -->
@@ -560,7 +513,7 @@
 
                         
                         <p>
-                            Heatmap Transparency: <input type="range"  min="0" max="100" onchange="updateHeatmapOpacity(this.value)"/>
+                            Heatmap Transparency: <input type="range" value="0" min="0" max="100" onchange="updateHeatmapOpacity(this.value)"/>
                         </p>
                         <p>
                             Heatmap Detail: <input type="range"  min="2" max="32" step="1" onchange="updateHeatmapDetail(this.value)"/>
@@ -589,7 +542,16 @@
         <div id="edit"  style="display: none; z-index: 5000">
         </div>
         
-        <div id="help"  style="display: none; z-index: 5000">
+        <div id="help"  style="display: none; z-index: 5000"></div>
+        
+        <div id="userSupport"  style="display: none; z-index: 5000">
+            <i>The following feature is not complete yet:</i><br/><br/>
+            <div id="userSupportMessage"></div><br/>
+            <hr/><br/>
+            <center>
+                To accelerate this, please support the development of this software:<br/><br/>
+                <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal - The safer, easier way to pay online!"> <img src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" alt="" width="1" height="1" border="0"/>
+            </center>
         </div>
 
     </body>

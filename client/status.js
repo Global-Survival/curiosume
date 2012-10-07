@@ -1,34 +1,27 @@
-var statusInitted = false;
+//var statusInitted = false;
 
 function updateStatus() {
     var s = $('#statusHeader');
 
-    if (!statusInitted) {
+    //if (!statusInitted) {
         var h = '';
-        h = h + '<div id="statusHeaderLeft">'
-            h = h + '<h1>' + Self.name + '</h1>';
+        h = h + '<h1>' + Self.name + '</h1>';
 
-            h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
+        h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
 
-        h = h + '</div>';
 
-        h = h + '<div id="statusHeaderRight">'
-            h = h + '<div id="statusMap"></div>'
-            
-        h = h + '</div>';    
         h = h + '<div style="clear: both"></div>'
 
 
         h = h + '<ul id="statusSensors">';
         h = h + '</ul>';
         
-        statusInitted = true;
+    //    statusInitted = true;
         
         s.html(h);
 
-        initMiniMap('statusMap');
         
-    }
+    //}
     
     var ss = $('#statusSensors');
 

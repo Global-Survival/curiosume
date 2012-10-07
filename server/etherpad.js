@@ -65,3 +65,35 @@ var etherpad = etherpadAPI.connect({
   port: 9001
 });
 
+/* //Move this to client's etherpad.js
+            function editNewPadFromForm() {
+                var title = $('#newPadTitle')[0].value;
+                editNewPad(title);
+            }
+
+            function editNewPad(title) {
+                now.newPad(title, '', function(pad, error) {
+                    if (error===null) {
+                        editPad(pad);
+                        updateStory();
+                    }
+                    else {
+                        console.log('newPad error: ' + error);
+                    }
+                });
+                
+            }
+            
+            function editPad(padID) {
+                var title = padID.split('$')[1];
+                
+                var h = '<iframe src="' + etherpadBaseURL + '/p/' + title + '&userName=' + now.name + '&showLineNumbers=' + false + '" style="width: 100%; height: 95%"></iframe>';
+                $('#edit').html(h);
+                $("#edit").dialog({
+			height: 650,
+                        width: '80%',
+                        zIndex: 5000,
+                        'title': title,
+			modal: false
+		});                
+            }*/
