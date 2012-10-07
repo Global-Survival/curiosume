@@ -1,5 +1,7 @@
 var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstGeolocation, geolocate;
 
+var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
+
 fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
 toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
@@ -166,6 +168,8 @@ function geoDist(p1, p2) {
     gp1.lon = p1[1];
     gp2.lat = p2[0];
     gp2.lon = p2[1];
+    
+    //http://dev.openlayers.org/docs/files/OpenLayers/Util-js.html#Util.distVincenty
     return OpenLayers.Util.distVincenty( gp1, gp2 );
 }
 

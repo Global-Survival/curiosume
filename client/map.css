@@ -17,7 +17,6 @@ h1 {
 }
 
 #statusWrap {
-    padding: 1em;
 }
 
 
@@ -30,11 +29,15 @@ h1 {
     bottom: 1em;    
 }
 #status {
-    width: 60%;
-    height: 49%;
+    width: 58%;
+    height: 48%;
     position: fixed;
-    right: 0;
-    top: 0;
+    right: 1em;
+    top: 1em;
+    overflow: auto;
+}
+#statusContent {
+    padding: 1em;
 }
 
 #mapHeat {
@@ -160,4 +163,27 @@ div.sensorControl {
 
 #userSupportMessage {
     font-size: 2em;
+}
+
+.sensorTitle {
+    margin-top: 0.2em;
+    font-size: 200%;
+    font-weight: bold;
+    clear: both;
+}
+.sensorLabel {
+    font-size: 150%;
+    float: left;
+    clear: both;
+}
+
+.sensorValue {
+    font-size: 200%;
+    float: right;
+    width: 30%;   
+}
+
+.sensorDesc {
+    font-style: italic;
+    font-size: 80%;
 }

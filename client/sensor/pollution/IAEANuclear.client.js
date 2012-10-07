@@ -1,3 +1,7 @@
+function getNukeMagnitude(nuke) {
+    return nuke.reactors[0] + nuke.reactors[1] + nuke.reactors[2] + nuke.reactors[3]
+}
+
 setSensorClient('IAEANuclear', { 
 
     load: function() { 
@@ -9,21 +13,39 @@ setSensorClient('IAEANuclear', {
     /*CLIENT adjust result vector for the conditions calculated at a certain geopoint according to hueristics defined by option variables
     result vector includes any markers or labels to be drawn on the map*/
     updateLocal: function(geopoint, result) { 
-        var avgDist = 432, minDist = 3.4;
         var nuclear = this.nuclear;
+        
+        var minDist = ASTRONOMICAL_DISTANCE;
+        var closestFacility;
+        var threat = 0;
+        
+        for (var i = 0; i < nuclear.length; i++) {
+            var nuke = nuclear[i];
+            var magnitude = getNukeMagnitude(nuke);
+
+            var dist = geoDist( [ nuke.lat, nuke.lon ], geopoint );
+            if (dist < minDist) {
+                minDist = dist;
+                closestFacility = nuke;
+            }
+            
+            threat += magnitude * (1 / (dist*dist));
+            
+        }
+        
         result.totalFacilities = {
             label: 'Total Known Facilities',
             value: nuclear.length
         };
-        result.avgDistanceToFacility = {
-            label: 'Average Distance to Facility',
-            value: avgDist,
-            unit: 'km'
-        };
         result.minDistanceToFacility = {
-            label: 'Minimum Distance to Facility',
+            label: 'Nearest Facility, ' + closestFacility.name,
             value: minDist,
             unit: 'km'
+        };
+        result.relativeRadiationThreat = {
+            label: 'Relative Threat',
+            value: threat,
+            desc: 'sum(inverse square distance * facility magnitude)'
         };
     },
     
@@ -55,7 +77,7 @@ setSensorClient('IAEANuclear', {
                 
                 var lon = nuke.lon;
                 var lat = nuke.lat;
-                var magnitude = nuke.reactors[0] + nuke.reactors[1] + nuke.reactors[2] + nuke.reactors[3];
+                var magnitude = getNukeMagnitude(nuke);
                                                 
                 var ss = Math.log(1+magnitude) * iconScale;
                 var size = new OpenLayers.Size(ss,ss);

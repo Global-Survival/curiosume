@@ -1,27 +1,25 @@
-//var statusInitted = false;
-
+function formatSensorValue(v) {
+  var f = v - Math.floor(v);
+  if (f == 0) {
+      return v;
+  }
+  else {
+      return v.toFixed(3);
+  }
+  
+}
 function updateStatus() {
     var s = $('#statusHeader');
 
-    //if (!statusInitted) {
-        var h = '';
-        h = h + '<h1>' + Self.name + '</h1>';
+    var h = '';
+    h = h + '<h1>' + Self.name + '</h1>';
 
-        h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
-
-
-        h = h + '<div style="clear: both"></div>'
+    h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.geolocation == undefined ? 'Unknown' : Self.geolocation) + '</h1>';
 
 
-        h = h + '<ul id="statusSensors">';
-        h = h + '</ul>';
-        
-    //    statusInitted = true;
-        
-        s.html(h);
+    h = h + '<div style="clear: both"></div>'
 
-        
-    //}
+    s.html(h);
     
     var ss = $('#statusSensors');
 
@@ -39,23 +37,34 @@ function updateStatus() {
                //c.updateGlobal(r);
                c.updateLocal(Self.geolocation, r);
                
-               var x = k + '<ul>';
+               var x = '<div class="sensorTitle">' + k + '</div>';
                
                for (var kr in r) {
                    var kv = r[kr];
                    var rx;
-                   rx = kv.label;
+                   
+                   rx = '<div class="sensorLabel">' + kv.label;
+                   if (kv.desc!=undefined) {
+                       rx = rx + '<br/><span class="sensorDesc">' + kv.desc + '</span>';
+                   }
+                   rx = rx + '</div><div class="sensorValue">';
+                   
+                   
                    if (kv.value!=undefined) {
-                       rx = rx + ': ' + kv.value;
+                       
+                       rx = rx + formatSensorValue( kv.value );
+                       
                        if (kv.unit!=undefined) {
                            rx = rx + ' ' + kv.unit;
                        }
                    }
-                   x = x + '<li>' + rx + '</li>';
+                   
+                   rx = rx + '</div>';
+                   
+                   x = x + rx;
                }
-               x = x + '</ul>';
                
-               ss.append('<li>' + x + '</li>');
+               ss.append(x);
                sensorsListed++;
            }
        } 
