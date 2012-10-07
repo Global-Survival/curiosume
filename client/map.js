@@ -199,3 +199,45 @@ function enablePreset(p) {
     requestUserSupport('"' + p + '" preset');
     
 }
+
+function update() {
+    updateHeatmap();
+
+    removeMapLayers();
+
+    var callbacksExpected = 0, callbacksReceived = 0;
+    for (var k in sensorImportance) {
+       if (sensorImportance[k] > 0)
+           callbacksExpected++;
+    }
+
+    var f = function(result) {
+        callbacksReceived++;
+        
+        if (result!=undefined) {        }
+        
+        if (callbacksReceived == callbacksExpected) {
+            updateStatus();       
+        }
+    };
+    
+    if (callbacksExpected == 0) {    
+        callbacksExpected = 1;
+        f();
+        return;
+    }
+    
+    for (var k in sensorImportance) {
+       var v = sensorImportance[k];
+        
+       if (v > 0) {
+           var c = sensorClient[k];
+           if (c != undefined) {
+               c.updateGlobal(f);
+           }
+       } 
+    }
+
+
+}
+

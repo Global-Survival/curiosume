@@ -12,11 +12,12 @@ function setSensorClientKML(id, kmlPath) {
         updateLocal: function(geopoint, result) { },
 
         //called when this sensor has > 0 importance    
-        updateGlobal: function(result) { 
+        updateGlobal: function(onFinished) { 
 
             if (this.kml!=undefined) {
                 this.kml.setOpacity(this.getOpacity());            
                 addMapLayer(this.kml);
+                onFinished();
                 return;
             }
 
@@ -35,6 +36,8 @@ function setSensorClientKML(id, kmlPath) {
 
             this.kml = kml;
             addMapLayer(kml);        
+            
+            onFinished();
 
         },
 

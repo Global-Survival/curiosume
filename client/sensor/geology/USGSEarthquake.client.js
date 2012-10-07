@@ -14,10 +14,11 @@ setSensorClient('USGSEarthquake', {
     updateLocal: function(geopoint, result) { },
     
     //called when this sensor has > 0 importance    
-    updateGlobal: function(result) { 
+    updateGlobal: function(onFinished) { 
         
         if (this.markers!=undefined) {
             addMapLayer(this.markers);
+            onFinished();
             return;
         }
         
@@ -55,6 +56,8 @@ setSensorClient('USGSEarthquake', {
                 markers.setOpacity(opacity);
                 //marker.events.register('mousedown', marker, function(evt) { alert(this.icon.url); OpenLayers.Event.stop(evt); });                
             }
+            
+            onFinished();            
             
         });
 

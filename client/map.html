@@ -365,24 +365,6 @@
                 theMap.addLayer(l);
             }
             
-            function update() {
-                updateHeatmap();
-
-                removeMapLayers();
-
-                //TODO add map layers
-                $.each(sensorImportance, function(k,v) {
-                   if (v > 0) {
-                       var c = sensorClient[k];
-                       if (c != undefined)
-                           c.updateGlobal();
-                   } 
-                });
-                
-                updateStatus();
-                
-            }
-            
             var heatmapOpacity = 0;
             function updateHeatmapOpacity(o) { 
                 heatmapOpacity = o;
