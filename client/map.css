@@ -166,10 +166,11 @@ div.sensorControl {
 }
 
 .sensorTitle {
-    margin-top: 0.2em;
+    margin-top: 0.5em;
     font-size: 200%;
     font-weight: bold;
     clear: both;
+    background-color: #ddd;
 }
 .sensorLabel {
     font-size: 150%;

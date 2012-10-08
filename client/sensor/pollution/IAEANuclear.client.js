@@ -13,38 +13,23 @@ setSensorClient('IAEANuclear', {
     /*CLIENT adjust result vector for the conditions calculated at a certain geopoint according to hueristics defined by option variables
     result vector includes any markers or labels to be drawn on the map*/
     updateLocal: function(geopoint, result) { 
+                
         var nuclear = this.nuclear;
+        var a = analyzePointEvents(nuclear, function(n) { return getNukeMagnitude(n); }, geopoint);
         
-        var minDist = ASTRONOMICAL_DISTANCE;
-        var closestFacility;
-        var threat = 0;
-        
-        for (var i = 0; i < nuclear.length; i++) {
-            var nuke = nuclear[i];
-            var magnitude = getNukeMagnitude(nuke);
-
-            var dist = geoDist( [ nuke.lat, nuke.lon ], geopoint );
-            if (dist < minDist) {
-                minDist = dist;
-                closestFacility = nuke;
-            }
-            
-            threat += magnitude * (1 / (dist*dist));
-            
-        }
         
         result.totalFacilities = {
             label: 'Total Known Facilities',
             value: nuclear.length
         };
         result.minDistanceToFacility = {
-            label: 'Nearest Facility, ' + closestFacility.name,
-            value: minDist,
+            label: 'Nearest Facility, ' + a.nearest.name,
+            value: a.nearestDist,
             unit: 'km'
         };
         result.relativeRadiationThreat = {
             label: 'Relative Threat',
-            value: threat,
+            value: a.sumInvSquareDistTimesMagnitude,
             desc: 'sum(inverse square distance * facility magnitude)'
         };
     },

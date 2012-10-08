@@ -21,6 +21,33 @@ var Indicator = {
     
     /*CLIENT adjust result vector for the conditions calculated at a certain geopoint according to hueristics defined by option variables
     result vector includes any markers or labels to be drawn on the map*/
-    update: function(geopoint, result) { }
+    updateLocal: function(geopoint, result) { },
+
+    updateGlobal: function(onFinished) {     }
     
 };
+
+function analyzePointEvents(events, getMagnitude, geopoint) {
+    var r = { };
+
+    r.nearestDist = ASTRONOMICAL_DISTANCE;
+    r.sumInvSquareDistTimesMagnitude = 0;
+
+    for (var i = 0; i < events.length; i++) {
+        
+        var e = events[i];
+        var magnitude = getMagnitude(e);
+
+        var dist = geoDist( [ e.lat, e.lon ], geopoint );
+        if (dist < r.nearestDist) {
+            r.nearestDist = dist;
+            r.nearest = e;
+        }
+
+        r.sumInvSquareDistTimesMagnitude += magnitude * (1 / (dist*dist));
+
+    }
+
+    return r;
+
+}

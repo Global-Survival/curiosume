@@ -34,10 +34,10 @@ function updateStatus() {
            var c = sensorClient[k];
            if (c != undefined) {
                var r = { };
-               //c.updateGlobal(r);
+               
                c.updateLocal(Self.geolocation, r);
                
-               var x = '<div class="sensorTitle">' + k + '</div>';
+               var x = '<div class="sensorReport"><div class="sensorTitle">' + k + '</div>';
                
                for (var kr in r) {
                    var kv = r[kr];
@@ -62,7 +62,9 @@ function updateStatus() {
                    rx = rx + '</div>';
                    
                    x = x + rx;
+                   
                }
+               x = x + '</div>';
                
                ss.append(x);
                sensorsListed++;

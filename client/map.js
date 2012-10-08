@@ -118,8 +118,10 @@ function initMap(onMoveEnd) {
         
         
         if (firstGeolocation) {
+            
             theMap.zoomToExtent(vector.getDataExtent());
             theMap.zoomTo(12);
+            
             
 
             //pulsate(circle);
@@ -204,7 +206,32 @@ function enablePreset(p) {
     
 }
 
+var updating=false;
+
+var needsUpdated = false;
+var updateCycleMS = 400;
+var lastUpdated = -1;
+var goingToUpdate = false;
+
 function update() {
+    var now = Date.now();
+    
+    if (updating) {
+        //console.log('already updating, but will repeat it');
+        needsUpdated = true;
+        return;
+    }
+    else if ((lastUpdated!=-1) && ((now - lastUpdated) < (updateCycleMS)) && (!goingToUpdate)) {
+        //console.log('too soon: ' + (now - lastUpdated) );
+        setTimeout(update, updateCycleMS);
+        goingToUpdate = true;
+        return;        
+    }
+
+    lastUpdated = Date.now();
+    
+    updating = true;
+    
     updateHeatmap();
 
     removeMapLayers();
@@ -228,20 +255,27 @@ function update() {
     if (callbacksExpected == 0) {    
         callbacksExpected = 1;
         f();
-        return;
+    }
+    else {
+    
+        for (var k in sensorImportance) {
+           var v = sensorImportance[k];
+
+           if (v > 0) {
+               var c = sensorClient[k];
+               if (c != undefined) {
+                   c.updateGlobal(f);
+               }
+           } 
+        }
     }
     
-    for (var k in sensorImportance) {
-       var v = sensorImportance[k];
-        
-       if (v > 0) {
-           var c = sensorClient[k];
-           if (c != undefined) {
-               c.updateGlobal(f);
-           }
-       } 
+    if (needsUpdated) {
+        setTimeout(update, updateCycleMS);
     }
 
+    goingToUpdate = false;
+    needsUpdated = false;
+    updating = false;
 
 }
-
