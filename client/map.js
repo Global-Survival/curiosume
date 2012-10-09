@@ -94,13 +94,14 @@ function initMap(onMoveEnd) {
                 40,
                 0
             ),
-            {},
+            { },
             {
                 fillColor: '#000',
                 fillOpacity: 0.1,
                 strokeWidth: 0
             }
         );
+            
         vector.addFeatures([
             new OpenLayers.Feature.Vector(
                 e.point,
@@ -116,14 +117,11 @@ function initMap(onMoveEnd) {
             circle
         ]);
         
-        
         if (firstGeolocation) {
             
             theMap.zoomToExtent(vector.getDataExtent());
             theMap.zoomTo(12);
             
-            
-
             //pulsate(circle);
             firstGeolocation = false;
             this.bind = true;
