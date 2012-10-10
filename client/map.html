@@ -19,6 +19,7 @@
         <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>                        
         
         <script src="/jquery-tmpl/jquery.tmpl.js"></script> <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script> -->
+        <script src="/jstorage/jstorage.js"></script>
         
         <!-- Superfish -->
         <script type="text/javascript" src="/superfish/js/superfish.js"></script>
@@ -47,7 +48,7 @@
             
             var now;
             //var etherpadBaseURL = 'http://localhost:9001';
-            var Self = { };
+            var Self = $.jStorage;
 
             function showHelp() {
                 $('#help').html('<center>Loading...</center>');
@@ -80,22 +81,24 @@
                var ce = "controlEnabled";
                if (x.hasClass(ce)) {
                     x.removeClass(ce);
-                    setSensorImportance(sensorID, 0);
+                    setInterest(sensorID, 0);
                }
                else {
                     x.addClass(ce);                   
-                    setSensorImportance(sensorID, defaultSensorImportance);
+                    setInterest(sensorID, defaultSensorImportance);
                }
             }
             
             function getSensorItem(sensor) { return $('#sensor-' + sensor); }
             function getSensorControls(sensor) { return $('#sensorControl-' + sensor); }
             
-            function setSensorImportance(sensorID, newImportance) {
+            function setInterest(sensorID, newImportance, force) {
                 //console.log('sensor: ' + sensor + ' importance=' + newImportance);
                 var oldImportance = sensorImportance[sensorID];
-                if (oldImportance == newImportance)
-                    return;
+                if (force==undefined) {
+                    if (oldImportance == newImportance)
+                        return;
+                }
                 
                 var sensor = getSensorItem(sensorID);
                 sensor.removeClass('sensorItem25');
@@ -136,6 +139,7 @@
                 
                 sensorImportance[sensorID] = newImportance;
                 
+                saveInterests();
                 update();
             }
             
@@ -205,14 +209,16 @@
             
             function initSensors() {
                 
-                if (!sensorsInitted) {
-                    sensorsInitted = true;
+                $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
+                    convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
+                    
+                    expandTree('tree1');
 
-                    $.getScript("/sensors.js", function(data, textStatus, jqxhr) {
-                        convertTrees(); //in mktree.js, adds buttons to expand/collapse children                                
-                        expandTree('tree1');
-                    });                                        
-                }
+                    sensorsInitted = true;
+                    
+                    loadInterests();
+                    
+                });                                        
                 
             }
             
@@ -234,8 +240,8 @@
                     { name: "Explore", desc: "Discover something new" },           
                     { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
                     { name: "Meet", desc: "Meet new people" },
-                    { name: "Learn", desc: "Educational resources" }
-
+                    { name: "Learn", desc: "Educational resources" },
+                    { name: "Relax", desc: "Chill out, do nothing, sleep" }
                 ], "#presetsGrow" );
                 
                 applyTemplate("#presetTemplate", [
@@ -276,24 +282,6 @@
                 ];
                 
                 addNews( templatize("#productSuggestionTemplate", s) );
-            }
-            
-            function updateStory() {
-                now.getPads(function(pList) {
-                    var s = $('#padList');
-                    
-                    var h = '';
-                    for (i = 0; i < pList.length; i++) {
-                        var p = pList[i];
-                        
-                        var title = p.split('$')[1];
-                        var l = '<a href="#" onClick="editPad(\'' + p + '\')">' + title + '</a><br/>';
-                        
-                        h = h + l;
-                        
-                    }
-                    s.html(h);
-                });
             }
             
             function getHeatmapColor(lat, lon) {
@@ -391,6 +379,55 @@
                   now.distribute(x);
             }
 
+            function saveInterests() {
+                if (sensorsInitted) {
+                    Self.set('interests', sensorImportance);
+                    console.dir(sensorImportance);
+                }
+            }
+            
+            function saveSelf() {
+                var n = $('#selfName').val();
+                Self.set("name", n);
+                
+                updateStatus();
+            }
+            
+            function loadInterests() {
+                sensorImportance = Self.get('interests');
+                                
+                for (var k in sensorImportance) {
+                    var s = getSensorItem(k);
+                    var v = sensorImportance[k];
+
+                    if (s.children().length > 0) {
+
+                        if (v > 0) {
+                            s.children()[0].checked = true; //TODO move this into setInterest to occur when 'force=true'
+                            setInterest(k, v, true);
+                        }
+                        else {
+                            s.children()[0].checked = false; //TODO move this into setInterest to occur when 'force=true'
+                            setInterest(k, 0, true);
+                        }
+                    }
+                }
+                
+                
+            }
+            
+            function loadSelf() {
+                var n = Self.get("name");
+                if (n == undefined) {
+                    n = 'Anonymous';
+                    Self.set("name", n);
+                }
+                
+                now.name = n;
+                
+                $('#selfName').val( n );
+            }
+            
             $(document).ready(function(){
 		var tabs = $( "#tabs" ).tabs({
                     selected: 0
@@ -405,13 +442,11 @@
 
                 updateLocation();
 
-
                 addSuggestions();
                 
                 now.ready(function(){
-                    //now.name = prompt("What's your name?", "");  
-                    
-                    now.name = Self.name = 'Anonymous';
+
+                    loadSelf();
 
                     now.receive = function(name, message){
                       $("#messages").append("<br>"+name+": "+message);
@@ -447,28 +482,23 @@
     <body>
         <div id="controls"> 
             
-            <div id="tabs">
-                    <ul>
-                        <li><a href="#tabSensors">Sensors</a></li>
 
-                        <li><a href="#tabsTeam">Team</a></li>
-                        
-                        <li><button onClick="showHelp()">Help</button></li>
-                    </ul>
-
-                    <div id="tabsTeam">
-                        <div id="messages"></div>
-                        <br/>
-                        <input type='text' id="text-input"/>
-                        <input type='submit' id="send-button" onclick="send()" value="send"/>
-                    </div>
                                     
                     <div id="tabSensors">
 
                         <div class="table">
                             <ul id="presetsMenu" class="sf-menu sf-js-enabled sf-shadow">
                                 <li>
-                                    <a href="#a">Survive</a>
+                                    <a href="#a">[-]</a>
+                                    <ul>
+                                        <li><a href="">Reset</a></li>
+                                        <li><a href="javascript:expandTree('tree1');">Expand All</a></li>
+                                        <li><a href="javascript:collapseTree('tree1');">Collapse All</a></li>
+                                        <li><a href="javascript:requestUserSupport('Saving the current sensors to a preset')">Save</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">Survive</a>
                                     <ul id="presetsSurvive"></ul>
                                 </li>
                                 <li>
@@ -484,12 +514,6 @@
                         
                         <!-- Interests -->
                         <ul class="mktree" id="tree1" style="clear: both">
-                            <li style="display:table; margin: 0 auto;">
-                                <button onClick="">Reset</button>
-                                <button onClick="expandTree('tree1');">Expand All</button>
-                                <button onClick="collapseTree('tree1');">Collapse All</button>
-                                <button onClick="requestUserSupport('Saving the current sensors to a preset')">Save</button>
-                            </li>
                             
                             <!-- <A class="button" href="#" onClick="expandToItem('tree1','login'); return false;">Expand to a certain location</A> -->
                         </ul>
@@ -509,14 +533,37 @@
                 
             </div>
             
-        </div>        
+        
 
         <div id="status">
-            <div id="statusWrap">
-                <div id="statusHeader"></div>
-                <div id="statusContent">
-                    <div id="statusSensors"></div>                    
-                </div>            
+            <div id="tabs">
+                    <ul>
+                        <li><a href="#tabEnvironment">Environment</a></li>
+
+                        <li><a href="#tabTeam">Team</a></li>
+                        
+                        <li><a href="#tabSelf">Self</a></li>
+                        
+                        <li><button onClick="showHelp()">Help</button></li>
+                    </ul>
+
+                <div id="tabEnvironment">
+                    <div id="statusHeader"></div>
+                    <div id="statusContent">
+                        <div id="statusSensors"></div>                    
+                    </div>            
+                </div>
+                <div id="tabTeam">
+                    <div id="messages"></div>
+                    <br/>
+                    <input type='text' id="text-input"/>
+                    <input type='submit' id="send-button" onclick="send()" value="send"/>
+                </div>
+                <div id="tabSelf">
+                    Name: <input id="selfName" type="text" size="24"/><br/>
+                    Biography: <textarea id="selfBiography" cols="24" rows="3"></textarea>
+                    <button onclick="saveSelf()">Save</button>
+                </div>
             </div>
         </div>        
         <div id="map">

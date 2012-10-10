@@ -97,3 +97,21 @@ var etherpad = etherpadAPI.connect({
 			modal: false
 		});                
             }*/
+            /*function updateStory() {
+                now.getPads(function(pList) {
+                    var s = $('#padList');
+                    
+                    var h = '';
+                    for (i = 0; i < pList.length; i++) {
+                        var p = pList[i];
+                        
+                        var title = p.split('$')[1];
+                        var l = '<a href="#" onClick="editPad(\'' + p + '\')">' + title + '</a><br/>';
+                        
+                        h = h + l;
+                        
+                    }
+                    s.html(h);
+                });
+            }*/
+            

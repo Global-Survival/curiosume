@@ -142,7 +142,7 @@ function initMap(onMoveEnd) {
 }
 
 function setGeolocation(p) {
-    Self.geolocation = p;
+    Self.set("geolocation", p);
     update();
 }
 

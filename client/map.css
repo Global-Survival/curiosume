@@ -33,7 +33,7 @@ h1 {
     height: 48%;
     position: fixed;
     right: 1em;
-    top: 1em;
+    top: 0;
     overflow: auto;
 }
 #statusContent {
@@ -61,7 +61,6 @@ h1 {
     font-size: 100%;
     padding-top: 0.3em;    
     padding-bottom: 0.3em;    
-    background-color: rgba(0,0,0,0.1);
 }
 #tree1 li b {
     font-size: larger;
@@ -115,6 +114,8 @@ div.sensorItem {
     width: 100%;
     margin-top: 0.25em;
     margin-bottom: 0.25em;
+    padding-bottom: 0.25em;
+    border-bottom: solid 1px rgba(150, 150, 150, 0.25);
 }
 div.sensorControl {
     margin-left: 3em;    
@@ -167,19 +168,19 @@ div.sensorControl {
 
 .sensorTitle {
     margin-top: 0.5em;
-    font-size: 200%;
+    font-size: 150%;
     font-weight: bold;
     clear: both;
     background-color: #ddd;
 }
 .sensorLabel {
-    font-size: 150%;
+    font-size: 125%;
     float: left;
     clear: both;
 }
 
 .sensorValue {
-    font-size: 200%;
+    font-size: 150%;
     float: right;
     width: 30%;   
 }
