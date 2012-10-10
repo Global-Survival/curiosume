@@ -74,28 +74,28 @@
                 return $( template ).tmpl( params);
             }
             
-            function toggleSensor(sensorID) {
+            function setSensor(sensorID, enabled) {
+               var ce = "controlEnabled";
                var x = getSensorControls(sensorID);
                var defaultSensorImportance = 25;
                
-               var ce = "controlEnabled";
-               if (x.hasClass(ce)) {
-                    x.removeClass(ce);
-                    setInterest(sensorID, 0);
+               if (enabled) {
+                    x.addClass(ce);                   
+                    setInterest(sensorID, defaultSensorImportance, true, true);
                }
                else {
-                    x.addClass(ce);                   
-                    setInterest(sensorID, defaultSensorImportance);
+                    x.removeClass(ce);
+                    setInterest(sensorID, 0, true, true);
                }
             }
             
             function getSensorItem(sensor) { return $('#sensor-' + sensor); }
             function getSensorControls(sensor) { return $('#sensorControl-' + sensor); }
             
-            function setInterest(sensorID, newImportance, force) {
+            function setInterest(sensorID, newImportance, force, updateAll) {
                 //console.log('sensor: ' + sensor + ' importance=' + newImportance);
                 var oldImportance = sensorImportance[sensorID];
-                if (force==undefined) {
+                if (force!=true) {
                     if (oldImportance == newImportance)
                         return;
                 }
@@ -108,20 +108,21 @@
 
                 var controls = getSensorControls(sensorID);
                 if (newImportance == 0) {
-                    if (oldImportance > 0)
-                        controls.html('');
+                    controls.html('');
                 }
                 else {
-                    if (oldImportance == 0) {
-                        var ch = '<input title="Importance" type="range" value="' + newImportance + '" min="25" max="100" step="25" alt="Importance" onChange="setSensorImportance(\'' + sensorID + '\', this.value);" />';
+                    //if (oldImportance == 0) {
+                        var ch = '<input title="Importance" type="range" value="' + newImportance + 
+                            '" min="25" max="100" step="25" alt="Importance" onChange="setInterest(\'' + sensorID + '\', this.value, false, true);" />';
                         if (sensorClient[sensorID]!=undefined) {
                             if (sensorClient[sensorID].getControlHTML!=undefined) {
                                 ch = ch + sensorClient[sensorID].getControlHTML();
                             }
                         }
                         
+                        controls.show();
                         controls.html(ch);
-                    }
+                    //}
 
                     if (newImportance <= 25) {
                         sensor.addClass('sensorItem25');
@@ -138,9 +139,11 @@
                 }
                 
                 sensorImportance[sensorID] = newImportance;
-                
-                saveInterests();
-                update();
+
+                if (updateAll==true) {
+                    saveInterests();
+                    update();
+                }
             }
             
             function setSensorClient(sensorID, client) {
@@ -176,7 +179,7 @@
                     };
                     var controlID = 'sensorControl-' + sensor.id;
 
-                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
+                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="setSensor(\'' + sensor.id + '\', this.checked)"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
 
                     sensors[sensor.id] = sensor;
                     sensorImportance[sensor.id] = 0;
@@ -188,7 +191,7 @@
                     
                     var controlID = 'sensorControl-' + sensor.id;
 
-                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="toggleSensor(\'' + sensor.id + '\')"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
+                    $(target).append('<li><div id="sensor-' + sensor.id + '" class="sensorItem"><input type="checkbox" onclick="setSensor(\'' + sensor.id + '\', this.checked)"/>' + sensor.name + '<div id="' + controlID + '" class="sensorControl controlDisabled">' + controls + '</div></div></li>');
 
                     sensors[sensor.id] = sensor;
                     sensorImportance[sensor.id] = 0;
@@ -381,8 +384,14 @@
 
             function saveInterests() {
                 if (sensorsInitted) {
-                    Self.set('interests', sensorImportance);
-                    console.dir(sensorImportance);
+                    var si = { };
+                    for (var k in sensorImportance) {
+                        var v = sensorImportance[k];
+                        if (v > 0) {
+                            si[k] = v;
+                        }
+                    }
+                    Self.set('interests', si);
                 }
             }
             
@@ -404,11 +413,11 @@
 
                         if (v > 0) {
                             s.children()[0].checked = true; //TODO move this into setInterest to occur when 'force=true'
-                            setInterest(k, v, true);
+                            setInterest(k, v, true, false);
                         }
                         else {
                             s.children()[0].checked = false; //TODO move this into setInterest to occur when 'force=true'
-                            setInterest(k, 0, true);
+                            setInterest(k, 0, true, false);
                         }
                     }
                 }
