@@ -42,7 +42,7 @@ setSensorClient('USGSEarthquake', {
         
         var qq = this;
         
-        now.getSensor('USGSEarthquake', function(s) { 
+        socket.emit('getSensor', 'USGSEarthquake', function(s) { 
             
             var quakes = s.earthquakes;
             

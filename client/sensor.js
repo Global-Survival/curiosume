@@ -164,8 +164,7 @@ function setSensor(sensorID, enabled) {
      }
      else {
          //Defined sensor                    
-         now.getSensor(sensor.id, updateSensorClient);                    
-
+         socket.emit('getSensor', sensor.id, updateSensorClient);
 
          var controlID = 'sensorControl-' + sensor.id;
 

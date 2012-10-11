@@ -50,7 +50,7 @@ setSensorClient('IAEANuclear', {
         
         var tt = this;
         
-        now.getSensor('IAEANuclear', function(s) { 
+        socket.emit('getSensor', 'IAEANuclear', function(s) { 
             
             var nuclear = s.nuclear;
             tt.nuclear = nuclear;

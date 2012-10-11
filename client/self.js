@@ -30,8 +30,6 @@ function loadSelf() {
         Self.set("name", n);
     }
 
-    now.name = n;
-
     $('#selfName').val( n );
 }
 

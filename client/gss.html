@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="/nowjs/now.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
         
         <!-- openlayers -->
         <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
@@ -51,7 +51,9 @@
             
             var layers = [];
             
-            var now;
+            var socket = io.connect('http://localhost:8080');
+            
+            
             //var etherpadBaseURL = 'http://localhost:9001';
             var Self = $.jStorage;
 
@@ -161,18 +163,16 @@
 
                 addSuggestions();
                 
-                now.ready(function(){
-
-                    loadSelf();
-
-                    now.receive = function(name, message){
-                      $("#messages").append("<br>"+name+": "+message);
-                    }
-
-                    initSensors();
-                    
-                    
+                socket.on('receive', function (message) {
+                    addMessage(message);
+                    //$("#messages").append("<br>"+name+": "+message);
+                   //socket.emit('my other event', { my: 'data' });
                 });
+                
+                loadSelf();
+                
+                initSensors();
+                
                 
             });
         </script>

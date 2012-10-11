@@ -26,12 +26,43 @@ httpServer.listen(config.port);
 
 console.log('Web server on port ' + config.port);
 
-var nowjs = require("now");
-var everyone = nowjs.initialize(httpServer);
+//var nowjs = require("now");
+//var everyone = nowjs.initialize(httpServer);
+//
+//everyone.now.distribute = function(message){  
+//  everyone.now.receive(this.now.name, message); // this.now exposes caller's scope
+//};
 
-everyone.now.distribute = function(message){  
-  everyone.now.receive(this.now.name, message); // this.now exposes caller's scope
-};
+var io = require('socket.io').listen(httpServer);
+
+io.enable('browser client minification');  // send minified client
+io.enable('browser client etag');          // apply etag caching logic based on version number
+io.enable('browser client gzip');          // gzip the file
+io.set('log level', 1);                    // reduce logging
+io.set('transports', [                     // enable all transports (optional if you want flashsocket)
+    'websocket'
+  , 'flashsocket'
+  , 'htmlfile'
+  , 'xhr-polling'
+  , 'jsonp-polling'
+]);
+
+io.sockets.on('connection', function(socket) {
+    socket.on('distribute', function(message) {
+        socket.broadcast.emit('receive', message);
+    });
+    socket.on('getSensors', function(withSensors) {
+        withSensors(sensor);
+    });
+    socket.on('getSensor', function(id, withSensor) {
+        if (sensor[id]!=undefined) {
+            withSensor(sensor[id]);
+        }
+        else {
+            console.error('Unknown sensor: ' + id);
+        }
+    });
+});
 
 
 function addSensor(path) {
@@ -56,18 +87,18 @@ function addSensor(path) {
     
 };
 
-everyone.now.getSensors = function(withSensors) {
-    withSensors(sensor);
-};
+//everyone.now.getSensors = function(withSensors) {
+//    withSensors(sensor);
+//};
 
-everyone.now.getSensor = function(id, withSensor) {
-    if (sensor[id]!=undefined) {
-        withSensor(sensor[id]);
-    }
-    else {
-        console.error('Unknown sensor: ' + id);
-    }
-};
+//everyone.now.getSensor = function(id, withSensor) {
+//    if (sensor[id]!=undefined) {
+//        withSensor(sensor[id]);
+//    }
+//    else {
+//        console.error('Unknown sensor: ' + id);
+//    }
+//};
 
 addSensor('geology/USGSEarthquake');
 addSensor('pollution/IAEANuclear');
