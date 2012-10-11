@@ -91,29 +91,30 @@ function initMap(onMoveEnd) {
             OpenLayers.Geometry.Polygon.createRegularPolygon(
                 new OpenLayers.Geometry.Point(e.point.x, e.point.y),
                 e.position.coords.accuracy/2,
-                40,
+                9,
                 0
             ),
             { },
             {
                 fillColor: '#000',
+                strokeColor: '#f00',
                 fillOpacity: 0.1,
-                strokeWidth: 0
+                strokeWidth: 1
             }
         );
             
         vector.addFeatures([
-            new OpenLayers.Feature.Vector(
-                e.point,
-                {},
-                {
-                    graphicName: 'cross',
-                    strokeColor: '#f00',
-                    strokeWidth: 2,
-                    fillOpacity: 0,
-                    pointRadius: 10
-                }
-            ),
+//            new OpenLayers.Feature.Vector(
+//                e.point,
+//                {},
+//                {
+//                    graphicName: 'cross',
+//                    strokeColor: '#f00',
+//                    strokeWidth: 2,
+//                    fillOpacity: 0,
+//                    pointRadius: 10
+//                }
+//            ),
             circle
         ]);
         

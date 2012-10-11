@@ -12,10 +12,6 @@ function updateStatus() {
     var s = $('#statusHeader');
 
     var h = '';
-    h = h + '<h1>' + Self.get('name') + '</h1>';
-
-    h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.get('geolocation') == undefined ? 'Unknown' : Self.get('geolocation')) + '</h1>';
-
 
     h = h + '<div style="clear: both"></div>'
 

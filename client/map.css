@@ -1,15 +1,18 @@
 root { 
     display: block;
 }
+
 body {
     font-family: Arial, sans;
     font-size: 14px;
     margin: 0;
     padding: 0;
 }
+
 h1 {
     margin: 0;
 }
+
 #controls {
     width: 40%;
     float: left;
@@ -37,7 +40,6 @@ h1 {
     overflow: auto;
 }
 #statusContent {
-    padding: 1em;
 }
 
 #mapHeat {
@@ -166,26 +168,3 @@ div.sensorControl {
     font-size: 2em;
 }
 
-.sensorTitle {
-    margin-top: 0.5em;
-    font-size: 150%;
-    font-weight: bold;
-    clear: both;
-    background-color: #ddd;
-}
-.sensorLabel {
-    font-size: 125%;
-    float: left;
-    clear: both;
-}
-
-.sensorValue {
-    font-size: 150%;
-    float: right;
-    width: 30%;   
-}
-
-.sensorDesc {
-    font-style: italic;
-    font-size: 80%;
-}

@@ -1,0 +1,28 @@
+#teamWrapper {
+    width: 100%;
+}
+ 
+#teamContent {
+    width: 75%;
+    float: left;
+}
+
+#teamRoster {
+    width: 23%;
+    float: right;
+    border: 1px solid gray;
+}
+
+#teamInput {
+    border: 1px solid gray;
+    /*width: 100%;*/
+    clear: both;
+    bottom: 0;
+    position: absolute;
+}
+
+.teamMessage {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    margin-bottom: 0.25em;
+}

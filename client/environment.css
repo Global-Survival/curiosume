@@ -1,0 +1,23 @@
+.sensorTitle {
+    margin-top: 0.5em;
+    font-size: 150%;
+    font-weight: bold;
+    clear: both;
+    background-color: #ddd;
+}
+.sensorLabel {
+    font-size: 125%;
+    float: left;
+    clear: both;
+}
+
+.sensorValue {
+    font-size: 150%;
+    float: right;
+    width: 30%;   
+}
+
+.sensorDesc {
+    font-style: italic;
+    font-size: 80%;
+}
