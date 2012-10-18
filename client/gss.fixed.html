@@ -1,0 +1,121 @@
+<div id="controls"> 
+
+    <div id="tabSensors">
+
+        <div class="table">
+            <ul id="presetsMenu" class="sf-menu sf-js-enabled sf-shadow">
+                <li>
+                    <a href="#a">[-]</a>
+                    <ul>
+                        <li><a href="">Reset</a></li>
+                        <li><a href="javascript:expandTree('tree1');">Expand All</a></li>
+                        <li><a href="javascript:collapseTree('tree1');">Collapse All</a></li>
+                        <li><a href="javascript:requestUserSupport('Saving the current sensors to a preset')">Save</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Survive</a>
+                    <ul id="presetsSurvive"></ul>
+                </li>
+                <li>
+                    <a href="#">Evolve</a>
+                    <ul id="presetsGrow"></ul>
+                </li>
+                <li>
+                    <a href="#">Share</a>
+                    <ul id="presetsShare"></ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Interests -->
+        <ul class="mktree" id="tree1" style="clear: both">
+
+            <!-- <A class="button" href="#" onClick="expandToItem('tree1','login'); return false;">Expand to a certain location</A> -->
+        </ul>
+
+
+        <p>
+            Heatmap Transparency: <input type="range" value="0" min="0" max="100" onchange="updateHeatmapOpacity(this.value)"/>
+        </p>
+        <p>
+            Heatmap Detail: <input type="range"  min="2" max="32" step="1" onchange="updateHeatmapDetail(this.value)"/>
+        </p>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+<div id="status">
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabTeam">Team</a></li>
+
+            <li><a href="#tabEnvironment">Environment</a></li>
+
+            <li><a href="#tabSelf">Self</a></li>
+
+            <li><button onClick="showHelp()">Help</button></li>
+        </ul>
+
+        <div id="tabEnvironment">
+            <div id="statusHeader"></div>
+            <div id="statusContent">
+                <div id="statusSensors"></div>                    
+            </div>            
+        </div>
+
+        <div id="tabTeam">
+
+            <div id="teamWrapper">
+
+                <div id="teamRoster">
+                    Roster
+                </div>
+
+                <div id="teamContent">
+                </div>
+
+                <div id="teamInput">
+                    <input type='text' id="text-input"/>
+                    <input type='submit' id="send-button" onclick="send()" value="send"/>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="tabSelf">
+            Name: <input id="selfName" type="text" size="24"/><br/>
+            Biography: <textarea id="selfBiography" cols="24" rows="3"></textarea>
+            <button onclick="saveSelf()">Save</button>
+        </div>
+
+    </div>
+
+</div> 
+
+<div id="map">
+    <canvas id="mapHeat"></canvas>            
+</div>
+
+
+<div id="edit"  style="display: none; z-index: 5000">
+</div>
+
+<div id="help"  style="display: none; z-index: 5000"></div>
+
+<div id="userSupport"  style="display: none; z-index: 5000">
+    <i>The following feature is not complete yet:</i><br/><br/>
+    <div id="userSupportMessage"></div><br/>
+    <hr/><br/>
+    <center>
+        To accelerate this, please support the development of this software:<br/><br/>
+        <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal - The safer, easier way to pay online!"> <img src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" alt="" width="1" height="1" border="0"/>
+    </center>
+</div>

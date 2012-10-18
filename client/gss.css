@@ -19,34 +19,13 @@ h1 {
     height: 90%;
 }
 
-#statusWrap {
-}
-
-
-
-#map, #mapHeat {
-    width: 58%;
-    height: 48%;
-    position: fixed;
-    right: 1em;
-    bottom: 1em;    
-}
-#status {
-    width: 58%;
-    height: 48%;
-    position: fixed;
-    right: 1em;
-    top: 0;
-    overflow: auto;
-}
-#statusContent {
-}
 
 #mapHeat {
     z-index: 3000;
     pointer-events: none;
     opacity: 0.5;
 }
+
 #tabs {
     border: none;
     height: 95%;

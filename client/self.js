@@ -1,5 +1,8 @@
 function loadInterests() {
     sensorImportance = Self.get('interests');
+    if (sensorImportance == null) {
+        sensorImportance = { };    
+    }
 
     for (var k in sensorImportance) {
         var s = getSensorItem(k);
