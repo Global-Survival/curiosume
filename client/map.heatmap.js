@@ -1,3 +1,4 @@
+var heatMapDetailLevel = 4;
 
 function getHeatmapColor(lat, lon) {
 

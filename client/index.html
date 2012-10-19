@@ -1,26 +1,49 @@
 <html>
-	<head>
-		<title>Netention</title>
-		<style>
-			body {
-				font-family: Arial, sans;
-				font-size: 150%;
-				margin: 3em;
-			}
+    <head>
+        <title>Netention</title>
+        <style>
+            body {
+                font-family: Arial, sans;
+                font-size: 170%;
+                margin: 1em;
 
-			a, a:visited {
-				color: black;				
-			}
+                background-image: url('/image/p2p_banner.jpg');
+                background-attachment: fixed;
+                background-size: contain;
+                background-position: center bottom;
+                background-repeat: no-repeat;
 
-		</style>
-	</head>
-	<body>
-                <h1>GSS Prototype 5</h1>
-                <ul>
-                    <li><a href="gss.html?mode=fixed">Fixed Layout</a></li>
-                    <li><a href="gss.html?mode=bgmap">Full-screen Map Layout</a></li>                    
-                </ul>		
+            }
 
-		<a href="http://automenta.com">http://automenta.com</a>
-	</body>
+            a, a:visited {
+                color: black;				
+            }
+
+            #origin {
+                color: #999;
+                font-size: 80%;
+                    margin-left: 0.35em;
+            }
+            #title {
+                font-size: 400%;
+                line-height: 100%;
+                font-weight: bold;
+                color: #96adf0;
+                margin: 0;
+
+            }
+
+        </style>
+    </head>
+    <body>
+        <p id="title">Netention</p>
+        <a id="origin" href="http://automenta.com">http://automenta.com</a>
+        <ul>
+            <li><a href="gss.html?mode=fixed">Heads-Up</a></li>
+            <li><a href="gss.html?mode=bgmap">Map Explorer</a></li>                    
+            <li><a href="self.html" title="Self only">Self</a></li>
+            <li><a href="nonlocal.html" title="Self and Team, without Map">Non-Local</a></li>
+        </ul>		
+
+    </body>
 </html>
