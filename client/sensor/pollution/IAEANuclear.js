@@ -1,5 +1,4 @@
 var csv = require('../csv.js');
-var now = require('now');
 
 
 exports.sensor = {

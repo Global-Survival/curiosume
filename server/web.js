@@ -5,7 +5,8 @@ var config = require('../config.js');
 var http = require('http')
   , url = require('url')
   , fs = require('fs')
-  , sys = require('sys')
+  , sys = require('util')
+  , socketio= require('socket.io')
   , nodestatic = require('node-static')
   , server;
   
@@ -26,7 +27,7 @@ httpServer.listen(config.port);
 
 console.log('Web server on port ' + config.port);
 
-var io = require('socket.io').listen(httpServer);
+var io = socketio.listen(httpServer);
 
 io.enable('browser client minification');  // send minified client
 io.enable('browser client etag');          // apply etag caching logic based on version number

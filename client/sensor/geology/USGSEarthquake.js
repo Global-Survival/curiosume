@@ -4,7 +4,6 @@ CSV format - (other feeds are available from USGS)
 */
 
 var csv = require('../csv.js');
-var now = require('now');
 
 
 exports.sensor = {

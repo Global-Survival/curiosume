@@ -1,0 +1,13 @@
+{
+    "name":"netjs2",
+    "version":"0.0.1",
+    "dependencies":{
+        "http":"",
+	"url":"",
+	"fs":"",
+	"util":"",
+	"socket.io": "",
+	"node-static":"",
+	"request":""
+    }
+}
