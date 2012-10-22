@@ -6,7 +6,7 @@ won't access the wrong code inadvertently as they are in separate
 methods.
 */
 
-var Indicator = {
+var Sensor = {
     
     id: function() { "" },
     

@@ -8,6 +8,6 @@
 	"util":"",
 	"socket.io": "",
 	"node-static":"",
-	"request":""
+	"always":""
     }
 }
