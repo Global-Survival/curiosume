@@ -164,15 +164,15 @@
 
 
                     initMap(function() {
-                        update();
+                        updateMap();
                     });
 
                     updateLocation();
 
                     addSuggestions();
 
-                    socket.on('receive', function (message) {
-                        addMessage(message);
+                    socket.on('receiveMessage', function (message) {
+                        receiveMessage(message);
                     });
 
                     

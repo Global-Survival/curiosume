@@ -1,9 +1,12 @@
-function say(x) {
-    if (x === undefined)
-      now.distribute($("#text-input").val());
-    else
-      now.distribute(x);
-}
+function sendMessage(x) {
+    if (x === undefined) {
+        x = "<b>" + Self.get("name") + "</b>: " + $("#MessageInput").val();
+        $("#MessageInput").val('');
+        
+    }
+    socket.emit('distribute', x);
+    addMessage(x);
+ }
 
 
 function addSuggestions(x) {
@@ -41,4 +44,8 @@ function addMessage(h) {
     
     d.fadeIn();
     
+}
+
+function receiveMessage(m) {
+    addMessage(m);
 }

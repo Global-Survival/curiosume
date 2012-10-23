@@ -27,6 +27,12 @@
 
     </div>
 
+    <div id="Profile">
+            Name: <input id="selfName" type="text" size="24"/><br/>
+            Biography: <textarea id="selfBiography" cols="24" rows="3"></textarea>
+            <button onclick="saveSelf()">Save</button>
+    </div>
+    
     <div id="CurrentInterests">
 
     </div>
@@ -45,9 +51,7 @@
 
             <li><a href="#tabEnvironment">Environment</a></li>
 
-            <li><a href="#tabSelf">Self</a></li>
-
-            <li><button onClick="showHelp()">Help</button></li>
+            <li><button onClick="showHelp();">Help</button></li>
         </ul>
 
         <div id="tabEnvironment">
@@ -69,19 +73,14 @@
                 </div>
 
                 <div id="teamInput">
-                    <input type='text' id="text-input"/>
-                    <input type='submit' id="send-button" onclick="send()" value="send"/>
+                    <input type='text' id="MessageInput"/>
+                    <input type='submit' id="send-button" onclick="sendMessage();" value="send"/>
                 </div>
 
             </div>
 
         </div>
 
-        <div id="tabSelf">
-            Name: <input id="selfName" type="text" size="24"/><br/>
-            Biography: <textarea id="selfBiography" cols="24" rows="3"></textarea>
-            <button onclick="saveSelf()">Save</button>
-        </div>
 
     </div>
 

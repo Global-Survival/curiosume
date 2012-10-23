@@ -23,7 +23,7 @@ function loadInterests() {
         }*/
     }
 
-    update();
+    updateSelf();
 
 
 }
@@ -66,6 +66,9 @@ function updateSelfUI() {
     //...
 }
 
+function updateSelf() {
+    
+}
 
 function getInterestItem(sensor) { return $('#Interest-' + sensor); }
 function getInterestControls(sensor) { return $('#InterestControl-' + sensor); }
@@ -85,23 +88,29 @@ function setInterest(sensorID, newImportance, force, updateAll) {
     sensor.removeClass('interestItem100');
 
     var controls = getInterestControls(sensorID);
+    
+    //if (oldImportance == 0) {
+        var ch = '<input title="Importance" type="range" value="' + newImportance + 
+            '" min="0" max="100" step="25" alt="Importance" onChange="setInterest(\'' + sensorID + '\', this.value, false, true);" />';
+        if (sensorClient[sensorID]!=undefined) {
+            if (sensorClient[sensorID].getControlHTML!=undefined) {
+                ch = ch + sensorClient[sensorID].getControlHTML();
+            }
+        }
+
+        controls.show();
+        controls.html(ch);
+    //}
+
     if (newImportance == 0) {
-        controls.html('');
+        if (confirm('Remove ' + sensorID + ' ?')) {
+            removeInterest(sensorID);
+        }
+        else {
+            setInterest(sensorID, oldImportance, true, false);
+        }
     }
     else {
-        //if (oldImportance == 0) {
-            var ch = '<input title="Importance" type="range" value="' + newImportance + 
-                '" min="25" max="100" step="25" alt="Importance" onChange="setInterest(\'' + sensorID + '\', this.value, false, true);" />';
-            if (sensorClient[sensorID]!=undefined) {
-                if (sensorClient[sensorID].getControlHTML!=undefined) {
-                    ch = ch + sensorClient[sensorID].getControlHTML();
-                }
-            }
-
-            controls.show();
-            controls.html(ch);
-        //}
-
         if (newImportance <= 25) {
             sensor.addClass('interestItem25');
         }
@@ -114,13 +123,13 @@ function setInterest(sensorID, newImportance, force, updateAll) {
         else /*if (newImportance <= 100)*/ {
             sensor.addClass('interestItem100');                    
         }
-    }
 
-    sensorImportance[sensorID] = newImportance;
+        sensorImportance[sensorID] = newImportance;
+    }
 
     if (updateAll==true) {
         saveInterests();
-        //update();
+        updateSelf();
     }
 }
 
@@ -147,7 +156,8 @@ function addInterest(i, force) {
 }
 
 function removeInterest(i) {
-
+    getInterestItem(i).fadeOut();
+    delete sensorImportance[i];
 }
 
 function initSelfUI() {

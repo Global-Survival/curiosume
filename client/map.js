@@ -144,7 +144,7 @@ function initMap(onMoveEnd) {
 
 function setGeolocation(p) {
     Self.set("geolocation", p);
-    update();
+    updateMap();
 }
 
 function updateLocation() {
@@ -212,7 +212,7 @@ var updateCycleMS = 400;
 var lastUpdated = -1;
 var goingToUpdate = false;
 
-function update() {
+function updateMap() {
     var now = Date.now();
     
     if (updating) {
@@ -222,7 +222,7 @@ function update() {
     }
     else if ((lastUpdated!=-1) && ((now - lastUpdated) < (updateCycleMS)) && (!goingToUpdate)) {
         //console.log('too soon: ' + (now - lastUpdated) );
-        setTimeout(update, updateCycleMS);
+        setTimeout(updateMap, updateCycleMS);        
         goingToUpdate = true;
         return;        
     }
@@ -270,7 +270,7 @@ function update() {
     }
     
     if (needsUpdated) {
-        setTimeout(update, updateCycleMS);
+        setTimeout(updateMap, updateCycleMS);
     }
 
     goingToUpdate = false;

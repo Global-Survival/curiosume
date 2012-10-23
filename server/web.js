@@ -44,7 +44,7 @@ io.set('transports', [                     // enable all transports (optional if
 io.sockets.on('connection', function(socket) {
   
     socket.on('distribute', function(message) {
-        socket.broadcast.emit('receive', message);
+        socket.broadcast.emit('receiveMessage', message);
     });
     
     socket.on('getSensors', function(withSensors) {
