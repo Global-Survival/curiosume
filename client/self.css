@@ -1,0 +1,25 @@
+#CurrentInterests {
+    clear: both;
+}
+#InterestsBar {
+    clear: both;
+}
+
+.InterestItem {
+    margin-bottom: 1em;
+}
+
+/* http://www.quackit.com/css/css_color_codes.cfm */
+.interestItem25 {
+    background-color: rgba(154,205,50,0.3);
+}
+.interestItem50 {
+    background-color: rgba(255,255,0, 0.3);
+}
+.interestItem75 {
+    background-color: rgba(255,165,0, 0.3);
+}
+.interestItem100 {
+    background-color: rgba(220,20,60, 0.3);
+}
+

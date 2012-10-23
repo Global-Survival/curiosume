@@ -1,3 +1,8 @@
+var sensorImportance = { };
+var interests = []; //current set of interests
+var sensorClient = { };
+var sensorsInitted = false;
+
 function loadInterests() {
     sensorImportance = Self.get('interests');
     if (sensorImportance == null) {
@@ -5,20 +10,17 @@ function loadInterests() {
     }
 
     for (var k in sensorImportance) {
-        var s = getSensorItem(k);
+        var s = getInterestItem(k);
         var v = sensorImportance[k];
 
-        if (s.children().length > 0) {
 
-            if (v > 0) {
-                s.children()[0].checked = true; //TODO move this into setInterest to occur when 'force=true'
-                setInterest(k, v, true, false);
-            }
-            else {
-                s.children()[0].checked = false; //TODO move this into setInterest to occur when 'force=true'
-                setInterest(k, 0, true, false);
-            }
+        if (v > 0) {
+            addInterest(k, true);
+            setInterest(k, v, true, false);
         }
+        /*else {
+            setInterest(k, 0, true, false);
+        }*/
     }
 
     update();
@@ -37,16 +39,14 @@ function loadSelf() {
 }
 
 function saveInterests() {
-    if (sensorsInitted) {
-        var si = { };
-        for (var k in sensorImportance) {
-            var v = sensorImportance[k];
-            if (v > 0) {
-                si[k] = v;
-            }
+    var si = { };
+    for (var k in sensorImportance) {
+        var v = sensorImportance[k];
+        if (v > 0) {
+            si[k] = v;
         }
-        Self.set('interests', si);
     }
+    Self.set('interests', si);
 }
 
 function saveSelf() {
@@ -64,4 +64,126 @@ function updateSelfUI() {
     h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.get('geolocation') == undefined ? 'Unknown' : Self.get('geolocation')) + '</h1>';
     
     //...
+}
+
+
+function getInterestItem(sensor) { return $('#Interest-' + sensor); }
+function getInterestControls(sensor) { return $('#InterestControl-' + sensor); }
+
+function setInterest(sensorID, newImportance, force, updateAll) {
+    //console.log('sensor: ' + sensor + ' importance=' + newImportance);
+    var oldImportance = sensorImportance[sensorID];
+    if (force!=true) {
+        if (oldImportance == newImportance)
+            return;
+    }
+
+    var sensor = getInterestItem(sensorID);
+    sensor.removeClass('interestItem25');
+    sensor.removeClass('interestItem50');
+    sensor.removeClass('interestItem75');
+    sensor.removeClass('interestItem100');
+
+    var controls = getInterestControls(sensorID);
+    if (newImportance == 0) {
+        controls.html('');
+    }
+    else {
+        //if (oldImportance == 0) {
+            var ch = '<input title="Importance" type="range" value="' + newImportance + 
+                '" min="25" max="100" step="25" alt="Importance" onChange="setInterest(\'' + sensorID + '\', this.value, false, true);" />';
+            if (sensorClient[sensorID]!=undefined) {
+                if (sensorClient[sensorID].getControlHTML!=undefined) {
+                    ch = ch + sensorClient[sensorID].getControlHTML();
+                }
+            }
+
+            controls.show();
+            controls.html(ch);
+        //}
+
+        if (newImportance <= 25) {
+            sensor.addClass('interestItem25');
+        }
+        else if (newImportance <= 50) {
+            sensor.addClass('interestItem50');                    
+        }
+        else if (newImportance <= 75) {
+            sensor.addClass('interestItem75');                    
+        }
+        else /*if (newImportance <= 100)*/ {
+            sensor.addClass('interestItem100');                    
+        }
+    }
+
+    sensorImportance[sensorID] = newImportance;
+
+    if (updateAll==true) {
+        saveInterests();
+        //update();
+    }
+}
+
+function newInterest(i) {
+    return {
+        id: i,
+        name: i
+    };
+}
+
+function addInterest(i, force) {
+
+    if (force!=true)
+        if (sensorImportance[i]!=undefined) //prevent adding duplicate
+            return;
+
+    var ni = newInterest(i);
+    interests.push(ni);
+
+    $('#CurrentInterests').append(templatize("#interestTemplate", ni));
+
+    setInterest(i, 25, true, true);
+
+}
+
+function removeInterest(i) {
+
+}
+
+function initSelfUI() {
+    applyTemplate("#presetTemplate", [
+
+        //{ name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
+        { name: "Camping", desc: "Camping in nature, away from civilization." },                            
+        //{ name: "3rd World Civilization", desc: "Developing regions must be ready to adapt to environmental problems." },                     
+        { name: "Food", desc: "Edible and drinkable substances" },
+        { name: "Disaster", desc: "When evacuation becomes a priority, avoid disaster with a set of minimal but critical concerns." },                            
+        { name: "Wellness", desc: "Healthcare, hospital, pharmacies, etc..." }
+    ], "#presetsSurvive" );    
+
+    applyTemplate("#presetTemplate", [
+
+        { name: "Fun", desc: "Entertainment and enjoyment" },           
+        { name: "Explore", desc: "Discover something new" },           
+        { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
+        { name: "Learn", desc: "Educational resources" },
+        { name: "Relax", desc: "Chill out, do nothing, sleep" }
+    ], "#presetsGrow" );
+
+    applyTemplate("#presetTemplate", [
+
+        { name: "Labor", desc: "Work and jobs that pay" },           
+        { name: "Volunteer", desc: "Opportunities to contribute" },           
+        { name: "Rescue", desc: "Help, liberate, or assist those in need or distress" },
+        { name: "Meet", desc: "Meet new people" }
+
+    ], "#presetsShare" );
+
+
+    loadSchema('/schema/schema.org.json', function() {
+        $('#EditMenu').append('<li><a href="#">Thing</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+        $('#EditMenu').superfish(); 
+
+    });
+
 }

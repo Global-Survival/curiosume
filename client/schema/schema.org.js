@@ -44,7 +44,7 @@ function loadTypeMenu(parent, children) {
             if (scLen > 0) {               
                 tt = loadTypeMenu(k, sc);
             }
-            s+= '<li><a href="javascript:addType(\'' + k + '\', null, null)">' + v.label + '</a>' + tt + '</li>';
+            s+= '<li><a href="javascript:addInterest(\'' + k + '\', null, null)">' + v.label + '</a>' + tt + '</li>';
         });
 
         return '<ul>' + s + '</ul>';
@@ -115,7 +115,7 @@ function loadPropertiesMenu(type, history) {
         }
     });
     if (level == 0)
-        t += '<li><a href="javascript:removeType(\'' + type + '\')"><i>Remove</i></a></li>';
+        t += '<li><a href="javascript:removeInterest(\'' + type + '\')"><i>Remove</i></a></li>';
     return '<ul> ' + t + '</ul>';
 }
 

@@ -18,7 +18,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
         <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>                        
         
-        <script src="/lib/jquery-tmpl/jquery.tmpl.js"></script> <!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script> -->
+        <script src="/lib/jquery-tmpl/jquery.tmpl.js"></script>
+        
         <script src="/lib/jstorage/jstorage.js"></script>
         <script src="/lib/jQuery-URL-Parser/purl.js"></script>
 
@@ -29,13 +30,16 @@
         <link rel="stylesheet" media="screen" href="/lib/superfish/css/superfish-navbar.css">
         <link rel="stylesheet" media="screen" href="/lib/superfish/css/superfish-vertical.css">
 
+        <script src="util.js"></script>
         <script src="map.js"></script>
         <script src="map.heatmap.js"></script>
         <script src="sensor.js"></script>
         <script src="environment.js"></script>
         <script src="self.js"></script>
         <script src="team.js"></script>
-        
+        <script src="schema/schema.org.js"></script>
+
+        <link rel="stylesheet" href="self.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="gss.css" type="text/css" media="all" />
 	<link rel="stylesheet" href="team.css" type="text/css" media="all" />
 	<link rel="stylesheet" href="environment.css" type="text/css" media="all" />
@@ -44,7 +48,7 @@
 
         <script id="presetTemplate" type="text/x-jquery-tmpl">
             <li>
-                <a href="javascript:enablePreset('${name}');">
+                <a href="javascript:addInterest('${name}');">
                     <p><b>${name}</b></p>
                     <p>${desc}</p>
                 </a>
@@ -57,14 +61,19 @@
             <div style="float: right; width: 55%"><p><b>${price}</b> ${reason}</p></div>
             <div style="clear:both"></div>
         </script>
-            
+
+        <script id="interestTemplate" type="text/x-jquery-tmpl">
+            <div id="Interest-${id}" class="InterestItem">
+                <p>${name}</p>
+                <div id="InterestControl-${id}"></div>
+            </div>
+        </script>
+        
+        
         <script>
             var activeIndicators = [];
             var nextCategoryID = 0, nextNewsID = 0, nextControlID = 0;
             
-            var sensors = { };
-            var sensorClient = { };
-            var sensorImportance = { };
             
             var layers = [];
             
@@ -85,52 +94,7 @@
                 $('#help').load('help.html');
             }
             
-            
-            function applyTemplate(template, params, target) {
-                $( template ).tmpl( params).appendTo( target );                          
-            }
-            
-            function templatize(template, params) {
-                return $( template ).tmpl( params);
-            }
-            
-             
-            function initPresets() {
-                
-                applyTemplate("#presetTemplate", [
-                    
-                    { name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
-                    { name: "Camping", desc: "Camping in nature, away from civilization." },                            
-                    { name: "3rd World Civilization", desc: "Developing regions must be ready to adapt to environmental problems." },                     
-                    { name: "Food", desc: "Edible and drinkable substances" },
-                    { name: "Disaster", desc: "When evacuation becomes a priority, avoid disaster with a set of minimal but critical concerns." },                            
-                    { name: "Wellness", desc: "Healthcare, hospital, pharmacies, etc..." }
-                ], "#presetsSurvive" );    
-
-                applyTemplate("#presetTemplate", [
-                    
-                    { name: "Fun", desc: "Entertainment and enjoyment" },           
-                    { name: "Explore", desc: "Discover something new" },           
-                    { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
-                    { name: "Learn", desc: "Educational resources" },
-                    { name: "Relax", desc: "Chill out, do nothing, sleep" }
-                ], "#presetsGrow" );
-                
-                applyTemplate("#presetTemplate", [
-                    
-                    { name: "Paid Labor", desc: "Work and jobs that pay" },           
-                    { name: "Volunteer", desc: "Opportunities to contribute" },           
-                    { name: "Rescue", desc: "Help, liberate, or assist those in need or distress" },
-                    { name: "Meet", desc: "Meet new people" }
-
-                ], "#presetsShare" );
-                
-                $(document).ready(function() { 
-                    $('#presetsMenu').superfish(); 
-                }); 
- 
-            }
-            
+           
             
             function removeMapLayers() {
                 for (i = 0; i < layers.length; i++) {
@@ -187,11 +151,17 @@
                 
                 $('body').load('gss.fixed.html', function() {
 
+                    loadSelf();
+                    loadInterests();
+
+                    initSensors();
+
+                    initSelfUI();
+                    
                     var tabs = $( "#tabs" ).tabs({
                         selected: 0
                     });
 
-                    initPresets();
 
                     initMap(function() {
                         update();
@@ -205,12 +175,9 @@
                         addMessage(message);
                     });
 
-                    loadSelf();
-
-                    initSensors();
                     
                     if (mode == 'bgmap') {
-                        $("#controls").dialog({
+                        $("#Self").dialog({
                                 height: 650,
                                 width: '20%',
                                 zIndex: 5000,
