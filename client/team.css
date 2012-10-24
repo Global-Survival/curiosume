@@ -10,7 +10,6 @@
 #teamRoster {
     width: 23%;
     float: right;
-    border: 1px solid gray;
 }
 
 #teamInput {
@@ -25,4 +24,8 @@
     border: 1px solid #ddd;
     padding: 0.5em;
     margin-bottom: 0.25em;
+}
+
+.RosterSummary {
+    border: 1px solid gray;
 }

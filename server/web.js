@@ -1,4 +1,6 @@
 var sensor = { };
+var clients = { };
+
 
 var config = require('../config.js');
 
@@ -41,6 +43,13 @@ io.set('transports', [                     // enable all transports (optional if
   , 'jsonp-polling'
 ]);
 
+function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+}
+
 io.sockets.on('connection', function(socket) {
   
     socket.on('distribute', function(message) {
@@ -60,6 +69,33 @@ io.sockets.on('connection', function(socket) {
         }
     });
     
+    socket.on('connectSelf', function(cid) {
+       if (cid == null) {
+           cid = uuid();
+           socket.emit('setClientID', cid);
+       } 
+       console.log('connect: ' + cid);
+       socket.set('clientID', cid);
+       
+       for (c in clients) {
+           if (c == cid) continue;
+           var s = clients[c];           
+           socket.emit('setClient', c, s);
+       }
+    });
+    
+    socket.on('updateSelf', function(s) {
+        socket.get('clientID', function (err, c) {
+            if (c == null) {
+                socket.emit('reconnect');
+            }
+            else {
+                console.log('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
+                clients[c] = s;
+                socket.broadcast.emit('setClient', c, s);
+            }
+        });
+    });
 });
 
 

@@ -2,6 +2,9 @@ var sensorImportance = { };
 var interests = []; //current set of interests
 var sensorClient = { };
 var sensorsInitted = false;
+var connected = false;
+
+var defaultInitialInterest = 25;
 
 function loadInterests() {
     sensorImportance = Self.get('interests');
@@ -15,12 +18,9 @@ function loadInterests() {
 
 
         if (v > 0) {
-            addInterest(k, true);
+            addInterest(k, true, false);
             setInterest(k, v, true, false);
         }
-        /*else {
-            setInterest(k, 0, true, false);
-        }*/
     }
 
     updateSelf();
@@ -66,8 +66,23 @@ function updateSelfUI() {
     //...
 }
 
+function getSelfSnapshot() {
+    return {
+        name: Self.get('name'),
+        geolocation: Self.get('geolocation'),
+        interests: Self.get('interests')
+    };
+}
+
+function connectSelf() {
+    socket.emit('connectSelf', Self.get('clientID'));
+}
 function updateSelf() {
-    
+    if (!connected) {
+        connectSelf();
+        connected = true;
+    }
+    socket.emit('updateSelf', getSelfSnapshot());
 }
 
 function getInterestItem(sensor) { return $('#Interest-' + sensor); }
@@ -140,7 +155,7 @@ function newInterest(i) {
     };
 }
 
-function addInterest(i, force) {
+function addInterest(i, force, update) {
 
     if (force!=true)
         if (sensorImportance[i]!=undefined) //prevent adding duplicate
@@ -151,7 +166,10 @@ function addInterest(i, force) {
 
     $('#CurrentInterests').append(templatize("#interestTemplate", ni));
 
-    setInterest(i, 25, true, true);
+    if (update == undefined)
+        update = true;
+    
+    setInterest(i, defaultInitialInterest, true, update);
 
 }
 

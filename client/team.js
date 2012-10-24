@@ -1,3 +1,5 @@
+var clients = { };
+
 function sendMessage(x) {
     if (x === undefined) {
         x = "<b>" + Self.get("name") + "</b>: " + $("#MessageInput").val();
@@ -48,4 +50,23 @@ function addMessage(h) {
 
 function receiveMessage(m) {
     addMessage(m);
+}
+
+function setClient(cid, s) {
+    clients[cid] = s;
+    
+    var ds = cid + '-summary';
+    var r = $('#' + ds);
+
+    if (r.length == 0) {
+        r = $('<div id="' + ds + '" class="RosterSummary"></div>');
+        r.appendTo('#teamRoster');
+    }
+    
+    r.html('<a href="javascript:showClient(\'' + cid + '\');">' + s.name + '</a>');
+    
+}
+
+function showClient(cid) {
+    alert(cid);
 }
