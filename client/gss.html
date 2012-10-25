@@ -150,13 +150,16 @@
                 }                                
                 
                 $('body').load('gss.fixed.html', function() {
+                    loadSchema('/schema/schema.org.json', function() {
 
-                    loadSelf();
-                    loadInterests();
+                        loadSelf();
+                        loadInterests();
 
-                    initSensors();
+                        initSensors();
 
-                    initSelfUI();
+                        initSelfUI();
+                    });
+
                     
                     var tabs = $( "#tabs" ).tabs({
                         selected: 0

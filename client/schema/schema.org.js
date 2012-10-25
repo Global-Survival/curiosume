@@ -52,7 +52,11 @@ function loadTypeMenu(parent, children) {
 }
 
 function getProperties(type) {
-    return schema.types[type].properties;
+    var t = schema.types[type];
+    if (t!=undefined)
+        return schema.types[type].properties;
+    else
+        return [];
 }
 
 function isCommonProperty(v) {

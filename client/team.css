@@ -29,3 +29,6 @@
 .RosterSummary {
     border: 1px solid gray;
 }
+.RosterFull {
+    /*display: none;*/
+}

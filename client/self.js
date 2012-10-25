@@ -166,6 +166,26 @@ function addInterest(i, force, update) {
 
     $('#CurrentInterests').append(templatize("#interestTemplate", ni));
 
+
+    var types = getProperties(i);
+    if (types.length > 0) {
+        
+        var tm = '<ul class="sf-menu"><li><a href="#">[+]</a><ul>';
+        for (var j = 0; j < types.length; j++) {
+            tm += '<li><a href="#">' + types[j] + '</a></li>';
+        }
+        tm += '</ul></li></ul>';
+        
+        var r = $(tm);
+        r.prependTo('#Interest-' + i);
+        r.superfish();
+        //$('#Interest-' + i + ' ul').superfish();
+        //$('#Interest-' + i).append(tm);
+        
+    }
+   
+
+
     if (update == undefined)
         update = true;
     
@@ -208,10 +228,7 @@ function initSelfUI() {
     ], "#presetsShare" );
 
 
-    loadSchema('/schema/schema.org.json', function() {
-        $('#EditMenu').append('<li><a href="#">Thing</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
-        $('#EditMenu').superfish(); 
-
-    });
+    $('#EditMenu').append('<li><a href="#">Thing</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+    $('#EditMenu').superfish(); 
 
 }

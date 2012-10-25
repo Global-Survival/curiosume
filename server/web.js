@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket) {
        } 
        console.log('connect: ' + cid);
        socket.set('clientID', cid);
-       
+
        for (c in clients) {
            if (c == cid) continue;
            var s = clients[c];           

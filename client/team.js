@@ -63,10 +63,26 @@ function setClient(cid, s) {
         r.appendTo('#teamRoster');
     }
     
-    r.html('<a href="javascript:showClient(\'' + cid + '\');">' + s.name + '</a>');
+    var x = '<a href="javascript:showClient(\'' + cid + '\');">' + s.name + '</a>' ;
+    
+    x += '<div id="' + ds + 'Full" class="RosterFull">' + s.geolocation + '<br/>';
+    for (var i in s.interests) {
+        x += i + ':' + s.interests[i] + '<br/>';
+    }
+    x += '</div>';
+    
+    r.html(x);
     
 }
 
 function showClient(cid) {
-    alert(cid);
+    var ds = cid + '-summaryFull';
+    //$('#' + ds).toggle();
+    
+/*    $('#' + ds).dialog({
+			height: 650,
+                        width: '70%',
+                        zIndex: 5000,
+                        title: clients[cid].name,
+		});    */
 }
