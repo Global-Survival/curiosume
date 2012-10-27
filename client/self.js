@@ -172,7 +172,16 @@ function addInterest(i, force, update) {
         
         var tm = '<ul class="sf-menu"><li><a href="#">[+]</a><ul>';
         for (var j = 0; j < types.length; j++) {
-            tm += '<li><a href="#">' + types[j] + '</a></li>';
+            var v = types[j];
+            if (isCommonProperty(v)) {
+                //do not add
+            }
+            else if (schema.properties[v].comment.indexOf('legacy spelling')!=-1) {
+
+            }
+            else {
+                tm += '<li><a href="#">' + v + '</a></li>';
+            }             
         }
         tm += '</ul></li></ul>';
         
@@ -228,7 +237,12 @@ function initSelfUI() {
     ], "#presetsShare" );
 
 
-    $('#EditMenu').append('<li><a href="#">Thing</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+    $('#EditMenu').append('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
     $('#EditMenu').superfish(); 
 
+}
+
+
+function toggleProfile() {
+    $('#Profile').toggle(500);
 }
