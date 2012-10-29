@@ -2,6 +2,7 @@
     "name":"netjs2",
     "version":"0.0.1",
     "dependencies":{
+	"request":"",
         "http":"",
 	"url":"",
 	"fs":"",
@@ -9,5 +10,9 @@
 	"socket.io": "",
 	"node-static":"",
 	"always":""
+    },
+    "engines": {
+	"node": "0.8.x", 
+	"npm": "1.1.x"
     }
 }
