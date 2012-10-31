@@ -1,0 +1,297 @@
+body {
+    font-family: Arial;
+    margin: 1em;
+}
+
+
+root { 
+    display: block;
+}
+
+
+.smallLabel {
+    font-size: 16px;
+}
+
+#_Panel {
+    text-align:left;
+    font-family:Arial,Sans;
+    color: white;
+}
+.PanelWide {
+    width:100%;
+    float: none;
+}
+.PanelNarrow {
+    width: 73%;
+    float: right;
+}
+
+#_Content {
+    clear:both;
+    -webkit-transition: opacity 0.5s ease-in-out; //for chrome, safari
+    -moz-transition: opacity 0.5s ease-in-out; //for mozilla firefox
+    -o-transition: opacity 0.5s ease-in-out; //for opera
+}
+#nodeLinks {
+    margin: 1em;    
+}
+#Neighborhood {
+    left:2.5%;
+    bottom: 5%;
+    width: 95%;
+    z-index: 10;  
+}
+#neighborTable {
+    color: gray;
+    width: 100%;
+}
+.neighborhooditem {
+    margin: 0;
+    padding: 0.2em;
+}
+
+.neighbor_summary_out {
+    background-color: #003;
+}
+.neighbor_summary_out:nth-child(odd) {
+    background-color: #004;
+}
+.neighbor_summary_in {
+    background-color: #300;
+}
+.neighbor_summary_in:nth-child(odd) {
+    background-color: #400;
+}
+.neighbor_summary_prop {
+    background-color: #030;
+}
+.neighbor_summary_prop:nth-child(odd) {
+    background-color: #040;
+}
+
+#Loading {
+   background: url('/icons/loading.gif') no-repeat;
+   background-size: 100%;
+   width: 100%;
+   height: 90%;
+}
+
+
+#mainContent {
+}
+
+#propertyContent {
+    margin-bottom: 1em;
+}
+
+#_Images {
+    margin: 3%;
+}
+
+#Status {
+    cursor: crosshair;
+}
+#_Font {
+    cursor: crosshair;
+}
+
+
+
+
+#_Speech {
+    position: absolute; left: 1%; bottom: 0px; overflow: hidden;
+    background-color: #888;
+    display:none;
+}
+
+
+a, a.visited {
+    color: black;
+    font-family: Arial, Sans;
+}
+
+
+#_Top {
+
+}
+#_Top ul {
+}
+
+
+
+            #nodelist {
+                height: 85%;
+                width: 100%;
+                overflow: auto;
+            }
+            .nodeWideIcon {
+                padding: 0.25em;
+                margin-bottom: 0.25em;
+                background-color: rgba(128, 128, 128, 0.5);
+            }
+            .nodeWideIcon:nth-child(even) {
+                background-color: rgba(148, 148, 148, 0.5)
+            }
+            
+            #browseMap {
+                width: 100%;
+                height: 450px;
+            }
+
+
+.menu{
+    border:none;
+    border:0px;
+    margin:0px;
+    padding:0px;
+    font-size:18px;
+    font-weight:bold;
+    z-index: 20;
+    clear:both;
+}
+
+.sf-menu ul {
+    width: 20em;
+}
+
+/*
+
+#_Top .sf-menu li:nth-child(1) { background-color: #009; }
+#_Top .sf-menu li:nth-child(2) { background-color: #018; }
+#_Top .sf-menu li:nth-child(3) { background-color: #027; }
+#_Top .sf-menu li:nth-child(4) { background-color: #036; }
+#_Top .sf-menu li:nth-child(5) { background-color: #045; }
+#_Top .sf-menu li:nth-child(6) { background-color: #054; }
+#_Top .sf-menu li:nth-child(7) { background-color: #063; }
+#_Top .sf-menu li:nth-child(8) { background-color: #072; }
+*/
+#_Top .sf-menu li {
+    margin-right: 0.3em;
+}
+
+#_Top .sf-menu a  {
+    padding: 0;
+}
+#_Top .sf-menu a.sf-with-ul {
+    padding-right: 0;
+}
+.MenuButtonHighlighted {
+    /*background-color: white;*/
+}
+
+
+#_Control {
+    font-family: Arial, Sans;
+}
+
+a {
+    color: white;
+}
+
+
+
+
+a:hover {text-decoration:none;} /*BG color is a must for IE6*/
+a.tooltip span {display:none; padding:2px 3px; margin-left:-70px; margin-top: 0px; width:140px; z-index: 400;}
+a.tooltip:hover span{display:inline; position:absolute; color:#000;}
+
+/* a.tooltipAbove span {display:none; margin-left:-200px;  margin-bottom: 60px; width:300px; font-size: 14px; }
+a.tooltipAbove:hover span{display:inline; position:absolute;  color:white;} */
+
+
+#EditMenuBar {
+    float: left; 
+    width: 100%;
+    clear:both;
+}
+#EditMenuArea {
+    float: left; 
+    width: 100%;
+    border: 1px solid gray;
+    clear:both;
+}
+#NodeSource {
+    width: 100%;
+    height: 300px;
+    font-size: 150%;
+}
+.sf-menu {
+    margin-bottom: 0px;
+}
+.sf-menu li { 
+    padding: 0.5em;
+}
+.sf-menu li li {
+    background-color: rgba(25,25,25,0.95);
+}
+.sf-menu li li li {
+    background-color: rgba(24,24,24,0.95);
+}
+.sf-menu li li li li {
+    background-color: rgba(23,23,23,0.95);
+}
+.sf-menu a, .sf-menu a:visited {
+    color: #ddd;
+}
+.sf-menu li:hover, .sf-menu li.sfHover,
+.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+/*	background-color:		#454545;
+	outline:		0;
+        color: #fff;*/
+}
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+    /*background: #CFCFCF;
+    outline: 0;*/
+    background: none;
+}
+
+.topMenuButton {
+    width: 1.5em; 
+    height: 1.5em;
+}
+#_Top button {
+    background: none;
+    border: none;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background-color: rgba(128,128,128,0.5);
+}
+
+#EditMenuBar, #EditBottom {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#EditMenuBar li { 
+    padding-bottom: 1em;
+}
+
+.firstLine {
+    font-weight: bold;
+}
+#Status {
+    float:left;
+}
+#EditButtons {
+    float: right;
+}
+
+#listArea {
+    float: left;
+    width: 22%;
+}
+#contentArea {
+    float: right;
+    width: 71%;
+}
+#listArea ul {
+    width: 100%;
+}
+
+.ui-body-c, .ui-overlay-c {
+    text-shadow: none;
+}
+#editArea, #viewArea {
+    display: none;
+}
