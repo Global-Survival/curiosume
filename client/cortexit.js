@@ -9,6 +9,8 @@ function cortexitSetFrame(ee, n) {
 	
 	ee.data('frame', n);
 	ee.data('numFrames', num);
+	
+	$('#' + e.id + ' .cortexitMenu .cortexitMenuButton').html((n+1) + '/' + (num));
 }
 
 function cortexitSetNextFrame(e, deltaFrames) {
@@ -64,35 +66,82 @@ function cortexit(elementID) {
 	
 	var e = $('#' + elementID);
 	e.addClass('cortexitWrap');
+	e.attr('tabindex', 1);
 	
 	var internalP = $('#' + elementID + ' p');
 	internalP.addClass('pHidden');
 	
+	var fontLarger = function() {
+		updateFont(content[0], +fontSizeDelta);		
+	};
+	var fontSmaller = function() {
+		updateFont(content[0], -fontSizeDelta);		
+	};
+	var goNext = function() {
+		cortexitSetNextFrame(e, +1);
+	};
+	var goPrev = function() {
+		cortexitSetNextFrame(e, -1);
+	};
+	
 	var content = $('<div class="cortexitContent" style="font-size: ' + defaultFontSize + 'px"></div>');
+	
+	console.log(document.getElementById(elementID));
+	console.log(document.getElementById(elementID).onkeydown);
+	document.getElementById(elementID).onkeydown = function(e){
+	    var keycode;
+	    if (e == null) { // ie
+	        keycode = event.keyCode;
+	    } else { // mozilla
+	        keycode = e.which;
+	    }
+	        
+	    //if (!widgets['Edit']) {
+	            
+	        if (keycode == 37) {
+	            //left
+	            goPrev();
+	        }
+	        else if (keycode == 38) {
+	            //up
+	            fontLarger();
+	        }
+	        else if (keycode == 39) {
+	            //right
+	            goNext();
+	        }
+	        else if (keycode == 40) {
+	            //down
+	            fontSmaller();
+	        }
+	    //}
+	};
+
 	content.appendTo(e);
 	
 	var m = $('<div class="cortexitMenu"></div>');
 	
-	var fontSizer = $('<span class="fontSizer">v^</span>');
+	var fontSizer = $('<span class="fontSizer">v ^</span>');
 	onScroll(fontSizer, function(delta) {
 		if (delta < 0)
-			updateFont(content[0], -fontSizeDelta);
+			fontSmaller();
 		else if (delta > 0)
-			updateFont(content[0], +fontSizeDelta);					
+			fontLarger();					
 	});	
 	fontSizer.appendTo(m);
 	
-	$('<span class="prevFrame">&lt;-</span>').appendTo(m);	
+	//$('<span class="prevFrame">&lt;-</span>').appendTo(m);
+	
 	var button = $('<span class="cortexitMenuButton">*/*</span>');
 	onScroll(button, function(delta) {
 		if (delta < 0)
-			cortexitSetNextFrame(e, -1);
+			goPrev();
 		else if (delta > 0)
-			cortexitSetNextFrame(e, +1);							
+			goNext();							
 	});
 	button.appendTo(m);
 	
-	$('<span class="prevFrame">-&gt;</span>').appendTo(m);
+	//$('<span class="prevFrame">-&gt;</span>').appendTo(m);
 	
 	m.appendTo(e);
 	
