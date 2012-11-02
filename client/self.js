@@ -85,8 +85,8 @@ function updateSelf() {
     socket.emit('updateSelf', getSelfSnapshot());
 }
 
-function getInterestItem(sensor) { return $('#Interest-' + sensor); }
-function getInterestControls(sensor) { return $('#InterestControl-' + sensor); }
+function getInterestItem(sensor) { return $('#Interest-' + interestElements[sensor]); }
+function getInterestControls(sensor) { return $('#InterestControl-' + interestElements[sensor]); }
 
 function setInterest(sensorID, newImportance, force, updateAll) {
     //console.log('sensor: ' + sensor + ' importance=' + newImportance);
@@ -155,6 +155,14 @@ function newInterest(i) {
     };
 }
 
+//function eid(myid) { 
+//	return myid.replace(/(:|\.\/)/g,'\\$1');
+//}
+
+var urlInterests = {};
+var nextURLInterest = 0;
+var interestElements = {};
+
 function addInterest(i, force, update) {
 
     if (force!=true)
@@ -164,8 +172,26 @@ function addInterest(i, force, update) {
     var ni = newInterest(i);
     interests.push(ni);
 
-    $('#CurrentInterests').append(templatize("#interestTemplate", ni));
+    var eid = ni.id;
+    var ename = ni.name;
+    
+    //use a sequential element ID instead of putting the URL in the element (which may contain invalid characters for jQuery selectors)
+    if (i.indexOf('http://')==0) {
+    	eid = 'URL'+nextURLInterest;
+    	nextURLInterest++;
+    }    
+    
+	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"><p>' + ename + '</p><div id="InterestControl-' + eid + '"></div></div>');
+    $('#CurrentInterests').append(ss);
 
+    //annotate the interest with extra controls and menus
+    if (i.indexOf('http://')==0) {
+    	var cortexitButton = $('<button>Read</button>');
+    	cortexitButton.click(function() {
+    		showCortexit(i);
+    	});
+    	$('#Interest-'+eid).append(cortexitButton);    
+    }
 
     var types = getProperties(i);
     if (types.length > 0) {
@@ -186,20 +212,25 @@ function addInterest(i, force, update) {
         tm += '</ul></li></ul>';
         
         var r = $(tm);
-        r.prependTo('#Interest-' + i);
+        r.prependTo('#Interest-' + eid);
         r.superfish();
         //$('#Interest-' + i + ' ul').superfish();
         //$('#Interest-' + i).append(tm);
         
     }
-   
-
 
     if (update == undefined)
         update = true;
     
+    interestElements[i] = eid;
+    
     setInterest(i, defaultInitialInterest, true, update);
 
+}
+
+function addURL() {
+	var url = window.prompt("Webpage URL","http://");
+	addInterest(url, true, true);
 }
 
 function removeInterest(i) {
@@ -245,4 +276,19 @@ function initSelfUI() {
 
 function toggleProfile() {
     $('#Profile').toggle(500);
+}
+
+var cortexitID = 0;
+function showCortexit(url) {
+    socket.emit('getSentencized', url, function(s) {
+    	console.dir(s);
+    	
+    	var cid = 'cortexit-' + cortexitID;
+    	var d = $('<div id="' + cid + '" style="position:fixed; height:90%; top: 5%; width: 90%; left: 5%;"></div>');
+    	for (var i = 0; i < s.length; i++) {
+    		d.append($('<p>' + s[i] + '</p>'));
+    	}
+    	$('body').append(d);
+    	cortexit(cid);
+    });	
 }

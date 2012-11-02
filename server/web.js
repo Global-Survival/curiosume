@@ -3,6 +3,7 @@ var clients = { };
 
 
 var config = require('../config.js');
+var cortexit = require('./cortexit.js');
 
 var http = require('http')
   , url = require('url')
@@ -96,6 +97,11 @@ io.sockets.on('connection', function(socket) {
             }
         });
     });
+    
+    socket.on('getSentencized', function(urlOrText, withResult) {
+    	cortexit.getSentencized(urlOrText, withResult);
+    });
+    
 });
 
 
@@ -120,6 +126,11 @@ function addSensor(path) {
 
     
 };
+
+// process.on('uncaughtException', function (err) {
+   // console.error('An uncaught error occurred!');
+   // console.error(err.stack);
+// });
 
 addSensor('geology/USGSEarthquake');
 addSensor('pollution/IAEANuclear');

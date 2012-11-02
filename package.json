@@ -9,7 +9,8 @@
 	"util":"",
 	"socket.io": "",
 	"node-static":"",
-	"always":""
+	"always":"",
+	"apricot":""
     },
     "engines": {
 	"node": "0.8.x", 
