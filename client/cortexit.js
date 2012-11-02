@@ -61,7 +61,7 @@ function onScroll(element, s) {
 }
 
 function cortexit(elementID) {
-	var defaultFontSize = 16;
+	var defaultFontSize = 32;
 	var fontSizeDelta = 4;
 	
 	var e = $('#' + elementID);
@@ -111,7 +111,7 @@ function cortexit(elementID) {
 	
 	var m = $('<div class="cortexitMenu"></div>');
 	
-	var fontSizer = $('<span class="cortexitFontSizer">v ^</span>');
+	var fontSizer = $('<span class="cortexitFontSizer">-/+</span>');
 	onScroll(fontSizer, function(delta) {
 		if (delta < 0)
 			fontSmaller();
@@ -145,7 +145,7 @@ function cortexit(elementID) {
 	submenu.appendTo(m);
 	
 	button.click(function() {
-		submenu.toggle();
+		submenu.toggle('fast');
 	});
 	
 
