@@ -86,8 +86,6 @@ function cortexit(elementID) {
 	
 	var content = $('<div class="cortexitContent" style="font-size: ' + defaultFontSize + 'px"></div>');
 	
-	console.log(document.getElementById(elementID));
-	console.log(document.getElementById(elementID).onkeydown);
 	document.getElementById(elementID).onkeydown = function(e){
 	    var keycode;
 	    if (e == null) { // ie
@@ -98,22 +96,14 @@ function cortexit(elementID) {
 	        
 	    //if (!widgets['Edit']) {
 	            
-	        if (keycode == 37) {
-	            //left
+	        if (keycode == 37)		            //left
 	            goPrev();
-	        }
-	        else if (keycode == 38) {
-	            //up
+	        else if (keycode == 38)	            //up
 	            fontLarger();
-	        }
-	        else if (keycode == 39) {
-	            //right
+	        else if (keycode == 39)	            //right
 	            goNext();
-	        }
-	        else if (keycode == 40) {
-	            //down
+	        else if (keycode == 40)	            //down
 	            fontSmaller();
-	        }
 	    //}
 	};
 
@@ -121,7 +111,7 @@ function cortexit(elementID) {
 	
 	var m = $('<div class="cortexitMenu"></div>');
 	
-	var fontSizer = $('<span class="fontSizer">v ^</span>');
+	var fontSizer = $('<span class="cortexitFontSizer">v ^</span>');
 	onScroll(fontSizer, function(delta) {
 		if (delta < 0)
 			fontSmaller();
@@ -132,7 +122,7 @@ function cortexit(elementID) {
 	
 	//$('<span class="prevFrame">&lt;-</span>').appendTo(m);
 	
-	var button = $('<span class="cortexitMenuButton">*/*</span>');
+	var button = $('<a href="#" class="cortexitMenuButton">*/*</a>');
 	onScroll(button, function(delta) {
 		if (delta < 0)
 			goPrev();
@@ -140,6 +130,25 @@ function cortexit(elementID) {
 			goNext();							
 	});
 	button.appendTo(m);
+	
+	var submenu = $('<div class="cortexitSubMenu" style="display:none"></div>');
+	{
+		$('<span>translate</span>').appendTo(submenu);
+		$('<span>edit</span>').appendTo(submenu);
+		$('<span>images</span>').appendTo(submenu);
+		$('<span>speak</span>').appendTo(submenu);
+		$('<span>theme</span>').appendTo(submenu);
+		$('<span>strobe</span>').appendTo(submenu);
+		$('<span>share</span>').appendTo(submenu);
+		$('<span>remember</span>').appendTo(submenu);
+	}
+	submenu.appendTo(m);
+	
+	button.click(function() {
+		submenu.toggle();
+	});
+	
+
 	
 	//$('<span class="prevFrame">-&gt;</span>').appendTo(m);
 	
