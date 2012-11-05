@@ -43,11 +43,11 @@
         <script src="cortexit.js"></script>
 
         <link rel="stylesheet" href="self.css" type="text/css" media="screen" />
-	<link rel="stylesheet" href="gss.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="team.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="environment.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="gss.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="team.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="environment.css" type="text/css" media="all" />
                 
-        <title>Global Survival System - Map</title>
+        <title>Netention - Global Survival System - Map</title>
 
         <script id="presetTemplate" type="text/x-jquery-tmpl">
             <li>
@@ -57,18 +57,16 @@
                 </a>
             </li>
         </script>
-        
+                
         <script id="productSuggestionTemplate" type="text/x-jquery-tmpl">            
             May need: <a href="${link}">${name}</a><br/>
             <div style="float: left; width: 40%"><img src="${imageURL}"/></div>
             <div style="float: right; width: 55%"><p><b>${price}</b> ${reason}</p></div>
             <div style="clear:both"></div>
         </script>
-
         
         
         <script>
-            var activeIndicators = [];
             var nextCategoryID = 0, nextNewsID = 0, nextControlID = 0;
             
             
@@ -82,12 +80,12 @@
             function showHelp() {
                 $('#help').html('<center>Loading...</center>');
                 $("#help").dialog({
-			height: 650,
+						height: 650,
                         width: '90%',
                         zIndex: 5000,
                         title: 'Help',
-			modal: true
-		});
+						modal: true
+				});
                 $('#help').load('help.html');
             }
             

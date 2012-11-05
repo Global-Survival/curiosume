@@ -1,0 +1,145 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>My Page</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+	<style>
+		.nameInput {
+			width: 100%;
+			font-size: 150%;
+		}
+		.valueInput {
+			width: 95%;
+			font-size: 125%;
+			margin-bottom: 0.4em;
+		}
+		
+		.updateButton {
+			font-weight: bold;
+		}
+		
+		.eBottom {
+			border-top: 1px solid gray;
+			clear: both;
+			float: right;
+			width: 100%;
+			text-align: right;
+		}
+		.typeCollapsible {
+			margin-left: 1em;
+		}
+		.typeMenu {
+			float: left;
+			width: 32%;
+		}
+		.valueArea {
+			overflow: auto;
+			width: 63%;
+			float: right;
+			margin-top: 0.5em;
+		}
+		
+		
+	</style>
+	
+	<script>
+    
+		function getTypeLabel(typeID) {
+			return typeID;
+		}
+		
+		function initObjectEditor(ele, object) {
+			var e = $('#' + ele);
+
+			var name = object.name;
+			
+			$('<input class="nameInput" type="text" autofocus="true" placeholder="Title" value="' + name + '"></input>').appendTo(e);
+			
+			var typeMenu = $('<div data-role="navbar" class="typeMenu"></div>');
+			
+			var addTypeButton = $('<div data-role="collapsible" data-collapsed="true"><h3>+</h3></div>');
+			addTypeButton.collapsible();
+			addTypeButton.appendTo(typeMenu);
+			
+			{
+				for (i = 0; i < object.types.length; i++) {
+					var t = object.types[i];
+					var m = $('<div data-role="collapsible" data-collapsed="true" class="typeCollapsible"></div>');
+					//var m = $('div[data-role=collapsible]');
+					$('<h3>' + getTypeLabel(t) + '</h3>').appendTo(m);
+					$('<p>Item 1</p>').appendTo(m);
+					$('<p>Item 2</p>').appendTo(m);
+					m.collapsible();
+										
+					m.appendTo(typeMenu);
+					
+				}
+			}
+			typeMenu.appendTo(e);
+			
+			var valueArea = $('<div class="valueArea"></div>');
+			for (var j = 0; j < object.values.length; j++) {
+				var v = object.values[j];
+				var vs = JSON.stringify(v);
+				var ivs = $('<input class="valueInput" type="text"/>');
+				ivs.attr('value', vs);
+				ivs.appendTo(valueArea);
+			}
+			valueArea.appendTo(e);
+			
+			var eBottom = $('<div class="eBottom"></div>');
+			{
+				var deleteButton = $('<a href="#" data-role="button" data-icon="delete" data-inline="true">Delete</a>');
+				deleteButton.button();
+				deleteButton.appendTo(eBottom);
+	
+				var updateButton = $('<a href="#" data-role="button" data-icon="check" data-theme="b" data-inline="true" class="updateButton">Update</a>');
+				updateButton.button();
+				updateButton.appendTo(eBottom);
+			}			
+			eBottom.appendTo(e);
+			
+			$.mobile.changePage();
+		}
+		
+	    $(document).ready(function(){
+	    	
+	    	initObjectEditor('editor', {
+	    		id: 'demo:DanteSemanticKitchen1',
+	    		name: 'Dante\'s Semantic Kitchen',
+	    		types: [ 'FoodEvent', 'Recipe' ],
+	    		values: [
+	    		         { 'startTime': '3am'},
+	    		         { 'numGuests': 'between 2 and 5' },
+	    		         { 'food': 'Quinoia' },
+	    		         { 'food': 'Mixed Vegetables' },
+	    		         { 'comment': 'Thanks I will be there and bring vitamins' },	    		         
+	    		]	    		
+	    	});
+	    	
+	    });
+	
+	</script>
+</head> 
+
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Object Editor Demo</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+				
+		<div id="editor" style="max-width: 600px; margin-left: auto;  margin-right: auto"></div>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+</body>
+</html>

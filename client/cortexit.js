@@ -60,7 +60,7 @@ function onScroll(element, s) {
 	});
 }
 
-function cortexit(elementID) {
+function cortexit(elementID, params) {
 	var defaultFontSize = 32;
 	var fontSizeDelta = 4;
 	
@@ -83,6 +83,12 @@ function cortexit(elementID) {
 	var goPrev = function() {
 		cortexitSetNextFrame(e, -1);
 	};
+	var onClose = function() {	}
+	
+	if (params!=undefined) {
+		if (params.onClose)
+			onClose = params.onClose;
+	}
 	
 	var content = $('<div class="cortexitContent" style="font-size: ' + defaultFontSize + 'px"></div>');
 	
@@ -104,6 +110,8 @@ function cortexit(elementID) {
 	            goNext();
 	        else if (keycode == 40)	            //down
 	            fontSmaller();
+	        else if (keycode == 27) //escape
+	        	onClose();
 	    //}
 	};
 

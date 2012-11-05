@@ -1,20 +1,21 @@
-var sensorImportance = { };
+var interestStrength = { };
 var interests = []; //current set of interests
 var sensorClient = { };
+
 var sensorsInitted = false;
 var connected = false;
 
 var defaultInitialInterest = 25;
 
 function loadInterests() {
-    sensorImportance = Self.get('interests');
-    if (sensorImportance == null) {
-        sensorImportance = { };    
+    interestStrength = Self.get('interests');
+    if (interestStrength == null) {
+        interestStrength = { };    
     }
 
-    for (var k in sensorImportance) {
+    for (var k in interestStrength) {
         var s = getInterestItem(k);
-        var v = sensorImportance[k];
+        var v = interestStrength[k];
 
 
         if (v > 0) {
@@ -40,8 +41,8 @@ function loadSelf() {
 
 function saveInterests() {
     var si = { };
-    for (var k in sensorImportance) {
-        var v = sensorImportance[k];
+    for (var k in interestStrength) {
+        var v = interestStrength[k];
         if (v > 0) {
             si[k] = v;
         }
@@ -90,7 +91,7 @@ function getInterestControls(sensor) { return $('#InterestControl-' + interestEl
 
 function setInterest(sensorID, newImportance, force, updateAll) {
     //console.log('sensor: ' + sensor + ' importance=' + newImportance);
-    var oldImportance = sensorImportance[sensorID];
+    var oldImportance = interestStrength[sensorID];
     if (force!=true) {
         if (oldImportance == newImportance)
             return;
@@ -139,7 +140,7 @@ function setInterest(sensorID, newImportance, force, updateAll) {
             sensor.addClass('interestItem100');                    
         }
 
-        sensorImportance[sensorID] = newImportance;
+        interestStrength[sensorID] = newImportance;
     }
 
     if (updateAll==true) {
@@ -166,7 +167,7 @@ var interestElements = {};
 function addInterest(i, force, update) {
 
     if (force!=true)
-        if (sensorImportance[i]!=undefined) //prevent adding duplicate
+        if (interestStrength[i]!=undefined) //prevent adding duplicate
             return;
 
     var ni = newInterest(i);
@@ -235,7 +236,7 @@ function addURL() {
 
 function removeInterest(i) {
     getInterestItem(i).fadeOut();
-    delete sensorImportance[i];
+    delete interestStrength[i];
 }
 
 function initSelfUI() {
@@ -281,14 +282,17 @@ function toggleProfile() {
 var cortexitID = 0;
 function showCortexit(url) {
     socket.emit('getSentencized', url, function(s) {
-    	console.dir(s);
-    	
     	var cid = 'cortexit-' + cortexitID;
-    	var d = $('<div id="' + cid + '" style="position:fixed; height:90%; top: 5%; width: 90%; left: 5%;"></div>');
+    	var d = $('<div id="' + cid + '" style="position:fixed; height:90%; top: 3%; width: 90%; left: 5%;"></div>');
     	for (var i = 0; i < s.length; i++) {
     		d.append($('<p>' + s[i] + '</p>'));
     	}
     	$('body').append(d);
-    	cortexit(cid);
+    	cortexit(cid, {
+    		onClose: function() {
+    			d.hide();
+    		}
+    	});
+    	cortexitID++;
     });	
 }
