@@ -106,11 +106,28 @@ function setInterest(sensorID, newImportance, force, updateAll) {
     var controls = getInterestControls(sensorID);
     
     //if (oldImportance == 0) {
-        var ch = '<input title="Importance" type="range" value="' + newImportance + 
-            '" min="0" max="100" step="25" alt="Importance" onChange="setInterest(\'' + sensorID + '\', this.value, false, true);" />';
+        var ch = $('<span class="ImportanceButtons"/>');
+
+        function addButton(label, value) {
+            var b = $('<button>').html(label);
+            b.click(function(event) {
+            	setInterest( sensorID, value, false, true)
+            	event.stopImmediatePropagation();            	
+            });
+            
+            if (value!=0)
+            	b.addClass('interestItem'+value);
+            ch.append(b);        	
+        }
+        addButton('&#9587', 0);
+        addButton('&nbsp;&nbsp;', 25);
+        addButton('&nbsp;&nbsp;', 50);
+        addButton('&nbsp;&nbsp;', 75);        
+        addButton('&nbsp;&nbsp;', 100);
+        
         if (sensorClient[sensorID]!=undefined) {
             if (sensorClient[sensorID].getControlHTML!=undefined) {
-                ch = ch + sensorClient[sensorID].getControlHTML();
+                ch.append( sensorClient[sensorID].getControlHTML() );
             }
         }
 
@@ -163,6 +180,7 @@ function newInterest(i) {
 var urlInterests = {};
 var nextURLInterest = 0;
 var interestElements = {};
+var selectedInterests = [];
 
 function addInterest(i, force, update) {
 
@@ -184,23 +202,32 @@ function addInterest(i, force, update) {
     
 	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
     $('#CurrentInterests').append(ss);
-
-    
-
-    var cb = $('<input type="checkbox" name="checkbox-0" id="checkbox-mini-0" class="custom" data-mini="true" data-inline="true" />');
-    cb.click(function() {
-    	var c = $(this).attr("checked");
-    	if (c) {
+    ss.click(function() {
+    	var s = ss.data('selected');
+    	s = !s;
+    	ss.data('selected', s);
+    	
+    	if (s) {
     		ss.addClass('interestSelected');
+    		selectedInterests.push(i);
     	}
     	else {
     		ss.removeClass('interestSelected');
+    		selectedInterests.splice(selectedInterests.indexOf(i),1);
     	}
+    	
+    	if (selectedInterests.length > 0) {
+    		$('#NewObjectFromInterestsWrapper').show();
+    	}
+    	else {
+    		$('#NewObjectFromInterestsWrapper').hide();
+    	}
+    		
     });
     
-    ss.prepend(cb);
-    ss.append(ename + '<br/>');
-    ss.append('<div id="InterestControl-' + eid + '"></div><br/>');
+    ss.append('<span id="InterestControl-' + eid + '"></span>');
+    ss.append(ename);
+    ss.append($('<br>'));
     
     //annotate the interest with extra controls and menus
     if (i.indexOf('http://')==0) {
@@ -243,7 +270,7 @@ function addInterest(i, force, update) {
     interestElements[i] = eid;
     
     setInterest(i, defaultInitialInterest, true, update);
-
+    
 }
 
 function addURL() {
@@ -312,4 +339,84 @@ function showCortexit(url) {
     	});
     	cortexitID++;
     });	
+}
+
+function getTypeLabel(t) {
+	return t;
+}
+
+function getTypeProperties(t) {
+	return [
+		{ name: 'Property A' },
+		{ name: 'Property B' }
+	        ];
+}
+
+function initObjectEditor(ele, object) {
+	var e = $('#' + ele);
+
+	var name = object.name;
+	
+	$('<input class="nameInput" type="text" autofocus="true" placeholder="Title" value="' + name + '"></input>').appendTo(e);
+	
+	var typeMenu = $('<div data-role="navbar" class="typeMenu"></div>');
+	
+	var addTypeButton = $('<div data-role="collapsible" data-collapsed="true"><h3>+</h3></div>');
+	addTypeButton.collapsible();
+	addTypeButton.appendTo(typeMenu);
+	
+	{
+		for (i = 0; i < object.types.length; i++) {
+			var t = object.types[i];
+			var m = $('<div data-role="collapsible" data-collapsed="true" class="typeCollapsible"></div>');
+			$('<h3>' + getTypeLabel(t) + '</h3>').appendTo(m);
+			
+			var props = getTypeProperties(t);
+			for (p = 0; p < props.length; p++) {						
+				$('<p/>').html( $('<a/>').attr('href', '#').html(props[p].name)).appendTo(m);						
+			}
+			
+			m.collapsible();
+								
+			m.appendTo(typeMenu);
+			
+		}
+	}
+	typeMenu.appendTo(e);
+	
+	var valueArea = $('<div class="valueArea"></div>');
+	for (var j = 0; j < object.values.length; j++) {
+		var v = object.values[j];
+		var vs = JSON.stringify(v);
+		var ivs = $('<input class="valueInput" type="text"/>');
+		ivs.attr('value', vs);
+		ivs.appendTo(valueArea);
+	}
+	valueArea.appendTo(e);
+	
+	var eBottom = $('<div class="eBottom"></div>');
+	{
+		var deleteButton = $('<a href="#" data-role="button" data-icon="delete" data-inline="true">Delete</a>');
+		deleteButton.button();
+		deleteButton.appendTo(eBottom);
+
+		var updateButton = $('<a href="#" data-role="button" data-icon="check" data-theme="b" data-inline="true" class="updateButton">Update</a>');
+		updateButton.button();
+		updateButton.appendTo(eBottom);
+	}			
+	eBottom.appendTo(e);
+	
+	$.mobile.changePage();
+}
+
+function newObjectFromInterests() {
+	$('#SelfContent').html('');
+	
+	initObjectEditor('SelfContent', {
+		id: '[uuidhere]',
+		types: selectedInterests,
+		name: 'Untitled',
+		values: []
+	});
+	
 }

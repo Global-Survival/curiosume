@@ -6,27 +6,88 @@
 }
 
 .InterestItem {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
+    padding: 0.25em;
+    border: 0.3em solid rgba(255,255,255,0.25);
+}
+.interestSelected {
+	border: 0.3em solid black;	
 }
 
 /* http://www.quackit.com/css/css_color_codes.cfm */
 .interestItem25 {
-    background-color: rgba(154,205,50,0.3);
+    background-color: rgba(154,205,50,0.2);
 }
 .interestItem50 {
-    background-color: rgba(255,255,0, 0.3);
+    background-color: rgba(255,255,0, 0.2);
 }
 .interestItem75 {
-    background-color: rgba(255,165,0, 0.3);
+    background-color: rgba(255,165,0, 0.2);
 }
 .interestItem100 {
-    background-color: rgba(220,20,60, 0.3);
+    background-color: rgba(220,120,60, 0.2);
 }
 
 #Profile {
     clear:both;
 }
 
-.interestSelected {
-	border: 1px solid black;	
+
+.ImportanceButtons button {
+	padding: 0;
+	margin: 0;
+	border: 0;
 }
+
+
+#SelfSidebar {
+	left: 0;
+	width: 32%;
+	height: 90%;
+	top: 3em;
+	overflow: auto;
+	position: fixed;
+}
+
+#SelfContent{
+	position: fixed;
+	height: 90%;
+	width: 63%;
+	overflow: auto;
+	right: 0;
+	top: 3em;
+}
+		.nameInput {
+			width: 100%;
+			font-size: 150%;
+		}
+		.valueInput {
+			width: 95%;
+			font-size: 125%;
+			margin-bottom: 0.4em;
+		}
+		
+		.updateButton {
+			font-weight: bold;
+		}
+		
+		.eBottom {
+			border-top: 1px solid gray;
+			clear: both;
+			float: right;
+			width: 100%;
+			text-align: right;
+		}
+		.typeCollapsible {
+			margin-left: 1em;
+		}
+		.typeMenu {
+			float: left;
+			width: 32%;
+		}
+		.valueArea {
+			overflow: auto;
+			width: 63%;
+			float: right;
+			margin-top: 0.5em;
+		}

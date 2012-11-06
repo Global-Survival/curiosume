@@ -1,7 +1,25 @@
+	    <script id="presetTemplate" type="text/x-jquery-tmpl">
+            <li>
+                <a href="javascript:addInterest('${name}');">
+                    <p><b>${name}</b></p>
+                    <p>${desc}</p>
+                </a>
+            </li>
+        </script>
+        
+        <script id="productSuggestionTemplate" type="text/x-jquery-tmpl">            
+            May need: <a href="${link}">${name}</a><br/>
+            <div style="float: left; width: 40%"><img src="${imageURL}"/></div>
+            <div style="float: right; width: 55%"><p><b>${price}</b> ${reason}</p></div>
+            <div style="clear:both"></div>
+        </script>
+        
+        
+
 <div id="Menu">
     <ul id="EditMenu" class="sf-menu sf-js-enabled xsf-shadow">
-		<li><a href="#Self"  class="ModeSelectButton1">Self</a></li>
-		<li><a href="#Team"  class="ModeSelectButton2">Team</a></li>
+		<li><a href="self.html" rel="external" class="ModeSelectButton1">Self</a></li>
+		<li><a href="team.html" rel="external" class="ModeSelectButton2">Team</a></li>
 		<li><a href="#Map"   class="ModeSelectButton3">Map</a></li>
 		<li><a href="#Environment"   class="ModeSelectButton4">Environment</a></li>
 		<li><a href="#Help"   class="ModeSelectButton5">Help</a></li>
@@ -13,9 +31,6 @@
                 <li><hr/></li>
                 <li><a href="">Clear</a></li>
                 <li><hr/></li>
-                <li>
-                    <a href="#">Me<input type="checkbox" onchange="toggleProfile();"/></a>
-                </li>
                 <li>
                     <a href="javascript:addURL();">Add URL</a>
                 </li>

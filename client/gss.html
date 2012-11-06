@@ -186,7 +186,6 @@
                      connectSelf();
                  });
                  
-             	 sendMessage('(online)');
                  
                  /*if (mode == 'bgmap') {
                      $("#Self").dialog({
@@ -202,11 +201,6 @@
                              title: 'Status'
                      });
                  }*/
-		         $("#MessageInput").keyup(function(event) {
-		              if (event.keyCode==13) {
-		            	  sendMessage();
-		              }
-		         });
 
                  
                  initMap(function() {
@@ -226,17 +220,27 @@
 
 <div data-role="page" id="Self" class="PageWrapper">
     
-
-    <div id="Profile">
-            Name: <input id="selfName" type="text" size="24"/><br/><br/>
-            Biography:<br/>
-            <textarea id="selfBiography" cols="24" rows="3"></textarea>
-            <br/>
-            <button onclick="saveSelf()">Save</button>
-    </div>
-    
-    <div id="CurrentInterests">
-
+    <div id="SelfSidebar">
+		<div id="Profile" data-role="collapsible" data-collapsed="true" data-mini="true">
+				<h3>Myself</h3>
+	            Name: <input id="selfName" type="text" size="24"/><br/><br/>
+	            Biography:<br/>
+	            <textarea id="selfBiography" cols="24" rows="3"></textarea>
+	            <br/>
+	            <div style="float: right; margin-bottom: 4em;">
+	            	<a href="javascript:saveSelf()" data-role="button" data-inline="true" data-mini="true">Save</a>
+	            </div>
+	            <br/>
+	            <br/>
+	    </div>
+		<div id="CurrentInterests"></div>
+		<div id="InterestActions">
+			<div id="NewObjectFromInterestsWrapper"  style="display: none">
+				<button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button>
+			</div>
+		</div>    
+	</div>
+    <div id="SelfContent">
     </div>
 
 

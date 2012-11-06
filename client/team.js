@@ -95,9 +95,18 @@ function showClient(cid) {
 		});    */
 }
 
-$(document).ready(function() {
+function initTeam() {
+	
 	window.onbeforeunload = function() {
 		sendMessage('(offline)');
 	};
-});
-
+	
+	sendMessage('(online)');
+	
+    $("#MessageInput").keyup(function(event) {
+          if (event.keyCode==13) {
+        	  sendMessage();
+          }
+    });
+	
+}
