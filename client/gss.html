@@ -23,6 +23,11 @@
         <script src="/lib/jstorage/jstorage.js"></script>
         <script src="/lib/jQuery-URL-Parser/purl.js"></script>
 
+        <!-- jQuery Mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+           
             
         <!-- Superfish -->
         <script type="text/javascript" src="/lib/superfish/js/superfish.js"></script>
@@ -47,7 +52,7 @@
 		<link rel="stylesheet" href="team.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="environment.css" type="text/css" media="all" />
                 
-        <title>Netention - Global Survival System - Map</title>
+        <title>Netention - Global Survival System</title>
 
         <script id="presetTemplate" type="text/x-jquery-tmpl">
             <li>
@@ -132,9 +137,14 @@
             }
             
             
+            function addMenu(afterLoaded) {                
+            	var hw = $('<div/>');
+            	hw.load('menu.html', afterLoaded);
+            	$('body').prepend(hw);            	
+            }
+            
             
             $(document).ready(function(){
-                
                 var mode = $.url().param('mode');
                 
                 if (mode == 'bgmap') {
@@ -144,7 +154,8 @@
                     loadCSS('gss.fixed.css');
                 }                                
                 
-                $('body').load('gss.fixed.html', function() {
+                 
+            	addMenu(function() {
                     loadSchema('/schema/schema.org.json', function() {
 
                         loadSelf();
@@ -154,63 +165,142 @@
 
                         initSelfUI();
                     });
+            		
+            	});
+            	
 
-                    
-                    var tabs = $( "#tabs" ).tabs({
-                        selected: 0
-                    });
+                 updateLocation();
 
+                 addSuggestions();
 
-                    initMap(function() {
-                        updateMap();
-                    });
+                 socket.on('receiveMessage', function (message) {
+                     receiveMessage(message);
+                 });
+                 socket.on('setClientID', function (cid) {
+                     Self.set('clientID', cid);
+                 });
+                 socket.on('setClient', function (cid,s) {
+                     setClient(cid, s);
+                 });
+                 socket.on('reconnect', function () {
+                     connectSelf();
+                 });
+                 
+             	 sendMessage('(online)');
+                 
+                 /*if (mode == 'bgmap') {
+                     $("#Self").dialog({
+                             height: 650,
+                             width: '20%',
+                             zIndex: 5000,
+                             title: 'Self'
+                     });
+                     $("#status").dialog({
+                             height: 400,
+                             width: '50%',
+                             zIndex: 5000,
+                             title: 'Status'
+                     });
+                 }*/
+		         $("#MessageInput").keyup(function(event) {
+		              if (event.keyCode==13) {
+		            	  sendMessage();
+		              }
+		         });
 
-                    updateLocation();
-
-                    addSuggestions();
-
-                    socket.on('receiveMessage', function (message) {
-                        receiveMessage(message);
-                    });
-                    socket.on('setClientID', function (cid) {
-                        Self.set('clientID', cid);
-                    });
-                    socket.on('setClient', function (cid,s) {
-                        setClient(cid, s);
-                    });
-                    socket.on('reconnect', function () {
-                        connectSelf();
-                    });
-
-                    
-                    if (mode == 'bgmap') {
-                        $("#Self").dialog({
-                                height: 650,
-                                width: '20%',
-                                zIndex: 5000,
-                                title: 'Self'
-                        });
-                        $("#status").dialog({
-                                height: 400,
-                                width: '50%',
-                                zIndex: 5000,
-                                title: 'Status'
-                        });
-                    }                
-
-
-                });
-
-                                
+                 
+                 initMap(function() {
+                     updateMap();
+                 });
+               
             });
-            
         </script>
         
         
     </head>
 
 
-    <body>
+<body>
 
-    </body>
+
+
+<div data-role="page" id="Self" class="PageWrapper">
+    
+
+    <div id="Profile">
+            Name: <input id="selfName" type="text" size="24"/><br/><br/>
+            Biography:<br/>
+            <textarea id="selfBiography" cols="24" rows="3"></textarea>
+            <br/>
+            <button onclick="saveSelf()">Save</button>
+    </div>
+    
+    <div id="CurrentInterests">
+
+    </div>
+
+
+
+
+</div>
+
+
+<div id="Environment" data-role="page" class="PageWrapper">
+    <div id="statusHeader"></div>
+    <div id="statusContent">
+        <div id="statusSensors"></div>                    
+    </div>            
+</div>
+
+<div id="Team" data-role="page" class="PageWrapper">
+        <div id="teamInput">
+            <input type='text' id="MessageInput"/>
+        </div>
+        <div id="teamContent">
+        </div>
+	    <div id="teamRoster">
+	    </div>
+</div>
+
+
+<div id="Map" data-role="page" class="PageWrapper">
+    <!-- <canvas id="mapHeat"></canvas> -->            
+</div>
+
+
+<div id="edit"  style="display: none; z-index: 5000">
+</div>
+
+<div id="Help"  data-role="page" class="PageWrapper">
+	
+	<p>Analyze all physical locations, and the transitions between them, to find those which seem appropriate for a biological organism - measured according to certain heuristics.</p>
+	
+	<p>Appropriateness of a given environment, at a specific time, for a specific organism (human, animal, or plant, etc...), may be calculated in terms of its needs.</p>
+	
+	<p>The tool must be easy and free for all people (and possibly animals) to use, modify or improve it.</p>
+	                       
+	<p>This tool is equivalent to a universal constitution that can logically grant all beings equal rights to existence - a distributed government that attempts to guarantee ecstatic survival.</p>
+	
+	<p>Analyzes all aspects of a group of organisms' existence within an ecosystem of demands and available resources...</p>
+	<ul>
+	    <li>including all biological and psychological needs which could possibly affect the length and quality of life of a living being...</li>
+	    <li>including humans, animals, plants</li>
+	    <li>or abstract entities such as ecosystems, families, organizations, and corporations.</li>
+	</ul>
+
+	<a href="#" data-rel="back">Return</a>	
+
+</div>
+
+<div id="userSupport"  style="display: none; z-index: 35000">
+    <i>The following feature is not complete yet:</i><br/><br/>
+    <div id="userSupportMessage"></div><br/>
+    <hr/><br/>
+    <center>
+        To accelerate this, please support the development of this software:<br/><br/>
+        <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal - The safer, easier way to pay online!"> <img src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" alt="" width="1" height="1" border="0"/>
+    </center>
+</div>
+
+</body>
 </html>

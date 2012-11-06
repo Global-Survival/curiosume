@@ -182,43 +182,60 @@ function addInterest(i, force, update) {
     	nextURLInterest++;
     }    
     
-	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"><p>' + ename + '</p><div id="InterestControl-' + eid + '"></div></div>');
+	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
     $('#CurrentInterests').append(ss);
 
+    
+
+    var cb = $('<input type="checkbox" name="checkbox-0" id="checkbox-mini-0" class="custom" data-mini="true" data-inline="true" />');
+    cb.click(function() {
+    	var c = $(this).attr("checked");
+    	if (c) {
+    		ss.addClass('interestSelected');
+    	}
+    	else {
+    		ss.removeClass('interestSelected');
+    	}
+    });
+    
+    ss.prepend(cb);
+    ss.append(ename + '<br/>');
+    ss.append('<div id="InterestControl-' + eid + '"></div><br/>');
+    
     //annotate the interest with extra controls and menus
     if (i.indexOf('http://')==0) {
     	var cortexitButton = $('<button>Read</button>');
     	cortexitButton.click(function() {
     		showCortexit(i);
     	});
-    	$('#Interest-'+eid).append(cortexitButton);    
+    	ss.append(cortexitButton);    
     }
-
-    var types = getProperties(i);
-    if (types.length > 0) {
-        
-        var tm = '<ul class="sf-menu"><li><a href="#">[+]</a><ul>';
-        for (var j = 0; j < types.length; j++) {
-            var v = types[j];
-            if (isCommonProperty(v)) {
-                //do not add
-            }
-            else if (schema.properties[v].comment.indexOf('legacy spelling')!=-1) {
-
-            }
-            else {
-                tm += '<li><a href="#">' + v + '</a></li>';
-            }             
-        }
-        tm += '</ul></li></ul>';
-        
-        var r = $(tm);
-        r.prependTo('#Interest-' + eid);
-        r.superfish();
-        //$('#Interest-' + i + ' ul').superfish();
-        //$('#Interest-' + i).append(tm);
-        
-    }
+    
+//    var types = getProperties(i);
+//    if (types.length > 0) {
+//        
+//        var tm = '<ul class="sf-menu"><li><a href="#">[+]</a><ul>';
+//        for (var j = 0; j < types.length; j++) {
+//            var v = types[j];
+//            if (isCommonProperty(v)) {
+//                //do not add
+//            }
+//            else if (schema.properties[v].comment.indexOf('legacy spelling')!=-1) {
+//
+//            }
+//            else {
+//                tm += '<li><a href="#">' + v + '</a></li>';
+//            }             
+//        }
+//        tm += '</ul></li></ul>';
+//        
+//        var r = $(tm);
+//        r.prependTo('#Interest-' + eid);
+//        r.superfish();
+//        //$('#Interest-' + i + ' ul').superfish();
+//        //$('#Interest-' + i).append(tm);
+//        
+//    }
 
     if (update == undefined)
         update = true;
@@ -269,7 +286,7 @@ function initSelfUI() {
     ], "#presetsShare" );
 
 
-    $('#EditMenu').append('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+    $('#EditMenu #DoMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
     $('#EditMenu').superfish(); 
 
 }

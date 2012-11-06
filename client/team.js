@@ -2,10 +2,13 @@ var clients = { };
 
 function sendMessage(x) {
     if (x === undefined) {
-        x = "<b>" + Self.get("name") + "</b>: " + $("#MessageInput").val();
+        x = $("#MessageInput").val();
         $("#MessageInput").val('');
         
     }
+    
+    x = "<b>" + Self.get("name") + "</b>: " + x;
+    
     socket.emit('distribute', x);
     addMessage(x);
  }
@@ -40,11 +43,16 @@ function addSuggestions(x) {
 
 function addMessage(h) {
     
+	var tc = $('#teamContent');
     var d = $('<div class="teamMessage" style="display: none">' + h + '</div>');
     
-    $('#teamContent').append(d);
+    
+    tc.append(d);
     
     d.fadeIn();
+    
+    var objDiv = document.getElementById("teamContent");
+    objDiv.scrollTop = objDiv.scrollHeight;
     
 }
 
@@ -86,3 +94,10 @@ function showClient(cid) {
                         title: clients[cid].name,
 		});    */
 }
+
+$(document).ready(function() {
+	window.onbeforeunload = function() {
+		sendMessage('(offline)');
+	};
+});
+

@@ -26,3 +26,7 @@
 #Profile {
     clear:both;
 }
+
+.interestSelected {
+	border: 1px solid black;	
+}

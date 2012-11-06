@@ -48,8 +48,15 @@
 	
 	<script>
     
-		function getTypeLabel(typeID) {
-			return typeID;
+		function getTypeLabel(t) {
+			return t;
+		}
+		
+		function getTypeProperties(t) {
+			return [
+				{ name: 'Property A' },
+				{ name: 'Property B' }
+			        ];
 		}
 		
 		function initObjectEditor(ele, object) {
@@ -69,10 +76,13 @@
 				for (i = 0; i < object.types.length; i++) {
 					var t = object.types[i];
 					var m = $('<div data-role="collapsible" data-collapsed="true" class="typeCollapsible"></div>');
-					//var m = $('div[data-role=collapsible]');
 					$('<h3>' + getTypeLabel(t) + '</h3>').appendTo(m);
-					$('<p>Item 1</p>').appendTo(m);
-					$('<p>Item 2</p>').appendTo(m);
+					
+					var props = getTypeProperties(t);
+					for (p = 0; p < props.length; p++) {						
+						$('<p/>').html( $('<a/>').attr('href', '#').html(props[p].name)).appendTo(m);						
+					}
+					
 					m.collapsible();
 										
 					m.appendTo(typeMenu);

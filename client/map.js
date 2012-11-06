@@ -28,7 +28,7 @@ function initMap(onMoveEnd) {
     position = new OpenLayers.LonLat(0,0);
     
     theMap = new OpenLayers.Map({
-        div: "map",
+        div: "Map",
         //projection: "EPSG:3857",
         projection: fromProjection,
         displayProjection: toProjection,

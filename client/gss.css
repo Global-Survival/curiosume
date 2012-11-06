@@ -96,21 +96,24 @@ div.sensorControl {
     margin-bottom: 0.5em;
 }
 .sf-menu a, .sf-menu a:visited {
-        color: #000;
+        color: #fff;
+        text-shadow: none;
+        border: none;
 }
 .sf-menu li {
-	background:		#DDD;
+	background:		#444;
 }
 .sf-menu li li {
-	background:		#EEE;
+	background:		#555;
 }
 .sf-menu li li li {
-	background:		#FFF;
+	background:		#666;
 }
-.sf-menu li:hover, .sf-menu li.sfHover,
-.sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
-	background:		#CFDEFF;
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+	background:		#cfcfcf;
+	color: 			black;
 	outline:		0;
+	
 }
 
 .ui-tabs .ui-tabs-panel {
@@ -127,3 +130,19 @@ div.sensorControl {
     font-size: 2em;
 }
 
+#Menu {
+	z-index: 50000;
+	position: fixed;
+	top: 0;
+	left: 0;	
+}
+
+.PageWrapper {
+	margin-top: 3em;
+}
+
+.ModeSelectButton1 { background-color: #8FB748; color: white; }
+.ModeSelectButton2 { background-color: #50C085; color: white; }
+.ModeSelectButton3 { background-color: #5E00FF; color: white; }
+.ModeSelectButton4 { background-color: #8600FF; color: white; }
+.ModeSelectButton5 { background-color: #AE00FF; color: white; }
