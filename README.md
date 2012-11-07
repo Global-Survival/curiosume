@@ -2,10 +2,6 @@ Netention for Node.JS
 =====================
 Netention collects a community of peoples' stories, and interlinks them with automatically discovered opportunities that are mutually inter-satisfying - essentially suggesting to its participants how they could realize the desired futures they have described.
 
-
-
-Linking our Stories
-===================
 Netention is a tool for describing one's current life situation (“is”), and potential future situations (“will be”)  – as linked data objects. A semantic description of a human life can be considered to consist of a set of declarations representing aspects about which one is concerned or interested.  Link the current and desired states of real and imaginary concepts - including people, environments, objects, processes, knowledge, or time.
 
 Netention realizes one’s goals based on their desires and translates them into tangible outcomes in one’s own network.
