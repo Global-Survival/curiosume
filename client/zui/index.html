@@ -5,7 +5,7 @@
 		<title>NGEN</title>
 
 		<link rel="stylesheet" href="app.style.css" type="text/css" charset="utf-8"/>
-		<link rel="stylesheet" href="lib/jquery-ui-1.7.1.custom/css/ui-darkness/jquery-ui-1.7.1.custom.css" type="text/css" charset="utf-8"/>
+		
 	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js"></script>
 
@@ -29,14 +29,18 @@
 	        companies : [
 	        
 	            {
+	            	label: 'Center',
 	                id : 1,
 	                type : 1,
-	                outsources : [{id : 2, weight : 1}, {id : 5, weight : 1}]
+	                outsources : [{id : 2, weight : 1}, {id : 5, weight : 1}],
+	                fixed: [0,0]
 	            },
 	            
 	            {
 	                id : 2,
-	                type : 1
+	                type : 1,
+	                label: 'Right of center',
+	                fixed: [1, 0]
 	            },
 
 	            {

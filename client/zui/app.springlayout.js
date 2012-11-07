@@ -23,11 +23,11 @@ window.app = window.app || {};
         private
         //////////////////////////////////////////////////////////
         ------------------------------------------------------- */
-        var _iterations =1;
-        var _maxRepulsiveForceDistance = 0.1;
-        var _k = 1;
-        var _c = 0.5;
-        var _maxVertexMovement = 0.001;
+        var _iterations = 300;
+        var _maxRepulsiveForceDistance = 0.3;
+        var _k = 7;
+        var _c = 0.7;
+        var _maxVertexMovement = 0.1;
         
         var prepareNodes = function(nodes, edges) {
             var len = nodes.length;
@@ -99,7 +99,7 @@ window.app = window.app || {};
             for (var i = 0; i < len; i++) {
                 var node1 = nodes[i];
                 for (var j = i + 1; j < len; j++) {
-                    var node2 = nodes[j];
+                    var node2 = nodes[j];                    
                     layoutRepulsive(node1, node2);
                 }
             }
@@ -115,19 +115,31 @@ window.app = window.app || {};
             var len = nodes.length;
             for (var i = 0; i < len; i++) {
                 var node = nodes[i];
-                var xmove = _c * node.__forceX;
-                var ymove = _c * node.__forceY;
                 
-                var max = _maxVertexMovement;
-                if (xmove > max) xmove = max;
-                if (xmove < -max) xmove = -max;
-                if (ymove > max) ymove = max;
-                if (ymove < -max) ymove = -max;
+                var fixed = false;
                 
-                node.__x += xmove;
-                node.__y += ymove;
-                node.__forceX = 0;
-                node.__forceY = 0;
+                if (node.originalEntity!=undefined) {
+                	if (node.originalEntity.fixed!=undefined) {
+		                node.__x = node.originalEntity.fixed[0];
+		                node.__y = node.originalEntity.fixed[1];               
+                		fixed = true;
+                	}                
+                }
+                if (!fixed) {
+	                var xmove = _c * node.__forceX;
+	                var ymove = _c * node.__forceY;
+	                
+	                var max = _maxVertexMovement;
+	                if (xmove > max) xmove = max;
+	                if (xmove < -max) xmove = -max;
+	                if (ymove > max) ymove = max;
+	                if (ymove < -max) ymove = -max;
+	                
+	                node.__x += xmove;
+	                node.__y += ymove;
+	                node.__forceX = 0;
+	                node.__forceY = 0;
+                }
             }
         };
         

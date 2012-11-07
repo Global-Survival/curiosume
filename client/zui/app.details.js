@@ -9,6 +9,7 @@ window.app = window.app || {};
     ------------------------------------------------------- */
     var details = function() {
         var that;
+        var graph;
         
         /* -------------------------------------------------------
         //////////////////////////////////////////////////////////
@@ -43,9 +44,9 @@ window.app = window.app || {};
 		</div>';
         
         var getModelNodeById = function(id) {
-            var len = app.model.companies.length;
+            var len = graph.length;
             for (var i = 0; i < len; i++) {
-                var c = app.model.companies[i];
+                var c = graph[i];
                 if (c.id == id) return c;
             }
             return null;
@@ -123,7 +124,9 @@ window.app = window.app || {};
             updateControlState.apply(this);
         };
         
-        that.init = function() {
+        that.init = function(g) {
+        	graph = g;
+        	
             $('body').append(_template);
             var details = $('#details')[0];
             if (!details) return;

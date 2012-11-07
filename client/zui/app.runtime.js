@@ -36,7 +36,7 @@ window.app = window.app || {};
             var view = nodes[0].view;
 
             // distribute them over the canvas
-            var result = ns.springlayout.calculate(nodes, edges, 1);
+            var result = ns.springlayout.calculate(nodes, edges, 622);
 
             ns.springlayout.translate(result,
                 ns.world.window.width / view.zoom,
@@ -93,8 +93,6 @@ window.app = window.app || {};
         var graph = { };
         
         var buildEntitiesFromModel = function(zIndex) {
-
-        	console.dir(graph);
         	
             var nodes = ns.world.entities.nodes;
             var view = ns.world.views.graph;
@@ -121,8 +119,9 @@ window.app = window.app || {};
 
                 node.__model = this;
                 node.id = this.id;
-                node.label = 'node ' + this.id;
+                node.label = this.label || ('node ' + this.id);
                 node.setPosition(ns.world.window.width / 2, ns.world.window.height / 2);
+                node.fixed = this.fixed;
 
                 ns.world.registerEntity(node, view, layer);
             });
@@ -174,9 +173,9 @@ window.app = window.app || {};
 
             buildEntitiesFromModel.apply(this, [1]);
 
-            app.details.init();
-            app.filter.init();
-            app.search.init();
+            app.details.init(graph);
+            app.filter.init(graph);
+            app.search.init(graph);
         };
 
         var setupHIDHandling = function() {
