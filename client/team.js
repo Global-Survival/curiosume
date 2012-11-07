@@ -44,6 +44,12 @@ function addSuggestions(x) {
 function addMessage(h) {
     
 	var tc = $('#teamContent');
+	if (tc == undefined) {
+		//TODO queue?
+		return;
+		
+	}
+	
     var d = $('<div class="teamMessage" style="display: none">' + h + '</div>');
     
     
@@ -51,8 +57,11 @@ function addMessage(h) {
     
     d.fadeIn();
     
+    
     var objDiv = document.getElementById("teamContent");
-    objDiv.scrollTop = objDiv.scrollHeight;
+    if (objDiv!=null)
+	    if (objDiv.scrollHeight!=undefined)
+	    	objDiv.scrollTop = objDiv.scrollHeight;
     
 }
 
@@ -103,10 +112,37 @@ function initTeam() {
 	
 	sendMessage('(online)');
 	
-    $("#MessageInput").keyup(function(event) {
+}
+
+function initChat(e) {
+	/*
+	<div id="Team" data-role="page" class="PageWrapper">
+        <div id="teamInput">
+            <input type='text' id="MessageInput"/>
+        </div>
+        <div id="teamContent">
+        </div>
+	    <div id="teamRoster">
+	    </div>
+	</div>
+	*/
+	var c = $('<div id="Team"></div>');
+
+	var mi = $('<input type="text" id="MessageInput"/>')
+    mi.keyup(function(event) {
           if (event.keyCode==13) {
         	  sendMessage();
           }
     });
+	mi.appendTo(c);
+	
+	
+
+	c.append('<div id="teamContent"/>');
+	c.append('<div id="teamRoster"/>');
+	
+	$('#' + e).html(c);
+	
+ 
 	
 }

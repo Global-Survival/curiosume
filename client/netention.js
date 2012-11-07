@@ -115,6 +115,7 @@ jQuery.getScripts = function( resources, callback ) {
 function loadScripts(f) {
 	var scripts = [ "/socket.io/socket.io.js", 
 	                "http://www.openlayers.org/api/OpenLayers.js",
+	                'http://maps.google.com/maps/api/js?v=3&sensor=false',
 	                "http://code.jquery.com/ui/1.8.23/jquery-ui.min.js",
 	                "/lib/jquery-tmpl/jquery.tmpl.js",
 	                "/lib/jstorage/jstorage.js",
@@ -171,16 +172,17 @@ function initNetention(f) {
 		Self = $.jStorage;
 		 
 	    
+        loadSelf();
 	     
 		addMenu(function() {
 	        loadSchema('/schema/schema.org.json', function() {
 
-	            loadSelf();
 	            loadInterests();
 
 	            initSensors();
 
 	            initSelfUI();
+
 	        });
 			
 		});
@@ -199,6 +201,9 @@ function initNetention(f) {
 	    socket.on('reconnect', function () {
 	         connectSelf();
 	    });
+	    
+        initTeam();
+        
 	    
 	    if (f)
 	    	f();
