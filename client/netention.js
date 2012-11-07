@@ -114,20 +114,20 @@ jQuery.getScripts = function( resources, callback ) {
 
 function loadScripts(f) {
 	var scripts = [ "/socket.io/socket.io.js", 
-	                "http://www.openlayers.org/api/OpenLayers.js",
 	                'http://maps.google.com/maps/api/js?v=3&sensor=false',
+	                "http://www.openlayers.org/api/OpenLayers.js",
 	                "http://code.jquery.com/ui/1.8.23/jquery-ui.min.js",
 	                "/lib/jquery-tmpl/jquery.tmpl.js",
 	                "/lib/jstorage/jstorage.js",
 	                "/lib/jQuery-URL-Parser/purl.js",
 	                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 	                "/lib/superfish/js/superfish.js",
-	                "map.js",
-	                "map.heatmap.js",
-	                "sensor.js",
-	                "environment.js",
 	                "self.js",
 	                "team.js",
+	                "sensor.js",
+	                "map.js",
+	                "map.heatmap.js",
+	                "environment.js",
 	                "schema/schema.org.js",
 	                "cortexit.js"	                
 	                ];
@@ -174,18 +174,6 @@ function initNetention(f) {
 	    
         loadSelf();
 	     
-		addMenu(function() {
-	        loadSchema('/schema/schema.org.json', function() {
-
-	            loadInterests();
-
-	            initSensors();
-
-	            initSelfUI();
-
-	        });
-			
-		});
 		
 
 
@@ -204,9 +192,16 @@ function initNetention(f) {
 	    
         initTeam();
         
+		addMenu(function() {
+	        loadSchema('/schema/schema.org.json', function() {
+
+
+	    	    if (f)
+	    	    	f();
+	        });
+			
+		});
 	    
-	    if (f)
-	    	f();
 		
 	});
 	

@@ -10,21 +10,13 @@
 	
 	<script>
 		
-		function initSelf(e) {
-			$('#' + e).html('self');
-			
-		}
-		function initMap(e) {
-			$('#' + e).html('map');
-			
-		}
 		
 	    $(document).ready(function(){
 			initNetention(function() {
 				
 				initChat('ChatTarget');
 				initSelf('SelfTarget');
-				initMap('MapTarget');
+				initMap('MapTarget', function() { });
 				
 			});	
 			

@@ -50,11 +50,10 @@
 }
 
 #SelfContent{
-	position: fixed;
+	position: relative;
 	height: 90%;
-	width: 63%;
+	width: 100%;
 	overflow: auto;
-	right: 0;
 	top: 3em;
 }
 		.nameInput {

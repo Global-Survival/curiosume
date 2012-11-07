@@ -11,7 +11,7 @@
 </head>
 
 
-<body onload="initNetention();">
+<body onload="initNetention( function() { initSelf('Self'); } );">
 
 	<div data-role="page" id="Self" class="PageWrapper">
 	    
@@ -28,16 +28,8 @@
 		            <br/>
 		            <br/>
 		    </div>
-			<div id="CurrentInterests"></div>
-			<div id="InterestActions">
-				<div id="NewObjectFromInterestsWrapper"  style="display: none">
-					<button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button>
-				</div>
-			</div>    
 		</div>
 		
-	    <div id="SelfContent">
-	    </div>
 	
 	</div>
 

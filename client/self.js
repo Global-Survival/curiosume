@@ -57,6 +57,53 @@ function saveSelf() {
     updateStatus();
 }
 
+function initSelf(e) {
+	var x = $('<div id="SelfContent"></div>');
+	{
+		x.append('<div id="CurrentInterests"/>');
+		x.append('<div id="InterestActions"><div id="NewObjectFromInterestsWrapper"  style="display: none"><button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button></div></div>');
+		
+	}
+	$('#' + e).append(x);
+
+	initSensors();
+	
+    applyTemplate("#presetTemplate", [
+
+	      //{ name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
+	      { name: "Camping", desc: "Camping in nature, away from civilization." },                            
+	      //{ name: "3rd World Civilization", desc: "Developing regions must be ready to adapt to environmental problems." },                     
+	      { name: "Food", desc: "Edible and drinkable substances" },
+	      { name: "Disaster", desc: "When evacuation becomes a priority, avoid disaster with a set of minimal but critical concerns." },                            
+	      { name: "Wellness", desc: "Healthcare, hospital, pharmacies, etc..." }
+	  ], "#presetsSurvive" );    
+	
+	  applyTemplate("#presetTemplate", [
+	
+	      { name: "Fun", desc: "Entertainment and enjoyment" },           
+	      { name: "Explore", desc: "Discover something new" },           
+	      { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
+	      { name: "Learn", desc: "Educational resources" },
+	      { name: "Relax", desc: "Chill out, do nothing, sleep" }
+	  ], "#presetsGrow" );
+	
+	  applyTemplate("#presetTemplate", [
+	
+	      { name: "Labor", desc: "Work and jobs that pay" },           
+	      { name: "Volunteer", desc: "Opportunities to contribute" },           
+	      { name: "Rescue", desc: "Help, liberate, or assist those in need or distress" },
+	      { name: "Meet", desc: "Meet new people" }
+	
+	  ], "#presetsShare" );
+
+
+	  $('#EditMenu #DoMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+	  $('#EditMenu').superfish();
+	  
+	  loadInterests();
+
+	
+}
 
 function updateSelfUI() {
     var h = '';
@@ -283,40 +330,6 @@ function removeInterest(i) {
     delete interestStrength[i];
 }
 
-function initSelfUI() {
-    applyTemplate("#presetTemplate", [
-
-        //{ name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
-        { name: "Camping", desc: "Camping in nature, away from civilization." },                            
-        //{ name: "3rd World Civilization", desc: "Developing regions must be ready to adapt to environmental problems." },                     
-        { name: "Food", desc: "Edible and drinkable substances" },
-        { name: "Disaster", desc: "When evacuation becomes a priority, avoid disaster with a set of minimal but critical concerns." },                            
-        { name: "Wellness", desc: "Healthcare, hospital, pharmacies, etc..." }
-    ], "#presetsSurvive" );    
-
-    applyTemplate("#presetTemplate", [
-
-        { name: "Fun", desc: "Entertainment and enjoyment" },           
-        { name: "Explore", desc: "Discover something new" },           
-        { name: "Adventure", desc: "Adventure, quest, or surprising opportunity" },
-        { name: "Learn", desc: "Educational resources" },
-        { name: "Relax", desc: "Chill out, do nothing, sleep" }
-    ], "#presetsGrow" );
-
-    applyTemplate("#presetTemplate", [
-
-        { name: "Labor", desc: "Work and jobs that pay" },           
-        { name: "Volunteer", desc: "Opportunities to contribute" },           
-        { name: "Rescue", desc: "Help, liberate, or assist those in need or distress" },
-        { name: "Meet", desc: "Meet new people" }
-
-    ], "#presetsShare" );
-
-
-    $('#EditMenu #DoMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
-    $('#EditMenu').superfish(); 
-
-}
 
 
 function toggleProfile() {

@@ -21,14 +21,15 @@ function initMiniMap(target) {
     return m;
 }
 
-function initMap(onMoveEnd) {
+function initMap(target, onMoveEnd) {
+
     firstGeolocation = true;
 
     zoom           = 9; 
     position = new OpenLayers.LonLat(0,0);
     
     theMap = new OpenLayers.Map({
-        div: "Map",
+        div: target,
         //projection: "EPSG:3857",
         projection: fromProjection,
         displayProjection: toProjection,
@@ -44,6 +45,7 @@ function initMap(onMoveEnd) {
     var mapnik = new OpenLayers.Layer.OSM();
 
     // create Google Mercator layers
+    /*
     var gphy = new OpenLayers.Layer.Google(
         "Google Physical",
         {type: google.maps.MapTypeId.TERRAIN}
@@ -60,6 +62,7 @@ function initMap(onMoveEnd) {
         "Google Satellite",
         {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
     );
+    */
 
 
             
@@ -67,7 +70,7 @@ function initMap(onMoveEnd) {
     vector = new OpenLayers.Layer.Vector("Editable Vectors");
 
     theMap.addLayers([
-        mapnik, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ vector
+        mapnik, /*gphy, gmap, gsat, ghyb,*/ /*veroad, veaer, vehyb,*/ vector
     ]);
     theMap.addControl(new OpenLayers.Control.LayerSwitcher());
     theMap.addControl(new OpenLayers.Control.EditingToolbar(vector));
@@ -137,6 +140,9 @@ function initMap(onMoveEnd) {
         OpenLayers.Console.log('Location detection failed');
     });
 
+    console.log(position);
+    console.log(zoom);
+    
     theMap.setCenter(position, zoom );
 
     return theMap;
