@@ -35,19 +35,19 @@ function loadTypeMenu(parent, children) {
                 return '';
 
     var s = '';
-        $.each(children, function(k, v) {
-            var sc = getSchemaChildren(k);
-            var scLen = Object.keys(sc).length;
-            //s+= '<li><a href="#">' + k + ' ' + scLen + '</a></li>';
+    $.each(children, function(k, v) {
+        var sc = getSchemaChildren(k);
+        var scLen = Object.keys(sc).length;
+        //s+= '<li><a href="#">' + k + ' ' + scLen + '</a></li>';
 
-            var tt = '';
-            if (scLen > 0) {               
-                tt = loadTypeMenu(k, sc);
-            }
-            s+= '<li><a href="javascript:addInterest(\'' + k + '\', null, null)">' + v.label + '</a>' + tt + '</li>';
-        });
+        var tt = '';
+        if (scLen > 0) {               
+            tt = loadTypeMenu(k, sc);
+        }
+        s+= '<li><a href="javascript:addInterest(\'' + k + '\', null, null)">' + v.label + '</a>' + tt + '</li>';
+    });
 
-        return '<ul>' + s + '</ul>';
+    return '<ul>' + s + '</ul>';
 
 }
 

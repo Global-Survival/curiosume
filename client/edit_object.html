@@ -14,9 +14,36 @@
 	
 	<script>
     
+		function getObject(id, f) {
+			var o = Self.get("o." + id);
+			if (o == undefined) {
+				//...	
+			}
+			f(o);
+		}
+		function setObject(id, o) {
+			Self.set("o." + id, o);
+		}
+		
+		function newRandomObjectID() {
+		    return 'xxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		        return v.toString(16);
+		    });
+		}
+
+		function newBlankObject(id) {
+			return {
+	    		id: id,
+	    		name: 'Untitled Object',
+	    		types: [  ],
+	    		values: [	]	    						
+			};
+		}
+		
 		initNetention(function() {
-	    	
-	    	initObjectEditor('editor', {
+			
+			var dsk = {
 	    		id: 'demo:DanteSemanticKitchen1',
 	    		name: 'Dante\'s Semantic Kitchen',
 	    		types: [ 'FoodEvent', 'Recipe' ],
@@ -27,8 +54,21 @@
 	    		         { 'food': 'Mixed Vegetables' },
 	    		         { 'comment': 'Thanks I will be there and bring vitamins' },	    		         
 	    		]	    		
-	    	});
-	    	
+	    	};
+			setObject('dsk', dsk);
+			
+			
+			var id = $.url().param('id');
+			if (id == null) {
+				initObjectEditor('editor', newBlankObject(newRandomObjectID()));
+			}
+			else {
+				getObject(id, function(o) {
+					if (o == undefined) o = newBlankObject(id);
+					initObjectEditor('editor', o);
+				});
+			}
+				    	
 	    });
 	
 	</script>
@@ -45,6 +85,7 @@
 	<div data-role="content">	
 				
 		<div id="editor" style="max-width: 600px; margin-left: auto;  margin-right: auto"></div>
+		
 	</div><!-- /content -->
 
 </div><!-- /page -->

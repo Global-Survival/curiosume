@@ -108,6 +108,8 @@ function loadScripts(f) {
 		                "map.js",
 		                "map.heatmap.js",
 		                "environment.js",
+		                "schema/emotion.js",
+		                "schema/action.js",
 		                "schema/schema.org.js",
 		                "cortexit.js"	                
 		                ];
@@ -133,6 +135,7 @@ function loadScripts(f) {
 }
 
 
+
 function initNetention(f) {
 		
 	console.log('loading scripts...');
@@ -147,12 +150,6 @@ function initNetention(f) {
 	    
         loadSelf();
 	     
-		
-
-
-//	    socket.on('receiveMessage', function (message) {
-//	         receiveMessage(message);
-//	    });
 	    socket.on('setClientID', function (cid) {
 	         Self.set('clientID', cid);
 	    });
@@ -168,9 +165,9 @@ function initNetention(f) {
 		addMenu(function() {
 	        loadSchema('/schema/schema.org.json', function() {
 
-
 	    	    if (f)
 	    	    	f();
+	    	    
 	        });
 			
 		});
