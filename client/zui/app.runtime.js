@@ -2,13 +2,15 @@ window.app = window.app || {};
 
 (function(ns){
 
+
     /* -------------------------------------------------------
     //////////////////////////////////////////////////////////
     runtime constructor
     //////////////////////////////////////////////////////////
     ------------------------------------------------------- */
-    var runtime = function() {
+    var runtime = function(graph) {
         var that;
+    	
 
         /* -------------------------------------------------------
         //////////////////////////////////////////////////////////
@@ -87,8 +89,13 @@ window.app = window.app || {};
             });
         };
 
+        
+        var graph = { };
+        
         var buildEntitiesFromModel = function(zIndex) {
 
+        	console.dir(graph);
+        	
             var nodes = ns.world.entities.nodes;
             var view = ns.world.views.graph;
             var layer = ns.world.layers[1];
@@ -105,7 +112,7 @@ window.app = window.app || {};
             };
 
             // create nodes
-            app.each(ns.model.companies, function(i){
+            app.each(graph, function(i){
                 if (this.type == 1) {
                     var node = ns.entities.circle();
                 } else {
@@ -461,8 +468,13 @@ window.app = window.app || {};
 
         };
 
-        that.start = function() {
-
+        that.start = function(g) {
+        	
+        	graph = g;
+        	
+        	console.log('that.start');
+        	console.dir(graph);
+        	
             if ($.browser.msie) {
                 $(".no-msie").show();
                 return;
