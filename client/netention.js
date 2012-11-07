@@ -87,63 +87,34 @@ function addMenu(afterLoaded) {
 	$('body').prepend(hw);            	
 }
 
-/* enhance $.getSctipt to handle mutiple scripts */
-var getScript = jQuery.getScript;
-jQuery.getScripts = function( resources, callback ) {
-
-    var // reference declaration &amp; localization
-    length = resources.length,
-    handler = function() { counter++; },
-    deferreds = [],
-    counter = 0,
-    idx = 0;
-
-    for ( ; idx < length; idx++ ) {
-        deferreds.push(
-            getScript( resources[ idx ], handler )
-        );
-    }
-
-    jQuery.when.apply( null, deferreds ).then(function() {
-        callback && callback();
-    });
-    
-};
-
 
 
 function loadScripts(f) {
-	var scripts = [ "/socket.io/socket.io.js", 
-	                'http://maps.google.com/maps/api/js?v=3&sensor=false',
-	                "http://www.openlayers.org/api/OpenLayers.js",
-	                "http://code.jquery.com/ui/1.8.23/jquery-ui.min.js",
-	                "/lib/jquery-tmpl/jquery.tmpl.js",
-	                "/lib/jstorage/jstorage.js",
-	                "/lib/jQuery-URL-Parser/purl.js",
-	                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
-	                "/lib/superfish/js/superfish.js",
-	                "self.js",
-	                "team.js",
-	                "sensor.js",
-	                "map.js",
-	                "map.heatmap.js",
-	                "environment.js",
-	                "schema/schema.org.js",
-	                "cortexit.js"	                
-	                ];
-	
-	$.ajaxSetup({
-		  cache: true
+	//https://github.com/rgrove/lazyload/
+	$.getScript('/lib/lazyload.js', function() {
+		
+		var scripts = [ "/socket.io/socket.io.js", 
+		                'http://maps.google.com/maps/api/js?v=3&sensor=false',
+		                "http://www.openlayers.org/api/OpenLayers.js",
+		                "http://code.jquery.com/ui/1.8.23/jquery-ui.min.js",
+		                "/lib/jquery-tmpl/jquery.tmpl.js",
+		                "/lib/jstorage/jstorage.js",
+		                "/lib/jQuery-URL-Parser/purl.js",
+		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
+		                "/lib/superfish/js/superfish.js",
+		                "self.js",
+		                "team.js",
+		                "sensor.js",
+		                "map.js",
+		                "map.heatmap.js",
+		                "environment.js",
+		                "schema/schema.org.js",
+		                "cortexit.js"	                
+		                ];
+		
+		LazyLoad.js(scripts, f);
 	});
 	
-	$.getScripts(scripts, f);
-	
-
-    //google maps
-    //loadJS("http://maps.google.com/maps/api/js?v=3&amp;sensor=false");
-	
-    //loadCSS('/lib/mktree/mktree.css"');
-
 	loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
     loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
 
@@ -164,6 +135,8 @@ function loadScripts(f) {
 
 function initNetention(f) {
 		
+	console.log('loading scripts...');
+	
 	loadScripts(function(data, textStatus) {
 		
 		console.log('scripts loaded');
@@ -177,9 +150,9 @@ function initNetention(f) {
 		
 
 
-	    socket.on('receiveMessage', function (message) {
-	         receiveMessage(message);
-	    });
+//	    socket.on('receiveMessage', function (message) {
+//	         receiveMessage(message);
+//	    });
 	    socket.on('setClientID', function (cid) {
 	         Self.set('clientID', cid);
 	    });
@@ -205,4 +178,16 @@ function initNetention(f) {
 		
 	});
 	
+}
+
+function subscribe(channel, f) {
+	socket.emit('subscribe', channel);
+	socket.on('receive-'+ channel, f);	
+}
+function unsubscribe(channel) {
+	socket.emit('unsubscribe', channel);
+	//socket.off ??
+}
+function pub(channel, message) {
+    socket.emit('pub', channel, message);
 }

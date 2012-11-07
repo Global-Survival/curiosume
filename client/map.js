@@ -61,8 +61,8 @@ function initMap(target, onMoveEnd) {
     var gsat = new OpenLayers.Layer.Google(
         "Google Satellite",
         {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
-    );
-    */
+    );*/
+    
 
 
             
@@ -140,9 +140,6 @@ function initMap(target, onMoveEnd) {
         OpenLayers.Console.log('Location detection failed');
     });
 
-    console.log(position);
-    console.log(zoom);
-    
     theMap.setCenter(position, zoom );
 
     return theMap;

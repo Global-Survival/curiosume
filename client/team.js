@@ -9,8 +9,7 @@ function sendMessage(x) {
     
     x = "<b>" + Self.get("name") + "</b>: " + x;
     
-    socket.emit('distribute', x);
-    addMessage(x);
+    pub('chat', x);
  }
 
 
@@ -137,12 +136,13 @@ function initChat(e) {
 	mi.appendTo(c);
 	
 	
+    subscribe('chat', function(message) {
+        receiveMessage(message);        	
+    });
 
 	c.append('<div id="teamContent"/>');
 	c.append('<div id="teamRoster"/>');
 	
 	$('#' + e).html(c);
-	
- 
 	
 }

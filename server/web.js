@@ -44,6 +44,7 @@ io.set('transports', [                     // enable all transports (optional if
   , 'jsonp-polling'
 ]);
 
+
 function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -51,10 +52,24 @@ function uuid() {
     });
 }
 
+var channelListeners = {};
+
 io.sockets.on('connection', function(socket) {
-  
-    socket.on('distribute', function(message) {
-        socket.broadcast.emit('receiveMessage', message);
+	
+	//https://github.com/LearnBoost/socket.io/wiki/Rooms
+	socket.on('subscribe', function(channel) { 
+		console.log('subscribed: ' + channel);
+		socket.join(channel); 
+	});
+	socket.on('unsubscribe', function(channel) { 
+		console.log('unsubscribed: ' + channel);
+		socket.leave(channel); 
+	});
+	
+
+    socket.on('pub', function(channel, message) {
+    	io.sockets.in(channel).emit('receive-' + channel, message);
+        //socket.broadcast.emit('receiveMessage', message);
     });
     
     socket.on('getSensors', function(withSensors) {

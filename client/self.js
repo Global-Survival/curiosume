@@ -157,7 +157,7 @@ function setInterest(sensorID, newImportance, force, updateAll) {
 
         function addButton(label, value) {
             var b = $('<button>').html(label);
-            b.click(function(event) {
+            b.mouseup(function(event) {
             	setInterest( sensorID, value, false, true)
             	event.stopImmediatePropagation();            	
             });
@@ -326,6 +326,9 @@ function addURL() {
 }
 
 function removeInterest(i) {
+	if (selectedInterests.indexOf(i)!=-1)
+		selectedInterests.splice(selectedInterests.indexOf(i), 1);
+	
     getInterestItem(i).fadeOut();
     delete interestStrength[i];
 }
