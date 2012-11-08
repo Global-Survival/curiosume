@@ -1,5 +1,7 @@
 var sensor = { };
 var clients = { };
+var objects = { };
+var objectInterest = { };
 
 
 var config = require('../config.js');
@@ -114,12 +116,17 @@ io.sockets.on('connection', function(socket) {
                 console.log('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
                 clients[c] = s;
                 socket.broadcast.emit('setClient', c, s);
+                
+                updateInterests(c, s);
             }
         });
     });
     
     socket.on('getSentencized', function(urlOrText, withResult) {
     	cortexit.getSentencized(urlOrText, withResult);
+    });
+    socket.on('getClientInterests', function(f) {
+    	f(interestTime);
     });
     
 });
@@ -147,6 +154,46 @@ function addSensor(path) {
     
 };
 
+var interestTime = { };
+var clientState = { };
+
+function updateInterests(clientID, state) {
+	state.when = Date.now();
+	
+	var prevState = clientState[clientID];
+	clientState[clientID] = state;
+	
+	
+	if (prevState!=undefined) {
+		for (k in state.interests) {
+			var v = state.interests[k];
+			var pv = prevState.interests[k];
+			if (pv==undefined) {
+				pv = 0;
+			}
+			else {
+				var averageInterest = (v + pv)/2.0;
+				if (interestTime[k] == undefined)
+					interestTime[k] = 0;
+				interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+			}
+		}
+		for (k in prevState.interests) {
+			var v = state.interests[k];
+			var pv = prevState.interests[k];
+			if (v==undefined) {
+				v = 0;				
+				var averageInterest = (v + pv)/2.0;				
+				if (interestTime[k] == undefined)
+					interestTime[k] = 0;
+				interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+			}
+			
+		}
+	} 
+	
+}
+
 // process.on('uncaughtException', function (err) {
    // console.error('An uncaught error occurred!');
    // console.error(err.stack);
@@ -162,6 +209,7 @@ var b = stockquotes.OutputBuffer(2500, function(o) {
 	pub('chat', o);	
 });
 b.start();
+
 
 var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
 g.start();

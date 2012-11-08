@@ -152,14 +152,14 @@ function setInterest(sensorID, newImportance, force, updateAll) {
             });
             
             if (value!=0)
-            	b.addClass('interestItem'+value);
+            	b.addClass('interestItem'+parseInt(value*100.0));
             ch.append(b);        	
         }
         addButton('&#9587', 0);
-        addButton('&nbsp;&nbsp;', 25);
-        addButton('&nbsp;&nbsp;', 50);
-        addButton('&nbsp;&nbsp;', 75);        
-        addButton('&nbsp;&nbsp;', 100);
+        addButton('&nbsp;&nbsp;', 0.25);
+        addButton('&nbsp;&nbsp;', 0.50);
+        addButton('&nbsp;&nbsp;', 0.75);        
+        addButton('&nbsp;&nbsp;', 1.0);
         
         if (sensorClient[sensorID]!=undefined) {
             if (sensorClient[sensorID].getControlHTML!=undefined) {
@@ -180,13 +180,13 @@ function setInterest(sensorID, newImportance, force, updateAll) {
         }
     }
     else {
-        if (newImportance <= 25) {
+        if (newImportance <= 0.25) {
             sensor.addClass('interestItem25');
         }
-        else if (newImportance <= 50) {
+        else if (newImportance <= 0.50) {
             sensor.addClass('interestItem50');                    
         }
-        else if (newImportance <= 75) {
+        else if (newImportance <= 0.75) {
             sensor.addClass('interestItem75');                    
         }
         else /*if (newImportance <= 100)*/ {

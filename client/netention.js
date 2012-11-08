@@ -202,3 +202,6 @@ function unsubscribe(channel) {
 function pub(channel, message) {
     socket.emit('pub', channel, message);
 }
+function getClientInterests(f) {
+	socket.emit('getClientInterests', f);
+}
