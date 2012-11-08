@@ -122,7 +122,8 @@ window.app = window.app || {};
                 node.label = this.label || ('node ' + this.id);
                 node.setPosition(ns.world.window.width / 2, ns.world.window.height / 2);
                 node.fixed = this.fixed;
-
+                node.fixedX = this.fixedX;
+                
                 ns.world.registerEntity(node, view, layer);
             });
 
@@ -198,6 +199,7 @@ window.app = window.app || {};
             cursor.real = false;
             ns.runtime.registerEntity(cursor);*/
 
+            
             _mouse.addEventListener('mousemove', function(e){
 
                 var ent = mousemoveEntity = ns.world.getEntityByWindowCoord(e.pageX, e.pageY);
@@ -419,8 +421,13 @@ window.app = window.app || {};
                     view.zoom += steps;
 
                     var tools = ns.world.entities.tools[0];
-                    if (tools) tools.zoomControl.setZoom(view.zoom);
+                    if (tools) {
+                    	tools.zoomControl.setZoom(view.zoom);
+                    	console.log(tools.zoomControl);
+                        that.zoomControl = tools.zoomControl;
+                    }
 
+                    
                     var c2 = ns.world.getViewCoord(0, 0, view);
 
                     var dx = c2.x - c1.x;
@@ -464,15 +471,21 @@ window.app = window.app || {};
 
             setupHIDHandling.apply(this);
             updateDim();
+            
 
         };
+        
+        var interval = null;
+        
+        that.stop = function() {
+        	if (interval!=null)
+        		clearInterval(interval);
+        }
 
         that.start = function(g) {
         	
         	graph = g;
         	
-        	console.log('that.start');
-        	console.dir(graph);
         	
             if ($.browser.msie) {
                 $(".no-msie").show();
@@ -482,7 +495,7 @@ window.app = window.app || {};
             this.init();
 
             var that = this;
-            window.setInterval(function(){
+            interval = window.setInterval(function(){
                 var active = false;
                 if (ns.scheduler.tasks.length > 0 ||
                     (ns.world.lastActivity - ns.renderer.lastDraw) > 0
@@ -496,6 +509,7 @@ window.app = window.app || {};
                 }
 
             }, 20);
+            return this;
 
         };
 
@@ -509,4 +523,6 @@ window.app = window.app || {};
     ------------------------------------------------------- */
     ns.runtime = runtime();
 
+    //window.graph2d = graph2d;
+    
 })(window.app);

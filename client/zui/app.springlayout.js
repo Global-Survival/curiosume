@@ -116,16 +116,21 @@ window.app = window.app || {};
             for (var i = 0; i < len; i++) {
                 var node = nodes[i];
                 
-                var fixed = false;
+                var fixedX = false, fixedY = false;
                 
                 if (node.originalEntity!=undefined) {
+                	if (node.originalEntity.fixedX!=undefined) {
+                		node.__x = node.originalEntity.fixedX;
+                		fixedX = true;
+                	}
                 	if (node.originalEntity.fixed!=undefined) {
 		                node.__x = node.originalEntity.fixed[0];
 		                node.__y = node.originalEntity.fixed[1];               
-                		fixed = true;
+                		fixedX = true;
+                		fixedY = true;
                 	}                
                 }
-                if (!fixed) {
+                if ((!fixedX) || (!fixedY)) {
 	                var xmove = _c * node.__forceX;
 	                var ymove = _c * node.__forceY;
 	                
@@ -135,8 +140,11 @@ window.app = window.app || {};
 	                if (ymove > max) ymove = max;
 	                if (ymove < -max) ymove = -max;
 	                
-	                node.__x += xmove;
-	                node.__y += ymove;
+	                if (!fixedX)
+	                	node.__x += xmove;
+	                if (!fixedY)
+	                	node.__y += ymove;
+	                
 	                node.__forceX = 0;
 	                node.__forceY = 0;
                 }
