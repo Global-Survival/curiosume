@@ -23,11 +23,13 @@ window.app = window.app || {};
         private
         //////////////////////////////////////////////////////////
         ------------------------------------------------------- */
-        var _iterations = 300;
-        var _maxRepulsiveForceDistance = 0.3;
-        var _k = 7;
-        var _c = 0.7;
-        var _maxVertexMovement = 0.1;
+        var _iterations = 600;
+        var attraction = 1.5;
+        var repulsion = 2.0;
+        
+        var _maxRepulsiveForceDistance = 0.6;
+        var speed = 0.01;
+        var _maxVertexMovement = 0.01;
         
         var prepareNodes = function(nodes, edges) {
             var len = nodes.length;
@@ -54,7 +56,7 @@ window.app = window.app || {};
             
             var d = Math.sqrt(d2);
             if (d < _maxRepulsiveForceDistance) {
-                var repulsiveForce = _k * _k / d;
+                var repulsiveForce = repulsion * repulsion / d;
                 node2.__forceX += repulsiveForce * dx / d;
                 node2.__forceY += repulsiveForce * dy / d;
                 node1.__forceX -= repulsiveForce * dx / d;
@@ -81,10 +83,10 @@ window.app = window.app || {};
                 d2 = d * d;
             }
             
-            var attractiveForce = (d2 - _k * _k) / _k;
+            var attractiveForce = (d2 - repulsion * repulsion) / repulsion;
             
             if (edge.weight == undefined || edge.weight < 1) edge.weight = 1;
-            attractiveForce *= Math.log(edge.weight) * 0.5 + 1;
+            attractiveForce *= attraction * Math.log(edge.weight) * 0.5 + 1;
 
             node2.__forceX -= attractiveForce * dx / d;
             node2.__forceY -= attractiveForce * dy / d;
@@ -93,7 +95,7 @@ window.app = window.app || {};
         };
         
         var layoutIteration = function(nodes, edges) {
-            
+                    	
             // forces on nodes due to node-node repulsions
             var len = nodes.length;
             for (var i = 0; i < len; i++) {
@@ -131,8 +133,8 @@ window.app = window.app || {};
                 	}                
                 }
                 if ((!fixedX) || (!fixedY)) {
-	                var xmove = _c * node.__forceX;
-	                var ymove = _c * node.__forceY;
+	                var xmove = speed * node.__forceX;
+	                var ymove = speed * node.__forceY;
 	                
 	                var max = _maxVertexMovement;
 	                if (xmove > max) xmove = max;

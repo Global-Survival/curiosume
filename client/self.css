@@ -20,15 +20,15 @@
     font-size: 115%;
 }
 .interestItem50 {
-    background-color: rgba(175,165,145,0.30);
+    background-color: rgba(175,175,175,0.30);
     font-size: 135%;
 }
 .interestItem75 {
-    background-color: rgba(215,195,155,0.35);
+    background-color: rgba(215,215,215,0.35);
     font-size: 155%;
 }
 .interestItem100 {
-    background-color: rgba(165,165,225,0.4);
+    background-color: rgba(255,255,255,0.4);
     font-size: 175%;
 }
 
@@ -46,7 +46,6 @@
 
 #SelfSidebar {
 	left: 0;
-	width: 32%;
 	height: 90%;
 	top: 3em;
 	overflow: auto;

@@ -51,50 +51,82 @@ function graph2d(g) {
 
 var runningGraph = null;
 
-
-function graphEnformableTimeline(url, maxEvents) {
+function graphEnformableTimeline(data, maxEvents) {
+	var l = [];
 	
-	$.getJSON(url, function(data) {
-		var l = [];
+	var minTime, maxTime;
+	var ll = data.events.length;
+	if (ll > maxEvents)
+		ll = maxEvents;
+	
+	for (i = 0; i < ll; i++) {
+		var e = data.events[i];
 		
-		var minTime, maxTime;
-		var ll = data.events.length;
-		if (ll > maxEvents)
-			ll = maxEvents;
-		
-		for (i = 0; i < ll; i++) {
-			var e = data.events[i];
-			var unixtime = Date.parse(e.start);
-			e.startUnix = unixtime;
-			
+		function p(u) {
 			if ((i == 0) || (unixtime < minTime))
 				minTime = unixtime;
 			if ((i == 0) || (unixtime > maxTime))
 				maxTime = unixtime;					
+			
 		}
 		
+		var unixtime = Date.parse(e.start);
+		p(unixtime);
+		e.startUnix = unixtime;
 		
+		if (e.end) {
+			var endunixtime = Date.parse(e.end);
+			p(endunixtime);
+			e.endUnix = endunixtime;
+		}
 		
-		for (i = 0; i < ll; i++) {
-			var e = data.events[i];
+	}
+	
+	
+	
+	for (i = 0; i < ll; i++) {
+		
+		function node(e, tt) {
 
-			var t = 5 * ((e.startUnix - minTime) / (maxTime - minTime) - 0.5);
-			
+			var t = 5 * ((tt - minTime) / (maxTime - minTime) - 0.5);
+
 			var maxLength = 32;
+			
 			if (e.title.length > maxLength)
 				e.title = e.title.substring(0, maxLength);
 			
 			var x = {
-				id: e.start,
+				id: i +'' + e.start,
 				label: e.title,
 				type:1, 
 				fixedX:t
 			};
 			
 			l.push(x);
+			
+			return x;
+		}
+
+		var e = data.events[i];
+		
+		var a = node(e, e.startUnix);
+		
+		if (e.endUnix) {
+			var b = node(e, e.endUnix);
+			b['outs'] = [ {id : a.id, weight : 15}  ]; 
 		}
 		
-		graph2d(l);
+	}
+	
+	graph2d(l);
+	
+}
+
+function graphEnformableTimelineURL(url, maxEvents) {
+	
+	$.getJSON(url, function(data) {
+		
+		graphEnformableTimeline(data, maxEvents);
 	});
 	
 }

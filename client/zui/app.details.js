@@ -163,13 +163,13 @@ window.app = window.app || {};
 
                 var mnode = getModelNodeById(e.id);
 
-                if (mnode && mnode.outsources && mnode.outsources.length > 0) {
+                if (mnode && mnode.outs && mnode.outs.length > 0) {
                     var cto = '<ul>';
-                    var len = mnode.outsources.length;
+                    var len = mnode.outs.length;
 
                     for (var i = 0; i < len; i++) {
-                        var ctoe = getEntityById(mnode.outsources[i].id);
-                        cto += '<li>' + ctoe.label + ', weight: ' + mnode.outsources[i].weight + '</li>';
+                        var ctoe = getEntityById(mnode.outs[i].id);
+                        cto += '<li>' + ctoe.label + ', weight: ' + mnode.outs[i].weight + '</li>';
                     }
                     cto += '</ul>';
 

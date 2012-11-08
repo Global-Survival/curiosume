@@ -141,8 +141,9 @@ div.sensorControl {
 	margin-top: 3em;
 }
 
-.ModeSelectButton1 { background-color: #8FB748; color: white; }
-.ModeSelectButton2 { background-color: #50C085; color: white; }
-.ModeSelectButton3 { background-color: #5E00FF; color: white; }
-.ModeSelectButton4 { background-color: #8600FF; color: white; }
-.ModeSelectButton5 { background-color: #AE00FF; color: white; }
+.ModeSelectButton0 { background-color: gray; color: black; }
+.ModeSelectButton1 { background-color: #4F8728; color: white; }
+.ModeSelectButton2 { background-color: #207045; color: white; }
+.ModeSelectButton3 { background-color: #2E008F; color: white; }
+.ModeSelectButton4 { background-color: #46008F; color: white; }
+.ModeSelectButton5 { background-color: #7E007F; color: white; }

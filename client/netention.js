@@ -80,6 +80,20 @@ function templatize(template, params) {
 }
 
 
+var createRingBuffer = function(length){
+
+  var pointer = 0, buffer = []; 
+
+  return {
+    get  : function(key){return buffer[key];},
+    push : function(item){
+      buffer[pointer] = item;
+      pointer = (length + pointer +1) % length;
+    }
+  };
+  
+};
+	
 
 function addMenu(afterLoaded) {                
 	var hw = $('<div/>');
@@ -102,16 +116,16 @@ function loadScripts(f) {
 		                "/lib/jQuery-URL-Parser/purl.js",
 		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 		                "/lib/superfish/js/superfish.js",
-		                "self.js",
-		                "team.js",
-		                "sensor.js",
-		                "map.js",
-		                "map.heatmap.js",
-		                "environment.js",
-		                "schema/emotion.js",
-		                "schema/action.js",
-		                "schema/schema.org.js",
-		                "cortexit.js"	                
+		                "/self.js",
+		                "/team.js",
+		                "/sensor.js",
+		                "/map.js",
+		                "/map.heatmap.js",
+		                "/environment.js",
+		                "/schema/emotion.js",
+		                "/schema/action.js",
+		                "/schema/schema.org.js",
+		                "/cortexit.js"	                
 		                ];
 		
 		LazyLoad.js(scripts, f);

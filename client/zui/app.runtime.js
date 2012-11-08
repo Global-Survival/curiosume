@@ -28,6 +28,9 @@ window.app = window.app || {};
         var _keyboard = null;
 
         var positionEntities = function() {
+        	
+        	var iterations = 500;
+        	
             var nodes = ns.world.entities.nodes;
             if (nodes.length == 0) return;
 
@@ -36,7 +39,7 @@ window.app = window.app || {};
             var view = nodes[0].view;
 
             // distribute them over the canvas
-            var result = ns.springlayout.calculate(nodes, edges, 622);
+            var result = ns.springlayout.calculate(nodes, edges, iterations);
 
             ns.springlayout.translate(result,
                 ns.world.window.width / view.zoom,
@@ -132,10 +135,10 @@ window.app = window.app || {};
             var zstep = 1 / (nodes.length * 1.5);
             app.each(nodes, function(){
 
-                if (this.__model.outsources) {
+                if (this.__model.outs) {
 
                     var self = this;
-                    app.each(this.__model.outsources, function(){
+                    app.each(this.__model.outs, function(){
 
                         var target = findNodeById(this.id);
                         if (!target) return true;
@@ -501,8 +504,8 @@ window.app = window.app || {};
 
                 ns.scheduler.tick();
 
+                
                 if (active) {
-		    //positionEntities.apply(this);
                     ns.renderer.update();
                 }
 

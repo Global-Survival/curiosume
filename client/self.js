@@ -1,4 +1,5 @@
 var interestStrength = { };
+var interestHistory;
 var interests = []; //current set of interests
 var sensorClient = { };
 
@@ -11,6 +12,11 @@ function loadInterests() {
     interestStrength = Self.get('interests');
     if (interestStrength == null) {
         interestStrength = { };    
+    }
+    
+    interestHistory = Self.get('interestHistory');
+    if (interestHistory == null) {
+    	interestHistory = { };
     }
 
     for (var k in interestStrength) {
@@ -37,6 +43,7 @@ function loadSelf() {
     }
 
     $('#selfName').val( n );
+    
 }
 
 function saveInterests() {
@@ -48,6 +55,7 @@ function saveInterests() {
         }
     }
     Self.set('interests', si);
+    Self.set('interestHistory', interestHistory);
 }
 
 function saveSelf() {
@@ -106,7 +114,12 @@ function updateSelf() {
         connectSelf();
         connected = true;
     }
-    socket.emit('updateSelf', getSelfSnapshot());
+    
+    var ss = getSelfSnapshot();
+    
+    interestHistory[Date.now()] = ss;
+    
+    socket.emit('updateSelf', ss);
 }
 
 function getInterestItem(sensor) { return $('#Interest-' + interestElements[sensor]); }

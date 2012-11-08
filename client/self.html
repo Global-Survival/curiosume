@@ -11,7 +11,13 @@
 	<style>
 		#selfcontent {
 			margin: 0.25em;
+		}		
+		#Profile {
+			position: fixed;
+			right: 0;
+			width: 40%;
 		}
+		
 	</style>
 </head>
 
@@ -21,7 +27,9 @@
 	<div data-role="page" id="Self" class="PageWrapper">
 	    
 	    <div id="SelfSidebar">
-			<div id="Profile" data-role="collapsible" data-collapsed="true" data-mini="true">
+		</div>
+    	<div id="Profile">
+			<div id="Myself" data-role="collapsible" data-collapsed="true" data-mini="true">
 					<h3>Myself</h3>
 		            Name: <input id="selfName" type="text" size="24"/><br/><br/>
 		            Biography:<br/>
@@ -33,7 +41,7 @@
 		            <br/>
 		            <br/>
 		    </div>
-		</div>
+	    </div>
 		
 	
 	</div>
