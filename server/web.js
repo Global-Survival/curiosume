@@ -54,6 +54,11 @@ function uuid() {
 
 var channelListeners = {};
 
+function pub(channel, message) {
+	console.log(channel + ":" + JSON.stringify(message));
+	io.sockets.in(channel).emit('receive-' + channel, message);
+}
+
 io.sockets.on('connection', function(socket) {
 	
 	//https://github.com/LearnBoost/socket.io/wiki/Rooms
@@ -68,7 +73,7 @@ io.sockets.on('connection', function(socket) {
 	
 
     socket.on('pub', function(channel, message) {
-    	io.sockets.in(channel).emit('receive-' + channel, message);
+	pub(channel, message);
         //socket.broadcast.emit('receiveMessage', message);
     });
     
@@ -150,4 +155,14 @@ function addSensor(path) {
 addSensor('geology/USGSEarthquake');
 addSensor('pollution/IAEANuclear');
 addSensor('geology/MODISFires');
+
+var stockquotes = require('./sensor/stockquotes.js');
+
+var b = stockquotes.OutputBuffer(2500, function(o) { 
+	pub('chat', o);	
+});
+b.start();
+
+var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
+g.start();
 

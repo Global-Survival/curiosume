@@ -49,7 +49,10 @@ function addMessage(h) {
 		
 	}
 	
-    var d = $('<div class="teamMessage" style="display: none">' + h + '</div>');
+	if (typeof(h)=="object")
+		h = JSON.stringify(h, null, 4);
+
+	var d = $('<div class="teamMessage" style="display: none">' + h + '</div>');
     
     
     tc.append(d);
