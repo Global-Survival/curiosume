@@ -423,8 +423,6 @@ window.app = window.app || {};
                     var tools = ns.world.entities.tools[0];
                     if (tools) {
                     	tools.zoomControl.setZoom(view.zoom);
-                    	console.log(tools.zoomControl);
-                        that.zoomControl = tools.zoomControl;
                     }
 
                     
