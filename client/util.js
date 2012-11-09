@@ -1,10 +1,11 @@
 //functions used by both client and server
-
+if (typeof window != 'undefined')
+	exports = { };
 
 var createRingBuffer = function(length){
 
   var pointer = 0, buffer = [];
-
+  
   var that = {
     get  : function(key){return buffer[key];},
     push : function(item){

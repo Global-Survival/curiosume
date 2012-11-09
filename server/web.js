@@ -17,19 +17,83 @@ var http = require('http')
   , server;
   
 
-var file = new(nodestatic.Server)('./client');
-
+var Server = { 
+		
+		
+};
 var logMemory = util.createRingBuffer(256); 
+Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
+Server.clientState = { };	//current state of all clients, indexed by their clientID
+
+var file = new(nodestatic.Server)('./client');
 
 var databaseUrl = process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 var collections = [ "obj" ];
 
-
 var db = require("mongojs").connect(databaseUrl, collections);
-if (db == undefined)
+if (!db)
 	nlog('MongoDB connection failed');
 else
 	nlog('MongoDB connected');
+
+function loadState() {
+	db.obj.find({ type: 'ServerState' }).limit(1).sort({time:-1}, function(err, objs) {
+		  if( err || !objs) console.log("No object found");
+		  else objs.forEach( function(x) {
+			  var now = Date.now();
+			  nlog('Resuming from ' + (now - x.time)/1000.0 + ' seconds downtime');
+			  Server.interestTime = x.interestTime;
+			  Server.clientState = x.clientState;
+			  /* logMemory = util.createRingBuffer(256);
+			  logMemory.buffer = x.logMemoryBuffer;
+			  logMemory.pointer = x.logMemoryPointer;*/
+			  
+			  nlog("State loaded");
+			  nlog(Server);
+			  return;
+		  } );
+	});
+	
+}
+
+
+
+function saveState() {
+	var t = Date.now()
+    nlog('Saving state...');
+	console.log(Server);
+	
+	/*
+	logMemoryBuffer = logMemory.buffer;
+	logMemoryPointer = logMemory.pointer;*/
+	
+	
+	Server.type = 'ServerState';
+	Server.time = t;
+	db.obj.save(Server, function(err, saved) {
+		  if( err || !saved ) 
+			  nlog("State not saved: " + err);
+	});
+}
+
+loadState();
+
+//process.stdin.on('keypress', function(char, key) {
+//	  if (key && key.ctrl && key.name == 'c') {
+//   	    nlog('State saved');
+//		saveState();
+//	    process.exit();
+//	  }
+//});
+
+function finish() {
+	 saveState();
+	 process.exit();
+	 console.log('FINISHED');
+}
+
+process.on('SIGINT', finish);
+process.on('SIGTERM', finish);
 
 //http://howtonode.org/node-js-and-mongodb-getting-started-with-mongojs
 /*db.obj.save({ id: 'AnonymousAgentExample',  type: [ 'agent'], email: "anonymous@server.com", name: 'Anonymous'}, function(err, saved) {
@@ -64,17 +128,27 @@ function sendJSON(res, x) {
 }
 
 var httpServer = http.createServer(function(req, res){
-  
-	if (req.url == '/log') {
-		console.dir(logMemory.buffer);
-		sendJSON(res, logMemory.buffer);
+	var path = url.parse(req.url).pathname.substring(1);
+	var pp = path.split('/');
+	if (pp.length > 0) {
+		var p1 = pp[0];
+		if (p1 == 'log') {
+			sendJSON(res, logMemory.buffer);		
+		}
+		else if (p1 == 'object') {
+			var oid = pp[1];
+			sendJSON(res, oid);			
+		}
+		else if (p1 == 'state') {
+			sendJSON(res, Server);
+		}		
 	}
-	else {
-		req.addListener('end', function () {
-		   file.serve(req, res);
-		});
-	}
+	req.addListener('end', function () {
+	   file.serve(req, res);
+	});
 });
+
+
 
 httpServer.listen(config.port);
 
@@ -174,7 +248,7 @@ io.sockets.on('connection', function(socket) {
     	cortexit.getSentencized(urlOrText, withResult);
     });
     socket.on('getClientInterests', function(f) {
-    	f(interestTime);
+    	f(Server.interestTime);
     });
     
 });
@@ -202,14 +276,12 @@ function addSensor(path) {
     
 };
 
-var interestTime = { };
-var clientState = { };
 
 function updateInterests(clientID, state) {
 	state.when = Date.now();
 	
-	var prevState = clientState[clientID];
-	clientState[clientID] = state;
+	var prevState = Server.clientState[clientID];
+	Server.clientState[clientID] = state;
 	
 	
 	if (prevState!=undefined) {
@@ -221,9 +293,9 @@ function updateInterests(clientID, state) {
 			}
 			else {
 				var averageInterest = (v + pv)/2.0;
-				if (interestTime[k] == undefined)
-					interestTime[k] = 0;
-				interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+				if (Server.interestTime[k] == undefined)
+					Server.interestTime[k] = 0;
+				Server.interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
 			}
 		}
 		for (k in prevState.interests) {
@@ -232,9 +304,9 @@ function updateInterests(clientID, state) {
 			if (v==undefined) {
 				v = 0;				
 				var averageInterest = (v + pv)/2.0;				
-				if (interestTime[k] == undefined)
-					interestTime[k] = 0;
-				interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+				if (Server.interestTime[k] == undefined)
+					Server.interestTime[k] = 0;
+				Server.interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
 			}
 			
 		}
