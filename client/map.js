@@ -37,40 +37,46 @@ function initMap(target, onMoveEnd) {
         eventListeners: {
             "moveend": onMoveEnd,
             "zoomend": onMoveEnd
-        }
+        },
+    	controls: [
+               new OpenLayers.Control.Navigation(
+                   {dragPanOptions: {enableKinetic: true}}
+               )
+           ]
     });
 
     //Geolocation Example: http://openlayers.org/dev/examples/geolocation.js
 
     var mapnik = new OpenLayers.Layer.OSM();
-
+    //var gmap = new OpenLayers.Layer.Google("Google Streets", {visibility: false});
     // create Google Mercator layers
-    /*
-    var gphy = new OpenLayers.Layer.Google(
+    
+    /*var gphy = new OpenLayers.Layer.Google(
         "Google Physical",
         {type: google.maps.MapTypeId.TERRAIN}
-    );
+    );*/
+    /*
     var gmap = new OpenLayers.Layer.Google(
         "Google Streets", // the default
         {numZoomLevels: 20}
-    );
-    var ghyb = new OpenLayers.Layer.Google(
+    );*/
+    /*var ghyb = new OpenLayers.Layer.Google(
         "Google Hybrid",
         {type: google.maps.MapTypeId.HYBRID, numZoomLevels: 20}
-    );
+    );*/
+    /*
     var gsat = new OpenLayers.Layer.Google(
         "Google Satellite",
         {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
     );*/
     
 
-
             
     // create a vector layer for drawing
     vector = new OpenLayers.Layer.Vector("Editable Vectors");
 
     theMap.addLayers([
-        mapnik, /*gphy, gmap, gsat, ghyb,*/ /*veroad, veaer, vehyb,*/ vector
+        mapnik, /*gphy, gmap, gsat,*/ /*ghyb, veroad, veaer, vehyb,*/ vector
     ]);
     theMap.addControl(new OpenLayers.Control.LayerSwitcher());
     theMap.addControl(new OpenLayers.Control.EditingToolbar(vector));
@@ -85,7 +91,7 @@ function initMap(target, onMoveEnd) {
     });
 
     theMap.addControl(geolocate);
-
+    
     geolocate.events.register("locationupdated",geolocate,function(e) {
         vector.removeAllFeatures();
         

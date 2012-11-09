@@ -183,11 +183,11 @@ function setInterest(sensorID, newImportance, force, updateAll) {
             	b.addClass('interestItem'+parseInt(value*100.0));
             ch.append(b);        	
         }
-        addButton('&#9587', 0);
-        addButton('&nbsp;&nbsp;', 0.25);
-        addButton('&nbsp;&nbsp;', 0.50);
-        addButton('&nbsp;&nbsp;', 0.75);        
         addButton('&nbsp;&nbsp;', 1.0);
+        addButton('&nbsp;&nbsp;', 0.75);        
+        addButton('&nbsp;&nbsp;', 0.50);
+        addButton('&nbsp;&nbsp;', 0.25);
+        addButton('&#9587', 0);
         
         if (sensorClient[sensorID]!=undefined) {
             if (sensorClient[sensorID].getControlHTML!=undefined) {

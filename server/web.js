@@ -264,6 +264,7 @@ io.sockets.on('connection', function(socket) {
                 clients[c] = s;
                 socket.broadcast.emit('setClient', c, s);
                 
+                s.created = Date.now();
                 updateInterests(c, s);
             }
         });
@@ -300,16 +301,19 @@ function addSensor(path) {
 
 
 function updateInterestTime() {
-	//TODO reprocess all clientState's to current time
+	//reprocess all clientState's to current time
+	for (c in Server.clientState) {
+		var cl = Server.clientState[c];
+		updateInterests(c, cl);		
+	}
 }
 
-function updateInterests(clientID, state) {
-	state.when = Date.now();
-	
+function updateInterests(clientID, state) {	
 	var prevState = Server.clientState[clientID];
+	var now = Date.now();
+	
 	Server.clientState[clientID] = state;
-	
-	
+		
 	if (prevState!=undefined) {
 		for (k in state.interests) {
 			var v = state.interests[k];
@@ -321,7 +325,7 @@ function updateInterests(clientID, state) {
 				var averageInterest = (v + pv)/2.0;
 				if (Server.interestTime[k] == undefined)
 					Server.interestTime[k] = 0;
-				Server.interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+				Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest;
 			}
 		}
 		for (k in prevState.interests) {
@@ -332,11 +336,13 @@ function updateInterests(clientID, state) {
 				var averageInterest = (v + pv)/2.0;				
 				if (Server.interestTime[k] == undefined)
 					Server.interestTime[k] = 0;
-				Server.interestTime[k] += (state.when - prevState.when)/1000.0 * averageInterest;
+				Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest;
 			}
 			
 		}
-	} 
+	}
+	
+	state.when = now;
 	
 }
 
