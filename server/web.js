@@ -178,7 +178,7 @@ io.set('transports', [                     // enable all transports (optional if
   , 'xhr-polling'
   , 'jsonp-polling'
 ]);
-
+io.set("polling duration", 10); 
 
 function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
