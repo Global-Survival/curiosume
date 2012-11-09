@@ -27,16 +27,14 @@ Server.clientState = { };	//current state of all clients, indexed by their clien
 
 var file = new(nodestatic.Server)('./client');
 
+var mongo = require("mongojs");
 var databaseUrl = process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 var collections = [ "obj" ];
 
-var db = require("mongojs").connect(databaseUrl, collections);
-if (!db)
-	nlog('MongoDB connection failed');
-else
-	nlog('MongoDB connected');
 
 function loadState() {
+	var db = mongo.connect(databaseUrl, collections);
+	
 	db.obj.find({ type: 'ServerState' }).limit(1).sort({time:-1}, function(err, objs) {
 		  if( err || !objs) console.log("No object found");
 		  else objs.forEach( function(x) {
@@ -50,30 +48,40 @@ function loadState() {
 			  
 			  nlog("State loaded");
 			  nlog(Server);
-			  return;
+			  
 		  } );
+		  db.close();
 	});
 	
+
 }
 
 
 
-function saveState() {
+function saveState(onSaved, onError) {
 	var t = Date.now()
-    nlog('Saving state...');
 	console.log(Server);
 	
 	/*
 	logMemoryBuffer = logMemory.buffer;
 	logMemoryPointer = logMemory.pointer;*/
 	
-	
+	delete Server._id;
 	Server.type = 'ServerState';
 	Server.time = t;
+
+	var db = mongo.connect(databaseUrl, collections);
+	
 	db.obj.save(Server, function(err, saved) {
+		  
 		  if( err || !saved ) 
-			  nlog("State not saved: " + err);
+			  onError(err);
+		  else
+			  onSaved();
+		  
+		  db.close();
 	});
+	
 }
 
 loadState();
@@ -87,7 +95,10 @@ loadState();
 //});
 
 function finish() {
-	 saveState();
+	 saveState(
+		function() { nlog("State saved");} , 
+	 	function(err) { nlog("State not save " + err); }
+	 );
 	 process.exit();
 	 console.log('FINISHED');
 }
@@ -143,8 +154,11 @@ var httpServer = http.createServer(function(req, res){
 			sendJSON(res, Server);
 		}		
 		else if (p1 == 'save') {
-			saveState();
 			sendJSON(res, 'Saving');
+			saveState(
+				function() { nlog('State Saved'); } , 
+			 	function(err) { nlog('State Save unccessful: ' + err) }
+			);
 		}		
 		else if (p1 == 'team') {
 			var p2 = pp[1];
