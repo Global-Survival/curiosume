@@ -142,6 +142,17 @@ var httpServer = http.createServer(function(req, res){
 		else if (p1 == 'state') {
 			sendJSON(res, Server);
 		}		
+		else if (p1 == 'save') {
+			saveState();
+			sendJSON(res, 'Saving');
+		}		
+		else if (p1 == 'team') {
+			var p2 = pp[1];
+			if (p2 == 'interestTime') {
+				updateInterestTime();
+				sendJSON(res, Server.interestTime);
+			}
+		}		
 	}
 	req.addListener('end', function () {
 	   file.serve(req, res);
@@ -247,9 +258,6 @@ io.sockets.on('connection', function(socket) {
     socket.on('getSentencized', function(urlOrText, withResult) {
     	cortexit.getSentencized(urlOrText, withResult);
     });
-    socket.on('getClientInterests', function(f) {
-    	f(Server.interestTime);
-    });
     
 });
 
@@ -276,6 +284,10 @@ function addSensor(path) {
     
 };
 
+
+function updateInterestTime() {
+	//TODO reprocess all clientState's to current time
+}
 
 function updateInterests(clientID, state) {
 	state.when = Date.now();
