@@ -10,7 +10,8 @@
 	"socket.io": "",
 	"node-static":"",
 	"always":"",
-	"apricot":""
+	"apricot":"",
+	"mongojs":""
     },
     "engines": {
 	"node": "0.8.x", 

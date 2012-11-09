@@ -1,5 +1,8 @@
 var interestStrength = { };
+
 var interestHistory;
+var maxInterestHistory = 8;
+
 var interests = []; //current set of interests
 var sensorClient = { };
 
@@ -22,7 +25,6 @@ function loadInterests() {
     for (var k in interestStrength) {
         var s = getInterestItem(k);
         var v = interestStrength[k];
-
 
         if (v > 0) {
             addInterest(k, true, false);
@@ -81,7 +83,7 @@ function initSelf(e) {
 	  $('#EditMenu #FileMenu').after('<li><a href="#">Be</a>' + loadTypeMenu(null, emotionSchema)  + '</li>');
 	  $('#EditMenu #FileMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
 	  $('#EditMenu #FileMenu').after('<li><a href="#">Do</a>' + loadTypeMenu(null, actionSchema)  + '</li>');
-
+	
 	  $('#EditMenu').superfish();
 	  
 	  loadInterests();
@@ -119,8 +121,34 @@ function updateSelf() {
     
     interestHistory[Date.now()] = ss;
     
+    timeArrayLimitSize(interestHistory, maxInterestHistory);
+    
     socket.emit('updateSelf', ss);
 }
+
+function timeArrayRemoveOldest(i) {
+	var count = 0;
+	var min = -1;
+	for (var t in i) {
+		var it = parseInt(t);
+		if ((min == -1) || (it < min)) min = it;
+		count++;
+	}
+	if (count > 0)
+		delete i[min + ''];
+	return count-1;
+}
+
+function timeArrayLimitSize(i, maxSize) {
+	var l = Object.keys(i).length;
+	if (l >= maxSize) {
+		var count;
+		do {
+			count = timeArrayRemoveOldest(i);
+		} while (count >= maxSize);
+	}
+}
+
 
 function getInterestItem(sensor) { return $('#Interest-' + interestElements[sensor]); }
 function getInterestControls(sensor) { return $('#InterestControl-' + interestElements[sensor]); }

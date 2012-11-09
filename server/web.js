@@ -4,6 +4,7 @@ var objects = { };
 var objectInterest = { };
 
 
+var util = require('../client/util.js');
 var config = require('../config.js');
 var cortexit = require('./cortexit.js');
 
@@ -18,19 +19,66 @@ var http = require('http')
 
 var file = new(nodestatic.Server)('./client');
 
+var logMemory = util.createRingBuffer(256); 
+
+var databaseUrl = process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
+var collections = [ "obj" ];
 
 
+var db = require("mongojs").connect(databaseUrl, collections);
+if (db == undefined)
+	nlog('MongoDB connection failed');
+else
+	nlog('MongoDB connected');
+
+//http://howtonode.org/node-js-and-mongodb-getting-started-with-mongojs
+/*db.obj.save({ id: 'AnonymousAgentExample',  type: [ 'agent'], email: "anonymous@server.com", name: 'Anonymous'}, function(err, saved) {
+	  if( err || !saved ) console.log("User not saved: " + err);
+	  else console.log("User saved");
+});*/
+/*db.obj.find({ }, function(err, objs) {
+	  if( err || !objs) console.log("No object found");
+	  else objs.forEach( function(x) {
+	    console.log(x);
+	  } );
+});*/
+
+
+function nlog(x) {
+	
+	var xs = x;
+	if (typeof(x)!="string")
+		xs = JSON.stringify(x,null,4);
+	
+	var msg = new Date() + ': ' + xs;
+	
+	console.log(x);
+	logMemory.push(msg);
+}
+
+http.globalAgent.maxSockets = 256;
+
+function sendJSON(res, x) {
+	res.writeHead(200, {'content-type': 'text/json' });
+	res.end( JSON.stringify(x,null,4) );
+}
 
 var httpServer = http.createServer(function(req, res){
   
-  req.addListener('end', function () {
-    file.serve(req, res);
-  });
+	if (req.url == '/log') {
+		console.dir(logMemory.buffer);
+		sendJSON(res, logMemory.buffer);
+	}
+	else {
+		req.addListener('end', function () {
+		   file.serve(req, res);
+		});
+	}
 });
 
 httpServer.listen(config.port);
 
-console.log('Web server on port ' + config.port);
+nlog('Web server on port ' + config.port);
 
 var io = socketio.listen(httpServer);
 
@@ -57,7 +105,7 @@ function uuid() {
 var channelListeners = {};
 
 function pub(channel, message) {
-	console.log(channel + ":" + JSON.stringify(message));
+	nlog(channel + ":" + JSON.stringify(message));
 	io.sockets.in(channel).emit('receive-' + channel, message);
 }
 
@@ -65,11 +113,11 @@ io.sockets.on('connection', function(socket) {
 	
 	//https://github.com/LearnBoost/socket.io/wiki/Rooms
 	socket.on('subscribe', function(channel) { 
-		console.log('subscribed: ' + channel);
+		nlog('subscribed: ' + channel);
 		socket.join(channel); 
 	});
 	socket.on('unsubscribe', function(channel) { 
-		console.log('unsubscribed: ' + channel);
+		nlog('unsubscribed: ' + channel);
 		socket.leave(channel); 
 	});
 	
@@ -97,7 +145,7 @@ io.sockets.on('connection', function(socket) {
            cid = uuid();
            socket.emit('setClientID', cid);
        } 
-       console.log('connect: ' + cid);
+       nlog('connect: ' + cid);
        socket.set('clientID', cid);
 
        for (c in clients) {
@@ -113,7 +161,7 @@ io.sockets.on('connection', function(socket) {
                 socket.emit('reconnect');
             }
             else {
-                console.log('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
+                nlog('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
                 clients[c] = s;
                 socket.broadcast.emit('setClient', c, s);
                 
@@ -205,12 +253,12 @@ addSensor('geology/MODISFires');
 
 var stockquotes = require('./sensor/stockquotes.js');
 
-var b = stockquotes.OutputBuffer(2500, function(o) { 
+var b = util.OutputBuffer(2500, function(o) { 
 	pub('chat', o);	
 });
 b.start();
 
-
+/*
 var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
-g.start();
+g.start();*/
 

@@ -1,40 +1,9 @@
 var http = require('http');
-
-function RecurringProcess(interval, runnable) {
-	var that = {	};
-	that.start = function() {
-		that.interval = setInterval(function() {
-			runnable();
-		}, interval);
-		runnable(); //run first
-	}
-	that.stop = function() {
-		clearInterval(that.interval);
-	}
-	return that;
-}
-exports.RecurringProcess = RecurringProcess;
-
-function OutputBuffer(interval, write) {
-	var that = RecurringProcess(interval, function() {
-		var o = that.buffer.pop();
-		if (o) {
-			write(o);
-		}	
-	});
-	that.buffer = [];
-	that.write = write;
-	that.push = function(o) {
-		that.buffer.push(o);
-	}
-
-	return that;
-}
-exports.OutputBuffer = OutputBuffer;
+var util = require('util');
 
 //TODO implement request-per-second parameter, bunch as many symbols together as possible per request
 function GoogleStockBot(symbols, outputbuffer) {
-	var that = RecurringProcess(5.0 * 60 * 1000, function() {
+	var that = util.RecurringProcess(5.0 * 60 * 1000, function() {
 		get_quote(symbols, function(next) {
 			outputbuffer.push(next);
 		});

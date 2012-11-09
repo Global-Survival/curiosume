@@ -79,20 +79,6 @@ function templatize(template, params) {
     return $( template ).tmpl( params);
 }
 
-
-var createRingBuffer = function(length){
-
-  var pointer = 0, buffer = []; 
-
-  return {
-    get  : function(key){return buffer[key];},
-    push : function(item){
-      buffer[pointer] = item;
-      pointer = (length + pointer +1) % length;
-    }
-  };
-  
-};
 	
 
 function addMenu(afterLoaded) {                
@@ -116,6 +102,7 @@ function loadScripts(f) {
 		                "/lib/jQuery-URL-Parser/purl.js",
 		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 		                "/lib/superfish/js/superfish.js",
+		                "/util.js",
 		                "/self.js",
 		                "/team.js",
 		                "/sensor.js",
