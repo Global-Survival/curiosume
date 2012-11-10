@@ -30,15 +30,15 @@ function RecurringProcess(interval, runnable) {
 			runnable();
 		}, interval);
 		runnable(); //run first
-	}
+	};
 	that.stop = function() {
 		clearInterval(that.interval);
-	}
+	};
 	return that;
 }
 exports.RecurringProcess = RecurringProcess;
 
-function OutputBuffer(interval, write) {
+function OutputBuffer(interval, write /* limit */) {
 	var that = RecurringProcess(interval, function() {
 		var o = that.buffer.pop();
 		if (o) {
@@ -49,8 +49,12 @@ function OutputBuffer(interval, write) {
 	that.write = write;
 	that.push = function(o) {
 		that.buffer.push(o);
-	}
-
+	};
+	/*that.pushAll = function(a) {
+		for (i = 0; i < a.length; i++)
+			push(a[i]);
+	};*/
+	
 	return that;
 }
 exports.OutputBuffer = OutputBuffer;

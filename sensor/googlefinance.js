@@ -1,19 +1,24 @@
+var sensor = require('./sensor.js');
+
 var http = require('http');
 var util = require('util');
 
+var myutil = require('../client/util.js');
+
 //TODO implement request-per-second parameter, bunch as many symbols together as possible per request
-function GoogleStockBot(symbols, outputbuffer) {
-	var that = util.RecurringProcess(5.0 * 60 * 1000, function() {
+function GoogleFinanceSymbols(symbols) {
+	var s = sensor.PeriodicSensor('GoogleFinanceSymbols_' + symbols, 5.0 * 60 * 1000, function() {
 		get_quote(symbols, function(next) {
-			outputbuffer.push(next);
+			s.out.push(next);
 		});
 	});
 
-	return that;
+	return s;
 }
-exports.GoogleStockBot = GoogleStockBot;
+exports.GoogleFinanceSymbols = GoogleFinanceSymbols;
 
 function get_quote(tickers, output) {
+	
 	var p_ticker = "";
 	for (i = 0; i < tickers.length; i++) {
 		p_ticker = p_ticker + tickers[i] + ',';
@@ -39,6 +44,8 @@ function get_quote(tickers, output) {
 				} catch(e) {
 					return;
 				}
+				
+				var now = Date.now();
 
 				for (var i = 0; i < data_object.length; i++) {
 					var quote = {};
@@ -50,6 +57,7 @@ function get_quote(tickers, output) {
 					quote.last_trade_time = data_object[i].lt;
 					quote.dividend = data_object[i].div;
 					quote.yield = data_object[i].yld;
+					quote.when = now;
 					output(quote);
 				}
 
@@ -59,4 +67,11 @@ function get_quote(tickers, output) {
 		});
 	});
 }
+
+var b = myutil.OutputBuffer(1000, function(s) {
+	console.log('O: ' , s);
+});
+b.start();
+sensor.addSensor(GoogleFinanceSymbols(['aapl','msft','ibm','goog']), b);
+sensor.addSensor(GoogleFinanceSymbols(['mon','bp','exc']), b);
 

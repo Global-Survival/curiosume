@@ -86,60 +86,106 @@ function removeRecurse(path,cb) {
 
 function endsWith(str, p) {return (str.match(p+"$")==str)}
 
-function parseKMLFile(kmlfilePath) {
-    fs.readFile(kmlfilePath, function(err, data) {
-        console.log(err);
+function parseKML(data) {
 
-        var parser = new xml2js.Parser();
-        parser.parseString(data, function (err, result) {
-
-            function processFolder(F) {
-                var fName = F.name;
-
-                if (F.NetworkLink!=undefined) {
-                    for (var nl = 0; nl < F.NetworkLink.length; nl++) {
-                        var NL = F.NetworkLink[nl];
-                        
-                        console.log(fName + '.' + NL.name);
-                        
-                        var u = '';
-                        if (NL.Url!=undefined) {
-                            u = NL.Url[0].href[0];
-                        }
-                        else if (NL.Link!=undefined) {
-                            u = NL.Link[0].href[0];
-                        }
-                        
-                        if ((u.indexOf('kml')!=-1) || (u.indexOf('Kml')!=-1)) {
-                            console.log('  layer = ' + u);                            
-                        }
-                        else if (u.indexOf('kmz')!=-1) {
-                            console.log('  kmz = ' + u);                                
-                        }
-                        else {
-                            console.log('  unknown = ' + u);
-                        }
+	var parser = new xml2js.Parser();
+	
+    parser.parseString(data, function (err, result) {
+    	
+        function processFolder(F) {
+        	
+            var fName = F.name;
+            
+            if (F.Placemark!=undefined) {
+                for (var nl = 0; nl < F.Placemark.length; nl++) {
+                	var p = F.Placemark[nl];
+                	
+                	
+                	var coord = null;
+                	if (p.Point!=undefined) {
+                		coord = p.Point.coordinates;
+                	}
+                	
+                	console.log('PLACEMARK ' + p.name, coord);
+                	
+                }
+            	
+            }
+            
+            if (F.NetworkLink!=undefined) {
+                for (var nl = 0; nl < F.NetworkLink.length; nl++) {
+                    var NL = F.NetworkLink[nl];
+                    
+                    console.log(fName + '.' + NL.name);
+                    
+                    var u = '';
+                    if (NL.Url!=undefined) {
+                        u = NL.Url[0].href[0];
+                    }
+                    else if (NL.Link!=undefined) {
+                        u = NL.Link[0].href[0];
+                    }
+                    
+                    if ((u.indexOf('kml')!=-1) || (u.indexOf('Kml')!=-1)) {
+                        console.log('  layer = ' + u);                            
+                    	parseKMLURL(u);
+                    }
+                    else if (u.indexOf('kmz')!=-1) {
+                        console.log('  kmz = ' + u);                                
+                    }
+                    else {
+                        console.log('  unknown = ' + u);
                     }
                 }
-
-                if (F.Folder!=undefined) {
-                    for (var ff = 0; ff < F.Folder.length; ff++) {
-                        var FF = F.Folder[ff];
-                        processFolder(FF);
-                    }                    
-                }
             }
 
-            for (var rf = 0; rf < result.kml.Folder.length; rf++) {                    
-                var F = result.kml.Folder[rf];
-                processFolder(F);
+            if (F.Folder!=undefined) {
+                for (var ff = 0; ff < F.Folder.length; ff++) {
+                    var FF = F.Folder[ff];
+                    processFolder(FF);
+                }                    
             }
+        }
+        if (result.kml.Document.Folder!=undefined) {
+	        for (var rf = 0; rf < result.kml.Document.Folder.length; rf++) {                    
+	            processFolder(result.kml.Document.Folder[rf]);
+	        }        	
+        }
+        
+        if (result.kml.Folder!=undefined) {
+	        for (var rf = 0; rf < result.kml.Folder.length; rf++) {                    
+	            var F = result.kml.Folder[rf];
+	            processFolder(F);
+	        }
+        }
 
-//                console.dir(result.kml.Folder[0].NetworkLink[0].name);
-//                console.dir(result.kml.Folder[0].NetworkLink[0].Link);
-//                console.dir(result.kml.Folder[0].Folder);
+//            console.dir(result.kml.Folder[0].NetworkLink[0].name);
+//            console.dir(result.kml.Folder[0].NetworkLink[0].Link);
+//            console.dir(result.kml.Folder[0].Folder);
 
-        });
+    });
+	
+}
+
+function parseKMLURL(kmlUrlPath) {
+	var r = request(kmlUrlPath, function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+		    parseKML(body);
+	  }
+	  else {
+		  console.error(kmlUrlPath + ' unreachable');
+	  }
+	});
+}
+
+function parseKMLFile(kmlfilePath) {
+    fs.readFile(kmlfilePath, function(err, data) {
+    	if (err) {
+    		console.log(err);
+    	}
+    	else {
+    		parseKML(data);
+    	}
     });
     
 }
@@ -164,4 +210,5 @@ function parseKMZ(kmzurl) {
 }
 
 
-parseKMZ('http://rezn8d.com/trdb/trdb-9001.kmz');
+//parseKMZ('http://rezn8d.com/trdb/trdb-9001.kmz');
+parseKMLFile('/home/me/Downloads/KML_Samples.kml');

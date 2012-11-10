@@ -365,12 +365,11 @@ addSensor('geology/USGSEarthquake');
 addSensor('pollution/IAEANuclear');
 addSensor('geology/MODISFires');
 
-var stockquotes = require('./sensor/stockquotes.js');
 
-var b = util.OutputBuffer(2500, function(o) { 
+/*var b = util.OutputBuffer(2500, function(o) { 
 	pub('chat', o);	
 });
-b.start();
+b.start();*/
 
 /*
 var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
