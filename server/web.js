@@ -313,8 +313,10 @@ function updateInterests(clientID, state) {
 	var now = Date.now();
 	
 	Server.clientState[clientID] = state;
+	var addends = { };
 		
 	if (prevState!=undefined) {
+
 		for (k in state.interests) {
 			var v = state.interests[k];
 			var pv = prevState.interests[k];
@@ -325,7 +327,7 @@ function updateInterests(clientID, state) {
 				var averageInterest = (v + pv)/2.0;
 				if (Server.interestTime[k] == undefined)
 					Server.interestTime[k] = 0;
-				Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest;
+				 addends[k] = ( (now - prevState.when)/1000.0 * averageInterest );
 			}
 		}
 		for (k in prevState.interests) {
@@ -336,9 +338,17 @@ function updateInterests(clientID, state) {
 				var averageInterest = (v + pv)/2.0;				
 				if (Server.interestTime[k] == undefined)
 					Server.interestTime[k] = 0;
-				Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest;
+				addends[k] = ( Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest );
 			}
 			
+		}
+		var addendSum = 0;
+		for (k in addends) {
+			addendSum += addends[k];
+		}
+		for (k in addends) {
+			var a = addends[k];
+			Server.interestTime[k] += a / addendSum;			
 		}
 	}
 	
