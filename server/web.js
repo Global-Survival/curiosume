@@ -400,9 +400,5 @@ var b = util.OutputBuffer(2500, function(o) {
 b.start();
 
 sensor.setDefaultBuffer(b); 
-sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
-sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('./schema/enformable_atomic_history.statements.csv'));
-/*
-var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
-g.start();*/
-
+//sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
+//sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('./schema/enformable_atomic_history.statements.csv'));
