@@ -23,22 +23,31 @@ var Sensor = function(id, onStart, onStop) {
 
 var PeriodicSensor = function(id, periodMS, run) {
 	var that = Sensor(id, function() {
-		console.log(id + ' starting');
+		console.log('Sensor ' + id + ' starting');
 		that.proc = util.RecurringProcess(periodMS, run);
 		that.proc.start();
 	}, function() {
 		if (that.proc) {
-			console.log(id + ' stopping');
+			console.log('Sensor ' + id + ' stopping');
 			that.proc.stop();
 			that.proc = null;
 		}
 	});
 	return that;
+};
+
+var defaultBuffer;
+function setDefaultBuffer(b) {
+	defaultBuffer = b;
 }
 
 var sensors = [];
 function addSensor(s, buffer) {
 	sensors.push(s);
+	
+	if (!buffer)
+		buffer = defaultBuffer;
+	
 	s.out = buffer;
 	s.onStart();
 }
@@ -47,3 +56,4 @@ exports.sensors = sensors;
 exports.Sensor = Sensor;
 exports.PeriodicSensor = PeriodicSensor;
 exports.addSensor = addSensor;
+exports.setDefaultBuffer = setDefaultBuffer;

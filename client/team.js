@@ -9,7 +9,8 @@ function sendMessage(x) {
     
     x = "<b>" + Self.get("name") + "</b>: " + x;
     
-    pub('chat', x);
+    pub('', x);
+    receiveMessage(x);
  }
 
 

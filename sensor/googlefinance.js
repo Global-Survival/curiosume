@@ -68,10 +68,12 @@ function get_quote(tickers, output) {
 	});
 }
 
+/*
 var b = myutil.OutputBuffer(1000, function(s) {
 	console.log('O: ' , s);
 });
 b.start();
 sensor.addSensor(GoogleFinanceSymbols(['aapl','msft','ibm','goog']), b);
 sensor.addSensor(GoogleFinanceSymbols(['mon','bp','exc']), b);
+*/
 

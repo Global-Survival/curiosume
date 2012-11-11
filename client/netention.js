@@ -160,7 +160,10 @@ function initNetention(f) {
 	    socket.on('reconnect', function () {
 	         connectSelf();
 	    });
-	    
+		socket.on('receive', function(m) {
+			receiveMessage(m);	
+		});
+
         initTeam();
         
 		addMenu(function() {

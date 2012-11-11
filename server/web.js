@@ -203,27 +203,32 @@ function uuid() {
 
 var channelListeners = {};
 
+function broadcast(socket, message) {
+	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+	socket.broadcast.emit('receive', message);	
+}
+
 function pub(channel, message) {
-	nlog(channel + ":" + JSON.stringify(message));
-	io.sockets.in(channel).emit('receive-' + channel, message);
+	nlog(channel + ":" + JSON.stringify(message, null, 4));
+	io.sockets.in(channel).emit('receive', message);
 }
 
 io.sockets.on('connection', function(socket) {
 	
 	//https://github.com/LearnBoost/socket.io/wiki/Rooms
 	socket.on('subscribe', function(channel) { 
-		nlog('subscribed: ' + channel);
-		socket.join(channel); 
+		sub(socket, channel); 
 	});
 	socket.on('unsubscribe', function(channel) { 
-		nlog('unsubscribed: ' + channel);
-		socket.leave(channel); 
+		unsub(socket, channel); 
 	});
 	
 
     socket.on('pub', function(channel, message) {
-	pub(channel, message);
-        //socket.broadcast.emit('receiveMessage', message);
+    	if (channel == '')
+       		broadcast(socket, message);
+       	else
+			pub(channel, message);
     });
     
     socket.on('getSensors', function(withSensors) {
@@ -255,17 +260,18 @@ io.sockets.on('connection', function(socket) {
     });
     
     socket.on('updateSelf', function(s) {
-        socket.get('clientID', function (err, c) {
+        socket.get('clientID', function (err, c) {        	
             if (c == null) {
                 socket.emit('reconnect');
             }
             else {
-                nlog('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
+            	socket.clientID = c;
+                //nlog('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
                 clients[c] = s;
                 socket.broadcast.emit('setClient', c, s);
                 
                 s.created = Date.now();
-                updateInterests(c, s);
+                updateInterests(c, s, socket);
             }
         });
     });
@@ -277,6 +283,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 
+/*
 function addSensor(path) {
     var s = require('./../client/sensor/' + path + '.js');
     var se = s.sensor;
@@ -298,7 +305,7 @@ function addSensor(path) {
 
     
 };
-
+*/
 
 function updateInterestTime() {
 	//reprocess all clientState's to current time
@@ -308,7 +315,23 @@ function updateInterestTime() {
 	}
 }
 
-function updateInterests(clientID, state) {	
+function sub(socket, channel) {
+	nlog(socket.clientID + ' subscribed ' + channel );
+	socket.join(channel);
+}
+function unsub(socket, channel) {
+	nlog(socket.clientID + ' unsubscribed ' + channel );
+	socket.leave(channel);	
+}
+
+function interestAdded(socket, interest) {
+	sub(socket, interest);	
+}
+function interestRemoved(socket, interest) {
+	unsub(socket, interest);
+}
+
+function updateInterests(clientID, state, socket) {	
 	var prevState = Server.clientState[clientID];
 	var now = Date.now();
 	
@@ -322,6 +345,8 @@ function updateInterests(clientID, state) {
 			var pv = prevState.interests[k];
 			if (pv==undefined) {
 				pv = 0;
+				if (socket)
+					interestAdded(socket, k);
 			}
 			else {
 				var averageInterest = (v + pv)/2.0;
@@ -339,6 +364,9 @@ function updateInterests(clientID, state) {
 				if (Server.interestTime[k] == undefined)
 					Server.interestTime[k] = 0;
 				addends[k] = ( Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest );
+				
+				if (socket)
+					interestRemoved(socket, k);
 			}
 			
 		}
@@ -361,16 +389,18 @@ function updateInterests(clientID, state) {
    // console.error(err.stack);
 // });
 
-addSensor('geology/USGSEarthquake');
-addSensor('pollution/IAEANuclear');
-addSensor('geology/MODISFires');
+//addSensor('geology/USGSEarthquake');
+//addSensor('pollution/IAEANuclear');
+//addSensor('geology/MODISFires');
 
-
-/*var b = util.OutputBuffer(2500, function(o) { 
-	pub('chat', o);	
+var sensor = require('../sensor/sensor.js');
+var b = util.OutputBuffer(2500, function(o) { 
+	pub('chat', o);
 });
-b.start();*/
+b.start();
 
+sensor.setDefaultBuffer(b); 
+sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
 /*
 var g = stockquotes.GoogleStockBot(['aapl','msft','ibm', 'goog'], b);
 g.start();*/
