@@ -11,6 +11,16 @@ parseCsvFile('eqs7day-M1.txt', function(rec){
 });
 */
 
+function parseCsvFile(file, callback, finished) {
+	var array = fs.readFileSync(file).toString().split("\n");
+	for(i in array) {
+		callback(buildRecord(['c0','c1','c2','c3','c4'], i));
+	   	console.log(array[i]);
+	}
+	finished();
+
+}
+
 function parseCsvUrl(url, callback, finished){
   request({uri: url}, function (error, response, body) {
 	  
@@ -46,6 +56,7 @@ function parseCsvUrl(url, callback, finished){
     return record
   }
  
+exports.parseCsvFile = parseCsvFile;
 exports.parseCsvUrl = parseCsvUrl;
 
 
