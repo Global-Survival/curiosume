@@ -132,7 +132,11 @@ function graphCZ(axisElement, canvasElement, init) {
 
     root.beginEdit();
     
-    var bounds = init(root); //new VisibleRegion2d(-7 * Ga, 0 * Ga, 0.13 * Ga / vc.get(0).clientWidth)
+    var limits = init(root); //new VisibleRegion2d(-7 * Ga, 0 * Ga, 0.13 * Ga / vc.get(0).clientWidth)
+    var yearSpan = Math.abs(limits[1]-limits[0]);
+    var heightSpan = limits[2];
+    console.log('yearSpan', yearSpan, 'heightSpan', heightSpan);
+	var bounds = new VisibleRegion2d(-limits[0], -limits[1], yearSpan / 256.0);
     vc.virtualCanvas("setVisible", bounds);
     root.endEdit(true);
 

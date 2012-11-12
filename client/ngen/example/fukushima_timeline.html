@@ -22,25 +22,16 @@
 			$(document).ready(function() {
 				initNetention(function() {
 					initCZ(function() {
-						graphCZ('axis', 'vc', function(root) {
-							
-							var bounds = graphEnformableTimelineURLCZ('/schema/enformable-fukushima-timeline.json', 64, root);
-							
-							var startYearsAgo = bounds[0];
-							var endYearsAgo = bounds[1];
-							console.log(bounds);
-							return new VisibleRegion2d(startYears, endYearsAgo, (endYearsAgo-startYearsAgo) / vc.get(0).clientWidth);		
-							
+						
+						var path = '/schema/enformable-fukushima-timeline.json';
+						$.getJSON(path, function(data) {
+							graphCZ('axis', 'vc', function(root) {							
+								return graphEnformableTimelineCZ(data, 64, root);
+							});								
 						});				
 					});
 				});
 			});
-
-			/*
-			initSpacegraph('axis', 'vc', function() {
-				graphEnformableTimelineURL('/schema/enformable-fukushima-timeline.json', 32);
-			});
-			*/
 		
 		</script>
 	</head>

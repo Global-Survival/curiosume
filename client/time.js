@@ -1,3 +1,8 @@
+function yearsAgoUnixTime(now, then) {
+	return (now - then)/1000.0/(365.0*24.0*60.0*60.0);
+}
+
+							
 function graphEnformableTimelineCZ(data, maxEvents, root) {
 	var l = [];
 	
@@ -65,19 +70,25 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		}
 		
 		var now = Date.now();
-		var age = (now - e.startUnix)/1000.0/(365.0*24.0*60.0*60.0);
+		var age = yearsAgoUnixTime(now, e.startUnix);
 		
 		if ((earliest > age) || (i == 0)) earliest = age;
 		if ((latest < age) || (i == 0)) latest = age;
 		
 		console.log(age);
-		addRectangle(root, "layerContents", "rec", -age, 0, 0.25/365.0, 1.0, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
-
+		
+		var width = 0.25/365.0;
+		var height = 5;
+		addRectangle(root, "layerContents", "rec" + i, -age, -height/2.0, width, height/2.0, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		
 		
 	}
+
+	var maxHeight = 0.25/365.0;
 	
-	console.log('bounds: ', earliest, latest)
-	return [ earliest, latest ];	
+	var limits = [ earliest, latest, maxHeight ];	
+    
+    return limits;
 	
 }
 
