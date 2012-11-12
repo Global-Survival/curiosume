@@ -30,6 +30,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	}
 	
 	
+	var earliest, latest;
 	
 	for (i = 0; i < ll; i++) {
 		
@@ -65,13 +66,18 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		
 		var now = Date.now();
 		var age = (now - e.startUnix)/1000.0/(365.0*24.0*60.0*60.0);
+		
+		if ((earliest > age) || (i == 0)) earliest = age;
+		if ((latest < age) || (i == 0)) latest = age;
+		
 		console.log(age);
-		addRectangle(root, "layerContents", "rec", -age, 0, 0.25/365.0, 0.1, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
-	    //addRectangle(root, "layerContents", "rec1", -6.9 * Ga, 0 * Ga, 0.01 * Ga, 0.01 * Ga, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		addRectangle(root, "layerContents", "rec", -age, 0, 0.25/365.0, 1.0, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
 
 		
 	}
 	
+	console.log('bounds: ', earliest, latest)
+	return [ earliest, latest ];	
 	
 }
 

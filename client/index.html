@@ -5,6 +5,7 @@
             body {
                 font-family: Arial, sans;
                 margin: 1em;
+                margin-top: 0.2em;
                 font-size: 170%;
 
                 background-image: url('/image/p2p_banner.jpg');
@@ -15,7 +16,7 @@
 
             }
 			a, a:visited {
-			color:black;
+				color:black;
 			}
 			li ul li {
 				font-size: 80%;
@@ -38,21 +39,30 @@
                 margin: 0;
 
             }
-
+			#leftCol, #rightCol {
+				width: 45%;
+			}
+			
+			#leftCol {
+				float: left;
+			}
+			#rightCol {
+				float: right;
+			}
         </style>
     </head>
     <body>
         <p id="title">Netention</p>
         <a id="origin" href="http://netention.org">http://netention.org</a>
+		<br/>
+		
+    	<div id="leftCol">
         <ul>
             <li><a href="headsup.html"><b>Status</b></a></li>
 
             <li>Find&nbsp;<input type="text"></input>
             	<ul>
-            		<li><a href="#">By Type</a></li>
-            		<li><a href="#">By Time</a></li>
-            		<li><a href="#">By Author</a></li>
-            		<li><a href="#">By Tag</a></li>
+            		<li>By: <a href="#">Type</a> <a href="#">Time</a> <a href="#">Author</a> <a href="#">Tag</a></li>
             	</ul>
             </li>
             
@@ -80,26 +90,38 @@
             	</ul>
             </li>
 
-            <li><a href="map.html">Environment</a>
+            <li><a href="map.html">Space</a>
             	<ul>
                    	<li><a href="#">Alerts</a></li>
                    	<li><a href="#" title="Plan a route">Travel</a></li>
             	</ul>
             </li>
-            
-
-
-            
-            <li><a href="/state">System</a>
-               	<li><a href="#">Hardware</a><ul>
-	                   	<li><a href="#">Microphones (Recognize Audio -> Environment Objects)</a></li>
-	                   	<li><a href="#">Webcams (OpenCL, Recognize Video -> Environment Objects)</a></li>
-	                   	<li><a href="#">Readers (Text Analysis, Text -> Objects)</a></li>
-                   	</ul> 
-               	</li>
+            <li><a href="time.html">Time</a>
             	<ul>
-			        <li><a href="/log">Logs</a></li>
-			        <li><a href="/save">Save State</a></li>
+                   	<li><a href="#">Latest Events</a></li>
+            	</ul>
+            </li>            
+           </ul>
+    		
+    	</div>
+    	<div id="rightCol">
+    		<ul>
+	            <li><a href="/state">System</a><ul>
+	               	<li><a href="#">Hardware</a><ul>
+		                   	<li><a href="#">Microphones (Recognize Audio -> Environment Objects)</a></li>
+		                   	<li><a href="#">Webcams (OpenCL, Recognize Video -> Environment Objects)</a></li>
+		                   	<li><a href="#">Readers (Text Analysis, Text -> Objects)</a></li>
+	                   	</ul> 
+	            	<ul>
+				        <li><a href="/log">Logs</a></li>
+				        <li><a href="/save">Save State</a></li>
+	            	</ul></li>
+	            </ul>
+	            
+	           	
+	            <!--  <li><a href="nonlocal.html" title="Self and Team, without Map">Non-Local</a></li> -->
+	            </li>
+	            <li>Demos<ul>
 		            <li>Semantic<ul>
 			            <li><a href="edit_object.html?id=dsk">Edit Object (demo)</a></li>
 		            </ul></li>
@@ -109,17 +131,17 @@
 		            	<li><a href="cortexit.multi.html">Multi Demo</a></li>
 		           	</ul></li>
 		           	<li>Spacegraph<ul>
-		           	<li><a href="/ngen/example/companies.html">Graph2D Companies</a></li>
-		           	<li><a href="/ngen/example/fukushima_timeline.html">Enformable Fukushima Timeline</a></li>
-		           	
-		           	</ul></li>
-            	</ul>
-            </li>
+			           	<li><a href="/ngen/example/companies.html">Graph2D Companies</a></li>
+			           	<li><a href="/ngen/example/fukushima_timeline.html">Enformable Fukushima Timeline</a></li>			           	
+		           	</ul></li>	            	
+	            </ul>
+	           </li>
+	        </ul>		
+    	</div>
+    	
+
+
             
-           	
-            <!--  <li><a href="nonlocal.html" title="Self and Team, without Map">Non-Local</a></li> -->
-            
-        </ul>		
 
     </body>
 </html>
