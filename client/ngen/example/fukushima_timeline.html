@@ -4,10 +4,13 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Fukushima Timeline</title>
 		
-	    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-		<script src="/spacegraph.js"></script> 
+	    <script src="http://code.jquery.com/jquery.min.js"></script>
+	    <script src="/netention.js"></script> 
+		<script src="/spacegraph.chronozoom.js"></script> 
 
-		<link rel="stylesheet" href="/zui/app.style.css" type="text/css" charset="utf-8"/>
+	    <link type="text/css" rel="stylesheet" href="/chronozoom/Styles/cz.css"/>
+    	<link type="text/css" rel="stylesheet" href="/chronozoom/Styles/axis.css"/>
+
 
 		<style>
 		body {
@@ -16,23 +19,35 @@
 		
 		</style>
 		<script>		
-		
-			initSpacegraph(function() {
+			$(document).ready(function() {
+				initNetention(function() {
+					initCZ(function() {
+						graphCZ('axis', 'vc', function(root) {
+							
+							graphEnformableTimelineURLCZ('/schema/enformable-fukushima-timeline.json', 64, root);
+							
+							return new VisibleRegion2d(-1, 0 * Ga, 1 / vc.get(0).clientWidth);		
+							
+						});				
+					});
+				});
+			});
+
+			/*
+			initSpacegraph('axis', 'vc', function() {
 				graphEnformableTimelineURL('/schema/enformable-fukushima-timeline.json', 32);
 			});
+			*/
 		
 		</script>
 	</head>
 		
 	<body>
-	    <div class="no-msie message" style="display:none">
-	        <h1>This demo only works on</h1>
-	        <a href="http://www.apple.com/safari/" class="safari">Safari 4+</a>
-	        <a href="http://www.firefox.com" class="firefox">Firefox 3+</a>
-	        <a href="http://www.google.com/chrome" class="chrome">Chrome</a>
-	        <p class="explorer">I did not take the effort to make the demo work on Internet Explorer. Making it work
-            for Internet Explorer will require HTML5 canvas emulation, and browser specific
-            performance optimizing.</p>
+	    <div id="axis" style="width: 100%; height: 60px; background-color: black">
+	    </div>
+	    <div id="vc" style="background-image:url('/chronozoom/Images/Blueprint_Paper.jpg'); width: 100%; height: 100%; position: fixed">
+	        <div id="layerContents">
+	        </div>
 	    </div>
 	</body>
 </html>

@@ -83,7 +83,7 @@ function templatize(template, params) {
 
 function addMenu(afterLoaded) {                
 	var hw = $('<div/>');
-	hw.load('menu.html', afterLoaded);
+	hw.load('/menu.html', afterLoaded);
 	$('body').prepend(hw);            	
 }
 
@@ -96,7 +96,7 @@ function loadScripts(f) {
 		var scripts = [ "/socket.io/socket.io.js", 
 //		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
 		                "http://www.openlayers.org/api/OpenLayers.js",
-		                "http://code.jquery.com/ui/1.8.23/jquery-ui.min.js",
+		                "http://code.jquery.com/ui/jquery-ui-git.js",
 		                "/lib/jquery-tmpl/jquery.tmpl.js",
 		                "/lib/jstorage/jstorage.js",
 		                "/lib/jQuery-URL-Parser/purl.js",
@@ -106,6 +106,7 @@ function loadScripts(f) {
 		                "/self.js",
 		                "/team.js",
 		                "/sensor.js",
+		                "/time.js",
 		                "/map.js",
 		                "/map.heatmap.js",
 		                "/environment.js",
@@ -127,12 +128,12 @@ function loadScripts(f) {
 	loadCSS('/lib/superfish/css/superfish-navbar.css');
 	loadCSS('/lib/superfish/css/superfish-vertical.css');
 	
-	loadCSS('self.css');
-	loadCSS('gss.css');
-	loadCSS('gss.fixed.css');
-	loadCSS('team.css');
-	loadCSS('environment.css');
-	loadCSS('cortexit.css');
+	loadCSS('/self.css');
+	loadCSS('/gss.css');
+	loadCSS('/gss.fixed.css');
+	loadCSS('/team.css');
+	loadCSS('/environment.css');
+	loadCSS('/cortexit.css');
 }
 
 
