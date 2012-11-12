@@ -376,6 +376,8 @@ function updateInterests(clientID, state, socket) {
 		}
 		for (k in addends) {
 			var a = addends[k];
+			if (Server.interestTime[k] == undefined)
+				Server.interestTime[k] = 0;
 			Server.interestTime[k] += a / addendSum;			
 		}
 	}
