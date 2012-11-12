@@ -26,7 +26,7 @@
 						var path = '/schema/enformable-fukushima-timeline.json';
 						$.getJSON(path, function(data) {
 							graphCZ('axis', 'vc', function(root) {							
-								return graphEnformableTimelineCZ(data, 64, root);
+								return graphEnformableTimelineCZ(data, 512, root);
 							});								
 						});				
 					});

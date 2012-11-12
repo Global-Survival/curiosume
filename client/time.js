@@ -1,5 +1,5 @@
 function yearsAgoUnixTime(now, then) {
-	return (now - then)/1000.0/(365.0*24.0*60.0*60.0);
+	return (1.0 * (now - then)) / (1000.0 * 365.0 * 24.0 * 60.0 * 60.0);
 }
 
 							
@@ -36,6 +36,9 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	
 	
 	var earliest, latest;
+
+	var height = 0.001;
+	var now = Date.now();
 	
 	for (i = 0; i < ll; i++) {
 		
@@ -48,11 +51,17 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			if (e.title.length > maxLength)
 				e.title = e.title.substring(0, maxLength);
 			
+			e.age = yearsAgoUnixTime(now, tt);
+			
+			if ((earliest > e.age) || (i == 0)) earliest = e.age;
+			if ((latest < e.age) || (i == 0)) latest = e.age;
+
 			var x = {
 				id: i +'' + e.start,
 				label: e.title,
 				type:1, 
-				fixedX:t
+				fixedX:t,
+				age: e.age
 			};
 			
 			l.push(x);
@@ -63,23 +72,20 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		var e = data.events[i];
 		
 		var a = node(e, e.startUnix);
+		var age = a.age;
 		
+		var width;
 		if (e.endUnix) {
 			var b = node(e, e.endUnix);
-			b['outs'] = [ {id : a.id, weight : 15}  ]; 
+			b['outs'] = [ {id : a.id, weight : 15}  ];
+			width = Math.abs(b.age - a.age);
 		}
-		
-		var now = Date.now();
-		var age = yearsAgoUnixTime(now, e.startUnix);
-		
-		if ((earliest > age) || (i == 0)) earliest = age;
-		if ((latest < age) || (i == 0)) latest = age;
-		
-		console.log(age);
-		
-		var width = 0.25/365.0;
-		var height = 5;
-		addRectangle(root, "layerContents", "rec" + i, -age, -height/2.0, width, height/2.0, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		else {
+			width = 0.05/365.0;			
+		}
+						
+		var y = -1.7 + Math.random() * 0.02;
+		addRectangle(root, "layerContents", "rec" + i, -age, -height + y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
 		
 		
 	}

@@ -136,7 +136,10 @@ function graphCZ(axisElement, canvasElement, init) {
     var yearSpan = Math.abs(limits[1]-limits[0]);
     var heightSpan = limits[2];
     console.log('yearSpan', yearSpan, 'heightSpan', heightSpan);
-	var bounds = new VisibleRegion2d(-limits[0], -limits[1], yearSpan / 256.0);
+    console.dir(limits);
+    
+    var margin = 0.055;
+	var bounds = new VisibleRegion2d(-limits[0]-margin, -limits[1], yearSpan / 1024.0);
     vc.virtualCanvas("setVisible", bounds);
     root.endEdit(true);
 
