@@ -9,7 +9,7 @@ var myutil = require('../client/util.js');
 function GoogleFinanceSymbols(symbols) {
 	var s = sensor.PeriodicSensor('GoogleFinanceSymbols_' + symbols, 5.0 * 60 * 1000, function() {
 		get_quote(symbols, function(next) {
-			s.out.push(next);
+			s.out.push([ /*'Finance'*/ "emotion-happy", next]);
 		});
 	});
 

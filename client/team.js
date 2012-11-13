@@ -112,7 +112,7 @@ function initTeam() {
 	window.onbeforeunload = function() {
 		sendMessage('(offline)');
 	};
-	
+
 	sendMessage('(online)');
 	
 }
@@ -131,14 +131,14 @@ function initChat(e) {
 	*/
 	var c = $('<div id="Team"></div>');
 
-	var mi = $('<input type="text" id="MessageInput"/>')
+	var mi = $('<textarea id="MessageInput"/>')
     mi.keyup(function(event) {
           if (event.keyCode==13) {
         	  sendMessage();
           }
     });
 	mi.appendTo(c);
-	
+
 	
     subscribe('chat', function(message) {
         receiveMessage(message);        	

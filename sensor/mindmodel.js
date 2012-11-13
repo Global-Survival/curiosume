@@ -51,11 +51,11 @@ var getEntry = function(data) {
 	return o;
 }
 
-var MMCSV = function(path) {
+var MMCSV = function(channel, path) {
 	var s = sensor.Sensor('MMSCV_' + path, function() {
 
 		readCSV(path, function(o) {		
-			s.out.push(o);
+			s.out.push([channel, o]);
 		});
 
 	}, function() { 	});

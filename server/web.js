@@ -396,11 +396,17 @@ function updateInterests(clientID, state, socket) {
 //addSensor('geology/MODISFires');
 
 var sensor = require('../sensor/sensor.js');
-var b = util.OutputBuffer(2500, function(o) { 
-	pub('chat', o);
+var b = util.OutputBuffer(2500, function(o) {
+	var channel = 'chat';
+	var message = o;
+	if (o[0]) {
+		channel = o[0];
+		message = o[1];
+	} 
+	pub(channel, message);
 });
 b.start();
 
 sensor.setDefaultBuffer(b); 
 //sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
-//sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('./schema/enformable_atomic_history.statements.csv'));
+sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('emotion-happy','./schema/enformable_atomic_history.statements.tsv'));
