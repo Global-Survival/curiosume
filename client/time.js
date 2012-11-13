@@ -7,12 +7,12 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	var l = [];
 	
 	var minTime, maxTime;
-	var ll = data.events.length;
+	var ll = data.length;
 	if (ll > maxEvents)
 		ll = maxEvents;
 	
 	for (i = 0; i < ll; i++) {
-		var e = data.events[i];
+		var e = data[i];
 		
 		function p(u) {
 			if ((i == 0) || (unixtime < minTime))
@@ -35,10 +35,12 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	}
 	
 	
-	var earliest, latest;
 
-	var height = 0.001;
+	var height;
 	var now = Date.now();
+	var earliest=now, latest=now;
+	
+	var boxes = [];
 	
 	for (i = 0; i < ll; i++) {
 		
@@ -46,10 +48,10 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 
 			var t = 5 * ((tt - minTime) / (maxTime - minTime) - 0.5);
 
-			var maxLength = 32;
+			//var maxLength = 32;
 			
-			if (e.title.length > maxLength)
-				e.title = e.title.substring(0, maxLength);
+			//if (e.name.length > maxLength)
+				//e.name= e.name.substring(0, maxLength);
 			
 			e.age = yearsAgoUnixTime(now, tt);
 			
@@ -58,7 +60,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 
 			var x = {
 				id: i +'' + e.start,
-				label: e.title,
+				label: e.name,
 				type:1, 
 				fixedX:t,
 				age: e.age
@@ -69,33 +71,88 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			return x;
 		}
 
-		var e = data.events[i];
+		var e = data[i];
 		
-		var a = node(e, e.startUnix);
+		var es = e.startUnix;
+		if (!es) {
+			es = e.when;
+		}
+		
+		var a = node(e, es);
 		var age = a.age;
 		
+		console.dir(e);
+		
 		var width;
+		var height = 0.001;
 		if (e.endUnix) {
 			var b = node(e, e.endUnix);
 			b['outs'] = [ {id : a.id, weight : 15}  ];
 			width = Math.abs(b.age - a.age);
 		}
 		else {
-			width = 0.05/365.0;			
+			width = 1.0/365.0;	
+			if (e.type == 'FinanceQuote') {
+				width = 0.25/ 365.0;
+				height = 0.0005;
+			}
 		}
 						
-		var y = -1.7 + Math.random() * 0.02 - height;
+		var y = 0-0.1+Math.random()*0.001; // + Math.random() * 0.02 - height;
 		var x = -age;
 		
-		var layer = "layerContents";
 		var ri = 'rec' + i;
 		
-		var text = e.title;
-		
-		addRectangle(root, layer, ri, x, y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
-		addText(root, layer, ri + '.text', x, y, y, height/4.0, text, { fillStyle:'white', fontName: 'Arial' }, width);
+		var text = e.name || e.uuid;
+						
+		boxes.push( {
+			id: ri,
+			x: x,
+			y: y,
+			width: width,
+			height: height,
+			text: text
+		});
 		
 	}
+
+	var layer = "layerContents";
+	function plot(id,x,y,width,height,text) {			
+		addRectangle(root, layer, id, x, y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		addText(root, layer, id, x, y, y, height/4.0, text, { fillStyle:'white', fontName: 'Arial' }, width);		
+	}
+
+	var iterations = 250;
+	var speed = 0.005;
+	for (var i = 0; i < iterations; i++) {
+		for (var b = 0; b < boxes.length; b++) {
+			for (var c = 0; c < boxes.length; c++) {
+				if (c==b) continue;
+
+				//repulse
+				var dx = boxes[b].x - boxes[c].x;
+				var dy = boxes[b].y - boxes[c].y;
+				var n = Math.sqrt((dx*dx)+(dy*dy));
+				
+				//TODO replace with algorithm: http://www.tinrocket.com/?p=616
+				var maxDist = Math.max(boxes[b].width, boxes[b].height, boxes[c].width, boxes[c].height );
+				
+				if (n>0) {
+					if (n < maxDist) {
+						dx *= speed/n; dy *= speed/n;
+						
+						//boxes[b].x += dx;
+						//boxes[c].x -= dx;
+						boxes[b].y += dy;
+						boxes[c].y -= dy;
+					}
+				}
+			}			
+		}
+	}
+	
+	for (var i = 0; i < boxes.length; i++)
+		plot(boxes[i].id, boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height, boxes[i].text);
 
 	var maxHeight = 0.25/365.0;
 	
@@ -114,7 +171,7 @@ function graphEnformableTimeline(data, maxEvents) {
 		ll = maxEvents;
 	
 	for (i = 0; i < ll; i++) {
-		var e = data.events[i];
+		var e = data[i];
 		
 		function p(u) {
 			if ((i == 0) || (unixtime < minTime))
@@ -161,7 +218,7 @@ function graphEnformableTimeline(data, maxEvents) {
 			return x;
 		}
 
-		var e = data.events[i];
+		var e = data[i];
 		
 		var a = node(e, e.startUnix);
 		

@@ -1,3 +1,5 @@
+var attention = { };
+
 var interestStrength = { };
 
 var interestHistory;
@@ -9,7 +11,7 @@ var sensorClient = { };
 var sensorsInitted = false;
 var connected = false;
 
-var defaultInitialInterest = 25;
+var defaultInitialInterest = 0.25;
 
 function loadInterests() {
     interestStrength = Self.get('interests');
@@ -44,8 +46,10 @@ function loadSelf() {
         Self.set("name", n);
     }
 
-    $('#selfName').val( n );
-    
+    //$('#selfName').val( n );
+    attention = Self.get("attention");
+    if (attention == null)
+    	attention = { };
 }
 
 function saveInterests() {
@@ -63,6 +67,7 @@ function saveInterests() {
 function saveSelf() {
     var n = $('#selfName').val();
     Self.set("name", n);
+    Self.set("attention", attention);
 
     updateStatus();
 }

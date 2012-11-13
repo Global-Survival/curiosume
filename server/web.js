@@ -243,12 +243,12 @@ var channelListeners = {};
 
 function broadcast(socket, message) {
 	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
-	socket.broadcast.emit('receive', message);	
+	socket.broadcast.emit('notice', message);	
 }
 
 function pub(channel, message) {
 	nlog(channel + ":" + JSON.stringify(message, null, 4));
-	io.sockets.in(channel).emit('receive', message);
+	io.sockets.in(channel).emit('notice', message);
 }
 
 io.sockets.on('connection', function(socket) {
@@ -316,6 +316,14 @@ io.sockets.on('connection', function(socket) {
     
     socket.on('getSentencized', function(urlOrText, withResult) {
     	cortexit.getSentencized(urlOrText, withResult);
+    });
+    
+    socket.on('getObjects', function(query, withObjects) {
+		var db = mongo.connect(databaseUrl, collections);
+		db.obj.find(function(err, docs) {
+			withObjects(docs);					
+			db.close();
+		});    
     });
     
 });
@@ -450,6 +458,7 @@ b.start();
 sensor.setDefaultBuffer(b); 
 //sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
 //sensor.addSensor(require('../sensor/rss.js').RSSFeed('x', 'http://blog.automenta.com/feeds/posts/default?alt=rss'));
+
 //sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('emotion-happy','./schema/enformable_atomic_history.statements.tsv'));
 //sensor.addSensor(require('../sensor/echo.js').Echo('emotion-happy', 'happiness'));
 //sensor.addSensor(require('../sensor/echo.js').Echo('emotion-surprised', 'surprise!'));

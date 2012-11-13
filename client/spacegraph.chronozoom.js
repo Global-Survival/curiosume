@@ -19,7 +19,7 @@ var pinHandled = false;
 var offset = { "xOffset": 0, "yOffset": 0 };
 var scale = { "xOrigin": 0, "yOrigin": 0, "scaleFactor": 0 };
 var maxPermitedVerticalRange = { top: -10 * Ga, bottom: 10 * Ga };
-var maxPermitedScale = 1000000;
+var maxPermitedScale = 1500000;
 
 function initCZ(f) {
 	$.getScript('/lib/lazyload.js', function() {
@@ -135,11 +135,10 @@ function graphCZ(axisElement, canvasElement, init) {
     var limits = init(root); //new VisibleRegion2d(-7 * Ga, 0 * Ga, 0.13 * Ga / vc.get(0).clientWidth)
     var yearSpan = Math.abs(limits[1]-limits[0]);
     var heightSpan = limits[2];
-    console.log('yearSpan', yearSpan, 'heightSpan', heightSpan);
-    console.dir(limits);
+
     
     var margin = 0.055;
-	var bounds = new VisibleRegion2d(-limits[0]-margin, -limits[1], yearSpan / 1024.0);
+	var bounds = new VisibleRegion2d(-limits[0]-margin, -limits[1], Math.max(0.5, yearSpan) / 1024.0);
     vc.virtualCanvas("setVisible", bounds);
     root.endEdit(true);
 

@@ -13,7 +13,7 @@
 	"apricot":"",
 	"mongojs":"",
 	"ya-csv":"",
-	"feedparser"
+	"feedparser":""
     },
     "engines": {
 	"node": "0.8.x", 

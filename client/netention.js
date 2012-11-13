@@ -161,7 +161,7 @@ function initNetention(f) {
 	    socket.on('reconnect', function () {
 	         connectSelf();
 	    });
-		socket.on('receive', function(m) {
+		socket.on('notice', function(m) {
 			receiveMessage(m);	
 		});
 
@@ -181,6 +181,27 @@ function initNetention(f) {
 		
 	});
 	
+}
+
+function getObjects(query, onObject, onFinished) {
+	socket.emit('getObjects', query, function(objs) {
+		for (k in objs) {
+			var x = objs[k];
+			notice(x);
+			if (onObject!=null)
+				onObject(x);
+		}
+		onFinished();
+	});
+}
+
+function notice(x) {
+	   
+	addMessage(x);
+	
+	if (x.uuid) {
+		attention[x.uuid] = x;
+	}
 }
 
 function subscribe(channel, f) {

@@ -10,8 +10,9 @@ function sendMessage(x) {
     x = "<b>" + Self.get("name") + "</b>: " + x;
     
     pub('', x);
-    receiveMessage(x);
+    notice(x);
  }
+
 
 
 function addSuggestions(x) {
@@ -68,9 +69,6 @@ function addMessage(h) {
     
 }
 
-function receiveMessage(m) {
-    addMessage(m);
-}
 
 function setClient(cid, s) {
     clients[cid] = s;
@@ -141,7 +139,7 @@ function initChat(e) {
 
 	
     subscribe('chat', function(message) {
-        receiveMessage(message);        	
+        notice(message);        	
     });
 
 	c.append('<div id="teamContent"/>');
