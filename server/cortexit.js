@@ -79,10 +79,10 @@ function getSentencized(urlOrText, f) {
        apricot.parse(urlOrText, p, false);       
    }
 }
-process.on('uncaughtException', function (err) {
+/*process.on('uncaughtException', function (err) {
 	//This traps a nasty bug when 'apricot' is used: 
 	//	uncaughtException: TypeError: Property '_onTimeout' of object #<Object> is not a function
 	console.log('uncaughtException: ' + err);
-});
+});*/
 
 exports.getSentencized = getSentencized;

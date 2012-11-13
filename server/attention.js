@@ -53,9 +53,9 @@ function newAttention(memoryMomentum) {
 	return that;
 }
 
-exports.attention = newAttention();
+exports.Attention = newAttention();
 
-var a = newAttention(0.5);
+/*var a = newAttention(0.5);
 a.update();
 console.log(a.summary());
 a.notice('a', 1.0);
@@ -65,5 +65,5 @@ console.log(a.summary());
 a.notice('b', 1.0);
 console.log(a.summary());
 a.update(); console.log(a.summary());
-a.update(); console.log(a.summary());
+a.update(); console.log(a.summary());*/
 

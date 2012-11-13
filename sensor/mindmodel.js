@@ -41,7 +41,7 @@ var getEntry = function(data) {
 	var targetID = data[3] + '.' + data[4];
 
 	var o = {
-		id: srcID,
+		uuid: srcID,
 		type: data[0],
 		statement: [
 			[ data[2], targetID ]

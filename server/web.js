@@ -56,7 +56,47 @@ function loadState() {
 
 }
 
+function notice(o) {
+	if (!o.uuid)
+		return;
+		
+	var db = mongo.connect(databaseUrl, collections);
+	//upsert?
+	db.obj.save(o, function(err, saved) {
+		if (err) {
+			nlog(err);
+		}
+		
+		db.close();
+	});
+	
 
+}
+
+function getTypeCounts(whenFinished) {
+	//this can probably be optimized very much
+	
+	var db = mongo.connect(databaseUrl, collections);
+	db.obj.find(function(err, docs) {
+		var totals = { };
+		for (var k in docs) {
+			var d = docs[k];
+			if (d.type) {
+				/*if (d.type[0]) {
+					// is array
+				}
+				else {*/
+					if (totals[d.type])
+						totals[d.type]++;
+					else
+						totals[d.type] = 1;
+				//}
+			}
+		}
+		//console.log(totals);
+		whenFinished(totals);
+	});
+}
 
 function saveState(onSaved, onError) {
 	var t = Date.now()
@@ -396,19 +436,21 @@ function updateInterests(clientID, state, socket) {
 //addSensor('geology/MODISFires');
 
 var sensor = require('../sensor/sensor.js');
-var b = util.OutputBuffer(2500, function(o) {
+var b = util.OutputBuffer(500, function(o) {
+	
 	var channel = 'chat';
 	var message = o;
 	if (o[0]) {
 		channel = o[0];
 		message = o[1];
 	} 
+	notice(message);
 	pub(channel, message);
 });
 b.start();
 
 sensor.setDefaultBuffer(b); 
-//sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
+sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
 //sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('emotion-happy','./schema/enformable_atomic_history.statements.tsv'));
 //sensor.addSensor(require('../sensor/echo.js').Echo('emotion-happy', 'happiness'));
 //sensor.addSensor(require('../sensor/echo.js').Echo('emotion-surprised', 'surprise!'));

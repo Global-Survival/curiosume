@@ -50,16 +50,19 @@ function get_quote(tickers, output) {
 				for (var i = 0; i < data_object.length; i++) {
 					var quote = {};
 					quote.ticker = data_object[i].t;
+					quote.last_trade_time = data_object[i].lt;
+					quote.uuid = quote.ticker + "_" + quote.last_trade_time;
+					quote.type = 'FinanceQuote';
 					quote.exchange = data_object[i].e;
 					quote.price = data_object[i].l_cur;
 					quote.change = data_object[i].c;
 					quote.change_percent = data_object[i].cp;
-					quote.last_trade_time = data_object[i].lt;
 					quote.dividend = data_object[i].div;
 					quote.yield = data_object[i].yld;
 					quote.when = now;
 					output(quote);
 				}
+				
 
 
 				/*p_socket.emit('quote', PRETTY_PRINT_JSON ? JSON.stringify(quote, true, '\t') : JSON.stringify(quote));*/
