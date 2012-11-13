@@ -84,9 +84,16 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			width = 0.05/365.0;			
 		}
 						
-		var y = -1.7 + Math.random() * 0.02;
-		addRectangle(root, "layerContents", "rec" + i, -age, -height + y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		var y = -1.7 + Math.random() * 0.02 - height;
+		var x = -age;
 		
+		var layer = "layerContents";
+		var ri = 'rec' + i;
+		
+		var text = e.title;
+		
+		addRectangle(root, layer, ri, x, y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+		addText(root, layer, ri + '.text', x, y, y, height/4.0, text, { fillStyle:'white', fontName: 'Arial' }, width);
 		
 	}
 
