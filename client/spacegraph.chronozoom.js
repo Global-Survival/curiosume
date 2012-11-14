@@ -133,6 +133,12 @@ function graphCZ(axisElement, canvasElement, init) {
     root.beginEdit();
     
     var limits = init(root); //new VisibleRegion2d(-7 * Ga, 0 * Ga, 0.13 * Ga / vc.get(0).clientWidth)
+    
+    console.dir(limits);
+    
+    if (limits[1] - limits[0] > 1.0/365.0) {
+    	limits[1] = limits[0] + 1.0/365.0;
+    }
     var yearSpan = Math.abs(limits[1]-limits[0]);
     var heightSpan = limits[2];
 

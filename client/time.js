@@ -81,20 +81,28 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		var a = node(e, es);
 		var age = a.age;
 		
-		console.dir(e);
-		
 		var width;
 		var height = 0.001;
+		var bg = 'rgba(128,128,128,0.5)';
 		if (e.endUnix) {
 			var b = node(e, e.endUnix);
 			b['outs'] = [ {id : a.id, weight : 15}  ];
 			width = Math.abs(b.age - a.age);
 		}
 		else {
-			width = 1.0/365.0;	
+			width = 0.2/365.0;	
+			
 			if (e.type == 'FinanceQuote') {
-				width = 0.25/ 365.0;
+				width = 0.1/ 365.0;
 				height = 0.0005;
+				bg = 'orange';
+			}
+			else if (e.type == 'Message') {
+				if (e.length!=undefined)
+					width = 0.1 * Math.log(e.length) / 365.0;
+				console.log(width);
+				height = width;
+				bg = 'purple';
 			}
 		}
 						
@@ -111,31 +119,35 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			y: y,
 			width: width,
 			height: height,
-			text: text
+			text: text,
+			bgcolor: bg
 		});
 		
 	}
 
 	var layer = "layerContents";
-	function plot(id,x,y,width,height,text) {			
-		addRectangle(root, layer, id, x, y, width, height, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
-		addText(root, layer, id, x, y, y, height/4.0, text, { fillStyle:'white', fontName: 'Arial' }, width);		
+	function plot(id,x,y,width,height,text,bgcolor) {			
+		addRectangle(root, layer, id, x, y, width, height, { strokeStyle: 'white', lineWidth: 1, fillStyle: bgcolor });
+		addText(root, layer, id, x, y, y+height, height*0.75, text, { fillStyle:'white', fontName: 'Arial' } /*, width*/);		
 	}
 
-	var iterations = 250;
-	var speed = 0.005;
+	var iterations = 850;
+	var speed = 0.01;
+	var gravity = 0.95;
 	for (var i = 0; i < iterations; i++) {
 		for (var b = 0; b < boxes.length; b++) {
 			for (var c = 0; c < boxes.length; c++) {
 				if (c==b) continue;
 
 				//repulse
-				var dx = boxes[b].x - boxes[c].x;
+				//var dx = boxes[b].x - boxes[c].x;
+				var dx = 0;
 				var dy = boxes[b].y - boxes[c].y;
-				var n = Math.sqrt((dx*dx)+(dy*dy));
+				//var n = Math.sqrt((dx*dx)+(dy*dy));
+				var n = Math.abs(dy);
 				
 				//TODO replace with algorithm: http://www.tinrocket.com/?p=616
-				var maxDist = Math.max(boxes[b].width, boxes[b].height, boxes[c].width, boxes[c].height );
+				var maxDist = Math.max(boxes[b].width, boxes[b].height, boxes[c].width, boxes[c].height )/2.0;
 				
 				if (n>0) {
 					if (n < maxDist) {
@@ -145,6 +157,9 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 						//boxes[c].x -= dx;
 						boxes[b].y += dy;
 						boxes[c].y -= dy;
+						
+						boxes[b].y *= gravity;
+						boxes[c].y *= gravity;
 					}
 				}
 			}			
@@ -152,7 +167,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	}
 	
 	for (var i = 0; i < boxes.length; i++)
-		plot(boxes[i].id, boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height, boxes[i].text);
+		plot(boxes[i].id, boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height, boxes[i].text, boxes[i].bgcolor);
 
 	var maxHeight = 0.25/365.0;
 	

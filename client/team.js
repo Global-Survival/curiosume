@@ -7,10 +7,18 @@ function sendMessage(x) {
         
     }
     
-    x = "<b>" + Self.get("name") + "</b>: " + x;
+    var name = Self.get("name");
+    x = "<b>" + name + "</b>: " + x;
     
-    pub('', x);
+    var now = new Date();
+    x = {
+    	uuid: 'message_' + name + "_" + now,
+    	name: x,
+    	when: now.getTime(),
+    	type: 'Message'
+    };
     notice(x);
+    pub('', x);
  }
 
 
