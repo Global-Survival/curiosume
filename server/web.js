@@ -232,13 +232,6 @@ io.set('transports', [                     // enable all transports (optional if
 ]);
 io.set("polling duration", 10); 
 
-function uuid() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-    });
-}
-
 var channelListeners = {};
 
 function broadcast(socket, message) {
@@ -284,7 +277,7 @@ io.sockets.on('connection', function(socket) {
     
     socket.on('connectSelf', function(cid) {
        if (cid == null) {
-           cid = uuid();
+           cid = util.uuid();
            socket.emit('setClientID', cid);
        } 
        nlog('connect: ' + cid);
@@ -442,7 +435,8 @@ function updateInterests(clientID, state, socket) {
 //addSensor('geology/MODISFires');
 
 var sensor = require('../sensor/sensor.js');
-var b = util.OutputBuffer(500, function(o) {
+
+var b = util.OutputBuffer(200, function(o) {
 	
 	var channel = 'chat';
 	var message = o;
@@ -455,11 +449,8 @@ var b = util.OutputBuffer(500, function(o) {
 });
 b.start();
 
-sensor.setDefaultBuffer(b); 
-//sensor.addSensor(require('../sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
-//sensor.addSensor(require('../sensor/rss.js').RSSFeed('x', 'http://blog.automenta.com/feeds/posts/default?alt=rss'));
-//sensor.addSensor(require('../sensor/rss.js').RSSFeed('x', 'http://enenews.com/feed'));
+sensor.setDefaultBuffer(b);
 
-//sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('emotion-happy','./schema/enformable_atomic_history.statements.tsv'));
-//sensor.addSensor(require('../sensor/echo.js').Echo('emotion-happy', 'happiness'));
-//sensor.addSensor(require('../sensor/echo.js').Echo('emotion-surprised', 'surprise!'));
+
+require('../init.js').init();
+nlog('Ready');

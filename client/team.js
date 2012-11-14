@@ -12,7 +12,7 @@ function sendMessage(x) {
     
     var now = new Date();
     x = {
-    	uuid: 'message_' + name + "_" + now,
+    	uuid: 'message_' + uuid(),
     	name: x,
     	when: now.getTime(),
     	type: 'Message'

@@ -131,20 +131,18 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		addText(root, layer, id, x, y, y+height, height*0.75, text, { fillStyle:'white', fontName: 'Arial' } /*, width*/);		
 	}
 
-	var iterations = 850;
-	var speed = 0.01;
-	var gravity = 0.95;
+	var iterations = 150;
+	var speed = 0.02;
+	
 	for (var i = 0; i < iterations; i++) {
 		for (var b = 0; b < boxes.length; b++) {
 			for (var c = 0; c < boxes.length; c++) {
 				if (c==b) continue;
 
 				//repulse
-				//var dx = boxes[b].x - boxes[c].x;
-				var dx = 0;
+				var dx = boxes[b].x - boxes[c].x;
 				var dy = boxes[b].y - boxes[c].y;
-				//var n = Math.sqrt((dx*dx)+(dy*dy));
-				var n = Math.abs(dy);
+				var n = Math.sqrt((dx*dx)+(dy*dy));
 				
 				//TODO replace with algorithm: http://www.tinrocket.com/?p=616
 				var maxDist = Math.max(boxes[b].width, boxes[b].height, boxes[c].width, boxes[c].height )/2.0;
@@ -158,8 +156,6 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 						boxes[b].y += dy;
 						boxes[c].y -= dy;
 						
-						boxes[b].y *= gravity;
-						boxes[c].y *= gravity;
 					}
 				}
 			}			
