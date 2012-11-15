@@ -1,14 +1,12 @@
-var sensor = { };
 var clients = { };
 var objects = { };
 var objectInterest = { };
 
 var memory = require('./memory.js');
-var attention = memory.Attention(0.9);
-
 var util = require('../client/util.js');
 var config = require('../config.js');
 var cortexit = require('./cortexit.js');
+var express = require('express')();
 
 var http = require('http')
   , url = require('url')
@@ -18,11 +16,8 @@ var http = require('http')
   , nodestatic = require('node-static')
   , server;
   
-
-var Server = { 
-		
-		
-};
+var attention = memory.Attention(0.9);
+var Server = { };
 var logMemory = util.createRingBuffer(256); 
 Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
 Server.clientState = { };	//current state of all clients, indexed by their clientID
@@ -33,7 +28,7 @@ var mongo = require("mongojs");
 var databaseUrl = process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 var collections = [ "obj" ];
 
-
+ 
 function loadState() {
 	var db = mongo.connect(databaseUrl, collections);
 	
@@ -95,7 +90,9 @@ function getTypeCounts(whenFinished) {
 			}
 			
 			if (d.uuid) {
-				totals[d.uuid] = [ 0, attention.totals[d.uuid] || 0];
+				var a = attention.totals[d.uuid];
+				if (a)
+					totals[d.uuid] = [ 0, a ];
 			}
 			
 		}
@@ -176,57 +173,39 @@ function nlog(x) {
 	console.log(x);
 	logMemory.push(msg);
 }
-
-http.globalAgent.maxSockets = 256;
-
 function sendJSON(res, x) {
 	res.writeHead(200, {'content-type': 'text/json' });
 	res.end( JSON.stringify(x,null,4) );
 }
 
-var httpServer = http.createServer(function(req, res){
-	var path = url.parse(req.url).pathname.substring(1);
-	var pp = path.split('/');
-	if (pp.length > 0) {
-		var p1 = pp[0];
-		if (p1 == 'log') {
-			sendJSON(res, logMemory.buffer);		
-		}
-		else if (p1 == 'object') {
-			var oid = pp[1];
-			sendJSON(res, oid);			
-		}
-		else if (p1 == 'state') {
-			sendJSON(res, Server);
-		}		
-		else if (p1 == 'attention') {			
-			getTypeCounts(function(x) {
-				sendJSON(res, x);
-			});			
-		}
-		else if (p1 == 'save') {
-			sendJSON(res, 'Saving');
-			saveState(
-				function() { nlog('State Saved'); } , 
-			 	function(err) { nlog('State Save unccessful: ' + err) }
-			);
-		}		
-		else if (p1 == 'team') {
-			var p2 = pp[1];
-			if (p2 == 'interestTime') {
-				updateInterestTime();
-				sendJSON(res, Server.interestTime);
-			}
-		}		
-	}
-	else {
-		req.addListener('end', function () {
-		   file.serve(req, res);
-		});
-	}
+
+http.globalAgent.maxSockets = 256;
+
+var httpServer = http.createServer(express);
+
+express.use("/", require('express').static('./client'));
+express.get('/log', function (req, res) {
+	sendJSON(res, logMemory.buffer);		
 });
-
-
+express.get('/state', function (req, res) {
+	sendJSON(res, Server);
+});
+express.get('/attention', function (req, res) {
+	getTypeCounts(function(x) {
+		sendJSON(res, x);
+	});			
+});
+express.get('/save', function (req, res) {
+	sendJSON(res, 'Saving');
+	saveState(
+		function() { nlog('State Saved'); } , 
+	 	function(err) { nlog('State Save unccessful: ' + err) }
+	);
+});
+express.get('/team/interestTime', function (req, res) {
+	updateInterestTime();
+	sendJSON(res, Server.interestTime);
+});
 
 httpServer.listen(config.port);
 
@@ -277,18 +256,18 @@ io.sockets.on('connection', function(socket) {
 			pub(channel, message);
     });
     
-    socket.on('getSensors', function(withSensors) {
-        withSensors(sensor);
-    });
-    
-    socket.on('getSensor', function(id, withSensor) {
-        if (sensor[id]!=undefined) {
-            withSensor(sensor[id]);
-        }
-        else {
-            console.error('Unknown sensor: ' + id);
-        }
-    });
+    // socket.on('getSensors', function(withSensors) {
+        // withSensors(sensor);
+    // });
+//     
+    // socket.on('getSensor', function(id, withSensor) {
+        // if (sensor[id]!=undefined) {
+            // withSensor(sensor[id]);
+        // }
+        // else {
+            // console.error('Unknown sensor: ' + id);
+        // }
+    // });
     
     socket.on('connectSelf', function(cid) {
        if (cid == null) {
