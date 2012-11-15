@@ -3,6 +3,8 @@ var clients = { };
 var objects = { };
 var objectInterest = { };
 
+var memory = require('./memory.js');
+var attention = memory.Attention(0.9);
 
 var util = require('../client/util.js');
 var config = require('../config.js');
@@ -85,11 +87,17 @@ function getTypeCounts(whenFinished) {
 				}
 				else {*/
 					if (totals[d.type])
-						totals[d.type]++;
+						totals[d.type][0]++;
 					else
-						totals[d.type] = 1;
+						totals[d.type] = [ 1, 0];
 				//}
+				totals[d.type][1] = attention.totals[d.type] || 0;
 			}
+			
+			if (d.uuid) {
+				totals[d.uuid] = [ 0, attention.totals[d.uuid] || 0];
+			}
+			
 		}
 		//console.log(totals);
 		whenFinished(totals);
@@ -191,6 +199,11 @@ var httpServer = http.createServer(function(req, res){
 		else if (p1 == 'state') {
 			sendJSON(res, Server);
 		}		
+		else if (p1 == 'attention') {			
+			getTypeCounts(function(x) {
+				sendJSON(res, x);
+			});			
+		}
 		else if (p1 == 'save') {
 			sendJSON(res, 'Saving');
 			saveState(
@@ -206,9 +219,11 @@ var httpServer = http.createServer(function(req, res){
 			}
 		}		
 	}
-	req.addListener('end', function () {
-	   file.serve(req, res);
-	});
+	else {
+		req.addListener('end', function () {
+		   file.serve(req, res);
+		});
+	}
 });
 
 

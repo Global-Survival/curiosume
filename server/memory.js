@@ -1,6 +1,6 @@
 var util = require('../client/util.js');
 
-function newAttention(memoryMomentum) {
+function Attention(memoryMomentum) {
 	var that = {
 			momentum: memoryMomentum,
 			since: { },
@@ -53,7 +53,7 @@ function newAttention(memoryMomentum) {
 	return that;
 }
 
-exports.Attention = newAttention();
+exports.Attention = Attention;
 
 /*var a = newAttention(0.5);
 a.update();
