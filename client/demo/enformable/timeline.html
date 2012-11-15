@@ -23,10 +23,10 @@
 				initNetention(function() {
 					initCZ(function() {
 						
-						var path = '/schema/enformable-fukushima-timeline.json';
+						var path = 'enformable-fukushima-timeline.json';
 						$.getJSON(path, function(data) {
 							graphCZ('axis', 'vc', function(root) {							
-								return graphEnformableTimelineCZ(data, 512, root);
+								return graphEnformableTimelineCZ(data.events, 512, root);
 							});								
 						});				
 					});

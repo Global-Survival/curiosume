@@ -322,29 +322,6 @@ io.sockets.on('connection', function(socket) {
 });
 
 
-/*
-function addSensor(path) {
-    var s = require('./../client/sensor/' + path + '.js');
-    var se = s.sensor;
-    
-    if ((s === undefined) || (se === undefined)) {
-        console.error('Sensor: ' + path + ' not found');
-        return;
-    }
-    
-    se.clientJS = '/sensor/' + path + '.client.js';
-    
-    sensor[se.id()] = se;
-
-    se.refresh(sensor, function() { 
-        console.log('Added sensor: ' + se.id());
-    }, function() { 
-        console.error('Error adding sensor: ' + se.id());
-    });
-
-    
-};
-*/
 
 function updateInterestTime() {
 	//reprocess all clientState's to current time
@@ -430,9 +407,6 @@ function updateInterests(clientID, state, socket) {
    // console.error(err.stack);
 // });
 
-//addSensor('geology/USGSEarthquake');
-//addSensor('pollution/IAEANuclear');
-//addSensor('geology/MODISFires');
 
 var sensor = require('../sensor/sensor.js');
 

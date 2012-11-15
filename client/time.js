@@ -90,7 +90,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			width = Math.abs(b.age - a.age);
 		}
 		else {
-			width = 0.2/365.0;	
+			width = 0.1/365.0;	
 			
 			if (e.type == 'FinanceQuote') {
 				width = 0.1/ 365.0;
@@ -106,12 +106,15 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 			}
 		}
 						
-		var y = 0-0.1+Math.random()*0.001; // + Math.random() * 0.02 - height;
+		var y = -1.8-0.1+Math.random()*0.001; // + Math.random() * 0.02 - height;
 		var x = -age;
 		
 		var ri = 'rec' + i;
 		
-		var text = e.name || e.uuid;
+		console.dir(e);
+		
+		var text = e.name || e.uuid || e.title;
+		
 						
 		boxes.push( {
 			id: ri,
@@ -128,7 +131,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	var layer = "layerContents";
 	function plot(id,x,y,width,height,text,bgcolor) {			
 		addRectangle(root, layer, id, x, y, width, height, { strokeStyle: 'white', lineWidth: 1, fillStyle: bgcolor });
-		addText(root, layer, id, x, y, y+height, height*0.75, text, { fillStyle:'white', fontName: 'Arial' } /*, width*/);		
+		addText(root, layer, id, x, y, y+height, height*0.25, text, { fillStyle:'white', fontName: 'Arial' } /*, width*/);		
 	}
 
 	var iterations = 150;
@@ -165,6 +168,8 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 	for (var i = 0; i < boxes.length; i++)
 		plot(boxes[i].id, boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height, boxes[i].text, boxes[i].bgcolor);
 
+	console.dir(boxes);
+	
 	var maxHeight = 0.25/365.0;
 	
 	var limits = [ earliest, latest, maxHeight ];	

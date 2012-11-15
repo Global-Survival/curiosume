@@ -136,9 +136,9 @@ function graphCZ(axisElement, canvasElement, init) {
     
     console.dir(limits);
     
-    if (limits[1] - limits[0] > 1.0/365.0) {
+    /*if (limits[1] - limits[0] > 1.0/365.0) {
     	limits[1] = limits[0] + 1.0/365.0;
-    }
+    }*/
     var yearSpan = Math.abs(limits[1]-limits[0]);
     var heightSpan = limits[2];
 
