@@ -41,16 +41,11 @@
                 });
 				
 			});    	
+			$.getJSON('/attention', function(i) {
+				$('#attention').html(JSON.stringify(i, null, 4));
+			});
 	    });
 		
-	    /*$(document).ready(function(){
-			initNetention(function() {
-
-				getClientInterests(function (i) {
- 
-				});
-			});	 
-	    });*/
 	    
 	</script>                        
 	                       
@@ -62,6 +57,10 @@
 	<div id="ClientInterests" data-role="page" class="PageWrapper">
 		<h3>Team Interests (in seconds)</h3>
 		<div id="ClientInterestsSeconds">
+		</div>
+		<h3>Attention</h3>
+		<div id="attention">
+			
 		</div>
 	</div>
 

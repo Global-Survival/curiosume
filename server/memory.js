@@ -8,25 +8,27 @@ function Attention(memoryMomentum) {
 			totals: { },
 			summary: function() { return [ this.values, this.totals ]; },
 			notice : function(o, strength) {
-				var prevStrength = this.values[o];				
-				var prevSince = this.since[o];
+				var i = o.uuid;
 				
-				if (this.values[o] == undefined) {
-					this.values[o] = 0;
+				var prevStrength = this.values[i];				
+				var prevSince = this.since[i];
+				
+				if (this.values[i] == undefined) {
+					this.values[i] = 0;
 				}
 					
-				this.values[o] += strength;
+				this.values[i] += strength;
 				
 				var now = Date.now();
 				if (prevStrength != undefined) {
 					var dt = now - prevSince;
-					if (this.totals[o] == undefined) {
-						this.totals[o] = 0;
+					if (this.totals[i] == undefined) {
+						this.totals[i] = 0;
 					}
-					this.totals[o] += dt * 0.5 * (strength + prevStrength);
+					this.totals[i] += dt * 0.5 * (strength + prevStrength);
 				}
 				
-				this.since[o] = now;
+				this.since[i] = now;
 				
 				
 			},
@@ -34,6 +36,7 @@ function Attention(memoryMomentum) {
 				this.notice(o, 0);
 			},
 			update : function() {
+				
 				//refresh
 				for (k in this.values) {
 					this.refresh(k);
@@ -52,6 +55,7 @@ function Attention(memoryMomentum) {
 	
 	return that;
 }
+
 
 exports.Attention = Attention;
 

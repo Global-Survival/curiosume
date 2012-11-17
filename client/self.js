@@ -62,6 +62,7 @@ function saveInterests() {
     }
     Self.set('interests', si);
     Self.set('interestHistory', interestHistory);
+    Self.set('attention', attention);
 }
 
 function saveSelf() {

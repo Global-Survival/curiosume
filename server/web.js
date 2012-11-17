@@ -1,5 +1,6 @@
 var clients = { };
 var objects = { };
+var types =  { };
 var objectInterest = { };
 
 var memory = require('./memory.js');
@@ -17,7 +18,15 @@ var http = require('http')
   , server;
   
 var attention = memory.Attention(0.9);
-var Server = { };
+
+var Server = { 
+	name: 'Netention',
+	description: 'http://netention.org',
+	
+	memoryUpdatePeriodMS: 5000	
+};
+exports.Server = Server;
+
 var logMemory = util.createRingBuffer(256); 
 Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
 Server.clientState = { };	//current state of all clients, indexed by their clientID
@@ -57,6 +66,8 @@ function notice(o) {
 	if (!o.uuid)
 		return;
 		
+	attention.notice(o, 0.1);
+	
 	var db = mongo.connect(databaseUrl, collections);
 	db.obj.update({ uuid: o.uuid }, o, {upsert: true}, function(err) {
 		if (err) {
@@ -90,9 +101,13 @@ function getTypeCounts(whenFinished) {
 			}
 			
 			if (d.uuid) {
-				var a = attention.totals[d.uuid];
-				if (a)
+				var a = attention.values[d.uuid];
+				
+				if (a) {
 					totals[d.uuid] = [ 0, a ];
+					if (d.name)
+						totals[d.uuid].push(d.name);
+				}
 			}
 			
 		}
@@ -206,7 +221,12 @@ express.get('/team/interestTime', function (req, res) {
 	updateInterestTime();
 	sendJSON(res, Server.interestTime);
 });
+express.post('/notice', function(request, response){
 
+    //console.log(request.body.user.name);
+    //console.log(request.body.user.email);
+
+});
 httpServer.listen(config.port);
 
 nlog('Web server on port ' + config.port);
@@ -230,11 +250,13 @@ var channelListeners = {};
 
 function broadcast(socket, message) {
 	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+	notice(message);
 	socket.broadcast.emit('notice', message);	
 }
 
 function pub(channel, message) {
 	nlog(channel + ":" + JSON.stringify(message, null, 4));
+	notice(message);
 	io.sockets.in(channel).emit('notice', message);
 }
 
@@ -282,6 +304,8 @@ io.sockets.on('connection', function(socket) {
            var s = clients[c];           
            socket.emit('setClient', c, s);
        }
+       socket.emit('setServer', Server.name, Server.description);
+       socket.emit('addTypes', types);
     });
     
     socket.on('updateSelf', function(s) {
@@ -345,11 +369,10 @@ function updateInterests(clientID, state, socket) {
 	var prevState = Server.clientState[clientID];
 	var now = Date.now();
 	
-	Server.clientState[clientID] = state;
-	var addends = { };
 		
 	if (prevState!=undefined) {
-
+		var addends = { };
+	
 		for (k in state.interests) {
 			var v = state.interests[k];
 			var pv = prevState.interests[k];
@@ -393,6 +416,7 @@ function updateInterests(clientID, state, socket) {
 	}
 	
 	state.when = now;
+	Server.clientState[clientID] = state;
 	
 }
 
@@ -404,7 +428,7 @@ function updateInterests(clientID, state, socket) {
 
 var sensor = require('../sensor/sensor.js');
 
-var b = util.OutputBuffer(200, function(o) {
+var b = util.OutputBuffer(300, function(o) {
 	
 	var channel = 'chat';
 	var message = o;
@@ -417,8 +441,10 @@ var b = util.OutputBuffer(200, function(o) {
 });
 b.start();
 
-sensor.setDefaultBuffer(b);
+sensor.setDefaults(b, types);
 
+setInterval(attention.update, Server.memoryUpdatePeriodMS);
 
 require('../init.js').init();
 nlog('Ready');
+

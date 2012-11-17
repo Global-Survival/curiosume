@@ -162,7 +162,10 @@ function initNetention(f) {
 	         connectSelf();
 	    });
 		socket.on('notice', function(m) {
-			receiveMessage(m);	
+			notice(m);	
+		});
+		socket.on('addTypes', function(at) {
+			addTypes(at);
 		});
 
         initTeam();
@@ -181,6 +184,11 @@ function initNetention(f) {
 		
 	});
 	
+}
+
+function addTypes(at) {
+	console.log('adding types');
+	console.dir(at);
 }
 
 function getObjects(query, onObject, onFinished) {

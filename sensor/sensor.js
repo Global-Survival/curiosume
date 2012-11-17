@@ -36,9 +36,11 @@ var PeriodicSensor = function(id, periodMS, run) {
 	return that;
 };
 
-var defaultBuffer;
-function setDefaultBuffer(b) {
-	defaultBuffer = b;
+var buffer;
+var types;
+function setDefaults(b, t) {
+	buffer = b;
+	types = t;
 }
 
 var sensors = [];
@@ -52,8 +54,18 @@ function addSensor(s, buffer) {
 	s.onStart();
 }
 
+
+function addTypes(at) {	
+	for (var i = 0; i < at.length; i++) {
+		var a = at[i];
+		types[at[i].uuid] = a;
+		buffer.push(a);
+	}
+}
+
 exports.sensors = sensors;
 exports.Sensor = Sensor;
 exports.PeriodicSensor = PeriodicSensor;
 exports.addSensor = addSensor;
-exports.setDefaultBuffer = setDefaultBuffer;
+exports.addTypes = addTypes;
+exports.setDefaults = setDefaults;
