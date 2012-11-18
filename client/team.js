@@ -1,14 +1,14 @@
 var clients = { };
 
-function sendMessage(x) {
+function sendMessage(ox) {
+	var x = ox;
     if (x === undefined) {
-        x = $("#MessageInput").val();
-        $("#MessageInput").val('');
-        
+        x = $("#MessageSubject").val();
+        $("#MessageSubject").val('');        
     }
     
     var name = Self.get("name");
-    x = "<b>" + name + "</b>: " + x;
+    x = "" + name + ": " + x;
     
     var now = new Date();
     x = {
@@ -17,6 +17,17 @@ function sendMessage(x) {
     	when: now.getTime(),
     	type: 'Message'
     };
+    
+    if (ox === undefined) {
+	    var d = $("#MessageDescription");
+	    if (d) {
+	    	var v = d.val();
+	    	d.val('');
+	    	x.content = v;
+	    }
+    }
+
+    
     notice(x);
     pub('', x);
  }
@@ -123,6 +134,48 @@ function initTeam() {
 	
 }
 
+function newObjectEdit() {
+	var d = $('<div>');
+	
+	var expandedDesc = false;
+	
+	var mi = $('<input type="text" id="MessageSubject"/>')
+    mi.keyup(function(event) {
+    	if (!expandedDesc) {
+            if (event.keyCode==13) {
+          	  sendMessage();
+            }
+      	}
+    });
+
+	var ed = $('<div>');
+	
+	var b = $('<button>Description</buton>');
+	b.click(function() {
+		expandedDesc = true;
+		ed.show();
+		b.hide();
+	});
+	
+	$('<textarea id="MessageDescription" rows="5" /><br/>').appendTo(ed);
+	$('<button>Attach</button>').appendTo(ed);
+	$('<button>+</button>').appendTo(ed);
+	var sendButton = $('<button>Send</button>');
+	sendButton.click(function() {
+		sendMessage();
+	});
+	sendButton.appendTo(ed);
+	
+	ed.hide();
+	
+	mi.appendTo(d);
+	$('<br/>').appendTo(d);
+
+	b.appendTo(d);
+	ed.appendTo(d);
+	
+	return d;
+}
 function initChat(e) {
 	/*
 	<div id="Team" data-role="page" class="PageWrapper">
@@ -137,14 +190,7 @@ function initChat(e) {
 	*/
 	var c = $('<div id="Team"></div>');
 
-	var mi = $('<textarea id="MessageInput"/>')
-    mi.keyup(function(event) {
-          if (event.keyCode==13) {
-        	  sendMessage();
-          }
-    });
-	mi.appendTo(c);
-
+	newObjectEdit().appendTo(c);
 	
     subscribe('chat', function(message) {
         notice(message);        	

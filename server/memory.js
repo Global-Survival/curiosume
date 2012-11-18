@@ -1,11 +1,18 @@
 var util = require('../client/util.js');
 
+var minAttention = 0.05; //TODO make parameter
+
 function Attention(memoryMomentum) {
 	var that = {
 			momentum: memoryMomentum,
 			since: { },
 			values: { },
 			totals: { },
+			remove: function(x) {
+				delete that.since[x];
+				delete that.values[x];
+				delete that.totals[x];
+			},
 			summary: function() { return [ that.values, that.totals ]; },
 			notice : function(o, strength) {
 				var i = o.uuid;
@@ -36,18 +43,21 @@ function Attention(memoryMomentum) {
 				that.notice(o, 0);
 			},
 			update : function() {
-				//refresh
+				//REFRESH
 				for (var k in that.values) {
 					that.refresh(k);
 				}
-				
+
 				//FORGET: decrease and remove lowest
 				for (var k in that.values) {
 					that.values[k] *= memoryMomentum;
+					if (that.values[k] < minAttention) {
+						that.remove(k);
+					}
 				}
 				
 				//SPREAD: ...
-				
+				//	TODO follow incidence structure to determine target spread nodes				
 			}
 	};
 	
