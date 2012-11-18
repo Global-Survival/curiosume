@@ -3,8 +3,8 @@ var web = require('./server/web.js');
 
 exports.init = function() {
 	
-	web.Server.name = 'MyHumanity';
-	web.Server.description = 'http://MyHumanity.org';
+	//web.Server.name = 'Site Name';
+	//web.Server.description = 'Tagline';
 	
 	//sensor.addSensor(require('./sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
 	//sensor.addSensor(require('../sensor/rss.js').RSSFeed('x', 'http://blog.automenta.com/feeds/posts/default?alt=rss'));
@@ -15,9 +15,9 @@ exports.init = function() {
 
 	require('./sensor/4chan.js');
 	
-//addSensor('geology/USGSEarthquake');
-//addSensor('pollution/IAEANuclear');
-//addSensor('geology/MODISFires');
+	//addSensor('geology/USGSEarthquake');
+	//addSensor('pollution/IAEANuclear');
+	//addSensor('geology/MODISFires');
 
 
 }
