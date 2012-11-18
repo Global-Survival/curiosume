@@ -1,4 +1,4 @@
-var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstGeolocation, geolocate;
+var theMap, vector, fromProjection, toProjection, position, zoom, vector, geolocate;
 
 var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
 
@@ -21,7 +21,7 @@ function initMiniMap(target) {
 
 function initMap(target, onMoveEnd) {
 
-    firstGeolocation = true;
+    var firstGeolocation = true;
 
     zoom           = 9; 
     
@@ -117,11 +117,9 @@ function initMap(target, onMoveEnd) {
         }
     });
 
-    theMap.addControl(geolocate);
-    
     geolocate.events.register("locationupdated",geolocate,function(e) {
         //vector.removeAllFeatures();
-        
+        console.log('location: ', e);
         
         var circle = new OpenLayers.Feature.Vector(
             OpenLayers.Geometry.Polygon.createRegularPolygon(
@@ -172,6 +170,9 @@ function initMap(target, onMoveEnd) {
     geolocate.events.register("locationfailed",this,function() {
         OpenLayers.Console.log('Location detection failed');
     });
+    
+    theMap.addControl(geolocate);
+    
 
     theMap.setCenter(position, zoom );
 
@@ -189,6 +190,7 @@ function initMap(target, onMoveEnd) {
     /*var point = $('<input type="checkbox">+ Point</input>');
     $('#' + target + ' #MapControls').append(point);*/
     
+    geolocate.activate();
     
     return theMap;
 }
