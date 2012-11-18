@@ -82,13 +82,13 @@ function initSelf(e) {
 	}
 	$('#' + e).append(x);
 
-	initSensors();
+	//initSensors();
 	
 
 
-	  $('#EditMenu #FileMenu').after('<li><a href="#">Be</a>' + loadTypeMenu(null, emotionSchema)  + '</li>');
-	  $('#EditMenu #FileMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
-	  $('#EditMenu #FileMenu').after('<li><a href="#">Do</a>' + loadTypeMenu(null, actionSchema)  + '</li>');
+	  //$('#EditMenu #FileMenu').after('<li><a href="#">Be</a>' + loadTypeMenu(null, emotionSchema)  + '</li>');
+	  //$('#EditMenu #FileMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
+	  //$('#EditMenu #FileMenu').after('<li><a href="#">Do</a>' + loadTypeMenu(null, actionSchema)  + '</li>');
 	
 	  $('#EditMenu').superfish();
 	  

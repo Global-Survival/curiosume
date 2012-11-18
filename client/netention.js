@@ -110,9 +110,6 @@ function loadScripts(f) {
 		                "/map.js",
 		                "/map.heatmap.js",
 		                "/environment.js",
-		                "/schema/emotion.js",
-		                "/schema/action.js",
-		                "/schema/schema.org.js",
 		                "/cortexit.js"	                
 		                ];
 		
@@ -171,13 +168,10 @@ function initNetention(f) {
         initTeam();
         
 		addMenu(function() {
-	        loadSchema('/schema/schema.org.json', function() {
-	    		console.log('Schema loaded');
 
-	    	    if (f)
-	    	    	f();
-	    	    
-	        });
+    	    if (f)
+    	    	f();
+    	    
 			
 		});
 	    
