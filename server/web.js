@@ -84,6 +84,9 @@ function getTypeCounts(whenFinished) {
 	
 	var db = mongo.connect(databaseUrl, collections);
 	db.obj.find(function(err, docs) {
+		if (err) {
+			console.log('getTypeCounts: ' + err);
+		}
 		var totals = { };
 		for (var k in docs) {
 			var d = docs[k];
@@ -111,7 +114,7 @@ function getTypeCounts(whenFinished) {
 			}
 			
 		}
-		//console.log(totals);
+		db.close();
 		whenFinished(totals);
 	});
 }
@@ -188,9 +191,14 @@ function nlog(x) {
 	console.log(x);
 	logMemory.push(msg);
 }
-function sendJSON(res, x) {
+function sendJSON(res, x, pretty) {
 	res.writeHead(200, {'content-type': 'text/json' });
-	res.end( JSON.stringify(x,null,4) );
+	var p; 
+	if (!pretty)
+		p = JSON.stringify(x);
+	else
+		p = JSON.stringify(x,null,4)
+	res.end( p );
 }
 
 
@@ -207,7 +215,7 @@ express.get('/state', function (req, res) {
 });
 express.get('/attention', function (req, res) {
 	getTypeCounts(function(x) {
-		sendJSON(res, x);
+		sendJSON(res, x, false);
 	});			
 });
 express.get('/save', function (req, res) {

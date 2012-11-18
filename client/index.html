@@ -41,6 +41,9 @@
                 margin: 0;
 
             }
+            ul {
+				margin-top: 0px;            	
+            }
 			#leftCol, #rightCol {
 				width: 45%;
 			}
@@ -51,30 +54,59 @@
 			#rightCol {
 				float: right;
 			}
+			
+			#attention {
+				float: left;
+				width: 25%;
+			}
+			#menu {
+				float: right;
+				width: 65%;
+			}
+			#attention a {
+
+			}
         </style>
         <script>
         	function updateAttention() {
 	        	$.getJSON('/attention', function(a) {
 	        		var atten = $('#attention');
 	        		atten.html('');
+	        		
+	        		var min = -1, max = -1;
+	        		for (var i in a) {
+	        			var attention = a[i][1];
+	        			if ((min == -1) || (attention < min)) min = attention;;
+	        			if ((min == -1) || (attention > min)) max = attention;
+	        		}
+
 	        		for (var i in a) {
 	        			
 	        			var t = a[i];
 	        			var l = i;
-	        			var attention = t[1];
+	        			var attention = (t[1] - min) / (max - min);
 	        			var instances = t[0];
 	        			var name = t[2] || l;
 	        			
 	        			if (instances > 0) {
-	        				l = l + ' (' + instances + ')  '; 
+	        				name = name + ' (' + instances + ')  '; 
 	        			}
 	        			
-	        			var color;
-	        			if (attention > 0.6) color = '#000000';
-	        			else if (attention > 0.3) color = '#770000';
-	        			else color = '#000000';
+	        			var color, size;
+	        			if (attention > 0.6) {
+	        				color = '#880000';
+	        				size = '115%';
+	        			}
+	        			else if (attention > 0.3) {
+	        				color = '#440000';
+	        				size = '105%';
+	        			}
+	        			else {
+	        				color = '#000000';
+	        				size = '95%';
+	        			} 
 	        			
-	        			atten.append('<div>[<a href="/type/' + i + '" style="color: ' + color + '">' + name + '</a>]&nbsp;&nbsp;</div>');
+	        			atten.append('<div><a href="/type/' + i + '" style="color: ' + color + '; font-size: ' + size + '">' + name + '</a></div>');
 	        		}
 	        		
 	        	});
@@ -97,91 +129,92 @@
 		<div id="attention">
 			
 		</div>
-    	<div id="leftCol">
-        <ul>
-            <li><a href="headsup.html"><b>Status</b></a></li>
-
-            <li>Find&nbsp;<input type="text"></input>
-            	<ul>
-            		<li>By: <a href="#">Type</a> <a href="#">Time</a> <a href="#">Author</a></li>
-            	</ul>
-            </li>
-            
-            
-            <li><a href="self.html">Self</a>
-            	<ul>
-            		<li><a href="edit_object.html?id=me">Public Profile</a></li>
-		            <li><a href="memory.html">Memory (Local)</a></li>
-		            <li><a href="resource_allocation.html">Resources</a></li>
-	            	<li><a href="/ngen/example/attention_graph.html">Attention History</a></li>            
-					<li>Add...<ul>
-			            <li><a href="edit_object.html" title="">Object</a></li>
-			            <li><a href="#" title="">URL</a></li>
-			            <li><a href="#" title="">File</a></li>
-			            <li><a href="#" title="">Image</a></li>
-			            <li><a href="#" title="with live annotation and chat">Video</a></li>
-					</ul></li>            
-            	</ul>
-            </li>
-            
-            <li><a href="team.html">Team</a>
-            	<ul>
-		            <li><a href="memory.html?team=1">Memory (Team)</a></li>
-                   	<li><a href="team_interests.html">Team Attention</a></li>
-		            <li><a href="processes.html">Processes</a></li>
-		            <li><a href="trends.html">Demographics</a></li>
-            	</ul>
-            </li>
-
-            <li><a href="map.html">Space</a>
-            	<ul>
-                   	<li><a href="#">Alerts</a></li>
-                   	<li><a href="#" title="Plan a route">Travel</a></li>
-            	</ul>
-            </li>
-            <li><a href="time.html">Time</a>
-            	<ul>
-                   	<li><a href="#">Latest Events</a></li>
-            	</ul>
-            </li>            
-           </ul>
-    		
-    	</div>
-    	<div id="rightCol">
-    		<ul>
-	            <li><a href="/state">System</a><ul>
-	               	<li><a href="#">Hardware</a><ul>
-		                   	<li><a href="#">Microphones</a></li>
-		                   	<li><a href="#">Webcams</a></li>
-		                   	<li><a href="#">Readers</a></li>
-	                   	</ul> 
+		<div id="menu">
+	    	<div id="leftCol">
+	        <ul>
+	            <li><a href="headsup.html"><b>Status</b></a></li>
+	
+	            <li>Find&nbsp;<input type="text"></input>
 	            	<ul>
-				        <li><a href="/log">Logs</a></li>
-				        <li><a href="/save">Save State</a></li>
-	            	</ul></li>
-	            </ul>
-	            
-	           	
-	            <!--  <li><a href="nonlocal.html" title="Self and Team, without Map">Non-Local</a></li> -->
+	            		<li>By: <a href="#">Type</a> <a href="#">Time</a> <a href="#">Author</a></li>
+	            	</ul>
 	            </li>
-	            <li>Demos<ul>
-		            <li>Semantic<ul>
-			            <li><a href="edit_object.html?id=dsk">Edit Object (demo)</a></li>
-		            </ul></li>
-		            <li>Cortexit<ul>
-		            	<li><a href="cortexit.reader.html">Webpage Reader</a></li>
-		            	<li><a href="cortexit.full.html">Full-screen Demo</a></li>
-		            	<li><a href="cortexit.multi.html">Multi Demo</a></li>
-		           	</ul></li>
-		           	<li>Spacegraph<ul>
-			           	<li><a href="/ngen/example/companies.html">Graph2D Companies</a></li>
-			           	<li><a href="/demo/enformable/timeline.html">Enformable Fukushima Timeline</a></li>			           	
-		           	</ul></li>	            	
-	            </ul>
-	           </li>
-	        </ul>		
-    	</div>
-
+	            
+	            
+	            <li><a href="self.html">Self</a>
+	            	<ul>
+	            		<li><a href="edit_object.html?id=me">Public Profile</a></li>
+			            <li><a href="memory.html">Memory (Local)</a></li>
+			            <li><a href="resource_allocation.html">Resources</a></li>
+		            	<li><a href="/ngen/example/attention_graph.html">Attention History</a></li>            
+						<li>Add...<ul>
+				            <li><a href="edit_object.html" title="">Object</a></li>
+				            <li><a href="#" title="">URL</a></li>
+				            <li><a href="#" title="">File</a></li>
+				            <li><a href="#" title="">Image</a></li>
+				            <li><a href="#" title="with live annotation and chat">Video</a></li>
+						</ul></li>            
+	            	</ul>
+	            </li>
+	            
+	            <li><a href="team.html">Team</a>
+	            	<ul>
+			            <li><a href="memory.html?team=1">Memory (Team)</a></li>
+	                   	<li><a href="team_interests.html">Team Attention</a></li>
+			            <li><a href="processes.html">Processes</a></li>
+			            <li><a href="trends.html">Demographics</a></li>
+	            	</ul>
+	            </li>
+	
+	            <li><a href="map.html">Space</a>
+	            	<ul>
+	                   	<li><a href="#">Alerts</a></li>
+	                   	<li><a href="#" title="Plan a route">Travel</a></li>
+	            	</ul>
+	            </li>
+	            <li><a href="time.html">Time</a>
+	            	<ul>
+	                   	<li><a href="#">Latest Events</a></li>
+	            	</ul>
+	            </li>            
+	           </ul>
+	    		
+	    	</div>
+	    	<div id="rightCol">
+	    		<ul>
+		            <li><a href="/state">System</a><ul>
+		               	<li><a href="#">Hardware</a><ul>
+			                   	<li><a href="#">Microphones</a></li>
+			                   	<li><a href="#">Webcams</a></li>
+			                   	<li><a href="#">Readers</a></li>
+		                   	</ul> 
+		            	<ul>
+					        <li><a href="/log">Logs</a></li>
+					        <li><a href="/save">Save State</a></li>
+		            	</ul></li>
+		            </ul>
+		            
+		           	
+		            <!--  <li><a href="nonlocal.html" title="Self and Team, without Map">Non-Local</a></li> -->
+		            </li>
+		            <li>Demos<ul>
+			            <li>Semantic<ul>
+				            <li><a href="edit_object.html?id=dsk">Edit Object (demo)</a></li>
+			            </ul></li>
+			            <li>Cortexit<ul>
+			            	<li><a href="cortexit.reader.html">Webpage Reader</a></li>
+			            	<li><a href="cortexit.full.html">Full-screen Demo</a></li>
+			            	<li><a href="cortexit.multi.html">Multi Demo</a></li>
+			           	</ul></li>
+			           	<li>Spacegraph<ul>
+				           	<li><a href="/ngen/example/companies.html">Graph2D Companies</a></li>
+				           	<li><a href="/demo/enformable/timeline.html">Enformable Fukushima Timeline</a></li>			           	
+			           	</ul></li>	            	
+		            </ul>
+		           </li>
+		        </ul>		
+	    	</div>
+		</div>
 
     </body>
 </html>

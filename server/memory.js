@@ -6,45 +6,44 @@ function Attention(memoryMomentum) {
 			since: { },
 			values: { },
 			totals: { },
-			summary: function() { return [ this.values, this.totals ]; },
+			summary: function() { return [ that.values, that.totals ]; },
 			notice : function(o, strength) {
 				var i = o.uuid;
 				
-				var prevStrength = this.values[i];				
-				var prevSince = this.since[i];
+				var prevStrength = that.values[i];				
+				var prevSince = that.since[i];
 				
-				if (this.values[i] == undefined) {
-					this.values[i] = 0;
+				if (that.values[i] == undefined) {
+					that.values[i] = 0;
 				}
 					
-				this.values[i] += strength;
+				that.values[i] += strength;
 				
 				var now = Date.now();
 				if (prevStrength != undefined) {
 					var dt = now - prevSince;
-					if (this.totals[i] == undefined) {
-						this.totals[i] = 0;
+					if (that.totals[i] == undefined) {
+						that.totals[i] = 0;
 					}
-					this.totals[i] += dt * 0.5 * (strength + prevStrength);
+					that.totals[i] += dt * 0.5 * (strength + prevStrength);
 				}
 				
-				this.since[i] = now;
+				that.since[i] = now;
 				
 				
 			},
 			refresh: function(o) {
-				this.notice(o, 0);
+				that.notice(o, 0);
 			},
 			update : function() {
-				
 				//refresh
-				for (k in this.values) {
-					this.refresh(k);
+				for (var k in that.values) {
+					that.refresh(k);
 				}
 				
 				//FORGET: decrease and remove lowest
-				for (k in this.values) {
-					this.values[k] *= memoryMomentum;
+				for (var k in that.values) {
+					that.values[k] *= memoryMomentum;
 				}
 				
 				//SPREAD: ...
