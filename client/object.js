@@ -18,13 +18,24 @@ function newObjectEdit(x) {
 	var expandedMap = false;
 	
 	var mi = $('<input type="text" class="MessageSubject"/>')
+	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
+	
     mi.keyup(function(event) {
+    	var authorID = ((Self.get('name') || 'Anonymous') + ' <' + Self.get('clientID') + '>');
+    	console.log(authorID);
     	if (!expandedDesc) {
             if (event.keyCode==13) {
-          	  sendMessage();
+          	  sendMessage({
+          		  uuid: uuid(),
+          		  name: mi.val(),
+          		  type: 'Message',
+          		  author: authorID
+          	  });
             }
       	}
     });
+	
+	var map;
 
 	var ed = $('<div>');
 	var emid = uuid();
@@ -46,15 +57,28 @@ function newObjectEdit(x) {
 		ex.show();
 		em.show();
 		c.hide();
-		initMiniMap(emid);
+		map = initLocationChooserMap(emid);
 	});
 	
 	
 	function saveForm() {
-		//TODO save form to 'x'
+		x.name = mi.val();
+		
+		if (expandedDesc) {
+			x.text = md.val(); 
+		}
+		
+		if (map) {
+			var b = map.targetLocation.geometry.bounds;
+			//TODO make this a funciton to get the center of a bounds, or find an existing one
+			var avX = (b.left + b.right)/2.0;
+			var avY = (b.top + b.bottom)/2.0;
+			var p = new OpenLayers.LonLat(avX,avY);
+			p = p.transform(toProjection, fromProjection);
+			x.geolocation = [p.lat, p.lon];
+		}
 	}
 	
-	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
 	md.appendTo(ed);
 	$('<button>Attach</button>').appendTo(ex);
 	$('<button>+</button>').appendTo(ex);

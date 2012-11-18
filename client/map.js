@@ -1,4 +1,7 @@
-var theMap, vector, fromProjection, toProjection, position, zoom, vector, geolocate;
+var theMap, fromProjection, toProjection, position, zoom, vector, geolocate;
+
+fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
 var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
 
@@ -6,8 +9,8 @@ var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
 function initMiniMap(target) {
     var m = new OpenLayers.Map({
         div: target,
-        //projection: fromProjection,
-        //displayProjection: toProjection,
+        projection: fromProjection,
+        displayProjection: toProjection,
         numZoomLevels: 9
     });
     var mapnik = new OpenLayers.Layer.OSM();
@@ -19,16 +22,93 @@ function initMiniMap(target) {
     return m;
 }
 
+function initLocationChooserMap(target) {
+	    var m = new OpenLayers.Map({
+	        div: target,
+	        projection: fromProjection,
+	        displayProjection: toProjection,
+	        numZoomLevels: 9
+	    });
+	    var mapnik = new OpenLayers.Layer.OSM();
+	    var vector = new OpenLayers.Layer.Vector("Editable Vectors", {
+	    });
+	    m.vector = vector;
+
+	    m.addLayers([
+	        mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
+	    ]);
+	    m.setCenter(new OpenLayers.LonLat(0,0), 9);
+	    m.targetLocation = m.getCenter();
+	    
+	    var df = new OpenLayers.Control.DragFeature(vector);	    
+        m.addControl(df);
+        
+        df.activate();
+        
+        setGeolocatedLocation(m, function(e) {
+	    
+            var t = e.point;
+            var rad = 10;
+            var opacity = 0.5;
+	    	
+    		var targetLocation = new OpenLayers.Feature.Vector(
+            		OpenLayers.Geometry.Polygon.createRegularPolygon(            		
+                	t,
+                	rad,
+                	6,
+                	0
+            	),
+            	{ },
+            	{
+                	fillColor: '#f00',
+                	strokeColor: '#f00',
+                	fillOpacity: opacity,
+                	strokeOpacity: opacity,
+                	strokeWidth: 1
+                	//view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
+                	
+            	}
+            	);
+        	m.vector.addFeatures([ targetLocation ]);
+
+        	m.zoomToExtent(vector.getDataExtent());
+        	m.targetLocation = targetLocation;
+        	
+	    });
+        
+	    return m;
+}
+
+function setGeolocatedLocation(map, onUpdated) {
+    geolocate = new OpenLayers.Control.Geolocate({
+        bind: false,
+        geolocationOptions: {
+            enableHighAccuracy: false,
+            maximumAge: 0,
+            timeout: 7000
+        }
+    });
+
+    geolocate.events.register("locationupdated",geolocate,onUpdated);
+
+    geolocate.events.register("locationfailed",this,function() {
+        OpenLayers.Console.log('Location detection failed');
+    });
+    
+    map.addControl(geolocate);
+    
+    geolocate.activate();
+	
+}
+
 function initMap(target, onMoveEnd) {
 
     var firstGeolocation = true;
 
     zoom           = 9; 
     
-    fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-    toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-    position = new OpenLayers.LonLat(-80,40).transform(fromProjection, toProjection);
+    position = new OpenLayers.LonLat(-118.24,34.05).transform(fromProjection, toProjection);
     
     theMap = new OpenLayers.Map({
         div: target,
@@ -107,19 +187,8 @@ function initMap(target, onMoveEnd) {
     for(var key in controls) {
         theMap.addControl(controls[key]);
     }*/
-    
-    geolocate = new OpenLayers.Control.Geolocate({
-        bind: false,
-        geolocationOptions: {
-            enableHighAccuracy: false,
-            maximumAge: 0,
-            timeout: 7000
-        }
-    });
-
-    geolocate.events.register("locationupdated",geolocate,function(e) {
+    setGeolocatedLocation(theMap, function(e) {
         //vector.removeAllFeatures();
-        console.log('location: ', e);
         
         var circle = new OpenLayers.Feature.Vector(
             OpenLayers.Geometry.Polygon.createRegularPolygon(
@@ -164,15 +233,8 @@ function initMap(target, onMoveEnd) {
             unproject(e.point);
             setGeolocation( [ e.point.y, e.point.x ] );
         }
-        
+    	
     });
-
-    geolocate.events.register("locationfailed",this,function() {
-        OpenLayers.Console.log('Location detection failed');
-    });
-    
-    theMap.addControl(geolocate);
-    
 
     theMap.setCenter(position, zoom );
 
@@ -190,7 +252,6 @@ function initMap(target, onMoveEnd) {
     /*var point = $('<input type="checkbox">+ Point</input>');
     $('#' + target + ' #MapControls').append(point);*/
     
-    geolocate.activate();
     
     return theMap;
 }
