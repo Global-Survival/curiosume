@@ -3,11 +3,14 @@
 var feedparser = require('feedparser');
 var sensor = require('./sensor.js');
 
-var RSSFeed = function(channel, url) {
+var RSSFeed = function(channel, url, process) {
+	if (!process)
+		process = function(x) { return x; };
+	
 	var s = sensor.Sensor('RSS_' + url, function() {
 
 		function onArticle(a) {
-			console.dir(a);
+			//console.dir(a);
 			
 			var maxlen = a['title'].length;
 			if (a['description']!=undefined)
@@ -24,10 +27,17 @@ var RSSFeed = function(channel, url) {
 			if (a['georss:point']) {
 				x.geolocation = a['georss:point'];
 			}
+			if (a['geo:lat']) {
+				x.geolocation = [ parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) ];
+			}
 
 			//console.dir(x);
-			s.out.push([channel, x]);
+			var y = process(x);
+			if (s.out) {
+				s.out.push([channel, y]);
+			}
 		}
+		
 
 		feedparser.parseUrl(url)
   			.on('article', onArticle);

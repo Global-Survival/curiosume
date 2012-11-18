@@ -2,14 +2,12 @@ var theMap, vector, fromProjection, toProjection, position, zoom, vector, firstG
 
 var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
 
-fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
 function initMiniMap(target) {
     var m = new OpenLayers.Map({
         div: target,
-        projection: fromProjection,
-        displayProjection: toProjection,
+        //projection: fromProjection,
+        //displayProjection: toProjection,
         numZoomLevels: 9
     });
     var mapnik = new OpenLayers.Layer.OSM();
@@ -26,7 +24,11 @@ function initMap(target, onMoveEnd) {
     firstGeolocation = true;
 
     zoom           = 9; 
-    position = new OpenLayers.LonLat(0,0);
+    
+    fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+    toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
+    position = new OpenLayers.LonLat(-80,40).transform(fromProjection, toProjection);
     
     theMap = new OpenLayers.Map({
         div: target,
@@ -81,6 +83,7 @@ function initMap(target, onMoveEnd) {
     vector = new OpenLayers.Layer.Vector("Editable Vectors", {
         renderers: renderer    	
     });
+    theMap.vector = vector;
 
     theMap.addLayers([
         mapnik, /*gphy, gmap, gsat,*/ /*ghyb, veroad, veaer, vehyb,*/ vector
@@ -117,7 +120,7 @@ function initMap(target, onMoveEnd) {
     theMap.addControl(geolocate);
     
     geolocate.events.register("locationupdated",geolocate,function(e) {
-        vector.removeAllFeatures();
+        //vector.removeAllFeatures();
         
         
         var circle = new OpenLayers.Feature.Vector(
@@ -185,6 +188,8 @@ function initMap(target, onMoveEnd) {
     
     /*var point = $('<input type="checkbox">+ Point</input>');
     $('#' + target + ' #MapControls').append(point);*/
+    
+    
     return theMap;
 }
 
@@ -232,11 +237,11 @@ function geoDist(p1, p2) {
 
 function lonlat(lon, lat) {
     var ll = new OpenLayers.LonLat(lon, lat);
-    ll.transform(fromProjection, toProjection);    
+    //ll.transform(fromProjection, toProjection);    
     return ll;
 }
 function unproject(x) {
-    x.transform(toProjection, fromProjection);
+    //x.transform(toProjection, fromProjection);
     return x;
 }
 

@@ -31,8 +31,61 @@
 	<script>
 		
 	    $(document).ready(function(){
+	    	
+	    	
+	    	function addToMap(x) {
+	    		var t = new OpenLayers.Geometry.Point(x.geolocation[1], x.geolocation[0]);
+                t.transform(fromProjection, toProjection);
+                
+                var rad = 4000;
+                var opacity = 0.5;
+                var l = x.name;
+                
+                if (x.eqMagnitude) {
+                	rad *= x.eqMagnitude;	
+                	rad *= x.eqMagnitude;
+                	l = 'EQ';
+                }
+                if (x.when) {
+                	var now = Date.now();
+                	opacity = Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
+                }
+                
+                //var yelp = new OpenLayers.Icon("http://www.openlayers.org/images/OpenLayers.trac.png", new OpenLayers.Size(49,44));
+                //markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
+                
+				var circle = new OpenLayers.Feature.Vector(
+            		OpenLayers.Geometry.Polygon.createRegularPolygon(            		
+                	t,
+                	rad,
+                	6,
+                	0
+            	),
+            	{ },
+            	{
+                	fillColor: '#f00',
+                	strokeColor: '#f00',
+                	fillOpacity: opacity,
+                	strokeOpacity: opacity,
+                	strokeWidth: 1,
+                	//view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
+                	label: l
+                	
+            	}
+	        	);
+	        	theMap.vector.addFeatures([ circle /*, new OpenLayers.Feature.Vector(t)*/  ]);
+        	
+	    	}
+	    	
 			initNetention(function() {
 				initMap('MapWrap', function() { });
+				
+				for (var u in attention) {
+					var x = attention[u];
+					if (x.geolocation) {
+						addToMap(x);
+					}
+				}
 			});	 
 	    });
 	    

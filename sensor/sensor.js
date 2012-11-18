@@ -44,11 +44,11 @@ function setDefaults(b, t) {
 }
 
 var sensors = [];
-function addSensor(s, buffer) {
+function addSensor(s, b) {
 	sensors.push(s);
 	
-	if (!buffer)
-		buffer = defaultBuffer;
+	if (!b)
+		b = buffer;
 	
 	s.out = buffer;
 	s.onStart();
