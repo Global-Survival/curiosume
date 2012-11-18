@@ -50,6 +50,10 @@ function loadSelf() {
     attention = Self.get("attention");
     if (attention == null)
     	attention = { };
+    	
+    types = Self.get("types");
+    if (types == null)
+    	types = { };
 }
 
 function saveInterests() {
@@ -62,13 +66,13 @@ function saveInterests() {
     }
     Self.set('interests', si);
     Self.set('interestHistory', interestHistory);
-    Self.set('attention', attention);
 }
 
 function saveSelf() {
     var n = $('#selfName').val();
     Self.set("name", n);
     Self.set("attention", attention);
+    Self.set('types', types);
 
     updateStatus();
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Ontology</title>
+		<meta name="description" content="" />
+
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+	    <script src="http://code.jquery.com/jquery.min.js"></script>
+		<script src="netention.js"></script>
+
+		<script>
+				initNetention(function() {
+					for (var t in types) {
+						$('#typeslist').append(JSON.stringify(types[t]) + '<br/>');
+					}
+				});
+		</script>
+			
+
+	</head>
+
+	<body>
+		<div id="typeslist" class="PageWrapper"></div>
+	</body>
+</html>

@@ -1,10 +1,14 @@
-var emotionSchema = {
-	'emotion-happy': { label: 'Happy' },
-	'emotion-afraid': { label: 'Afraid' },
-	'emotion-sad': { label: 'Sad' },
-	'emotion-angry': { label: 'Angry' },
-	'emotion-disgusted': { label: 'Disgusted' },
-	'emotion-trusting': { label:'Trusting' },
-	'emotion-anticipating': { label: 'Anticipating' },
-	'emotion-surprised': { label:'Surprised' } 
-};
+var sensor = require('./sensor.js');
+
+var emotionTypes = [
+	{ uri: 'emotion.happy', name: 'Happy' },
+	{ uri: 'emotion.afraid', name: 'Afraid'},
+	{ uri: 'emotion.sad', name: 'Sad'},
+	{ uri: 'emotion.angry', name: 'Angry'},
+	{ uri: 'emotion.disgusted', name: 'Disgusted'},
+	{ uri: 'emotion.trusting', name:'Trusting'},
+	{ uri: 'emotion.anticipating', name: 'Anticipating'},
+	{ uri: 'emotion.surprised', name:'Surprised'} 
+];
+
+sensor.addTypes(emotionTypes);

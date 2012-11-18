@@ -4,12 +4,11 @@
 var types = { };
 
 function addType(t) {
-	console.dir(t);
-	
+	types[t.uri] = t;
 }
 
 function updateTypes() {
-	console.log('updating types');
+	//console.log('updating types');
 }
 
 function newObjectEdit(x) {

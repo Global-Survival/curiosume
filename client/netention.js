@@ -185,6 +185,7 @@ function addTypes(at) {
 	for (var k in at) {
 		addType(at[k]);
 	}
+	saveSelf();
 	updateTypes();
 }
 
