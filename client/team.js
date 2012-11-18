@@ -2,32 +2,32 @@ var clients = { };
 
 function sendMessage(ox) {
 	var x = ox;
-    if (x === undefined) {
-        x = $("#MessageSubject").val();
-        $("#MessageSubject").val('');        
-    }
     
     var name = Self.get("name");
-    x = "" + name + ": " + x;
     
-    var now = new Date();
-    x = {
-    	uuid: 'message_' + uuid(),
-    	name: x,
-    	when: now.getTime(),
-    	type: 'Message'
-    };
+    if (typeof(ox) == "string") {
+        var now = new Date();
+        x = "" + name + ": " + JSON.stringify(x);
+        x = {
+            	uuid: 'message_' + uuid(),
+            	name: x,
+            	when: now.getTime(),
+            	type: 'Message'
+        };    
+    }
+    else {
+    }
     
-    if (ox === undefined) {
+    
+    /*if (ox === undefined) {
 	    var d = $("#MessageDescription");
 	    if (d) {
 	    	var v = d.val();
 	    	d.val('');
 	    	x.content = v;
 	    }
-    }
+    }*/
 
-    
     notice(x);
     pub('', x);
  }
@@ -134,48 +134,6 @@ function initTeam() {
 	
 }
 
-function newObjectEdit() {
-	var d = $('<div>');
-	
-	var expandedDesc = false;
-	
-	var mi = $('<input type="text" id="MessageSubject"/>')
-    mi.keyup(function(event) {
-    	if (!expandedDesc) {
-            if (event.keyCode==13) {
-          	  sendMessage();
-            }
-      	}
-    });
-
-	var ed = $('<div>');
-	
-	var b = $('<button>Description</buton>');
-	b.click(function() {
-		expandedDesc = true;
-		ed.show();
-		b.hide();
-	});
-	
-	$('<textarea id="MessageDescription" rows="5" /><br/>').appendTo(ed);
-	$('<button>Attach</button>').appendTo(ed);
-	$('<button>+</button>').appendTo(ed);
-	var sendButton = $('<button>Send</button>');
-	sendButton.click(function() {
-		sendMessage();
-	});
-	sendButton.appendTo(ed);
-	
-	ed.hide();
-	
-	mi.appendTo(d);
-	$('<br/>').appendTo(d);
-
-	b.appendTo(d);
-	ed.appendTo(d);
-	
-	return d;
-}
 function initChat(e) {
 	/*
 	<div id="Team" data-role="page" class="PageWrapper">

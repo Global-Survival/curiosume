@@ -44,7 +44,12 @@ function initMap(target, onMoveEnd) {
                )
            ]
     });
-
+    
+    var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+    renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+    
+    
+    
     //Geolocation Example: http://openlayers.org/dev/examples/geolocation.js
 
     var mapnik = new OpenLayers.Layer.OSM();
@@ -73,14 +78,33 @@ function initMap(target, onMoveEnd) {
 
             
     // create a vector layer for drawing
-    vector = new OpenLayers.Layer.Vector("Editable Vectors");
+    vector = new OpenLayers.Layer.Vector("Editable Vectors", {
+        renderers: renderer    	
+    });
 
     theMap.addLayers([
         mapnik, /*gphy, gmap, gsat,*/ /*ghyb, veroad, veaer, vehyb,*/ vector
     ]);
     theMap.addControl(new OpenLayers.Control.LayerSwitcher());
     theMap.addControl(new OpenLayers.Control.EditingToolbar(vector));
-
+    theMap.addControl(new OpenLayers.Control.MousePosition());
+    
+    //http://openlayers.org/dev/examples/drag-feature.html
+    //http://openlayers.org/dev/examples/styles-context.html
+    //http://openlayers.org/dev/examples/modify-feature.html
+    /*controls = {
+            point: new OpenLayers.Control.DrawFeature(vector,
+                        OpenLayers.Handler.Point),
+            line: new OpenLayers.Control.DrawFeature(vector,
+                        OpenLayers.Handler.Path),
+            polygon: new OpenLayers.Control.DrawFeature(vector,
+                        OpenLayers.Handler.Polygon),
+            drag: new OpenLayers.Control.DragFeature(vector)
+        };
+    for(var key in controls) {
+        theMap.addControl(controls[key]);
+    }*/
+    
     geolocate = new OpenLayers.Control.Geolocate({
         bind: false,
         geolocationOptions: {
@@ -148,9 +172,32 @@ function initMap(target, onMoveEnd) {
 
     theMap.setCenter(position, zoom );
 
+    function toggleControl(element) {
+        for(key in controls) {
+            var control = controls[key];
+            if(element.value == key && element.checked) {
+                control.activate();
+            } else {
+                control.deactivate();
+            }
+        }
+    }
+    
+    /*var point = $('<input type="checkbox">+ Point</input>');
+    $('#' + target + ' #MapControls').append(point);*/
     return theMap;
 }
 
+function toggleControl(element) {
+    for(key in controls) {
+        var control = controls[key];
+        if(element.value == key && element.checked) {
+            control.activate();
+        } else {
+            control.deactivate();
+        }
+    }
+}
 function setGeolocation(p) {
     Self.set("geolocation", p);
     updateMap();

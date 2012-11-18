@@ -18,13 +18,13 @@
 	float: right;
 }
 
-#MessageSubject {
+.MessageSubject {
     width: 98%;
     font-size: 125%;
     padding: 0.25em;
     margin: 0.25em;
 }
-#MessageDescription {
+.MessageDescription {
     width: 98%;	
     padding: 0.25em;
     margin: 0.25em;

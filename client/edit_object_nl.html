@@ -1,0 +1,88 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Object Edit</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+	<script src="netention.js"></script>
+	
+	<style>
+		
+		
+	</style>
+	
+	<script>
+    
+		function getObject(id, f) {
+			var o = Self.get("o." + id);
+			if (o == undefined) {
+				//...	
+			}
+			f(o);
+		}
+		function setObject(id, o) {
+			Self.set("o." + id, o);
+		}
+		
+		function newBlankObject(id) {
+			return {
+	    		uuid: id,
+	    		name: 'Untitled Object',
+	    		types: [  ],
+	    		values: [	]	    						
+			};
+		}
+		
+		initNetention(function() {
+			
+			var dsk = {
+	    		uuid: 'demo:DanteSemanticKitchen1',
+	    		name: 'Dante\'s Semantic Kitchen',
+	    		text: 'An example of a gathering implementing a food recipe',
+	    		types: [ 'FoodEvent', 'Recipe' ],
+	    		values: [
+	    		         { 'startTime': '3am'},
+	    		         { 'numGuests': 'between 2 and 5' },
+	    		         { 'food': 'Quinoa' },
+	    		         { 'food': 'Mixed Vegetables' },
+	    		         { 'comment': 'Thanks I will be there and bring vitamins' },	    		         
+	    		]	    		
+	    	};
+			setObject('dsk', dsk);
+			
+			
+			var id = $.url().param('id');
+			if (id == null) {
+				newObjectEdit(newBlankObject(uuid())).appendTo($('#editor'));
+			}
+			else {
+				getObject(id, function(o) {
+					if (o == undefined) o = newBlankObject(id);
+					newObjectEdit(o).appendTo($('#editor'));
+				});
+			}
+				    	
+	    });
+	
+	</script>
+</head> 
+
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Object Edit</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+				
+		<div id="editor" style="max-width: 600px; margin-left: auto;  margin-right: auto"></div>
+		
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+</body>
+</html>

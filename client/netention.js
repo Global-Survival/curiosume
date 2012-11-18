@@ -104,6 +104,7 @@ function loadScripts(f) {
 		                "/lib/superfish/js/superfish.js",
 		                "/util.js",
 		                "/self.js",
+		                "/object.js",
 		                "/team.js",
 		                "/sensor.js",
 		                "/time.js",
@@ -181,8 +182,10 @@ function initNetention(f) {
 }
 
 function addTypes(at) {
-	console.log('adding types');
-	console.dir(at);
+	for (var k in at) {
+		addType(at[k]);
+	}
+	updateTypes();
 }
 
 function getObjects(query, onObject, onFinished) {

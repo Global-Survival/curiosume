@@ -8,7 +8,9 @@ exports.init = function() {
 	
 	//sensor.addSensor(require('./sensor/googlefinance.js').GoogleFinanceSymbols(['aapl','msft','ibm','goog']));
 	//sensor.addSensor(require('../sensor/rss.js').RSSFeed('x', 'http://blog.automenta.com/feeds/posts/default?alt=rss'));
-
+	
+	//https://github.com/automenta/netentionjs2/commits/master.atom
+		
 	//sensor.addSensor(require('../sensor/mindmodel.js').MMCSV('emotion-happy','./schema/enformable_atomic_history.statements.tsv'));
 	//sensor.addSensor(require('../sensor/echo.js').Echo('emotion-happy', 'happiness'));
 	//sensor.addSensor(require('../sensor/echo.js').Echo('emotion-surprised', 'surprise!'));

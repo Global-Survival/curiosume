@@ -6,7 +6,7 @@ function add4ChanTopics(t) {
 		var n = t[i];
 		var tx = t[i].replace(/ /g, "_");
 		lt.push({
-			uuid: '4chan.' + tx,
+			uri: '4chan.' + tx,
 			name: n
 		});
 	}
