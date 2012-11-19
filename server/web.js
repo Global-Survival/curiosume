@@ -213,6 +213,9 @@ express.get('/log', function (req, res) {
 express.get('/state', function (req, res) {
 	sendJSON(res, Server);
 });
+express.get('/map/czml', function (req, res) {
+	//return known map data as czml list
+});
 express.get('/attention', function (req, res) {
 	getTypeCounts(function(x) {
 		sendJSON(res, x, false);
