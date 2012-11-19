@@ -17,7 +17,7 @@ var http = require('http')
   , nodestatic = require('node-static')
   , server;
   
-var attention = memory.Attention(0.9);
+var attention = memory.Attention(0.95);
 
 var Server = { 
 	name: 'Netention',

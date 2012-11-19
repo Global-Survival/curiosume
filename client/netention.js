@@ -132,6 +132,7 @@ function loadScripts(f) {
 	loadCSS('/team.css');
 	loadCSS('/environment.css');
 	loadCSS('/cortexit.css');
+	loadCSS('/object.css');
 }
 
 

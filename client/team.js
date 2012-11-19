@@ -70,11 +70,11 @@ function addMessage(h) {
 		
 	}
 	
-	if (typeof(h)=="object")
-		h = JSON.stringify(h, null, 4);
+	//if (typeof(h)=="object")
+	//	h = JSON.stringify(h, null, 4);
 
-	var d = $('<div class="teamMessage" style="display: none">' + h + '</div>');
-    
+	var d = $('<div style="display: none"/>');
+    newObjectView(h).appendTo(d);
     
     tc.append(d);
     

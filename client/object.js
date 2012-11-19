@@ -11,6 +11,24 @@ function updateTypes() {
 	//console.log('updating types');
 }
 
+function newObjectView(x) {
+	var d = $('<div class="objectView">');
+	if (x.name) {
+		d.append('<h1>' + x.name + '</h1>');
+	}
+	if (x.type) {
+		if (x.type.length) {
+			d.append('<h2>' + JSON.stringify(x.type) + '</h2>');
+		}
+		else
+			d.append('<h2>' + x.type + '</h2>');
+	}
+	if (x.geolocation) {
+		d.append('<h3>' + JSON.stringify(x.geolocation) + '</h3>');
+	}
+	return d;
+}
+
 function newObjectEdit(x) {
 	var d = $('<div>');
 	
@@ -22,7 +40,7 @@ function newObjectEdit(x) {
 	
     mi.keyup(function(event) {
     	var authorID = ((Self.get('name') || 'Anonymous') + ' <' + Self.get('clientID') + '>');
-    	console.log(authorID);
+ 
     	if (!expandedDesc) {
             if (event.keyCode==13) {
           	  sendMessage({
@@ -62,6 +80,8 @@ function newObjectEdit(x) {
 	
 	
 	function saveForm() {
+		if (!x) x = { };
+		
 		x.name = mi.val();
 		
 		if (expandedDesc) {

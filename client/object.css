@@ -1,0 +1,20 @@
+.objectView {
+	padding: 0.1em;
+	margin-bottom: 0.25em;
+	border: 1px solid gray;
+}
+
+.objectView h1 {
+	font-size: 125%;
+	font-weight: bold;
+}
+.objectView h2 {
+	font-size: 115%;
+	font-weight: normal;
+	margin: 0;
+}
+.objectView h3 {
+	font-size: 105%;
+	font-weight: normal;
+	margin: 0;
+}
