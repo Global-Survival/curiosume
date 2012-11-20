@@ -14,7 +14,8 @@
 	"apricot":"",
 	"mongojs":"",
 	"ya-csv":"",
-	"feedparser":""
+	"feedparser":"",
+	"xml2object":""
     },
     "engines": {
 	"node": "0.8.x", 

@@ -37,11 +37,12 @@
 	    		var t = new OpenLayers.Geometry.Point(x.geolocation[1], x.geolocation[0]);
                 t.transform(fromProjection, toProjection);
                 
-                var rad = 4000;
+                var rad = 40;
                 var opacity = 0.5;
                 var l = x.name;
                 
                 if (x.eqMagnitude) {
+                	rad = 4000;
                 	rad *= x.eqMagnitude;	
                 	rad *= x.eqMagnitude;
                 	l = 'EQ';
