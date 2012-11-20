@@ -4,17 +4,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Netention - Map</title>
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4,4/leaflet.css" />
       
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-	<script src="netention.js"></script> 
+	<script src="/lib/leaflet/leaflet.label.js"></script>
+	<link rel="stylesheet" href="/lib/leaflet/leaflet.label.css" />
+	<script src="/netention.js"></script>
+	 
 	
 	<style>
 	 
-		#Map {
-			width: 100%;
-			height: 100%;
-		}
+	 	body {
+	 		height: 100%;
+	 	}
 		#MapWrap {
+			position: fixed;
 			width: 100%;
 			height: 100%;
 		}
@@ -33,29 +39,38 @@
 	    $(document).ready(function(){
 	    	
 	    	
-	    	function addToMap(x) {
+	    	
+	    	function addToMap(map, x) {
 	    		var t = new OpenLayers.Geometry.Point(x.geolocation[1], x.geolocation[0]);
-                t.transform(fromProjection, toProjection);
+                //t.transform(fromProjection, toProjection);
                 
                 var rad = 40;
                 var opacity = 0.5;
                 var l = x.name;
+                var color = 'gray';
                 
                 if (x.eqMagnitude) {
                 	rad = 4000;
                 	rad *= x.eqMagnitude;	
                 	rad *= x.eqMagnitude;
                 	l = 'EQ';
+                	color = 'red';
                 }
                 if (x.when) {
                 	var now = Date.now();
                 	opacity = Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
                 }
+                if (x.type == 'osm.place_of_worship') {
+                	color = 'blue';
+                }
+                if (x.type == 'osm.school') {
+                	color = 'purple';
+                }
                 
                 //var yelp = new OpenLayers.Icon("http://www.openlayers.org/images/OpenLayers.trac.png", new OpenLayers.Size(49,44));
                 //markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
                 
-				var circle = new OpenLayers.Feature.Vector(
+				/*var circle = new OpenLayers.Feature.Vector(
             		OpenLayers.Geometry.Polygon.createRegularPolygon(            		
                 	t,
                 	rad,
@@ -73,18 +88,42 @@
                 	label: l
                 	
             	}
-	        	);
-	        	theMap.vector.addFeatures([ circle /*, new OpenLayers.Feature.Vector(t)*/  ]);
-        	
+	        	);*/
+	        	
+	        	var circle = L.circle([t.y, t.x], rad, {
+				    color: color,
+				    fillColor: color,
+				    fillOpacity: 0.3
+				    //title: l
+				});
+				circle.bindLabel(l, { noHide: true }).addTo(map);				
+				circle.bindPopup(l);
+				
+				/*
+				L.marker([t.y, t.x]).bindLabel(l, { noHide: true })
+					.addTo(map)
+					.showLabel();*/
 	    	}
 	    	
 			initNetention(function() {
-				initMap('MapWrap', function() { });
+				//console.dir(Self.get("geolocation"));
+				
+		    	var map = L.map('MapWrap').setView([40, -80], 13);
+		    	L.tileLayer('http://{s}.tile.cloudmade.com/416f4b457f9542e0a5c609c6cc35b5f1/997/256/{z}/{x}/{y}.png', {
+    				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+  					 maxZoom: 18
+				}).addTo(map);
+				
+				
+		    	
+
+/*		    	
+				initMap('MapWrap', function() { });*/
 				
 				for (var u in attention) {
 					var x = attention[u];
 					if (x.geolocation) {
-						addToMap(x);
+						addToMap(map, x);
 					}
 				}
 			});	 
@@ -97,7 +136,7 @@
 
 <body>
 
-	<div id="MapWrap" data-role="page" class="PageWrapper">
+	<div id="MapWrap" class="PageWrapper">
 		<div id="MapControls">
 			<button data-inline="true">Sensors...</button>
 			<button data-inline="true">Scan</button>
