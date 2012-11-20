@@ -16,9 +16,12 @@
 			initNetention(function() {
 				
 				initChat('ChatTarget');
+
 				initSelf('SelfTarget');
-				initMap('MapTarget', function() { });
 				
+				$('#Menu').append(newTypeMenu());
+
+				//initMap('MapTarget', function() { });
 			});	
 			
 	    });
@@ -45,8 +48,8 @@
 			bottom:0;
 		}
 		#ChatTarget {
-			height: 49%;
 			top: 3em;
+			height: 90%;
 		}
 		
 	</style>                        
@@ -56,9 +59,10 @@
 
 <body>
 
-	<div id="SelfTarget"></div>
-	<div id="ChatTarget"></div>
-	<div id="MapTarget"></div>
+	<div class="PageWrapper">
+		<div id="SelfTarget"></div>
+		<div id="ChatTarget"></div>
+	</div>
 
 
 </body>

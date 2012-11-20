@@ -210,6 +210,9 @@ express.use("/", require('express').static('./client'));
 express.get('/log', function (req, res) {
 	sendJSON(res, logMemory.buffer);		
 });
+express.get('/object/:uri', function (req, res) {
+	sendJSON(res, 'object page coming soon');		
+});
 express.get('/state', function (req, res) {
 	sendJSON(res, Server);
 });

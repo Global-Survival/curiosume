@@ -28,7 +28,7 @@ function OpenStreetMaps(bounds) {
 		    	
 		    	if (obj.tag) {
 		    		var name = '';
-		    		var amenity = '';
+		    		var amenity = 'node';
 		    		var lat = parseFloat(obj.lat);
 		    		var lon = parseFloat(obj.lon);			    	
 					
@@ -41,8 +41,9 @@ function OpenStreetMaps(bounds) {
 					}
 					
 					if (name!='') {
+						var uri = 'osm.node.' + obj.id;
 						s.out.push({
-							uuid: util.uuid(),
+							uuid: uri,
 							name: name,
 							type: 'osm.' + amenity,
 							geolocation: [lat, lon]

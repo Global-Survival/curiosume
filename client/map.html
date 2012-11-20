@@ -5,12 +5,7 @@
 
     <title>Netention - Map</title>
 
-	<script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
-	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
-      
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-	<script src="/lib/leaflet/leaflet.label.js"></script>
-	<link rel="stylesheet" href="/lib/leaflet/leaflet.label.css" />
 	<script src="/netention.js"></script>
 	 
 	
@@ -41,8 +36,9 @@
 	    	
 	    	
 	    	function addToMap(map, x) {
+	    		console.dir(x);
 	    		var t = new OpenLayers.Geometry.Point(x.geolocation[1], x.geolocation[0]);
-                //t.transform(fromProjection, toProjection);
+                t.transform(fromProjection, toProjection);
                 
                 var rad = 40;
                 var opacity = 0.5;
@@ -70,7 +66,7 @@
                 //var yelp = new OpenLayers.Icon("http://www.openlayers.org/images/OpenLayers.trac.png", new OpenLayers.Size(49,44));
                 //markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
                 
-				/*var circle = new OpenLayers.Feature.Vector(
+				var circle = new OpenLayers.Feature.Vector(
             		OpenLayers.Geometry.Polygon.createRegularPolygon(            		
                 	t,
                 	rad,
@@ -79,8 +75,8 @@
             	),
             	{ },
             	{
-                	fillColor: '#f00',
-                	strokeColor: '#f00',
+                	fillColor: color,
+                	strokeColor: color,
                 	fillOpacity: opacity,
                 	strokeOpacity: opacity,
                 	strokeWidth: 1,
@@ -88,37 +84,14 @@
                 	label: l
                 	
             	}
-	        	);*/
-	        	
-	        	var circle = L.circle([t.y, t.x], rad, {
-				    color: color,
-				    fillColor: color,
-				    fillOpacity: 0.3
-				    //title: l
-				});
-				circle.bindLabel(l, { noHide: true }).addTo(map);				
-				//circle.bindPopup(l);
-				
-				
-				/*L.marker([t.y, t.x]).bindLabel(l)
-					.addTo(map)
-					.showLabel();*/
+	        	);
+	        	map.vector.addFeatures( [ circle ] );
+        
 	    	}
 	    	
 			initNetention(function() {
-				//console.dir(Self.get("geolocation"));
-				
-		    	var map = L.map('MapWrap').setView([40, -80], 13);
-		    	L.tileLayer('http://{s}.tile.cloudmade.com/416f4b457f9542e0a5c609c6cc35b5f1/997/256/{z}/{x}/{y}.png', {
-    				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-  					 maxZoom: 18
-				}).addTo(map);
-				
-				
 		    	
-
-/*		    	
-				initMap('MapWrap', function() { });*/
+				var map = initMap('MapWrap', function() { });
 				
 				for (var u in attention) {
 					var x = attention[u];

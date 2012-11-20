@@ -3,11 +3,9 @@
 }
  
 #teamContent {
-    width: 66%;
-    height: 80%;
-    bottom: 10%;
+    width: 100%;
     overflow: auto;
-    float: left;
+    height: 90%;
 }
 
 #teamRoster {

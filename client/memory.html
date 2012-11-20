@@ -44,6 +44,11 @@
 					} );
 					
 				});
+				$('#clearLocalButton').click(function() {
+					localStorage.clear();
+					attention = { };
+					showObjects();
+				});
 			});	 
 	    });
 	    
@@ -65,6 +70,7 @@
 		
 	</div>
 	
+	<button id="clearLocalButton">Clear Local Memory</button>
 	<button id="downloadAllButton">Download All Team Memory</button>
 	<div id="MemoryList">
 		

@@ -94,7 +94,7 @@ function initSelf(e) {
 	  //$('#EditMenu #FileMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
 	  //$('#EditMenu #FileMenu').after('<li><a href="#">Do</a>' + loadTypeMenu(null, actionSchema)  + '</li>');
 	
-	  $('#EditMenu').superfish();
+	  //$('#EditMenu').superfish();
 	  
 	  loadInterests();
 

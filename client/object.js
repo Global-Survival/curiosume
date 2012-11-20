@@ -155,3 +155,33 @@ function newObjectEdit(x) {
 	
 	return d;
 }
+
+
+function newTypeMenu() {
+	var x = $('<ul class="sf-menu"/>');
+	
+	var m = { };
+	for (var k in types) {
+		var t = types[k];
+		var path = k.split('.');
+		if (path.length > 1) {
+			if (!m[path[0]]) m[path[0]] = [];
+			m[path[0]].push( path[1] ); 
+		}
+		else {
+			
+		}
+	}
+	for (var mm in m) {
+		var menu = m[mm];
+		var y = $('<li><a href="#">' + mm + '</a><ul/></li>');
+		for (var l = 0; l < menu.length; l++) {
+			//console.dir(menu[l]);
+			//y.append('<li><a href="#">' + types[menu[l]].name + '</a></li>');
+			
+		}
+		x.append(y);
+	}
+	
+	return x.superfish();
+}

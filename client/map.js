@@ -160,8 +160,43 @@ function initMap(target, onMoveEnd) {
 
             
     // create a vector layer for drawing
+    var style = new OpenLayers.Style({
+        label: "${name}",
+        fontColor: "#333333",
+        fontFamily: "sans-serif",
+        fontWeight: "bold"
+    }, {
+        rules: [
+            new OpenLayers.Rule({
+                minScaleDenominator: 200000000,
+                symbolizer: {
+                    pointRadius: 7,
+                    fontSize: "9px"
+                }
+            }),
+            new OpenLayers.Rule({
+                maxScaleDenominator: 200000000,
+                minScaleDenominator: 100000000,
+                symbolizer: {
+                    pointRadius: 10,
+                    fontSize: "12px"
+                }
+            }),
+            new OpenLayers.Rule({
+                maxScaleDenominator: 100000000,
+                symbolizer: {
+                    pointRadius: 13,
+                    fontSize: "15px"
+                }
+            })
+        ]
+    });
+
+    //http://trac.osgeo.org/openlayers/wiki/SettingZoomLevels
+    
     vector = new OpenLayers.Layer.Vector("Editable Vectors", {
-        renderers: renderer    	
+        renderers: renderer,
+        styleMap: new OpenLayers.StyleMap(style)
     });
     theMap.vector = vector;
 

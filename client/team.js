@@ -92,14 +92,16 @@ function addMessage(h) {
 function setClient(cid, s) {
     clients[cid] = s;
     
+    /*
     var ds = cid + '-summary';
     var r = $('#' + ds);
 
     if (r.length == 0) {
         r = $('<div id="' + ds + '" class="RosterSummary"></div>');
         r.appendTo('#teamRoster');
-    }
+    }*/
     
+    /*
     var x = '<a href="javascript:showClient(\'' + cid + '\');">' + s.name + '</a>' ;
     
     x += '<div id="' + ds + 'Full" class="RosterFull">' + s.geolocation + '<br/>';
@@ -109,7 +111,7 @@ function setClient(cid, s) {
     x += '</div>';
     
     r.html(x);
-    
+    */
 }
 
 function showClient(cid) {
@@ -127,10 +129,10 @@ function showClient(cid) {
 function initTeam() {
 	
 	window.onbeforeunload = function() {
-		sendMessage('(offline)');
+		//sendMessage('(offline)');
 	};
 
-	sendMessage('(online)');
+	//sendMessage('(online)');
 	
 }
 
