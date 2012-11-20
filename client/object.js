@@ -174,10 +174,12 @@ function newTypeMenu() {
 	}
 	for (var mm in m) {
 		var menu = m[mm];
-		var y = $('<li><a href="#">' + mm + '</a><ul/></li>');
+		var y = $('<li><a href="#">' + mm + '</a></li>');
+		var u = $('<ul/>');
+		y.append(u);
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
-			//y.append('<li><a href="#">' + types[menu[l]].name + '</a></li>');
+			u.append('<li><a href="#">' +  menu[l] + '</a></li>');
 			
 		}
 		x.append(y);

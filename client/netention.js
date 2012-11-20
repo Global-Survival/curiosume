@@ -203,7 +203,15 @@ function getObjects(query, onObject, onFinished) {
 }
 
 function notice(x) {
-	   
+	if (x.type) {
+		//TODO handle multiple types
+		var t = types[x.type];
+		if (!t) {
+			//add tag for type if not excists
+			types[x.type] = { uri: x.type, name: x.type };
+		}
+	}   
+	
 	addMessage(x);
 	
 	if (x.uuid) {
