@@ -179,7 +179,7 @@ function newTypeMenu() {
 		y.append(u);
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
-			u.append('<li><a href="#">' +  menu[l] + '</a></li>');
+			u.append('<li><a href="javascript:addInterest(\'' + mm + '.' + menu[l] + '\', true, true);">' +  menu[l] + '</a></li>');
 			
 		}
 		x.append(y);

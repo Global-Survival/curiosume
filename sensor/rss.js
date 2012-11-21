@@ -3,7 +3,7 @@
 var feedparser = require('feedparser');
 var sensor = require('./sensor.js');
 
-var RSSFeed = function(channel, url, process) {
+var RSSFeed = function(url, process) {
 	if (!process)
 		process = function(x) { return x; };
 	
@@ -34,7 +34,7 @@ var RSSFeed = function(channel, url, process) {
 			//console.dir(x);
 			var y = process(x);
 			if (s.out) {
-				s.out.push([channel, y]);
+				s.out.push(y);
 			}
 		}
 		

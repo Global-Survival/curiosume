@@ -160,8 +160,16 @@ function timeArrayLimitSize(i, maxSize) {
 }
 
 
-function getInterestItem(sensor) { return $('#Interest-' + interestElements[sensor]); }
-function getInterestControls(sensor) { return $('#InterestControl-' + interestElements[sensor]); }
+function encodeInterestForElement(x) {
+	var y = x.replace(/\./g,"_");
+	return y;
+}
+function getInterestItem(sensor) { 
+		return $('#Interest-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
+	}
+function getInterestControls(sensor) { 
+		return $('#InterestControl-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
+	}
 
 function setInterest(sensorID, newImportance, force, updateAll) {
     //console.log('sensor: ' + sensor + ' importance=' + newImportance);
@@ -272,7 +280,9 @@ function addInterest(i, force, update) {
     if (i.indexOf('http://')==0) {
     	eid = 'URL'+nextURLInterest;
     	nextURLInterest++;
-    }    
+    }  
+      
+    var eid = encodeInterestForElement(eid);
     
 	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
     $('#CurrentInterests').append(ss);

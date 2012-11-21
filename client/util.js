@@ -66,3 +66,12 @@ function uuid() {
     });
 }
 exports.uuid = uuid;
+
+function getTypeArray(t) {
+	if (typeof(t) == "array")
+		return t;
+	if (typeof(t) == "string")
+		return [ t ];
+	return [];
+}
+exports.getTypeArray = getTypeArray;

@@ -1,22 +1,37 @@
 var clients = { };
 
+function getInterestsAsTypes() {
+	var p = [];
+	console.dir(interestStrength);
+	for (var k in interests) {
+		var i = interests[k];
+		console.dir(i);
+		if (interestStrength[i.id] > 0)
+			p.push(i.id);
+	}
+	return p;
+}
+
 function sendMessage(ox) {
 	var x = ox;
     
     var name = Self.get("name");
     
     if (typeof(ox) == "string") {
-        var now = new Date();
         x = "" + name + ": " + JSON.stringify(x);
         x = {
             	uuid: 'message_' + uuid(),
-            	name: x,
-            	when: now.getTime(),
-            	type: 'Message'
+            	name: x
         };    
     }
     else {
     }
+    
+    
+	x.type = getInterestsAsTypes();
+
+	var now = new Date();
+	x.when = now.getTime();
     
     
     /*if (ox === undefined) {
@@ -29,7 +44,7 @@ function sendMessage(ox) {
     }*/
 
     notice(x);
-    pub('', x);
+    pub(x);
  }
 
 

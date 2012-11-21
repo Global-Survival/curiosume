@@ -268,10 +268,18 @@ function broadcast(socket, message) {
 	socket.broadcast.emit('notice', message);	
 }
 
-function pub(channel, message) {
-	nlog(channel + ":" + JSON.stringify(message, null, 4));
+function pub(message) {
 	notice(message);
-	io.sockets.in(channel).emit('notice', message);
+
+	nlog(JSON.stringify(message, null, 4));
+
+	if (message.type) {
+		//TODO gather list of clients to avoid sending duplicate messages to some clients
+		for (var t = 0; t < message.type.length; t++) {
+			var chan = message.type[t];
+			io.sockets.in(chan).emit('notice', message);			
+		}
+	}
 }
 
 io.sockets.on('connection', function(socket) {
@@ -285,11 +293,8 @@ io.sockets.on('connection', function(socket) {
 	});
 	
 
-    socket.on('pub', function(channel, message) {
-    	if (channel == '')
-       		broadcast(socket, message);
-       	else
-			pub(channel, message);
+    socket.on('pub', function(message) {
+		pub(message);
     });
     
     // socket.on('getSensors', function(withSensors) {
@@ -384,7 +389,11 @@ function updateInterests(clientID, state, socket) {
 	var now = Date.now();
 	
 		
-	if (prevState!=undefined) {
+	if (!prevState) {
+		prevState = { interests: { }, when: new Date().getTime() };
+		
+	}
+	
 		var addends = { };
 	
 		for (k in state.interests) {
@@ -427,7 +436,7 @@ function updateInterests(clientID, state, socket) {
 				Server.interestTime[k] = 0;
 			Server.interestTime[k] += a / addendSum;			
 		}
-	}
+	
 	
 	state.when = now;
 	Server.clientState[clientID] = state;
@@ -442,16 +451,10 @@ function updateInterests(clientID, state, socket) {
 
 var sensor = require('../sensor/sensor.js');
 
-var b = util.OutputBuffer(300, function(o) {
+var b = util.OutputBuffer(300, function(message) {
+	message.type = util.getTypeArray(message.type);
+	pub(message);
 	
-	var channel = 'chat';
-	var message = o;
-	if (o[0]) {
-		channel = o[0];
-		message = o[1];
-	} 
-	notice(message);
-	pub(channel, message);
 });
 b.start();
 
@@ -461,4 +464,3 @@ setInterval(attention.update, Server.memoryUpdatePeriodMS);
 
 require('../init.js').init();
 nlog('Ready');
-
