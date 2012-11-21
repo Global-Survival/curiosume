@@ -17,6 +17,9 @@ function getRelevance(x) {
 	for (var i in interestStrength) {
 		total += interestStrength[i];
 	}
+	if (total == 0)
+		return 0;
+	
 	for (var i = 0; i < x.type.length; i++) {
 		var t = x.type[i];
 		if (interestStrength[t] > 0) {
@@ -38,7 +41,7 @@ function newObjectView(x) {
 		var a = x.author;
 		var ci = a.indexOf('<');
 		if (ci!=-1) {
-			a = a.substring(0, ci-2);
+			a = a.substring(0, ci-1);
 		}
 		
 		xn = a + ': ' + xn;
