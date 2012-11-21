@@ -11,10 +11,41 @@ function updateTypes() {
 	//console.log('updating types');
 }
 
+// [ normalized match, absolute match ] 
+function getRelevance(x) {
+	var total = 0, interest = 0;
+	for (var i in interestStrength) {
+		total += interestStrength[i];
+	}
+	for (var i = 0; i < x.type.length; i++) {
+		var t = x.type[i];
+		if (interestStrength[t] > 0) {
+			interest += interestStrength[t];
+		}
+		
+	}
+	return interest / total;
+}
+
 function newObjectView(x) {
-	var d = $('<div class="objectView">');
+	var r = getRelevance(x);
+	
+	var fs = (1.0 + r/2.0)*100.0 + '%';
+	
+	var d = $('<div class="objectView" style="font-size:' + fs + '">');
+	var xn = x.name;
+	if (x.author) {
+		var a = x.author;
+		var ci = a.indexOf('<');
+		if (ci!=-1) {
+			a = a.substring(0, ci-2);
+		}
+		
+		xn = a + ': ' + xn;
+	}
+	
 	if (x.name) {
-		d.append('<h1>' + x.name + '</h1>');
+		d.append('<h1>' + xn + '</h1>');
 	}
 	if (x.type) {
 		if (x.type.length) {
@@ -26,6 +57,7 @@ function newObjectView(x) {
 	if (x.geolocation) {
 		d.append('<h3>' + JSON.stringify(x.geolocation) + '</h3>');
 	}
+	d.append('Relevance:' + r );
 	return d;
 }
 
