@@ -263,9 +263,16 @@ io.set("polling duration", 10);
 var channelListeners = {};
 
 function broadcast(socket, message) {
-	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
 	notice(message);
-	socket.broadcast.emit('notice', message);	
+
+	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+
+	if (message.type) {
+		for (var t = 0; t < message.type.length; t++) {
+			var chan = message.type[t];
+			socket.broadcast.to(chan).emit('notice', message);
+		}
+	}
 }
 
 function pub(message) {
@@ -277,7 +284,9 @@ function pub(message) {
 		//TODO gather list of clients to avoid sending duplicate messages to some clients
 		for (var t = 0; t < message.type.length; t++) {
 			var chan = message.type[t];
-			io.sockets.in(chan).emit('notice', message);			
+			//console.dir(io.sockets.in(chan));
+			io.sockets.in(chan).emit('notice', message);	
+
 		}
 	}
 }
@@ -294,7 +303,7 @@ io.sockets.on('connection', function(socket) {
 	
 
     socket.on('pub', function(message) {
-		pub(message);
+		broadcast(socket, message);
     });
     
     // socket.on('getSensors', function(withSensors) {
@@ -393,6 +402,8 @@ function updateInterests(clientID, state, socket) {
 		prevState = { interests: { }, when: new Date().getTime() };
 		
 	}
+	if (!prevState.intererests)
+		prevState.interests = { };	
 	
 		var addends = { };
 	
