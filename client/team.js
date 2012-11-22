@@ -2,14 +2,17 @@ var clients = { };
 
 function getInterestsAsTypes() {
 	var p = [];
+	var s = [];
 	console.dir(interestStrength);
 	for (var k in interests) {
 		var i = interests[k];
-		console.dir(i);
-		if (interestStrength[i.id] > 0)
+		var strength = interestStrength[i.id]; 
+		if (strength > 0) {
 			p.push(i.id);
+			s.push(strength);
+		}
 	}
-	return p;
+	return [p, s];
 }
 
 function sendMessage(ox) {
@@ -28,12 +31,16 @@ function sendMessage(ox) {
     }
     
     
-	x.type = getInterestsAsTypes();
+    var b = getInterestsAsTypes();
+	x.type = b[0];
+	x.typeStrength = b[1];
 
 	var now = new Date();
 	x.when = now.getTime();
     
-    
+  	var authorID = ((Self.get('name') || 'Anonymous') + ' <' + Self.get('clientID') + '>');
+	x.author = authorID;
+
     /*if (ox === undefined) {
 	    var d = $("#MessageDescription");
 	    if (d) {

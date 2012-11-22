@@ -74,15 +74,12 @@ function newObjectEdit(x) {
 	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
 	
     mi.keyup(function(event) {
-    	var authorID = ((Self.get('name') || 'Anonymous') + ' <' + Self.get('clientID') + '>');
  
     	if (!expandedDesc) {
             if (event.keyCode==13) {
           	  sendMessage({
           		  uuid: uuid(),
-          		  name: mi.val(),
-          		  type: 'Message',
-          		  author: authorID
+          		  name: mi.val()
           	  });
             }
       	}
