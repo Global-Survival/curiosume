@@ -211,11 +211,31 @@ function newTypeMenu() {
 		y.append(u);
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
-			u.append('<li><a href="javascript:addInterest(\'' + mm + '.' + menu[l] + '\', true, true);">' +  menu[l] + '</a></li>');
+			var iid = mm + '.' + menu[l];
+			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', true, true);">' +  menu[l] + '</a><span class="' + encodeInterestForElement(iid) + '-s"/></li>');
 			
 		}
 		x.append(y);
 	}
+	
+	
+	setInterval(function() {
+    	$.getJSON('/attention', function(a) {
+			for (var i in a) {
+				
+				var t = a[i];
+				var l = i;
+				var attention = t[1]; //(t[1] - min) / (max - min);
+				var instances = t[0];
+				var name = t[2] || l;
+				//console.log(name, instances, attention);
+				
+				var v = $('.' + encodeInterestForElement(i) + '-s');
+				if (v)
+					v.html(instances + ',' + attention);
+			}
+    	});
+	}, 2000);
 	
 	return x.superfish();
 }

@@ -91,16 +91,15 @@ function getTypeCounts(whenFinished) {
 		for (var k in docs) {
 			var d = docs[k];
 			if (d.type) {
-				/*if (d.type[0]) {
-					// is array
-				}
-				else {*/
-					if (totals[d.type])
-						totals[d.type][0]++;
+				d.type = util.getTypeArray(d.type);
+				for (var i = 0; i < d.type.length; i++) {
+					var dtype = d.type[i];
+					if (totals[dtype])
+						totals[dtype][0]++;
 					else
-						totals[d.type] = [ 1, 0];
-				//}
-				totals[d.type][1] = attention.totals[d.type] || 0;
+						totals[dtype] = [ 1, 0];
+					totals[dtype][1] = attention.totals[dtype] || 0;
+				}
 			}
 			
 			if (d.uuid) {
@@ -114,6 +113,7 @@ function getTypeCounts(whenFinished) {
 			}
 			
 		}
+		
 		db.close();
 		whenFinished(totals);
 	});

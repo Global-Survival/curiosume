@@ -161,7 +161,7 @@ function timeArrayLimitSize(i, maxSize) {
 
 
 function encodeInterestForElement(x) {
-	var y = x.replace(/\./g,"_");
+	var y = x.replace(/\./g,"_").replace(/ /g,"_").replace(/\[/g,"_").replace(/\]/g,"_");
 	return y;
 }
 function getInterestItem(sensor) { 

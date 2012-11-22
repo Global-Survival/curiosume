@@ -70,8 +70,9 @@ exports.uuid = uuid;
 function getTypeArray(t) {
 	if (typeof(t) == "array")
 		return t;
-	if (typeof(t) == "string")
-		return [ t ];
-	return [];
+	if (typeof(t) == "string") {
+		return t.split(",");
+	}
+	return t;
 }
 exports.getTypeArray = getTypeArray;
