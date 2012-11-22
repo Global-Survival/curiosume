@@ -8,7 +8,7 @@
 .InterestItem {
     margin-bottom: 0.1em;
     padding: 0;
-    border: 0.12em solid;
+    border: 0.17em solid;
 	border-color:  rgba(255,255,255,0.25);
 	padding-bottom: 1.0em;	
 
@@ -25,7 +25,7 @@
 
 }
 .interestSelected {
-	border-color: rgba(0, 0, 0, 0.75);	
+	border-color: rgba(255, 0, 0, 0.75);	
    -webkit-transition:border-color 0.618s ease-in;  
    -moz-transition:border-color 0.618s ease-in;  
    -o-transition:border-color 0.618s ease-in;  

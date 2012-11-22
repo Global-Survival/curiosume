@@ -1,11 +1,20 @@
 var clients = { };
 
-function getInterestsAsTypes() {
+function isInterestSelected(k) {
+	return selectedInterests.indexOf(k)!=-1;
+}
+
+function getInterestsAsTypes(removeSelected) {
 	var p = [];
 	var s = [];
 	for (var k in interests) {
 		var i = interests[k];
-		var strength = interestStrength[i.id]; 
+		var strength = interestStrength[i.id];
+		if (removeSelected)
+			if (selectedInterests.length > 0) {
+				if (!isInterestSelected(i.id))
+					continue;
+			}
 		if (strength > 0) {
 			p.push(i.id);
 			s.push(strength);
@@ -30,7 +39,7 @@ function sendMessage(ox) {
     }
     
     
-    var b = getInterestsAsTypes();
+    var b = getInterestsAsTypes(true);
 	x.type = b[0];
 	x.typeStrength = b[1];
 
@@ -177,8 +186,11 @@ function initChat(e) {
         notice(message);        	
     });
 
+    c.append('<button>By Age</button>');
+    c.append('<button>By Relevance</button>');
+    c.append('<button>By Distance</button>');
 	c.append('<div id="teamContent"/>');
-	c.append('<div id="teamRoster"/>');
+	//c.append('<div id="teamRoster"/>');
 	
 	$('#' + e).html(c);
 	

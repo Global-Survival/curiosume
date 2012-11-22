@@ -99,7 +99,7 @@ function saveSelf() {
     updateStatus();
 }
 
-function initSelf(e) {
+function initSelfSidebar(e) {
 	var x = $('<div id="SelfContent"></div>');
 	{
 		x.append('<div id="CurrentInterests"/>');

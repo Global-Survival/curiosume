@@ -80,6 +80,9 @@ function newObjectView(x) {
 	}
 	d.append('Relevance:' + r );
 	
+	if (x.text) {
+		d.append('<p>' + x.text + '</p>');
+	}
 	
 	return d;
 }
@@ -101,10 +104,7 @@ function newObjectEdit(x) {
  
     	if (!expandedDesc) {
             if (event.keyCode==13) {
-          	  sendMessage({
-          		  uuid: uuid(),
-          		  name: mi.val()
-          	  });
+        		sendMessage(saveForm());
             }
       	}
     });
@@ -138,21 +138,33 @@ function newObjectEdit(x) {
 	function saveForm() {
 		if (!x) x = { };
 		
+		x.uuid = uuid();
 		x.name = mi.val();
+		
+      	mi.val('');		
 		
 		if (expandedDesc) {
 			x.text = md.val(); 
 		}
 		
+		md.val('');
+		
 		if (map) {
-			var b = map.targetLocation.geometry.bounds;
+			var tb = map.targetLocation.geometry.bounds;
 			//TODO make this a funciton to get the center of a bounds, or find an existing one
-			var avX = (b.left + b.right)/2.0;
-			var avY = (b.top + b.bottom)/2.0;
+			var avX = (tb.left + tb.right)/2.0;
+			var avY = (tb.top + tb.bottom)/2.0;
 			var p = new OpenLayers.LonLat(avX,avY);
 			p = p.transform(toProjection, fromProjection);
 			x.geolocation = [p.lat, p.lon];
 		}
+		
+		ex.hide();
+		ed.hide();
+		b.show();
+		expandedDesc = false;
+		
+		return x;
 	}
 	
 	md.appendTo(ed);
@@ -160,8 +172,7 @@ function newObjectEdit(x) {
 	$('<button>+</button>').appendTo(ex);
 	var sendButton = $('<button><b>Save</b></button>');
 	sendButton.click(function() {
-		saveForm();
-		sendMessage(x);
+		sendMessage(saveForm());
 	});
 	sendButton.appendTo(ex);
 	sendButton.wrap('<div style="float:right">');
