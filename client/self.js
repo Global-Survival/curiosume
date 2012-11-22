@@ -46,7 +46,8 @@ function loadSelf() {
         Self.set("name", n);
     }
 
-    //$('#selfName').val( n );
+	var emailHash = Self.get('emailHash');
+	
     attention = Self.get("attention");
     if (attention == null)
     	attention = { };
@@ -54,6 +55,15 @@ function loadSelf() {
     types = Self.get("types");
     if (types == null)
     	types = { };
+    	
+    	
+    //add self to clients
+    var s = {
+    	uuid: Self.get('clientID'), 
+    	name: n,
+    	emailHash: emailHash
+    };
+    setClient(s.uuid, s);
 }
 
 function saveInterests() {
@@ -70,7 +80,9 @@ function saveInterests() {
 
 function saveSelf() {
     var n = $('#selfName').val();
-    Self.set("name", n);
+    if (n)
+	    if (n.length > 0)
+	    	Self.set("name", n);
     
     var email = $('#selfEmail').val();
     if (email)

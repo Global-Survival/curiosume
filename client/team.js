@@ -38,7 +38,7 @@ function sendMessage(ox) {
 	var now = new Date();
 	x.when = now.getTime();
     
-  	var authorID = ((Self.get('name') || 'Anonymous') + ' <' + Self.get('clientID') + '>');
+  	var authorID = ((Self.get('name')) + ' <' + Self.get('clientID') + '>');
 	x.author = authorID;
 
     /*if (ox === undefined) {

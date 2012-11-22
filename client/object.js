@@ -37,35 +37,50 @@ function newObjectView(x) {
 	
 	var d = $('<div class="objectView" style="font-size:' + fs + '">');
 	var xn = x.name;
+	var authorID = ''; //Self.get('clientID');
 	if (x.author) {
 		var a = x.author;
 		var ci = a.indexOf('<');
 		if (ci!=-1) {
 			a = a.substring(0, ci-1);
+			authorID = x.author.substring(ci+1, x.author.length-1);
+			console.log('cl!=-1', authorID);
+			console.dir(x);
+		}
+		else {
+			authorID = x.author;
+			console.log('cl==-1', a);
 		}
 		
 		xn = a + ': ' + xn;
 	}
 	
+	var authorClient = clients[authorID];
+	if (authorClient) {		
+		d.append(getAvatar(authorClient.emailHash).attr('align', 'left'));
+	}
+
 	if (x.name) {
 		d.append('<h1>' + xn + '</h1>');
 	}
 	if (x.type) {
 		if (x.type.length) {
-			d.append('<h2>' + JSON.stringify(x.type) + '</h2>');
+			d.append('<h3>' + JSON.stringify(x.type, null, 2) + '</h3>');
 		}
 		else
-			d.append('<h2>' + x.type + '</h2>');
+			d.append('<h3>' + x.type + '</h3>');
 	}
 	if (x.geolocation) {
 		d.append('<h3>' + JSON.stringify(x.geolocation) + '</h3>');
 	}
 	d.append('Relevance:' + r );
 	
-    //$("body")
-	var emailHash = Self.get('emailHash');
-	d.append($("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200"));
+	
 	return d;
+}
+
+function getAvatar(emailHash) {
+	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
 function newObjectEdit(x) {
