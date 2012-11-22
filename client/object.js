@@ -61,6 +61,10 @@ function newObjectView(x) {
 		d.append('<h3>' + JSON.stringify(x.geolocation) + '</h3>');
 	}
 	d.append('Relevance:' + r );
+	
+    //$("body")
+	var emailHash = Self.get('emailHash');
+	d.append($("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200"));
 	return d;
 }
 
@@ -212,7 +216,7 @@ function newTypeMenu() {
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
 			var iid = mm + '.' + menu[l];
-			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', true, true);">' +  menu[l] + '</a><span class="' + encodeInterestForElement(iid) + '-s"/></li>');
+			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', true, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '-s"/></a></li>');
 			
 		}
 		x.append(y);

@@ -71,6 +71,12 @@ function saveInterests() {
 function saveSelf() {
     var n = $('#selfName').val();
     Self.set("name", n);
+    
+    var email = $('#selfEmail').val();
+    if (email)
+	    if (email.length > 0)    
+	    	Self.set('emailHash', MD5(email) );
+    
     Self.set("attention", attention);
     Self.set('types', types);
 
@@ -112,7 +118,8 @@ function updateSelfUI() {
 
 function getSelfSnapshot() {
     return {
-        name: Self.get('name'),
+        name: Self.get('name'),        
+        emailHash: Self.get('emailHash'),
         geolocation: Self.get('geolocation'),
         interests: Self.get('interests')
     };
