@@ -45,8 +45,12 @@ function loadSelf() {
         n = 'Anonymous';
         Self.set("name", n);
     }
+    $('#selfName').val(Self.get('name'));
 
 	var emailHash = Self.get('emailHash');
+	if (emailHash) {
+		$('#selfEmail').attr('placeholder', 'already hashed');
+	}
 	
     attention = Self.get("attention");
     if (attention == null)
@@ -99,7 +103,8 @@ function initSelf(e) {
 	var x = $('<div id="SelfContent"></div>');
 	{
 		x.append('<div id="CurrentInterests"/>');
-		x.append('<div id="InterestActions"><div id="NewObjectFromInterestsWrapper"  style="display: none"><button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button></div></div>');
+		x.append('<div id="InterestActions"><div id="NewObjectFromInterestsWrapper"  style="display: none"></div>');
+		//<button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button></div>
 		
 	}
 	$('#' + e).append(x);

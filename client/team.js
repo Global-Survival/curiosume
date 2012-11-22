@@ -3,7 +3,6 @@ var clients = { };
 function getInterestsAsTypes() {
 	var p = [];
 	var s = [];
-	console.dir(interestStrength);
 	for (var k in interests) {
 		var i = interests[k];
 		var strength = interestStrength[i.id]; 

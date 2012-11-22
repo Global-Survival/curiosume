@@ -335,11 +335,11 @@ function geoDist(p1, p2) {
 
 function lonlat(lon, lat) {
     var ll = new OpenLayers.LonLat(lon, lat);
-    //ll.transform(fromProjection, toProjection);    
+    ll.transform(fromProjection, toProjection);    
     return ll;
 }
 function unproject(x) {
-    //x.transform(toProjection, fromProjection);
+    x.transform(toProjection, fromProjection);
     return x;
 }
 

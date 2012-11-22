@@ -60,6 +60,8 @@ function newObjectView(x) {
 	if (x.name) {
 		d.append('<h1>' + xn + '</h1>');
 	}
+	
+	/*
 	if (x.type) {
 		if (x.type.length) {
 			d.append('<h3>' + JSON.stringify(x.type, null, 2) + '</h3>');
@@ -67,8 +69,14 @@ function newObjectView(x) {
 		else
 			d.append('<h3>' + x.type + '</h3>');
 	}
+	*/
+	
 	if (x.geolocation) {
-		d.append('<h3>' + JSON.stringify(x.geolocation) + '</h3>');
+		var dist = '?';
+		if (Self.get('geolocation'))
+			dist = geoDist(x.geolocation, Self.get('geolocation'));
+		
+		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}
 	d.append('Relevance:' + r );
 	
