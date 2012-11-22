@@ -265,13 +265,27 @@ var channelListeners = {};
 function broadcast(socket, message) {
 	notice(message);
 
-	nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
-
 	if (message.type) {
+		
+		nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+		
+		var targets = { };
+		
 		for (var t = 0; t < message.type.length; t++) {
 			var chan = message.type[t];
-			socket.broadcast.to(chan).emit('notice', message);
+			
+			var cc = io.sockets.clients(chan);
+			for (var cck in cc) {
+				var i = cc[cck].id;
+				if (i!=socket.id)
+					targets[i] = '';
+			}						
 		}
+		
+		for (var t in targets) {
+			io.sockets.socket(t).emit('notice', message);
+		}
+		
 	}
 }
 

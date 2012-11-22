@@ -44,12 +44,9 @@ function newObjectView(x) {
 		if (ci!=-1) {
 			a = a.substring(0, ci-1);
 			authorID = x.author.substring(ci+1, x.author.length-1);
-			console.log('cl!=-1', authorID);
-			console.dir(x);
 		}
 		else {
 			authorID = x.author;
-			console.log('cl==-1', a);
 		}
 		
 		xn = a + ': ' + xn;
