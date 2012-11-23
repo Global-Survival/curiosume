@@ -107,7 +107,8 @@ function newObjectEdit(x) {
 	var expandedDesc = false;
 	var expandedMap = false;
 	
-	var mi = $('<input type="text" class="MessageSubject"/>')
+	//var mi = $('<textarea rows="1" class="MessageSubject"/>');
+	var mi = $('<input type="text" class="MessageSubject"/>');
 	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
 	
     mi.keyup(function(event) {
@@ -170,8 +171,10 @@ function newObjectEdit(x) {
 		}
 		
 		ex.hide();
+		em.hide();
 		ed.hide();
 		b.show();
+		c.show();
 		expandedDesc = false;
 		
 		return x;

@@ -166,7 +166,7 @@ function initTeam() {
 	
 }
 
-function initChat(e) {
+function initDataView(e) {
 	/*
 	<div id="Team" data-role="page" class="PageWrapper">
         <div id="teamInput">
@@ -180,12 +180,7 @@ function initChat(e) {
 	*/
 	var c = $('<div id="Team"></div>');
 
-	newObjectEdit().appendTo(c);
 	
-    subscribe('chat', function(message) {
-        notice(message);        	
-    });
-
     c.append('<button>By Age</button>');
     c.append('<button>By Relevance</button>');
     c.append('<button>By Distance</button>');

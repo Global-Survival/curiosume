@@ -166,6 +166,9 @@ function initNetention(f) {
 		socket.on('addTypes', function(at) {
 			addTypes(at);
 		});
+	    /*subscribe('chat', function(message) {
+	        notice(message);        	
+	    });*/
 
         initTeam();
         
