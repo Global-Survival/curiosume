@@ -97,6 +97,7 @@ function saveSelf() {
     Self.set('types', types);
 
     updateStatus();
+    
 }
 
 function initSelfSidebar(e) {

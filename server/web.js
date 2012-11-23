@@ -78,6 +78,19 @@ function notice(o) {
 	});
 
 }
+function getObjectsByType(t, withObjects) {
+	var db = mongo.connect(databaseUrl, collections);
+	db.obj.find({ type: { $in: [ t ] } }, function(err, docs) {
+
+		db.close();
+		
+		if (!err) {		
+			
+			withObjects(docs);
+		}		
+	});
+	
+}
 
 function getTypeCounts(whenFinished) {
 	//this can probably be optimized very much
@@ -87,6 +100,8 @@ function getTypeCounts(whenFinished) {
 		if (err) {
 			console.log('getTypeCounts: ' + err);
 		}
+		db.close();
+		
 		var totals = { };
 		for (var k in docs) {
 			var d = docs[k];
@@ -114,7 +129,6 @@ function getTypeCounts(whenFinished) {
 			
 		}
 		
-		db.close();
 		whenFinished(totals);
 	});
 }
@@ -401,7 +415,11 @@ function unsub(socket, channel) {
 }
 
 function interestAdded(socket, interest) {
-	sub(socket, interest);	
+	sub(socket, interest);
+	
+	getObjectsByType(interest, function(objects) {
+		socket.emit('notice', objects);		
+	});
 }
 function interestRemoved(socket, interest) {
 	unsub(socket, interest);
@@ -416,8 +434,7 @@ function updateInterests(clientID, state, socket) {
 		prevState = { interests: { }, when: new Date().getTime() };
 		
 	}
-	if (!prevState.intererests)
-		prevState.interests = { };	
+	
 	
 		var addends = { };
 	

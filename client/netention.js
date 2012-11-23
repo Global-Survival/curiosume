@@ -203,8 +203,13 @@ function getObjects(query, onObject, onFinished) {
 }
 
 function notice(x) {
+	if (Array.isArray(x)) {
+		for (var i = 0; i < x.length; i++)
+			notice(x[i]);
+		return;
+	}
+	
 	if (x.type) {
-		//TODO handle multiple types
 		x.type = getTypeArray(x.type);
 		for (var ti = 0; ti < x.type.length; ti++) {
 			var t = types[x.type[ti]];

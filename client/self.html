@@ -19,6 +19,12 @@
 		}
 		
 	</style>
+	<script>
+		function saveSelfAlert() {
+			saveSelf();
+			alert('Saved.');			
+		}
+	</script>
 </head>
 
 
@@ -39,7 +45,7 @@
 		            <textarea id="selfBiography" cols="24" rows="3"></textarea>
 		            <br/>
 		            <div style="float: right; margin-bottom: 4em;">
-		            	<a href="javascript:saveSelf()" data-role="button" data-inline="true" data-mini="true">Save</a>
+		            	<a href="javascript:saveSelfAlert();" data-role="button" data-inline="true" data-mini="true">Save</a>
 		            </div>
 		            <br/>
 		            <br/>

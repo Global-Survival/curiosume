@@ -59,7 +59,6 @@ function addTypes(at) {
 	for (var i = 0; i < at.length; i++) {
 		var a = at[i];
 		types[at[i].uri] = a;
-		buffer.push(a);
 	}
 }
 

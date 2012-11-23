@@ -7,12 +7,22 @@ function addType(t) {
 	types[t.uri] = t;
 }
 
+var lastTypeMenu;
 function updateTypes() {
-	//console.log('updating types');
+	if (lastTypeMenu)
+		lastTypeMenu.remove();
+	
+	var t = newTypeMenu();
+	$('#Menu').append(t);
+	lastTypeMenu = t;
 }
 
 // [ normalized match, absolute match ] 
 function getRelevance(x) {
+	if (!x.type)
+		return 0;
+	x.type = getTypeArray(x.type);	
+	
 	var total = 0, interest = 0;
 	for (var i in interestStrength) {
 		total += interestStrength[i];
