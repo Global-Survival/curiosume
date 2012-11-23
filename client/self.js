@@ -147,9 +147,12 @@ function connectSelf() {
     socket.emit('connectSelf', Self.get('clientID'));
 }
 function updateSelf() {
+	var getInstances = false;
+	
     if (!connected) {
         connectSelf();
         connected = true;
+        getInstances = true;        
     }
     
     var ss = getSelfSnapshot();
@@ -158,7 +161,7 @@ function updateSelf() {
     
     timeArrayLimitSize(interestHistory, maxInterestHistory);
     
-    socket.emit('updateSelf', ss);
+    socket.emit('updateSelf', ss, getInstances);
 }
 
 function timeArrayRemoveOldest(i) {

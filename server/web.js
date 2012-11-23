@@ -364,7 +364,7 @@ io.sockets.on('connection', function(socket) {
        socket.emit('addTypes', types);
     });
     
-    socket.on('updateSelf', function(s) {
+    socket.on('updateSelf', function(s, getObjects) {
         socket.get('clientID', function (err, c) {        	
             if (c == null) {
                 socket.emit('reconnect');
@@ -376,7 +376,7 @@ io.sockets.on('connection', function(socket) {
                 socket.broadcast.emit('setClient', c, s);
                 
                 s.created = Date.now();
-                updateInterests(c, s, socket);
+                updateInterests(c, s, socket, getObjects);
             }
         });
     });
@@ -425,7 +425,7 @@ function interestRemoved(socket, interest) {
 	unsub(socket, interest);
 }
 
-function updateInterests(clientID, state, socket) {	
+function updateInterests(clientID, state, socket, getObjects) {	
 	var prevState = Server.clientState[clientID];
 	var now = Date.now();
 	
@@ -441,10 +441,15 @@ function updateInterests(clientID, state, socket) {
 		for (k in state.interests) {
 			var v = state.interests[k];
 			var pv = prevState.interests[k];
+			if (getObjects) {
+				if (socket)
+					interestAdded(socket, k);				
+			}
 			if (pv==undefined) {
 				pv = 0;
 				if (socket)
-					interestAdded(socket, k);
+					if (!getObjects)
+						interestAdded(socket, k);
 			}
 			else {
 				var averageInterest = (v + pv)/2.0;
