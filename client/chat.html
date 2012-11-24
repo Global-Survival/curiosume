@@ -3,7 +3,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Netention - Heads-Up</title>
+    <title>Netention - Chat</title>
     
     <!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
       
@@ -21,6 +21,7 @@
 				initSelfSidebar('SelfTarget');
 
 				newObjectEdit().appendTo($('#EditTarget'));
+				$('.MessageSubject').attr('placeholder', 'I\'m thinking about');
 				
 				updateTypes();
 				

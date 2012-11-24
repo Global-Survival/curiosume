@@ -1,4 +1,3 @@
-var clients = { };
 
 function isInterestSelected(k) {
 	return selectedInterests.indexOf(k)!=-1;
@@ -91,32 +90,6 @@ function addSuggestions(x) {
     
 }
 
-function addMessage(h) {
-    
-	var tc = $('#teamContent');
-	if (tc == undefined) {
-		//TODO queue?
-		return;
-		
-	}
-	
-	//if (typeof(h)=="object")
-	//	h = JSON.stringify(h, null, 4);
-
-	var d = $('<div style="display: none"/>');
-    newObjectView(h).appendTo(d);
-    
-    tc.append(d);
-    
-    d.fadeIn();
-    
-    
-    var objDiv = document.getElementById("teamContent");
-    if (objDiv!=null)
-	    if (objDiv.scrollHeight!=undefined)
-	    	objDiv.scrollTop = objDiv.scrollHeight;
-    
-}
 
 
 function setClient(cid, s) {
@@ -189,4 +162,31 @@ function initDataView(e) {
 	
 	$('#' + e).html(c);
 	
+}
+
+function updateDataView() {
+	var tc = $('#teamContent');	
+	if (!tc)
+		return;
+	
+	
+	tc.html('');
+
+	
+	for (k in attention) {
+		var o = attention[k];
+		
+		var d = $('<div/>');
+		
+		if (getRelevance(o) > 0)
+			newObjectView(o).appendTo(d);
+
+	    tc.append(d);
+		
+	}
+	
+    var objDiv = document.getElementById("teamContent");
+    if (objDiv!=null)
+	    if (objDiv.scrollHeight!=undefined)
+	    	objDiv.scrollTop = objDiv.scrollHeight;
 }

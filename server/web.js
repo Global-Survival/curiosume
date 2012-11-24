@@ -425,7 +425,7 @@ function interestRemoved(socket, interest) {
 	unsub(socket, interest);
 }
 
-function updateInterests(clientID, state, socket, getObjects) {	
+function updateInterests(clientID, state, socket, resubscribe) {	
 	var prevState = Server.clientState[clientID];
 	var now = Date.now();
 	
@@ -436,54 +436,56 @@ function updateInterests(clientID, state, socket, getObjects) {
 	}
 	
 	
-		var addends = { };
-	
-		for (k in state.interests) {
-			var v = state.interests[k];
-			var pv = prevState.interests[k];
-			if (getObjects) {
-				if (socket)
-					interestAdded(socket, k);				
-			}
-			if (pv==undefined) {
-				pv = 0;
-				if (socket)
-					if (!getObjects)
-						interestAdded(socket, k);
-			}
-			else {
-				var averageInterest = (v + pv)/2.0;
-				if (Server.interestTime[k] == undefined)
-					Server.interestTime[k] = 0;
-				 addends[k] = ( (now - prevState.when)/1000.0 * averageInterest );
-			}
+	var addends = { };
+
+	for (k in state.interests) {
+		var v = state.interests[k];
+		var pv = prevState.interests[k];
+		
+		if (resubscribe) {
+			if (socket)
+				interestAdded(socket, k);				
 		}
-		for (k in prevState.interests) {
-			var v = state.interests[k];
-			var pv = prevState.interests[k];
-			if (v==undefined) {
-				v = 0;				
-				var averageInterest = (v + pv)/2.0;				
-				if (Server.interestTime[k] == undefined)
-					Server.interestTime[k] = 0;
-				addends[k] = ( Server.interestTime[k] += (now - prevState.when)/1000.0 * averageInterest );
-				
-				if (socket)
-					interestRemoved(socket, k);
-			}
-			
+		if (pv==undefined) {
+			pv = 0;
+			if (socket)
+				if (!resubscribe)
+					interestAdded(socket, k);
 		}
-		var addendSum = 0;
-		for (k in addends) {
-			addendSum += addends[k];
-		}
-		for (k in addends) {
-			var a = addends[k];
+		
+		else {
+			var averageInterest = (v + pv)/2.0;
 			if (Server.interestTime[k] == undefined)
 				Server.interestTime[k] = 0;
-			Server.interestTime[k] += a / addendSum;			
+			 addends[k] = (now - prevState.when)/1000.0 * averageInterest ;
 		}
-	
+	}
+	for (k in prevState.interests) {
+		var v = state.interests[k];
+		var pv = prevState.interests[k];
+		if (v==undefined) {
+			v = 0;				
+			var averageInterest = (v + pv)/2.0;				
+			if (Server.interestTime[k] == undefined)
+				Server.interestTime[k] = 0;
+			addends[k] = (now - prevState.when)/1000.0 * averageInterest ;
+			
+			if (socket)
+				interestRemoved(socket, k);
+		}
+		
+	}
+	var addendSum = 0;
+	for (k in addends) {
+		addendSum += addends[k];
+	}
+	for (k in addends) {
+		var a = addends[k];
+		if (Server.interestTime[k] == undefined)
+			Server.interestTime[k] = 0;
+		Server.interestTime[k] += a / addendSum;			
+	}
+
 	
 	state.when = now;
 	Server.clientState[clientID] = state;

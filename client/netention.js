@@ -1,12 +1,13 @@
 var nextCategoryID = 0, nextNewsID = 0, nextControlID = 0;
 
 
-var layers = [];
 
 var socket;
             
 //var etherpadBaseURL = 'http://localhost:9001';
 var Self;
+
+var clients = { };
 
 function showHelp() {
     $('#help').html('<center>Loading...</center>');
@@ -22,34 +23,6 @@ function showHelp() {
     
    
     
-    function removeMapLayers() {
-        for (i = 0; i < layers.length; i++) {
-            theMap.removeLayer(layers[i]);
-        }
-        layers = [];
-    }            
-    
-    function addMapLayer(l) {
-        layers.push(l);
-        theMap.addLayer(l);
-    }
-    
-    var heatmapOpacity = 0;
-    function updateHeatmapOpacity(o) { 
-        heatmapOpacity = o;
-        if (o == 0) {
-            $('#mapHeat').hide();
-    }
-    else {
-        $('#mapHeat').show();                    
-    }
-    $('#mapHeat').css('opacity', o/100.0); 
-}
-
-function updateHeatmapDetail(d) {
-    heatMapDetailLevel = d;
-    update();
-}
 
 function loadCSS(url) {
     $(document.head).append(
@@ -206,29 +179,33 @@ function getObjects(query, onObject, onFinished) {
 }
 
 function notice(x) {
-	if (Array.isArray(x)) {
-		for (var i = 0; i < x.length; i++)
-			notice(x[i]);
-		return;
+	if (!Array.isArray(x)) {
+		notice([x]);
 	}
-	
-	if (x.type) {
-		x.type = getTypeArray(x.type);
-		for (var ti = 0; ti < x.type.length; ti++) {
-			var t = types[x.type[ti]];
-			if (!t) {
-				//add tag for type if not excists
-				
-				types[x.type] = { uri: x.type, name: x.type };
+
+	function n(x) {
+		if (x.type) {
+			x.type = getTypeArray(x.type);
+			for (var ti = 0; ti < x.type.length; ti++) {
+				var t = types[x.type[ti]];
+				if (!t) {
+					//add tag for type if not excists
+					
+					types[x.type] = { uri: x.type, name: x.type };
+				}
 			}
+		}   
+		
+		if (x.uuid) {
+			attention[x.uuid] = x;
 		}
-	}   
-	
-	addMessage(x);
-	
-	if (x.uuid) {
-		attention[x.uuid] = x;
+		
 	}
+	
+	for (var i = 0; i < x.length; i++)
+		n(x[i]);
+	
+	updateDataView();
 }
 
 function subscribe(channel, f) {
@@ -245,3 +222,36 @@ function pub(message) {
 function getClientInterests(f) {
 	socket.emit('getClientInterests', f);
 }
+
+/*
+function removeMapLayers() {
+    for (i = 0; i < layers.length; i++) {
+        theMap.removeLayer(layers[i]);
+    }
+    layers = [];
+}            
+
+function addMapLayer(l) {
+    layers.push(l);
+    theMap.addLayer(l);
+}
+
+var heatmapOpacity = 0;
+function updateHeatmapOpacity(o) { 
+    heatmapOpacity = o;
+    if (o == 0) {
+        $('#mapHeat').hide();
+}
+else {
+    $('#mapHeat').show();                    
+}
+$('#mapHeat').css('opacity', o/100.0); 
+}
+
+function updateHeatmapDetail(d) {
+heatMapDetailLevel = d;
+update();
+}
+var layers = [];
+
+*/

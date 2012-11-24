@@ -100,6 +100,8 @@ function saveSelf() {
     
 }
 
+var nearestFactor, soonFactor;
+
 function initSelfSidebar(e) {
 	var x = $('<div id="SelfContent"></div>');
 	{
@@ -122,7 +124,25 @@ function initSelfSidebar(e) {
 	  
 	  loadInterests();
 
+	var b = $('<div/>').attr('style', 'text-align: center');
 	
+	var sa = $('<input type="range" min="0" max="100" value="0"/>');
+	sa.change(function() {
+		nearestFactor = sa.val() / 100.0;
+		updateDataView();
+	});
+	b.append('Anywhere'); b.append(sa); b.append('Nearest<br/>');
+	
+	var sb = $('<input type="range" min="0" max="100" value="0"/>');
+	sb.change(function() {
+		soonFactor = sb.val() / 100.0;
+		updateDataView();
+	});
+	b.append('Anytime'); b.append(sb); b.append('Recent<br/>');
+
+	b.append('<br/>');
+	b.append('<br/>');
+	x.append(b);
 }
 
 function updateSelfUI() {
@@ -162,6 +182,8 @@ function updateSelf() {
     timeArrayLimitSize(interestHistory, maxInterestHistory);
     
     socket.emit('updateSelf', ss, getInstances);
+    
+	updateDataView();
 }
 
 function timeArrayRemoveOldest(i) {
@@ -396,6 +418,7 @@ function removeInterest(i) {
 	
     getInterestItem(i).fadeOut();
     delete interestStrength[i];
+    delete interests[i];
 }
 
 

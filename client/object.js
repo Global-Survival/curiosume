@@ -37,7 +37,22 @@ function getRelevance(x) {
 		}
 		
 	}
-	return interest / total;
+	
+	var v = interest / total;
+	
+	if (soonFactor > 0) {
+		if (x.when) {
+			//TODO Fix this math
+			var ageFactor = Math.exp( -1 * (Date.now() - x.when) / 1000.0 / 60.0 / 60.0  );
+			v *= (ageFactor * (1.0 - soonFactor) );
+		}
+		else {
+			v *= 0.5;
+		}
+	}
+	
+	
+	return v;
 }
 
 function newObjectView(x) {
@@ -88,7 +103,7 @@ function newObjectView(x) {
 		
 		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}
-	d.append('Relevance:' + r );
+	d.append('<h3>Relevance:' + r  + '</h3>');
 	
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
@@ -135,7 +150,7 @@ function newObjectEdit(x) {
 		ed.show();
 		b.hide();
 	});
-	var c = $('<button>+ Map</buton>');
+	var c = $('<button>+ Location</buton>');
 	c.click(function() {
 		expandedMap = true;
 		
