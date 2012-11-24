@@ -50,7 +50,9 @@ function getRelevance(x) {
 			v *= 0.5;
 		}
 	}
-	
+	if (nearestFactor > 0) {
+		//...
+	}
 	
 	return v;
 }
