@@ -440,6 +440,10 @@ function updateInterests(clientID, state, socket, resubscribe) {
 
 	for (k in state.interests) {
 		var v = state.interests[k];
+		
+		if (prevState.interests==undefined)
+			prevState.interests = { };
+			
 		var pv = prevState.interests[k];
 		
 		if (resubscribe) {
