@@ -183,21 +183,24 @@ function notice(x) {
 		notice([x]);
 	}
 
-	function n(x) {
-		if (x.type) {
-			x.type = getTypeArray(x.type);
-			for (var ti = 0; ti < x.type.length; ti++) {
-				var t = types[x.type[ti]];
+	function n(y) {
+		if (!y)
+			return;
+		
+		if (y.type) {
+			y.type = getTypeArray(y.type);
+			for (var ti = 0; ti < y.type.length; ti++) {
+				var t = types[y.type[ti]];
 				if (!t) {
 					//add tag for type if not excists
 					
-					types[x.type] = { uri: x.type, name: x.type };
+					types[y.type] = { uri: y.type, name: y.type };
 				}
 			}
 		}   
 		
-		if (x.uuid) {
-			attention[x.uuid] = x;
+		if (y.uuid) {
+			attention[y.uuid] = y;
 		}
 		
 	}
