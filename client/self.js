@@ -289,8 +289,7 @@ function updateSelfUI() {
 	    $('#CurrentInterests').append(ss);
 	    
 	    
-	    ss.click(function() {
-		    console.log('clickable', eid, ss);
+	    /*ss.click(function() {
 		    
 	    	var s = ss.data('selected');
 	    	s = !s;
@@ -306,7 +305,7 @@ function updateSelfUI() {
 	    	}
 	    	
 	    		
-	    });
+	    });*/
 	    
 	    ss.append('<span id="InterestControl-' + eid + '"></span>');
 	    ss.append(ename);

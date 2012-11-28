@@ -18,3 +18,14 @@
 	color: #333;
 	margin: 0;
 }
+
+#TypesMenu ul li {
+	background: transparent;
+}
+#TypesMenu ul li a {
+	color: black;
+}
+#TypesMenu ul li ul {
+	background: #ddd;
+	color: black;
+}

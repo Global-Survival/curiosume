@@ -13,7 +13,8 @@ function updateTypes() {
 		lastTypeMenu.remove();
 	
 	var t = newTypeMenu();
-	$('#Menu').append(t);
+	$('#TypesMenu').append(t);
+	
 	lastTypeMenu = t;
 }
 
@@ -129,6 +130,7 @@ function clearInterests() {
 function newObjectEdit(x) {
 	var d = $('<div>');
 
+	
 	var sc = $('<div id="SelfContent"></div>');
 	{
 		sc.append('<div id="CurrentInterests"/>');
@@ -137,7 +139,7 @@ function newObjectEdit(x) {
 	}
 
 
-	var b = $('<div/>').attr('style', 'text-align: center');
+	var b = $('<div/>').attr('style', 'width: 40%; float: left; text-align: center');
 	
 	var sa = $('<input type="range" min="0" max="100" value="0"/>');
 	sa.change(function() {
@@ -145,24 +147,27 @@ function newObjectEdit(x) {
 		updateDataView();
 	});
 	b.append('Anywhere'); b.append(sa); b.append('Nearest<br/>');
+
+	var b2 = $('<div/>').attr('style', 'width: 40%; float: right; text-align: center');
 	
 	var sb = $('<input type="range" min="0" max="100" value="0"/>');
 	sb.change(function() {
 		soonFactor = sb.val() / 100.0;
 		updateDataView();
 	});
-	b.append('Anytime'); b.append(sb); b.append('Recent<br/>');
+	b2.append('Anytime'); b2.append(sb); b2.append('Recent<br/>');
 
-	b.append('<br/>');
-	b.append('<br/>');
-	sc.append(b);
+	$('#DataTarget').append(b);
+	$('#DataTarget').append(b2);
 	
 	var expandedDesc = false;
 	var expandedMap = false;
 	
 	//var mi = $('<textarea rows="1" class="MessageSubject"/>');
 	var mi = $('<input type="text" class="MessageSubject"/>');
+	var mdd = $('<div>');
 	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
+	md.appendTo(mdd);
 	
     mi.keyup(function(event) {
  
@@ -181,21 +186,32 @@ function newObjectEdit(x) {
 	
 	var ex = $('<div>');
 	
-	var b = $('<button>+ Description</buton>');
+	var b = $('<button>..</buton>');
 	b.click(function() {
-		expandedDesc = true;
-		ex.show();
-		ed.show();
-		b.hide();
+		if (!expandedDesc) {
+			expandedDesc = true;
+			ex.show();
+			ed.show();
+		}
+		else {
+			expandedDesc = false;
+			ed.hide();
+		}
 	});
-	var c = $('<button>+ Location</buton>');
+	var c = $('<button>@</buton>');
 	c.click(function() {
-		expandedMap = true;
-		
-		ex.show();
-		em.show();
-		c.hide();
-		map = initLocationChooserMap(emid);
+		if (!expandedMap) {
+			expandedMap = true;
+			
+			ex.show();
+			em.show();
+			em.html('');
+			map = initLocationChooserMap(emid);
+		}
+		else {
+			expandedMap = false;
+			em.hide();
+		}
 	});
 	
 	
@@ -233,26 +249,29 @@ function newObjectEdit(x) {
 		return x;
 	}
 	
-	md.appendTo(ed);
-	$('<button>Attach</button>').appendTo(ex);
+	mdd.appendTo(ed);
 	
-	var sendButton = $('<button><b>Save</b></button>');
-	sendButton.click(function() {
+	var shareButton = $('<button><b>Share</b></button>');
+	shareButton.click(function() {
 		sendMessage(saveForm());
 	});
-	sendButton.appendTo(ex);
-	sendButton.wrap('<div style="float:right">');
+	shareButton.appendTo(ex);
+	shareButton.wrap('<div style="float:right">');
 	
 	
 	ed.hide();
 	em.hide();
 	ex.hide();
 	
+	
 	mi.appendTo(d);
-	$('<br/>').appendTo(d);
-
 	b.appendTo(d);
 	c.appendTo(d);
+
+	$('<br/>').appendTo(d);
+	
+	d.append('<div id="TypesMenu"/>');
+
 	
 	ed.appendTo(d);
 	em.appendTo(d);
@@ -288,13 +307,15 @@ function newObjectEdit(x) {
 	sc.appendTo(d);
 	ex.appendTo(d);
 
-
+	
 	return d;
 }
 
 
-function newTypeMenu() {
+function newTypeMenu(toggleDescription, toggleLocation) {
 	var x = $('<ul class="sf-menu"/>');
+	
+	
 	
 	var m = { };
 	for (var k in types) {
@@ -342,4 +363,69 @@ function newTypeMenu() {
 	}, 2000);
 	
 	return x.superfish();
+}
+
+function initDataView(e) {
+	/*
+	<div id="Team" data-role="page" class="PageWrapper">
+        <div id="teamInput">
+            <input type='text' id="MessageInput"/>
+        </div>
+        <div id="teamContent">
+        </div>
+	    <div id="teamRoster">
+	    </div>
+	</div>
+	*/
+	var c = $('<div id="Team"></div>');
+	
+    c.append('<button>News</button>');
+    c.append('<button>Map</button>');
+    c.append('<button>Table</button>');
+    c.append('<button>Timeline</button>');
+    
+	c.append('<div id="teamContent"/>');
+	//c.append('<div id="teamRoster"/>');
+	
+	$('#' + e).html(c);
+	
+}
+
+function updateDataView() {
+	var tc = $('#teamContent');	
+	if (!tc)
+		return;
+	
+	
+	tc.html('');
+
+	
+	var x = [];
+	var relevance =  { };
+	for (k in attention) {
+		var o = attention[k];
+
+		var r = getRelevance(o);
+		if (r > 0) {
+			x.push(o);
+			relevance[k] = r;
+		}
+		
+	}
+	
+	//sort x
+	x.sort(function(a,b) {
+		return relevance[b.uuid] - relevance[a.uuid];
+	});
+	
+	for (var i = 0; i < x.length; i++) {
+		var d = $('<div/>');
+		newObjectView(x[i]).appendTo(d);
+	    tc.append(d);
+	}
+	
+    var objDiv = document.getElementById("teamContent");
+    if (objDiv!=null)
+	    if (objDiv.scrollHeight!=undefined)
+	    	objDiv.scrollTop = objDiv.scrollHeight;
 }
