@@ -152,11 +152,13 @@ function initDataView(e) {
 	</div>
 	*/
 	var c = $('<div id="Team"></div>');
-
 	
     c.append('<button>By Age</button>');
     c.append('<button>By Relevance</button>');
     c.append('<button>By Distance</button>');
+    c.append('<button>Map</button>');
+    c.append('<button>Table</button>');
+    
 	c.append('<div id="teamContent"/>');
 	//c.append('<div id="teamRoster"/>');
 	
@@ -173,16 +175,28 @@ function updateDataView() {
 	tc.html('');
 
 	
+	var x = [];
+	var relevance =  { };
 	for (k in attention) {
 		var o = attention[k];
-		
-		var d = $('<div/>');
-		
-		if (getRelevance(o) > 0)
-			newObjectView(o).appendTo(d);
 
-	    tc.append(d);
+		var r = getRelevance(o);
+		if (r > 0) {
+			x.push(o);
+			relevance[k] = r;
+		}
 		
+	}
+	
+	//sort x
+	x.sort(function(a,b) {
+		return relevance[b.uuid] - relevance[a.uuid];
+	});
+	
+	for (var i = 0; i < x.length; i++) {
+		var d = $('<div/>');
+		newObjectView(x[i]).appendTo(d);
+	    tc.append(d);
 	}
 	
     var objDiv = document.getElementById("teamContent");

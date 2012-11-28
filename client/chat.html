@@ -15,15 +15,16 @@
 	    $(document).ready(function(){
 	    	
 			initNetention(function() {
-				
+
 				initDataView('DataTarget');
-
-				initSelfSidebar('SelfTarget');
-
-				newObjectEdit().appendTo($('#EditTarget'));
+				
+				newObjectEdit().appendTo($('#SelfTarget'));
+			    loadInterests();
+				
 				$('.MessageSubject').attr('placeholder', 'I\'m thinking about');
 				
 				updateTypes();
+				updateSelfUI();
 				
 				//initMap('MapTarget', function() { });
 			});	
@@ -33,33 +34,20 @@
 	</script>
 	
 	<style>
-		#SelfTarget, #DataTarget, #MapTarget {
+		#SelfTarget, #DataTarget {
 			position: fixed;			
+			top: 3em;
+			height: 95%;
+		}
+		
+		#DataTarget {
+			width: 65%;
+			right:0;			
 		}
 		
 		#SelfTarget {
 			width: 33%;
-			height:100%;
-			top:0;
-			left:0;
-		}
-		#MapTarget, #DataTarget {
-			width: 65%;
-			right:0;			
-		}
-		#MapTarget {
-			height:49%;
-			bottom:0;
-		}
-		#DataTarget {
-			top: 3em;
-			height: 90%;
-		}
-		#EditTarget {
-			bottom: 0px;
 			left: 0px;			
-			position: fixed;
-			width: 33%;
 		}
 		
 	</style>                        
@@ -70,11 +58,8 @@
 <body>
 
 	<div class="PageWrapper">
-		<div id="DataTarget"></div>
-		<div id="SelfTarget">
-						
-		</div>
-		<div id="EditTarget"></div>
+		<div id="SelfTarget"></div>
+		<div id="DataTarget"></div>		
 
 	</div>
 

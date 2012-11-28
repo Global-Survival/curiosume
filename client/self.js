@@ -36,7 +36,6 @@ function loadInterests() {
 
     updateSelf();
 
-
 }
 
 function loadSelf() {
@@ -102,57 +101,8 @@ function saveSelf() {
 
 var nearestFactor, soonFactor;
 
-function initSelfSidebar(e) {
-	var x = $('<div id="SelfContent"></div>');
-	{
-		x.append('<div id="CurrentInterests"/>');
-		x.append('<div id="InterestActions"><div id="NewObjectFromInterestsWrapper"  style="display: none"></div>');
-		//<button id="NewObjectFromInterests" onclick="newObjectFromInterests();" data-inline="true" data-mini="true">New Object</button></div>
-		
-	}
-	$('#' + e).append(x);
-
-	//initSensors();
-	
 
 
-	  //$('#EditMenu #FileMenu').after('<li><a href="#">Be</a>' + loadTypeMenu(null, emotionSchema)  + '</li>');
-	  //$('#EditMenu #FileMenu').after('<li><a href="#">Have</a>' + loadTypeMenu(null, getSchemaRoots()) + '</li>');
-	  //$('#EditMenu #FileMenu').after('<li><a href="#">Do</a>' + loadTypeMenu(null, actionSchema)  + '</li>');
-	
-	  //$('#EditMenu').superfish();
-	  
-	  loadInterests();
-
-	var b = $('<div/>').attr('style', 'text-align: center');
-	
-	var sa = $('<input type="range" min="0" max="100" value="0"/>');
-	sa.change(function() {
-		nearestFactor = sa.val() / 100.0;
-		updateDataView();
-	});
-	b.append('Anywhere'); b.append(sa); b.append('Nearest<br/>');
-	
-	var sb = $('<input type="range" min="0" max="100" value="0"/>');
-	sb.change(function() {
-		soonFactor = sb.val() / 100.0;
-		updateDataView();
-	});
-	b.append('Anytime'); b.append(sb); b.append('Recent<br/>');
-
-	b.append('<br/>');
-	b.append('<br/>');
-	x.append(b);
-}
-
-function updateSelfUI() {
-    var h = '';
-    h = h + '<h1>' + Self.get('name') + '</h1>';
-
-    h = h + '<a href="javascript:setLocation()">Geolocation</a>: ' + (Self.get('geolocation') == undefined ? 'Unknown' : Self.get('geolocation')) + '</h1>';
-    
-    //...
-}
 
 function getSelfSnapshot() {
     return {
@@ -211,7 +161,7 @@ function timeArrayLimitSize(i, maxSize) {
 
 
 function encodeInterestForElement(x) {
-	var y = x.replace(/\./g,"_").replace(/ /g,"_").replace(/\[/g,"_").replace(/\]/g,"_");
+	var y = x.replace(/\./g,"_").replace(/ /g,"_").replace(/\[/g,"_").replace(/\]/g,"_").replace(/\//g,"_");
 	return y;
 }
 function getInterestItem(sensor) { 
@@ -237,35 +187,35 @@ function setInterest(sensorID, newImportance, force, updateAll) {
 
     var controls = getInterestControls(sensorID);
     
-    //if (oldImportance == 0) {
-        var ch = $('<span class="ImportanceButtons"/>');
+    
+    var ch = $('<span class="ImportanceButtons"/>');
 
-        function addButton(label, value) {
-            var b = $('<button>').html(label);
-            b.mouseup(function(event) {
-            	setInterest( sensorID, value, false, true)
-            	event.stopImmediatePropagation();            	
-            });
-            
-            if (value!=0)
-            	b.addClass('interestItem'+parseInt(value*100.0));
-            ch.append(b);        	
-        }
-        addButton('&nbsp;&nbsp;', 1.0);
-        addButton('&nbsp;&nbsp;', 0.75);        
-        addButton('&nbsp;&nbsp;', 0.50);
-        addButton('&nbsp;&nbsp;', 0.25);
-        addButton('&#9587', 0);
+    function addButton(label, value) {
+        var b = $('<button>').html(label);
+        b.mouseup(function(event) {
+        	setInterest( sensorID, value, false, true)
+        	event.stopImmediatePropagation();            	
+        });
         
-        if (sensorClient[sensorID]!=undefined) {
-            if (sensorClient[sensorID].getControlHTML!=undefined) {
-                ch.append( sensorClient[sensorID].getControlHTML() );
-            }
+        if (value!=0)
+        	b.addClass('interestItem'+parseInt(value*100.0));
+        ch.append(b);        	
+    }
+    addButton('&nbsp;&nbsp;', 1.0);
+    addButton('&nbsp;&nbsp;', 0.75);        
+    addButton('&nbsp;&nbsp;', 0.50);
+    addButton('&nbsp;&nbsp;', 0.25);
+    addButton('&#9587', 0);
+    
+    if (sensorClient[sensorID]!=undefined) {
+        if (sensorClient[sensorID].getControlHTML!=undefined) {
+            ch.append( sensorClient[sensorID].getControlHTML() );
         }
+    }
 
-        controls.show();
-        controls.html(ch);
-    //}
+    controls.show();
+    controls.html(ch);
+    
 
     if (newImportance == 0) {
         if (confirm('Remove ' + sensorID + ' ?')) {
@@ -276,6 +226,7 @@ function setInterest(sensorID, newImportance, force, updateAll) {
         }
     }
     else {
+    	
         if (newImportance <= 0.25) {
             sensor.addClass('interestItem25');
         }
@@ -285,10 +236,10 @@ function setInterest(sensorID, newImportance, force, updateAll) {
         else if (newImportance <= 0.75) {
             sensor.addClass('interestItem75');                    
         }
-        else /*if (newImportance <= 100)*/ {
+        else {
             sensor.addClass('interestItem100');                    
         }
-
+		
         interestStrength[sensorID] = newImportance;
     }
 
@@ -314,8 +265,69 @@ var nextURLInterest = 0;
 var interestElements = {};
 var selectedInterests = [];
 
-function addInterest(i, force, update) {
+function updateSelfUI() {
+	$('#CurrentInterests').html('');
+	
+	for (var l = 0; l < interests.length; l++) {		
+		var ni = interests[l];
+		
+		var i = ni.id;
+	    var eid = i;
+	    var ename = ni.name;
+	    
+	    //use a sequential element ID instead of putting the URL in the element (which may contain invalid characters for jQuery selectors)
+	    if (i.indexOf('http://')==0) {
+	    	eid = 'URL'+nextURLInterest;
+	    	nextURLInterest++;
+	    }
+	      
+	    interestElements[i] = eid;
+	      
+	    eid = encodeInterestForElement(eid);
+	    
+		var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
+	    $('#CurrentInterests').append(ss);
+	    
+	    
+	    ss.click(function() {
+		    console.log('clickable', eid, ss);
+		    
+	    	var s = ss.data('selected');
+	    	s = !s;
+	    	ss.data('selected', s);
+	    	
+	    	if (s) {
+	    		ss.addClass('interestSelected');
+	    		selectedInterests.push(i);
+	    	}
+	    	else {
+	    		ss.removeClass('interestSelected');
+	    		selectedInterests.splice(selectedInterests.indexOf(i),1);
+	    	}
+	    	
+	    		
+	    });
+	    
+	    ss.append('<span id="InterestControl-' + eid + '"></span>');
+	    ss.append(ename);
+	    ss.append($('<br>'));
+	    
+	    //annotate the interest with extra controls and menus
+	    if (i.indexOf('http://')==0) {
+	    	var readButton = $('<button>Read</button>');
+	    	readButton.click(function() {
+	    		showCortexit(i);
+	    	});
+	    	ss.append(readButton);    
+	    }
+	    
+	    //force redraw controls
+	    setInterest(i, interestStrength[i], true, false);
+	}    
+	
+}
 
+function addInterest(i, force, update) {
     if (force!=true)
         if (interestStrength[i]!=undefined) //prevent adding duplicate
             return;
@@ -323,87 +335,14 @@ function addInterest(i, force, update) {
     var ni = newInterest(i);
     interests.push(ni);
 
-    var eid = ni.id;
-    var ename = ni.name;
-    
-    //use a sequential element ID instead of putting the URL in the element (which may contain invalid characters for jQuery selectors)
-    if (i.indexOf('http://')==0) {
-    	eid = 'URL'+nextURLInterest;
-    	nextURLInterest++;
-    }  
-      
-    var eid = encodeInterestForElement(eid);
-    
-	var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
-    $('#CurrentInterests').append(ss);
-    ss.click(function() {
-    	var s = ss.data('selected');
-    	s = !s;
-    	ss.data('selected', s);
-    	
-    	if (s) {
-    		ss.addClass('interestSelected');
-    		selectedInterests.push(i);
-    	}
-    	else {
-    		ss.removeClass('interestSelected');
-    		selectedInterests.splice(selectedInterests.indexOf(i),1);
-    	}
-    	
-    	if (selectedInterests.length > 0) {
-    		$('#NewObjectFromInterestsWrapper').show();
-    	}
-    	else {
-    		$('#NewObjectFromInterestsWrapper').hide();
-    	}
-    		
-    });
-    
-    ss.append('<span id="InterestControl-' + eid + '"></span>');
-    ss.append(ename);
-    ss.append($('<br>'));
-    
-    //annotate the interest with extra controls and menus
-    if (i.indexOf('http://')==0) {
-    	var cortexitButton = $('<button>Read</button>');
-    	cortexitButton.click(function() {
-    		showCortexit(i);
-    	});
-    	ss.append(cortexitButton);    
-    }
-    
-//    var types = getProperties(i);
-//    if (types.length > 0) {
-//        
-//        var tm = '<ul class="sf-menu"><li><a href="#">[+]</a><ul>';
-//        for (var j = 0; j < types.length; j++) {
-//            var v = types[j];
-//            if (isCommonProperty(v)) {
-//                //do not add
-//            }
-//            else if (schema.properties[v].comment.indexOf('legacy spelling')!=-1) {
-//
-//            }
-//            else {
-//                tm += '<li><a href="#">' + v + '</a></li>';
-//            }             
-//        }
-//        tm += '</ul></li></ul>';
-//        
-//        var r = $(tm);
-//        r.prependTo('#Interest-' + eid);
-//        r.superfish();
-//        //$('#Interest-' + i + ' ul').superfish();
-//        //$('#Interest-' + i).append(tm);
-//        
-//    }
-
     if (update == undefined)
         update = true;
-    
-    interestElements[i] = eid;
-    
+        
+    if (update)
+    	updateSelfUI();
+
     setInterest(i, defaultInitialInterest, true, update);
+
     
 }
 
@@ -418,7 +357,18 @@ function removeInterest(i) {
 	
     getInterestItem(i).fadeOut();
     delete interestStrength[i];
-    delete interests[i];
+    
+    
+    for (var x = 0; x < interests.length; x++) {
+    	if (interests[x].id == i) {
+    		interests.splice(x, 1);
+    		break;
+    	}
+    }
+    
+    
+    updateSelf();
+    updateSelfUI();
 }
 
 

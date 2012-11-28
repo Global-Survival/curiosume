@@ -105,7 +105,7 @@ function newObjectView(x) {
 		
 		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}
-	d.append('<h3>Relevance:' + r  + '</h3>');
+	d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
@@ -118,8 +118,44 @@ function getAvatar(emailHash) {
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
+function clearInterests() {
+	interestStrength = { };
+	interests = [ ];
+	
+	updateSelf();
+	updateSelfUI();
+}
+
 function newObjectEdit(x) {
 	var d = $('<div>');
+
+	var sc = $('<div id="SelfContent"></div>');
+	{
+		sc.append('<div id="CurrentInterests"/>');
+		sc.append('<div id="InterestActions"><div id="NewObjectFromInterestsWrapper"  style="display: none"></div>');
+		
+	}
+
+
+	var b = $('<div/>').attr('style', 'text-align: center');
+	
+	var sa = $('<input type="range" min="0" max="100" value="0"/>');
+	sa.change(function() {
+		nearestFactor = sa.val() / 100.0;
+		updateDataView();
+	});
+	b.append('Anywhere'); b.append(sa); b.append('Nearest<br/>');
+	
+	var sb = $('<input type="range" min="0" max="100" value="0"/>');
+	sb.change(function() {
+		soonFactor = sb.val() / 100.0;
+		updateDataView();
+	});
+	b.append('Anytime'); b.append(sb); b.append('Recent<br/>');
+
+	b.append('<br/>');
+	b.append('<br/>');
+	sc.append(b);
 	
 	var expandedDesc = false;
 	var expandedMap = false;
@@ -199,7 +235,7 @@ function newObjectEdit(x) {
 	
 	md.appendTo(ed);
 	$('<button>Attach</button>').appendTo(ex);
-	$('<button>+</button>').appendTo(ex);
+	
 	var sendButton = $('<button><b>Save</b></button>');
 	sendButton.click(function() {
 		sendMessage(saveForm());
@@ -220,7 +256,6 @@ function newObjectEdit(x) {
 	
 	ed.appendTo(d);
 	em.appendTo(d);
-	ex.appendTo(d);
 	
 	if (x) {
 		if (x.name)
@@ -250,6 +285,10 @@ function newObjectEdit(x) {
 			
 	}
 	
+	sc.appendTo(d);
+	ex.appendTo(d);
+
+
 	return d;
 }
 
@@ -277,7 +316,7 @@ function newTypeMenu() {
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
 			var iid = mm + '.' + menu[l];
-			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', true, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '-s"/></a></li>');
+			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', false, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '-s"/></a></li>');
 			
 		}
 		x.append(y);
