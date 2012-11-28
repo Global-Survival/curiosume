@@ -337,7 +337,7 @@ function newTypeMenu(toggleDescription, toggleLocation) {
 		for (var l = 0; l < menu.length; l++) {
 			//console.dir(menu[l]);
 			var iid = mm + '.' + menu[l];
-			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', false, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '-s"/></a></li>');
+			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', false, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '_s"/></a></li>');
 			
 		}
 		x.append(y);
@@ -354,15 +354,27 @@ function newTypeMenu(toggleDescription, toggleLocation) {
 				var instances = t[0];
 				var name = t[2] || l;
 				//console.log(name, instances, attention);
-				
-				var v = $('.' + encodeInterestForElement(i) + '-s');
-				if (v)
-					v.html(instances + ',' + attention);
+				try {
+					var v = $('.' + encodeInterestForElement(i) + '_s');
+					if (v)
+						v.html(instances + ',' + attention);
+				}
+				catch (err) { //HACK do not allow this to happen 
+					
+				}
 			}
     	});
 	}, 2000);
 	
-	return x.superfish();
+	return x.supersubs({ 
+        minWidth:    12,   // minimum width of sub-menus in em units 
+        maxWidth:    27,   // maximum width of sub-menus in em units 
+        extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
+                           // due to slight rounding differences and font-family 
+    }).superfish({
+    	dropShadows: false  // completely disable drop shadows by setting this to false
+    });
+	
 }
 
 function initDataView(e) {

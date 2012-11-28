@@ -161,9 +161,11 @@ function timeArrayLimitSize(i, maxSize) {
 
 
 function encodeInterestForElement(x) {
-	var y = x.replace(/\./g,"_").replace(/ /g,"_").replace(/\[/g,"_").replace(/\]/g,"_").replace(/\//g,"_").replace(/\-/g,"_");
-	return y;
+	//var y = x.replace(/\./g,"_").replace(/ /g,"_").replace(/\[/g,"_").replace(/\]/g,"_").replace(/\//g,"_");
+	//return y;
+	return encodeURIComponent(x).replace(/%/g,"_").replace(/\./g,"_");
 }
+
 function getInterestItem(sensor) { 
 		return $('#Interest-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
 	}
@@ -306,10 +308,24 @@ function updateSelfUI() {
 	    	
 	    		
 	    });*/
+
 	    
 	    ss.append('<span id="InterestControl-' + eid + '"></span>');
 	    ss.append(ename);
 	    ss.append($('<br>'));
+
+		if (types[i]!=undefined) {
+			if (types[i].properties!=undefined)     {
+				var pbuttons = $('<div class="TypePropertyButtons"/>');    	
+		    	
+		    	for (var pi = 0; pi < types[i].properties.length; pi++) {
+		    		var pp = types[i].properties[pi];
+		    		pbuttons.append($('<button>' + pp.uri + '</button>'));	
+		    	}
+		    	
+		    	ss.append(pbuttons);
+		   }
+	    }
 	    
 	    //annotate the interest with extra controls and menus
 	    if (i.indexOf('http://')==0) {

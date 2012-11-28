@@ -73,8 +73,10 @@ function loadScripts(f) {
 		                "/lib/jquery-tmpl/jquery.tmpl.js",
 		                "/lib/jstorage/jstorage.js",
 		                "/lib/jQuery-URL-Parser/purl.js",
-		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
+//		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
+		                "/lib/superfish/js/hoverIntent.js",
 		                "/lib/superfish/js/superfish.js",
+		                "/lib/superfish/js/supersubs.js",
 		                "/util.js",
 		                "/self.js",
 		                "/object.js",
@@ -96,8 +98,8 @@ function loadScripts(f) {
 	loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
 	
 	loadCSS('/lib/superfish/css/superfish.css');
-	loadCSS('/lib/superfish/css/superfish-navbar.css');
-	loadCSS('/lib/superfish/css/superfish-vertical.css');
+	/*loadCSS('/lib/superfish/css/superfish-navbar.css');
+	loadCSS('/lib/superfish/css/superfish-vertical.css');*/
 	
 	loadCSS('/self.css');
 	loadCSS('/gss.css');

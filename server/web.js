@@ -78,6 +78,25 @@ function notice(o) {
 	});
 
 }
+function getObjectSnapshot(uri, whenFinished) {
+	if (types[uri]!=undefined) {
+		whenFinished(types[uri]);
+	}
+	else {
+		var db = mongo.connect(databaseUrl, collections);
+		db.obj.find({ uuid: uri }, function(err, docs) {
+			if (err) {
+				whenFinished(err);
+			}
+			else {
+				whenFinished(docs);
+			}
+			db.close();
+		});		
+	}		
+	
+}
+
 function getObjectsByType(t, withObjects) {
 	var db = mongo.connect(databaseUrl, collections);
 	db.obj.find({ type: { $in: [ t ] } }, function(err, docs) {
@@ -225,8 +244,16 @@ express.get('/log', function (req, res) {
 	sendJSON(res, logMemory.buffer);		
 });
 express.get('/object/:uri', function (req, res) {
-	sendJSON(res, 'object page coming soon');		
+	var uri = req.params.uri;
+	res.redirect('/object.html?uri=' + uri);
 });
+express.get('/object/:uri/json', function (req, res) {
+	var uri = req.params.uri;
+	getObjectSnapshot(uri, function(x) {
+		sendJSON(res, x);		
+	});
+});
+
 express.get('/state', function (req, res) {
 	sendJSON(res, Server);
 });

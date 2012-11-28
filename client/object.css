@@ -24,8 +24,19 @@
 }
 #TypesMenu ul li a {
 	color: black;
+	text-decoration: underline;
 }
 #TypesMenu ul li ul {
-	background: #ddd;
+	background: #eee;
 	color: black;
 }
+
+.TypePropertyButtons {
+	padding-left: 0.5em;	
+	padding-top: 0.5em;
+}
+.TypePropertyButtons button {
+	font-size: 60%;
+	padding: 0.25em;
+}
+
