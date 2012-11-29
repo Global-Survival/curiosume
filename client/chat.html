@@ -21,7 +21,17 @@
 				newObjectEdit().appendTo($('#SelfTarget'));
 			    loadInterests();
 				
-				$('.MessageSubject').attr('placeholder', 'I\'m thinking about');
+				var m = 0;
+				var msgs = [ 'I think', 'I feel', 'I wonder', 'I Know', 'I Want' ];
+				
+				function updatePrompt() {
+					var l = msgs[parseInt(Math.random() * msgs.length)];
+					$('.MessageSubject').attr('placeholder', l + '...');					
+				} 
+				
+				setInterval(updatePrompt, 7000);
+				updatePrompt();
+				
 				
 				updateTypes();
 				updateSelfUI();
@@ -36,20 +46,22 @@
 	<style>
 		#SelfTarget, #DataTarget {
 			position: fixed;			
-			top: 3em;
-			height: 95%;
+			height: 100%;
 		}
 		
 		#DataTarget {
-			width: 65%;
-			right:0;			
+			width: 60%;
+			right:0.5em;			
 		}
 		
 		#SelfTarget {
 			width: 33%;
-			left: 0px;			
+			left: 0.5em;			
 		}
 		
+		#Menu {
+			display: none;
+		}
 	</style>                        
 	                       
 </head>
@@ -57,12 +69,8 @@
 
 <body>
 
-	<div class="PageWrapper">
-		<div id="SelfTarget"></div>
-		<div id="DataTarget"></div>		
-
-	</div>
-
+	<div id="SelfTarget"></div>
+	<div id="DataTarget"></div>		
 
 </body>
 </html>

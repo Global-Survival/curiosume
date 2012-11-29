@@ -16,17 +16,6 @@
 	float: right;
 }
 
-.MessageSubject {
-    width: 82%;
-    font-size: 125%;
-    padding: 0.25em;
-    margin: 0.25em;
-}
-.MessageDescription {
-    width: 98%;	
-    padding: 0.25em;
-    margin: 0.25em;
-}
 
 .teamMessage {
     border: 1px solid #ddd;

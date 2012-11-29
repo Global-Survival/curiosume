@@ -1,7 +1,10 @@
 .objectView {
-	padding: 0.1em;
-	margin-bottom: 3.0em;
-	
+	padding: 0.25em;
+	padding-bottom: 3.0em;
+	margin-bottom: 0.5em;
+    background-color: rgba(255,255,255,0.4);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+	border-left: 5px solid rgba(0,0,0,0.5);
 }
 .objectView h1 {
 	font-size: 125%;
@@ -19,17 +22,14 @@
 	margin: 0;
 }
 
-#TypesMenu ul li {
-	background: transparent;
+.MessageSubject {
+    width: 100%;
+    font-size: 125%;
 }
-#TypesMenu ul li a {
-	color: black;
-	text-decoration: underline;
+.MessageDescription {
+    width: 98%;	
 }
-#TypesMenu ul li ul {
-	background: #eee;
-	color: black;
-}
+
 
 .TypePropertyButtons {
 	padding-left: 0.5em;	
@@ -40,3 +40,8 @@
 	padding: 0.25em;
 }
 
+.DataViewMenu {
+	padding: 0.25em;	
+	
+	background-color: black;
+}

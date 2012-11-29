@@ -9,16 +9,13 @@
     margin-bottom: 0.3em;
     
     padding: 0.2em;
-    /*border: 0.17em solid;*/
-	border-color:  rgba(255,255,255,0.25);
+    border-right: 5px solid rgba(125,25,0,0.5);
 	padding-bottom: 1.0em;	
 
-   transition: width 2s;
-   transition: height 2s;
-
-   -webkit-transition:border-color 0.618s ease-in;  
-   -moz-transition:border-color 0.618s ease-in;  
-   -o-transition:border-color 0.618s ease-in;  
+/*
+   -webkit-transition:border-color 2.618s ease-in;  
+   -moz-transition:border-color 2.618s ease-in;  
+   -o-transition:border-color 2.618s ease-in;*/  
 
 	-webkit-transition:background-color 0.618s ease-in;  
    -moz-transition:background-color 0.618s ease-in;  
@@ -34,30 +31,54 @@
 
 /* http://www.quackit.com/css/css_color_codes.cfm */
 .interestItem25 {
-    background-color: rgba(135,135,135,0.25);
-    background-image: -webkit-linear-gradient(bottom left, rgba(195,195,195,0.5) 0%, rgba(175,175,175,0.5) 100%);
+    background-color: rgba(255,255,255,0.4);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #000;
     font-size: 96%;
     vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear; 
+   color: #333;  
+
 }
 .interestItem50 {
-    background-color: rgba(175,175,175,0.30);
-    background-image: -webkit-linear-gradient(bottom left, rgba(215,215,215,0.6) 0%, rgba(195,195,195,0.6) 100%);
+    background-color: rgba(255,255,255,0.4);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #463544;
     font-size: 110%;
     vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #222;  
 }
 .interestItem75 {
-    background-color: rgba(215,215,215,0.35);
-    background-image: -webkit-linear-gradient(bottom left, rgba(235,235,235,0.7) 0%, rgba(215,215,215,0.7) 100%);
+    background-color: rgba(255,255,255,0.4);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #5B468D;
     font-size: 140%;
     vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #111;  
 }
 .interestItem100 {
     background-color: rgba(255,255,255,0.4);
     background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #358DD4;
     font-size: 180%;
     vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 2.618s linear;  
+   -o-transition:border-color 2.618s linear;
+   color: #000;  
 }
 
+.SelfBarSection {
+	padding: 0.5em;
+}
 
 #Profile {
     clear:both;
@@ -72,7 +93,10 @@
 .ImportanceButtons button {
 	padding: 0;
 	margin: 0;
-	border: 0;
+	border-left: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 2px;
 	height: 20px;
 }
 

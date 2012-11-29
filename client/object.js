@@ -163,13 +163,16 @@ function newObjectEdit(x) {
 	var expandedDesc = false;
 	var expandedMap = false;
 	
-	//var mi = $('<textarea rows="1" class="MessageSubject"/>');
-	var mi = $('<input type="text" class="MessageSubject"/>');
-	var mdd = $('<div>');
+	var miS = $('<input type="text" class="MessageSubject"/>');
+	var mi = $('<div class="SelfBarSection"/>');
+	miS.appendTo(mi);
+	
+	
+	var mdd = $('<div class="SelfBarSection">');
 	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
 	md.appendTo(mdd);
 	
-    mi.keyup(function(event) {
+    miS.keyup(function(event) {
  
     	if (!expandedDesc) {
             if (event.keyCode==13) {
@@ -182,11 +185,14 @@ function newObjectEdit(x) {
 
 	var ed = $('<div>');
 	var emid = uuid();
-	var em = $('<div id="' + emid + '" style="width: 100%; height: 200px">');
+	
+	var emM = $('<div id="' + emid + '" style="width: 100%; height: 200px;"/>');
+	var em = $('<div class="SelfBarSection">Location</div>');
+	emM.appendTo(em);
 	
 	var ex = $('<div>');
 	
-	var b = $('<button>..</buton>');
+	var b = $('<button title="Add Description">..</buton>');
 	b.click(function() {
 		if (!expandedDesc) {
 			expandedDesc = true;
@@ -198,14 +204,14 @@ function newObjectEdit(x) {
 			ed.hide();
 		}
 	});
-	var c = $('<button>@</buton>');
+	var c = $('<button title="Add Location">@</buton>');
 	c.click(function() {
 		if (!expandedMap) {
 			expandedMap = true;
 			
 			ex.show();
 			em.show();
-			em.html('');
+			emM.html('');
 			map = initLocationChooserMap(emid);
 		}
 		else {
@@ -219,9 +225,9 @@ function newObjectEdit(x) {
 		if (!x) x = { };
 		
 		x.uuid = uuid();
-		x.name = mi.val();
+		x.name = miS.val();
 		
-      	mi.val('');		
+      	miS.val('');		
 		
 		if (expandedDesc) {
 			x.text = md.val(); 
@@ -263,16 +269,16 @@ function newObjectEdit(x) {
 	em.hide();
 	ex.hide();
 	
+	//ADD EVERYTHING
+	d.append('<div id="TypesMenu"/>');
 	
-	mi.appendTo(d);
+	
+
 	b.appendTo(d);
 	c.appendTo(d);
-
-	$('<br/>').appendTo(d);
 	
-	d.append('<div id="TypesMenu"/>');
+	mi.appendTo(d);
 
-	
 	ed.appendTo(d);
 	em.appendTo(d);
 	
@@ -312,11 +318,29 @@ function newObjectEdit(x) {
 }
 
 
-function newTypeMenu(toggleDescription, toggleLocation) {
+function newTypeMenu() {
 	var x = $('<ul class="sf-menu"/>');
 	
+	var xMainW = $('<li><a href="#">[-]</a></li>')
+	var xMain = $('<ul/>');
+	{
+		xMain.append('<li><a href="#">Open...</a></li>');
+		xMain.append('<li><a href="#">Save...</a></li>');
+		xMain.append('<li><a href="#"><hr/></li>');
+		xMain.append('<li><a href="javascript:clearInterests();">Clear</li>');
+		xMain.append('<li><a href="javascript:addURL();">Add URL</li>');
+	}
+	xMainW.append(xMain);
+	x.append(xMainW);
+
 	
+	var xAddW = $('<li><a href="#">Type</a></li>')
+	var xAdd = $('<ul/>');
+	xAddW.append(xAdd);
+	x.append(xAddW);
 	
+
+
 	var m = { };
 	for (var k in types) {
 		var t = types[k];
@@ -340,7 +364,7 @@ function newTypeMenu(toggleDescription, toggleLocation) {
 			u.append('<li><a href="javascript:addInterest(\'' + iid + '\', false, true);">' +  menu[l] + '&nbsp;<span class="' + encodeInterestForElement(iid) + '_s"/></a></li>');
 			
 		}
-		x.append(y);
+		xAdd.append(y);
 	}
 	
 	
@@ -391,10 +415,13 @@ function initDataView(e) {
 	*/
 	var c = $('<div id="Team"></div>');
 	
-    c.append('<button>News</button>');
-    c.append('<button>Map</button>');
-    c.append('<button>Table</button>');
-    c.append('<button>Timeline</button>');
+	var menu = $('<div class="DataViewMenu"/>');
+	menu.append('<button>News</button>');
+    menu.append('<button>Map</button>');
+    menu.append('<button>Table</button>');
+    menu.append('<button>Timeline</button>');
+    
+    c.append(menu);
     
 	c.append('<div id="teamContent"/>');
 	//c.append('<div id="teamRoster"/>');
