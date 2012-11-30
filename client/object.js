@@ -10,7 +10,6 @@ function hasType(o, t) {
 	var ot = getTypeArray(o.type);
 	
 	for (var i = 0; i < ot.length; i++) {
-		console.log(ot[i], t);
 		if (ot[i] == t)
 			return true;
 	}
@@ -201,6 +200,7 @@ function newObjectEdit(x) {
 		updateDataView();
 	});
 	b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
+	b.append('<input type="text" class="DataViewFilter" placeholder="filter"/>');
 	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
 	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
 	b.append('<select><option>Public</option><option>Mine</option></select>');

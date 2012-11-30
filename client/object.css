@@ -83,3 +83,8 @@
     overflow: none;
     height: 95%;
 }
+
+.DataViewFilter {
+	background: transparent;
+	color: white;	
+}

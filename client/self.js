@@ -307,10 +307,17 @@ function updateSelfUI() {
 	    		
 	    });*/
 
-	    
-	    ss.append('<span id="InterestControl-' + eid + '"></span>');
+
+		var ic = $('<span id="InterestControl-' + eid + '"></span>');
+    	var ice = '#InterestControl-' + eid;
+	    ss.append(ic);
 	    ss.append(ename);
-	    
+
+			    
+	    (function() {
+		    ss.hover(function(){ $(this).children().first().fadeIn(200);}, function() { $(this).children().first().fadeOut(500);});	    
+	    })();
+	    ic.fadeOut(1000);
 	    
 	    ss.append($('<br>'));
 	    
