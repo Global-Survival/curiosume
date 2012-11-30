@@ -19,7 +19,13 @@ var generalTypes = [
 		             'height': { name: 'Height (m)', type: 'real' },		            
 		             'mass': { name: 'Mass (kg)', type: 'real' }		            
 		}
-	}
+	},
+	{ uri: 'general.Action', name: 'Action',
+		properties: {
+            'active': { name: 'Active', type: 'boolean' },		            
+		}
+	},
+	{ uri: 'general.Media', name: 'Media'}
 ];
 
 sensor.addTypes(generalTypes);

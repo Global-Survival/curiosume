@@ -31,7 +31,7 @@
 
 /* http://www.quackit.com/css/css_color_codes.cfm */
 .interestItem25 {
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(235,235,235,0.8);
     background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
     border-right: 5px solid #000;
     font-size: 96%;
@@ -43,7 +43,7 @@
 
 }
 .interestItem50 {
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(235,235,235,0.8);
     background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
     border-right: 5px solid #463544;
     font-size: 110%;
@@ -54,7 +54,7 @@
    color: #222;  
 }
 .interestItem75 {
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(235,235,235,0.8);
     background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
     border-right: 5px solid #5B468D;
     font-size: 140%;
@@ -65,7 +65,7 @@
    color: #111;  
 }
 .interestItem100 {
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(235,235,235,0.8);
     background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
     border-right: 5px solid #358DD4;
     font-size: 180%;

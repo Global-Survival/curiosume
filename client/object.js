@@ -4,6 +4,19 @@
 var types = { };
 var properties = { };
 
+function hasType(o, t) {	
+	if (!o.type)
+		return false;
+	var ot = getTypeArray(o.type);
+	
+	for (var i = 0; i < ot.length; i++) {
+		console.log(ot[i], t);
+		if (ot[i] == t)
+			return true;
+	}
+	return false;
+}
+
 function addType(t) {
 	types[t.uri] = t;
 	
@@ -133,7 +146,15 @@ function newObjectView(x, onRemoved) {
 	
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
+		
+		if (hasType(x, 'general.Media')) {
+			var imgURL = x.text;
+			if (imgURL.indexOf('http://')==0)
+				d.append('<img src="'+imgURL+'"/>');
+			//TODO handle videos, etc
+		}
 	}
+	
 	
 	
 	return d;
@@ -182,6 +203,7 @@ function newObjectEdit(x) {
 	b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
 	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
 	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
+	b.append('<select><option>Public</option><option>Mine</option></select>');
 
 	$('.DataSubViewMenu').append(b);
 	//$('.DataSubViewMenu').append(b2);
@@ -483,7 +505,7 @@ function initDataView(e) {
 	
 }
 
-var currentView = 1;
+var currentView = 0;
 
 function updateDataView() {
 	var tc = $('#teamContent');	
