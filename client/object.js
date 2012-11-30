@@ -2,9 +2,16 @@
  * @author seh
  */
 var types = { };
+var properties = { };
 
 function addType(t) {
 	types[t.uri] = t;
+	
+	if (t.properties) {
+		for (var p in types[t.uri].properties) {
+			properties[p] = types[t.uri].properties[p];
+		}
+	}
 }
 
 var lastTypeMenu;
@@ -58,7 +65,7 @@ function getRelevance(x) {
 	return v;
 }
 
-function newObjectView(x) {
+function newObjectView(x, onRemoved) {
 	var r = getRelevance(x);
 	
 	var fs = (1.0 + r/2.0)*100.0 + '%';
@@ -79,17 +86,23 @@ function newObjectView(x) {
 		
 		xn = a + ': ' + xn;
 	}
+
+	var hb = $('<div>').addClass('ObjectViewHideButton');
+	hb.append('<button>X</button>');
+	d.append(hb);
 	
 	var authorClient = clients[authorID];
-	if (authorClient) {		
-		d.append(getAvatar(authorClient.emailHash).attr('align', 'left'));
+	if (authorClient) {
+		var av = getAvatar(authorClient.emailHash).attr('align', 'left');
+		
+		d.append(av);
+		av.wrap('<div class="AvatarIcon"/>');
 	}
 
 	if (x.name) {
 		d.append('<h1>' + xn + '</h1>');
 	}
 	
-	/*
 	if (x.type) {
 		if (x.type.length) {
 			d.append('<h3>' + JSON.stringify(x.type, null, 2) + '</h3>');
@@ -97,7 +110,17 @@ function newObjectView(x) {
 		else
 			d.append('<h3>' + x.type + '</h3>');
 	}
-	*/
+	
+	if (x.values) {
+		var ud = $('<ul>');
+		d.append(ud);
+		for (var vi = 0; vi < x.values.length; vi++) {
+			var vv = x.values[vi];
+			ud.append('<li>' + vv.uri + ': ' + vv.value + '</li>');
+		}
+	}
+	
+	
 	
 	if (x.geolocation) {
 		var dist = '?';
@@ -111,6 +134,7 @@ function newObjectView(x) {
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
 	}
+	
 	
 	return d;
 }
@@ -139,26 +163,28 @@ function newObjectEdit(x) {
 	}
 
 
-	var b = $('<div/>').attr('style', 'width: 40%; float: left; text-align: center');
+	var b = $('<div/>');
 	
-	var sa = $('<input type="range" min="0" max="100" value="0"/>');
+	/*var sa = $('<input type="range" min="0" max="100" value="0"/>');
 	sa.change(function() {
 		nearestFactor = sa.val() / 100.0;
 		updateDataView();
 	});
-	b.append('Anywhere'); b.append(sa); b.append('Nearest<br/>');
+	b.append('Anywhere'); b.append(sa); b.append('Nearest');
 
-	var b2 = $('<div/>').attr('style', 'width: 40%; float: right; text-align: center');
+	var b2 = $('<div/>');
 	
 	var sb = $('<input type="range" min="0" max="100" value="0"/>');
 	sb.change(function() {
 		soonFactor = sb.val() / 100.0;
 		updateDataView();
 	});
-	b2.append('Anytime'); b2.append(sb); b2.append('Recent<br/>');
+	b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
+	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
+	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
 
-	$('#DataTarget').append(b);
-	$('#DataTarget').append(b2);
+	$('.DataSubViewMenu').append(b);
+	//$('.DataSubViewMenu').append(b2);
 	
 	var expandedDesc = false;
 	var expandedMap = false;
@@ -245,6 +271,23 @@ function newObjectEdit(x) {
 			x.geolocation = [p.lat, p.lon];
 		}
 		
+		
+		x.values = [];
+		$('.PropertyArea').children().each(function() { 
+			var z = $(this);
+			var pr = z.data('property'); 
+			if (pr) {
+				var va = z.data('value');
+				if (va) {
+					x.values.push({
+						uri: pr,
+						type: z.data('type'),
+						value: va()
+					});
+				}
+			}
+		});
+		
 		ex.hide();
 		em.hide();
 		ed.hide();
@@ -272,10 +315,12 @@ function newObjectEdit(x) {
 	//ADD EVERYTHING
 	d.append('<div id="TypesMenu"/>');
 	
-	
+	var dtm = $('<div class="TypesMenuButtons"/>');
+	b.appendTo(dtm);
+	c.appendTo(dtm);
 
-	b.appendTo(d);
-	c.appendTo(d);
+	dtm.appendTo(d);
+
 	
 	mi.appendTo(d);
 
@@ -324,7 +369,7 @@ function newTypeMenu() {
 	var xMainW = $('<li><a href="#">[-]</a></li>')
 	var xMain = $('<ul/>');
 	{
-		xMain.append('<li><a href="#">Open...</a></li>');
+		xMain.append('<li><a href="#">Load...</a></li>');
 		xMain.append('<li><a href="#">Save...</a></li>');
 		xMain.append('<li><a href="#"><hr/></li>');
 		xMain.append('<li><a href="javascript:clearInterests();">Clear</li>');
@@ -413,13 +458,21 @@ function initDataView(e) {
 	    </div>
 	</div>
 	*/
-	var c = $('<div id="Team"></div>');
+	var c = $('<div></div>');
 	
 	var menu = $('<div class="DataViewMenu"/>');
-	menu.append('<button>News</button>');
-    menu.append('<button>Map</button>');
-    menu.append('<button>Table</button>');
+	menu.append($('<button>News</button>').click(function() {
+		currentView = 0;
+		updateDataView();
+	}));
+	menu.append($('<button>Map</button>').click(function() {
+		currentView = 1;
+		updateDataView();
+	}));
+	menu.append('<button>Table</button>');
     menu.append('<button>Timeline</button>');
+    var submenu = $('<div class="DataSubViewMenu">');
+    menu.append(submenu);
     
     c.append(menu);
     
@@ -430,6 +483,8 @@ function initDataView(e) {
 	
 }
 
+var currentView = 1;
+
 function updateDataView() {
 	var tc = $('#teamContent');	
 	if (!tc)
@@ -438,33 +493,93 @@ function updateDataView() {
 	
 	tc.html('');
 
+	//NEWS
+	if (currentView == 0) {
+		tc.addClass('ContentScroll');
+		
+		var x = [];
+		var relevance =  { };
+		for (k in attention) {
+			var o = attention[k];
 	
-	var x = [];
-	var relevance =  { };
-	for (k in attention) {
-		var o = attention[k];
-
-		var r = getRelevance(o);
-		if (r > 0) {
-			x.push(o);
-			relevance[k] = r;
+			var r = getRelevance(o);
+			if (r > 0) {
+				x.push(o);
+				relevance[k] = r;
+			}
+			
 		}
 		
+		//sort x
+		x.sort(function(a,b) {
+			return relevance[b.uuid] - relevance[a.uuid];
+		});
+		
+		for (var i = 0; i < x.length; i++) {
+			var d = $('<div/>');
+			newObjectView(x[i]).appendTo(d);
+		    tc.append(d);
+		}
+		
+	    var objDiv = document.getElementById("teamContent");
+	    if (objDiv!=null)
+		    if (objDiv.scrollHeight!=undefined)
+		    	objDiv.scrollTop = objDiv.scrollHeight;
 	}
-	
-	//sort x
-	x.sort(function(a,b) {
-		return relevance[b.uuid] - relevance[a.uuid];
-	});
-	
-	for (var i = 0; i < x.length; i++) {
-		var d = $('<div/>');
-		newObjectView(x[i]).appendTo(d);
-	    tc.append(d);
+	else if (currentView == 1) {
+		tc.removeClass('ContentScroll');
+		
+		var map = initMap('teamContent', function() { });
+		
+		for (var u in attention) {
+			var x = attention[u];
+			if (x.geolocation) {
+				addToMap(map, x);
+			}
+		}
 	}
-	
-    var objDiv = document.getElementById("teamContent");
-    if (objDiv!=null)
-	    if (objDiv.scrollHeight!=undefined)
-	    	objDiv.scrollTop = objDiv.scrollHeight;
 }
+
+function newPropertyEdit(typeID, propertyID, value) {
+	var p = properties[propertyID];
+	var type = p.type;
+	
+	if (!value)
+		value = '';
+	
+	if (!p) {
+		return $('<div>Unknown property: ' + propertyID + '</div>');
+	}
+		
+	var x = $('<div>').addClass('PropertyEdit');
+	x.append(propertyID + ':');
+	
+	var removeButton = $('<button>X</button>');
+	removeButton.click(function() {
+		x.remove();
+	});
+	x.append(removeButton);
+	
+	x.data('property', propertyID);
+	x.data('type', typeID);
+	
+	if (p.type == 'textarea') {
+		x.append('<br/>');
+		var t = $('<textarea rows="3">' + value + '</textarea>');
+		x.append(t);
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}
+	else {
+		var t = $('<input type="text" value="' + value + '">');
+		x.append(t);		
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}
+	
+	
+	return x;
+}
+

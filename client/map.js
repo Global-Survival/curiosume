@@ -392,7 +392,7 @@ function updateMap() {
     
     updateHeatmap();
 
-    removeMapLayers();
+    //removeMapLayers();
 
     var callbacksExpected = 0, callbacksReceived = 0;
     for (var k in sensorImportance) {
@@ -435,5 +435,59 @@ function updateMap() {
     goingToUpdate = false;
     needsUpdated = false;
     updating = false;
+
+}
+
+
+function addToMap(map, x) {
+	var t = new OpenLayers.Geometry.Point(x.geolocation[1], x.geolocation[0]);
+    t.transform(fromProjection, toProjection);
+    
+    var rad = 40;
+    var opacity = 0.5;
+    var l = x.name;
+    var color = 'gray';
+    
+    if (x.eqMagnitude) {
+    	rad = 4000;
+    	rad *= x.eqMagnitude;	
+    	rad *= x.eqMagnitude;
+    	l = 'EQ';
+    	color = 'red';
+    }
+    if (x.when) {
+    	var now = Date.now();
+    	opacity = Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
+    }
+    if (x.type == 'osm.place_of_worship') {
+    	color = 'blue';
+    }
+    if (x.type == 'osm.school') {
+    	color = 'purple';
+    }
+    
+    //var yelp = new OpenLayers.Icon("http://www.openlayers.org/images/OpenLayers.trac.png", new OpenLayers.Size(49,44));
+    //markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(0,0),icon));
+    
+	var circle = new OpenLayers.Feature.Vector(
+		OpenLayers.Geometry.Polygon.createRegularPolygon(            		
+    	t,
+    	rad,
+    	6,
+    	0
+	),
+	{ },
+	{
+    	fillColor: color,
+    	strokeColor: color,
+    	fillOpacity: opacity,
+    	strokeOpacity: opacity,
+    	strokeWidth: 1,
+    	//view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
+    	label: l
+    	
+	}
+	);
+	map.vector.addFeatures( [ circle ] );
 
 }

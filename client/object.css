@@ -1,9 +1,8 @@
 .objectView {
 	padding: 0.25em;
-	padding-bottom: 3.0em;
 	margin-bottom: 0.5em;
     background-color: rgba(255,255,255,0.4);
-    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    background-image: -webkit-linear-gradient(top right, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
 	border-left: 5px solid rgba(0,0,0,0.5);
 }
 .objectView h1 {
@@ -32,16 +31,55 @@
 
 
 .TypePropertyButtons {
-	padding-left: 0.5em;	
-	padding-top: 0.5em;
+	padding-left: 0.25em;	
+	padding-top: 0.15em;
+	padding-bottom: 0.25em;
 }
 .TypePropertyButtons button {
 	font-size: 60%;
 	padding: 0.25em;
 }
 
+.PropertyArea {
+	margin-left: 2em;
+	font-size: 75%;	
+}
+
 .DataViewMenu {
-	padding: 0.25em;	
-	
 	background-color: black;
+	margin-bottom: 0.25em;
+	height: 35px;
+}
+.TypesMenuButtons {
+	height: 35px;
+	background: black;
+}
+.PropertyEdit {
+	margin-bottom: 0.25em;
+}
+.PropertyEdit textarea {
+	width: 100%;
+}
+.AvatarIcon {
+	padding: 5px;	
+	float: left;
+}
+.AvatarIcon img {
+	height: 2em;
+}
+.ObjectViewHideButton {
+	float: right;
+}
+.DataSubViewMenu {
+	margin-left: 2em;
+	float: right;
+	color: white;
+}
+.ContentScroll {
+	overflow: auto;	
+}
+#teamContent {
+    width: 100%;
+    overflow: none;
+    height: 95%;
 }

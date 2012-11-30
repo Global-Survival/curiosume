@@ -207,7 +207,7 @@ function setInterest(sensorID, newImportance, force, updateAll) {
     addButton('&nbsp;&nbsp;', 0.75);        
     addButton('&nbsp;&nbsp;', 0.50);
     addButton('&nbsp;&nbsp;', 0.25);
-    addButton('&#9587', 0);
+    addButton('x', 0);
     
     if (sensorClient[sensorID]!=undefined) {
         if (sensorClient[sensorID].getControlHTML!=undefined) {
@@ -258,9 +258,7 @@ function newInterest(i) {
     };
 }
 
-//function eid(myid) { 
-//	return myid.replace(/(:|\.\/)/g,'\\$1');
-//}
+
 
 var urlInterests = {};
 var nextURLInterest = 0;
@@ -312,20 +310,38 @@ function updateSelfUI() {
 	    
 	    ss.append('<span id="InterestControl-' + eid + '"></span>');
 	    ss.append(ename);
+	    
+	    
 	    ss.append($('<br>'));
+	    
+	    var pArea = $('<div class="PropertyArea"/>');
 
 		if (types[i]!=undefined) {
 			if (types[i].properties!=undefined)     {
 				var pbuttons = $('<div class="TypePropertyButtons"/>');    	
 		    	
-		    	for (var pi = 0; pi < types[i].properties.length; pi++) {
-		    		var pp = types[i].properties[pi];
-		    		pbuttons.append($('<button>' + pp.uri + '</button>'));	
+		    	for (var pi in types[i].properties) {
+		    		
+		    		pp = types[i].properties[pi];
+		    		b = $('<button title="'+ pi + '">' + pp.name + '</button>');
+		    		pbuttons.append(b);
+		    		
+		    		(function() {
+			    		var k = pArea;
+			    		f = function() {
+			    			var pid = $(this).attr('title');
+			    			k.append(newPropertyEdit(i, pid));
+			    		};
+		    		})();
+		    		
+		    		b.click(f);
 		    	}
 		    	
 		    	ss.append(pbuttons);
 		   }
 	    }
+
+	    ss.append(pArea);
 	    
 	    //annotate the interest with extra controls and menus
 	    if (i.indexOf('http://')==0) {

@@ -13,6 +13,7 @@ function getHeatmapColor(lat, lon) {
     return [ r, g, b ];
 }
 
+/*
 function drawHeatmap(divisions) {
     if (heatmapOpacity == 0)
         return;
@@ -53,7 +54,8 @@ function drawHeatmap(divisions) {
         py -= bh;
     }
 }
+*/
 
 function updateHeatmap() {
-    drawHeatmap(heatMapDetailLevel);                
+    //drawHeatmap(heatMapDetailLevel);                
 }
