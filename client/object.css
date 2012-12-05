@@ -88,3 +88,6 @@
 	background: transparent;
 	color: white;	
 }
+div.olMapViewport {
+     z-index: 0;
+}

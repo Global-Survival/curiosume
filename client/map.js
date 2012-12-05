@@ -23,6 +23,8 @@ function initMiniMap(target) {
 }
 
 function initLocationChooserMap(target) {
+		var defaultZoomLevel = 9;
+		
 	    var m = new OpenLayers.Map({
 	        div: target,
 	        projection: fromProjection,
@@ -37,13 +39,20 @@ function initLocationChooserMap(target) {
 	    m.addLayers([
 	        mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
 	    ]);
-	    m.setCenter(new OpenLayers.LonLat(0,0), 9);
+	    m.setCenter(new OpenLayers.LonLat(0,0), defaultZoomLevel);
 	    m.targetLocation = m.getCenter();
 	    
 	    var df = new OpenLayers.Control.DragFeature(vector);	    
         m.addControl(df);
-        
         df.activate();
+        
+        m.events.register("click", m, function(e){
+        	//var opx = m.getLayerPxFromViewPortPx(e.xy) ;
+        	var oll = m.getLonLatFromViewPortPx(e.xy);
+        	m.targetLocation.move(oll);
+        	m.setCenter(oll);
+        });
+        
         
         setGeolocatedLocation(m, function(e) {
 	    

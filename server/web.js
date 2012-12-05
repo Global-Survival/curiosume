@@ -287,10 +287,9 @@ express.configure(function() {
 });                        
 
 
-var host = '24.131.65.218:8080';
 passport.use(new OpenIDStrategy({
-    returnURL: 'http://' + host + '/auth/openid/return',
-    realm: 'http://' + host + '/'
+    returnURL: 'http://' + Server.host + '/auth/openid/return',
+    realm: 'http://' + Server.host + '/'
   },
   function(identifier, done) {
   	//console.log(identifier);
@@ -302,8 +301,8 @@ passport.use(new OpenIDStrategy({
   }
 ));
 passport.use(new GoogleStrategy({
-    returnURL: 'http://' + host + '/auth/google/return',
-    realm: 'http://' + host + '/'
+    returnURL: 'http://' + Server.host + '/auth/google/return',
+    realm: 'http://' + Server.host + '/'
   },
   function(identifier, profile, done) {
   	//console.log(identifier);
