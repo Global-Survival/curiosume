@@ -11,7 +11,7 @@ var generalTypes = [
 		             'female': { name: 'Female', type: 'boolean' }		             
 		},
 	},
-	{ uri: 'general.Event', name: 'Event'},
+	{ uri: 'general.Event', name: 'Event'}, //params: start, end, due by, rsvp by 
 	{ uri: 'general.Geometry', name: 'Geometry',
 		properties: {
 		             'length': { name: 'Length (m)', type: 'real' },		            
@@ -25,7 +25,8 @@ var generalTypes = [
             'active': { name: 'Active', type: 'boolean' },		            
 		}
 	},
-	{ uri: 'general.Media', name: 'Media'}
+	{ uri: 'general.Media', name: 'Media'}, //params: contentType
+	{ uri: 'general.Goal', name: 'Goal'} //=Project=Program=Action
 ];
 
 sensor.addTypes(generalTypes);

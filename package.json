@@ -4,7 +4,7 @@
     "dependencies":{
 	"express":"",
 	"request":"",
-        "http":"",
+    "http":"",
 	"url":"",
 	"fs":"",
 	"util":"",
@@ -15,7 +15,13 @@
 	"mongojs":"",
 	"ya-csv":"",
 	"feedparser":"",
-	"xml2object":""
+	"xml2object":"",
+	"passport":"",
+	"passport-openid":"",
+	"passport-google":"",
+	"passport-twitter":"",
+	"session.socket.io":"",
+	"connect":""
     },
     "engines": {
 	"node": "0.8.x", 

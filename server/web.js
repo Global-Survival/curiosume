@@ -7,7 +7,9 @@ var memory = require('./memory.js');
 var util = require('../client/util.js');
 var config = require('../config.js');
 var cortexit = require('./cortexit.js');
-var express = require('express')();
+var expressm = require('express');
+var express = expressm();
+var connect = require('connect');
 
 var http = require('http')
   , url = require('url')
@@ -234,12 +236,107 @@ function sendJSON(res, x, pretty) {
 	res.end( p );
 }
 
-
 http.globalAgent.maxSockets = 256;
 
 var httpServer = http.createServer(express);
 
-express.use("/", require('express').static('./client'));
+httpServer.listen(config.port);
+
+nlog('Web server on port ' + config.port);
+
+var io = socketio.listen(httpServer);
+
+io.enable('browser client minification');  // send minified client
+io.enable('browser client etag');          // apply etag caching logic based on version number
+io.enable('browser client gzip');          // gzip the file
+io.set('log level', 1);                    // reduce logging
+io.set('transports', [                     // enable all transports (optional if you want flashsocket)
+    'websocket'
+//  , 'flashsocket'
+  , 'htmlfile'
+  , 'xhr-polling'
+  , 'jsonp-polling'
+]);
+io.set("polling duration", 10); 
+
+var cookieParser = expressm.cookieParser('netention0')
+  , sessionStore = new connect.middleware.session.MemoryStore();
+var SessionSockets = require('session.socket.io')
+  , sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
+
+//PASSPORT -------------------------------------------------------------- 
+var passport = require('passport')
+  , OpenIDStrategy = require('passport-openid').Strategy
+  , GoogleStrategy = require('passport-google').Strategy;
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+express.configure(function() {
+  express.use(cookieParser);
+  express.use(expressm.bodyParser());
+  express.use(expressm.session({store:sessionStore}));
+  express.use(passport.initialize());
+  express.use(passport.session());
+  express.use(express.router);
+});                        
+
+
+var host = '24.131.65.218:8080';
+passport.use(new OpenIDStrategy({
+    returnURL: 'http://' + host + '/auth/openid/return',
+    realm: 'http://' + host + '/'
+  },
+  function(identifier, done) {
+  	//console.log(identifier);
+  	//console.log(done);
+  	done(null, { id: identifier } );
+    // User.findOrCreate({ openId: identifier }, function(err, user) {
+      // done(err, user);
+    // });
+  }
+));
+passport.use(new GoogleStrategy({
+    returnURL: 'http://' + host + '/auth/google/return',
+    realm: 'http://' + host + '/'
+  },
+  function(identifier, profile, done) {
+  	//console.log(identifier);
+  	//console.log(done);
+  	//console.log(profile);
+  	done(null, {id: identifier} );
+    // User.findOrCreate({ openId: identifier }, function(err, user) {
+      // done(err, user);
+    // });
+  }
+));
+
+// Accept the OpenID identifier and redirect the user to their OpenID
+// provider for authentication.  When complete, the provider will redirect
+// the user back to the application at:
+//     /auth/openid/return
+express.post('/auth/openid', passport.authenticate('openid'));
+// The OpenID provider has redirected the user back to the application.
+// Finish the authentication process by verifying the assertion.  If valid,
+// the user will be logged in.  Otherwise, authentication has failed.
+express.get('/auth/openid/return', 
+  passport.authenticate('openid', { successRedirect: '/',
+                                    failureRedirect: '/login.html' }));
+
+
+express.get('/auth/google', passport.authenticate('google'));
+express.get('/auth/google/return', 
+  passport.authenticate('google', { successRedirect: '/',
+                                    failureRedirect: '/login.html' }));
+// -------------------------------------------------------------- PASSPORT 
+
+
+express.use("/", expressm.static('./client'));
 express.get('/log', function (req, res) {
 	sendJSON(res, logMemory.buffer);		
 });
@@ -282,24 +379,8 @@ express.post('/notice', function(request, response){
     //console.log(request.body.user.email);
 
 });
-httpServer.listen(config.port);
 
-nlog('Web server on port ' + config.port);
 
-var io = socketio.listen(httpServer);
-
-io.enable('browser client minification');  // send minified client
-io.enable('browser client etag');          // apply etag caching logic based on version number
-io.enable('browser client gzip');          // gzip the file
-io.set('log level', 1);                    // reduce logging
-io.set('transports', [                     // enable all transports (optional if you want flashsocket)
-    'websocket'
-//  , 'flashsocket'
-  , 'htmlfile'
-  , 'xhr-polling'
-  , 'jsonp-polling'
-]);
-io.set("polling duration", 10); 
 
 var channelListeners = {};
 
@@ -346,7 +427,9 @@ function pub(message) {
 	}
 }
 
-io.sockets.on('connection', function(socket) {
+  
+sessionSockets.on('connection', function (err, socket, session) {
+//io.sockets.on('connection', function(socket) {
 	
 	//https://github.com/LearnBoost/socket.io/wiki/Rooms
 	socket.on('subscribe', function(channel) { 
@@ -360,19 +443,6 @@ io.sockets.on('connection', function(socket) {
     socket.on('pub', function(message) {
 		broadcast(socket, message);
     });
-    
-    // socket.on('getSensors', function(withSensors) {
-        // withSensors(sensor);
-    // });
-//     
-    // socket.on('getSensor', function(id, withSensor) {
-        // if (sensor[id]!=undefined) {
-            // withSensor(sensor[id]);
-        // }
-        // else {
-            // console.error('Unknown sensor: ' + id);
-        // }
-    // });
     
     socket.on('connectSelf', function(cid) {
        if (cid == null) {
