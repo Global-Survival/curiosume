@@ -7,14 +7,20 @@
 </head>
 
 <body>
+	<h1>OpenID</h1>
 	<form action="/auth/openid" method="post">
     <div>
         <label>OpenID:</label>
         <input type="text" name="openid_identifier"/><br/>
     </div>
     <div>
-        <input type="submit" value="Sign In"/>
+        <input type="submit" value="OpenID Login"/>
     </div>
+    
+    <hr/>
+   	<h1>Google</h1>
+   	<a href="/auth/google">Login</a> with Google account.
+
 </form>
 </body>
 </html>

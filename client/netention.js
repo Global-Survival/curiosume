@@ -126,8 +126,9 @@ function initNetention(f) {
 	    
         loadSelf();
 	     
-	    socket.on('setClientID', function (cid) {
+	    socket.on('setClientID', function (cid, key) {
 	         Self.set('clientID', cid);
+	         Self.set('auth', key);
 	    });
 	    socket.on('setClient', function (cid,s) {
 	         setClient(cid, s);
@@ -141,9 +142,6 @@ function initNetention(f) {
 		socket.on('addTypes', function(at) {
 			addTypes(at);
 		});
-	    /*subscribe('chat', function(message) {
-	        notice(message);        	
-	    });*/
 
         initTeam();
         
@@ -226,6 +224,15 @@ function pub(message) {
 }
 function getClientInterests(f) {
 	socket.emit('getClientInterests', f);
+}
+
+function isAuthorized() {
+	if (Self.get('auth')) {
+		if (Self.get('auth').length > 0) {
+			return true;
+		}
+	}	
+	return false;
 }
 
 /*

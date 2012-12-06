@@ -252,10 +252,7 @@ function setInterest(sensorID, newImportance, force, updateAll) {
 }
 
 function newInterest(i) {
-    return {
-        id: i,
-        name: i
-    };
+    return i;
 }
 
 
@@ -263,17 +260,33 @@ function newInterest(i) {
 var urlInterests = {};
 var nextURLInterest = 0;
 var interestElements = {};
-var selectedInterests = [];
+//var selectedInterests = [];
 
 function updateSelfUI() {
 	$('#CurrentInterests').html('');
 	
+	if (focusedObject) {
+		interests = focusedObject.type;
+		interestStrength = { };
+	}
+	
 	for (var l = 0; l < interests.length; l++) {		
 		var ni = interests[l];
 		
-		var i = ni.id;
+		var i = ni;
+		if (ni.id)
+			i = ni.id;
+			
+		if (focusedObject)
+			if (focusedObject.typeStrength)
+				interestStrength[i] = focusedObject.typeStrength[l]; 
+		
 	    var eid = i;
-	    var ename = ni.name;
+	    if (!types[i]) {
+	    	console.log('Unknown type: ' + i);
+	    	continue;
+	    }
+	    var ename = types[i].name;
 	    
 	    //use a sequential element ID instead of putting the URL in the element (which may contain invalid characters for jQuery selectors)
 	    if (i.indexOf('http://')==0) {
@@ -390,20 +403,21 @@ function addURL() {
 }
 
 function removeInterest(i) {
-	if (selectedInterests.indexOf(i)!=-1)
-		selectedInterests.splice(selectedInterests.indexOf(i), 1);
+	/*if (selectedInterests.indexOf(i)!=-1)
+		selectedInterests.splice(selectedInterests.indexOf(i), 1);*/
 	
     getInterestItem(i).fadeOut();
     delete interestStrength[i];
     
     
     for (var x = 0; x < interests.length; x++) {
-    	if (interests[x].id == i) {
+    	if (interests[x] == i) {
     		interests.splice(x, 1);
     		break;
     	}
     }
-    
+    if (focusedObject)
+    	focusedObject.type = interests;
     
     updateSelf();
     updateSelfUI();
@@ -501,6 +515,7 @@ function initObjectEditor(ele, object) {
 	$.mobile.changePage();
 }
 
+/*
 function newObjectFromInterests() {
 	$('#SelfContent').html('');
 	
@@ -511,4 +526,4 @@ function newObjectFromInterests() {
 		values: []
 	});
 	
-}
+}*/

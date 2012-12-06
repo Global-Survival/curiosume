@@ -24,15 +24,16 @@
 		<script src="/lib/jQuery-URL-Parser/purl.js"></script>
 		
 		<script>
-			function loadObject(uri) {
-				$.getJSON('/object/' + uri + '/json', function(s) {
-					$('#ObjectView').html(JSON.stringify(s, null, 4));
-				});
-			}
+			
 			$(document).ready(function() {
 				var uri = $.url().param('uri');
-				if (uri)
-					loadObject(uri);
+				if (uri) {
+					withObject(uri, function(s) {
+						$('#ObjectView').html(JSON.stringify(s, null, 4));						
+					}, function() {
+						$('#ObjectView').html(uri + ' not found');
+					});
+				}
 			});
 		</script>
 	</head>

@@ -100,9 +100,19 @@ function newObjectView(x, onRemoved) {
 	}
 
 	var hb = $('<div>').addClass('ObjectViewHideButton');
+	var focusButton = $('<button>^</button>');
+	focusButton.click(function() {
+		focusObject(x);
+	});
+	hb.append(focusButton);
 	hb.append('<button>X</button>');
 	d.append(hb);
 	
+    (function() {
+	    d.hover(function(){ hb.fadeIn(200);}, function() { hb.fadeOut(200);});	    
+    })();
+    hb.hide();
+
 	var authorClient = clients[authorID];
 	if (authorClient) {
 		var av = getAvatar(authorClient.emailHash).attr('align', 'left');
@@ -166,6 +176,7 @@ function getAvatar(emailHash) {
 function clearInterests() {
 	interestStrength = { };
 	interests = [ ];
+	focusedObject = null;
 	
 	updateSelf();
 	updateSelfUI();
@@ -185,27 +196,29 @@ function newObjectEdit(x) {
 
 	var b = $('<div/>');
 	
-	/*var sa = $('<input type="range" min="0" max="100" value="0"/>');
-	sa.change(function() {
-		nearestFactor = sa.val() / 100.0;
-		updateDataView();
-	});
-	b.append('Anywhere'); b.append(sa); b.append('Nearest');
-
-	var b2 = $('<div/>');
+			/*var sa = $('<input type="range" min="0" max="100" value="0"/>');
+			sa.change(function() {
+				nearestFactor = sa.val() / 100.0;
+				updateDataView();
+			});
+			b.append('Anywhere'); b.append(sa); b.append('Nearest');
+		
+			var b2 = $('<div/>');
+			
+			var sb = $('<input type="range" min="0" max="100" value="0"/>');
+			sb.change(function() {
+				soonFactor = sb.val() / 100.0;
+				updateDataView();
+			});
+			b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
 	
-	var sb = $('<input type="range" min="0" max="100" value="0"/>');
-	sb.change(function() {
-		soonFactor = sb.val() / 100.0;
-		updateDataView();
-	});
-	b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
 	b.append('<input type="text" class="DataViewFilter" placeholder="filter"/>');
 	b.append('<select><option>By Age</option><option>By Relevance</option><option>By Author</option></select>');
 	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
 	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
-	b.append('<select><option>Public</option><option>Mine</option></select>');
+	b.append('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
 
+	$('.DataSubViewMenu').html('');
 	$('.DataSubViewMenu').append(b);
 	//$('.DataSubViewMenu').append(b2);
 	
@@ -213,6 +226,10 @@ function newObjectEdit(x) {
 	var expandedMap = false;
 	
 	var miS = $('<input type="text" class="MessageSubject"/>');
+	if (x)
+		if (x.name)
+			miS.val(x.name);
+	
 	var mi = $('<div class="SelfBarSection"/>');
 	miS.appendTo(mi);
 	
@@ -265,6 +282,7 @@ function newObjectEdit(x) {
 		}
 		else {
 			expandedMap = false;
+			map = null;
 			em.hide();
 		}
 	});
@@ -323,7 +341,7 @@ function newObjectEdit(x) {
 	
 	mdd.appendTo(ed);
 	
-	var shareButton = $('<button><b>Share</b></button>');
+	var shareButton = $('<button><b>Save</b></button>');
 	shareButton.click(function() {
 		sendMessage(saveForm());
 	});
@@ -386,17 +404,31 @@ function newObjectEdit(x) {
 }
 
 
+
 function newTypeMenu() {
 	var x = $('<ul class="sf-menu"/>');
 	
 	var xMainW = $('<li><a href="#">[-]</a></li>')
 	var xMain = $('<ul/>');
 	{
+		var loggedIn = isAuthorized();
+		
+		if (loggedIn)
+			xMain.append('<li><a href="javascript:focusSelf();">Me</a></li>');
+		
 		xMain.append('<li><a href="#">Load...</a></li>');
 		xMain.append('<li><a href="#">Save...</a></li>');
 		xMain.append('<li><a href="#"><hr/></li>');
 		xMain.append('<li><a href="javascript:clearInterests();">Clear</li>');
-		xMain.append('<li><a href="javascript:addURL();">Add URL</li>');
+		xMain.append('<li><a href="javascript:addURL();">URL</li>');
+		xMain.append('<li><a href="#"><hr/></li>');
+		
+		if (!loggedIn) {
+			xMain.append('<li><a href="/login.html">Login</a></li>');			
+		}
+		else {
+			xMain.append('<li><a href="/logout">Logout</a></li>');			
+		}
 	}
 	xMainW.append(xMain);
 	x.append(xMainW);
@@ -606,3 +638,45 @@ function newPropertyEdit(typeID, propertyID, value) {
 	return x;
 }
 
+function withObject(uri, success, failure) {
+	$.getJSON('/object/' + uri + '/json', function(s) {
+		if (s.length == 0) {
+			if (failure)
+				failure();
+		}
+		else {
+			if (success)
+				success(s);
+		}
+	});
+}
+
+function newDefaultSelf() {
+	var cid = Self.get('clientID');
+	return {
+		uuid: 'Self-' + cid,
+		name: 'Unnamed User ' + cid,
+		type: [ 'general.Human' ]
+	}; 
+}
+
+function focusSelf() {	
+	var cid = Self.get('clientID');
+	
+	withObject('Self-' + cid, function(x) {
+		focusObject(x);
+	}, function() {
+		focusObject(newDefaultSelf());
+	});
+}
+
+var focusedObject = null;
+
+function focusObject(x) {
+	focusedObject = x;
+	
+	$('#SelfTarget').html('');
+	newObjectEdit(x).appendTo($('#SelfTarget'));	
+	updateTypes();		
+	updateSelfUI();
+}

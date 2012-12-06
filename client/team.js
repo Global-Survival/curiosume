@@ -1,21 +1,24 @@
 
+/*
 function isInterestSelected(k) {
 	return selectedInterests.indexOf(k)!=-1;
-}
+}*/
 
 function getInterestsAsTypes(removeSelected) {
 	var p = [];
 	var s = [];
 	for (var k in interests) {
 		var i = interests[k];
-		var strength = interestStrength[i.id];
+		var strength = interestStrength[i];
+		/*
 		if (removeSelected)
 			if (selectedInterests.length > 0) {
 				if (!isInterestSelected(i.id))
 					continue;
 			}
+		*/
 		if (strength > 0) {
-			p.push(i.id);
+			p.push(i);
 			s.push(strength);
 		}
 	}

@@ -29,6 +29,11 @@ var Server = {
 };
 exports.Server = Server;
 
+var sensor = require('../sensor/sensor.js');
+sensor.setDefaults(b, types);
+require('../init.js').init();
+
+
 var logMemory = util.createRingBuffer(256); 
 Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
 Server.clientState = { };	//current state of all clients, indexed by their clientID
@@ -300,6 +305,7 @@ passport.use(new OpenIDStrategy({
     // });
   }
 ));
+
 passport.use(new GoogleStrategy({
     returnURL: 'http://' + Server.host + '/auth/google/return',
     realm: 'http://' + Server.host + '/'
@@ -378,7 +384,10 @@ express.post('/notice', function(request, response){
     //console.log(request.body.user.email);
 
 });
-
+express.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 
 var channelListeners = {};
@@ -444,12 +453,18 @@ sessionSockets.on('connection', function (err, socket, session) {
     });
     
     socket.on('connectSelf', function(cid) {
-       if (cid == null) {
-           cid = util.uuid();
-           socket.emit('setClientID', cid);
+       var key = '';
+   	   if (session)
+   			if (session.passport)
+   				if (session.passport.user)
+   					key = session.passport.user.id;
+   					
+       if (!cid) {
+       	   cid = util.uuid();
        } 
-       nlog('connect: ' + cid);
+       nlog('connect: ' + cid + ', ' + key);
        socket.set('clientID', cid);
+       socket.emit('setClientID', cid, key);
 
        for (c in clients) {
            if (c == cid) continue;
@@ -598,7 +613,6 @@ function updateInterests(clientID, state, socket, resubscribe) {
 // });
 
 
-var sensor = require('../sensor/sensor.js');
 
 var b = util.OutputBuffer(300, function(message) {
 	message.type = util.getTypeArray(message.type);
@@ -607,9 +621,7 @@ var b = util.OutputBuffer(300, function(message) {
 });
 b.start();
 
-sensor.setDefaults(b, types);
 
 setInterval(attention.update, Server.memoryUpdatePeriodMS);
 
-require('../init.js').init();
 nlog('Ready');
