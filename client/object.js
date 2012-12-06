@@ -4,6 +4,9 @@
 var types = { };
 var properties = { };
 
+var updateAttentionInterval = 6000;
+
+
 function hasType(o, t) {	
 	if (!o.type)
 		return false;
@@ -510,7 +513,7 @@ function newTypeMenu() {
 				}
 			}
     	});
-	}, 2000);
+	}, updateAttentionInterval);
 	
 	return x.supersubs({ 
         minWidth:    12,   // minimum width of sub-menus in em units 

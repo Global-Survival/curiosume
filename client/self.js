@@ -1,11 +1,11 @@
 var attention = { };
 
-var interestStrength = { };
+var interestStrength = { };  //refactor: currentTypeStrength
+var interests = []; //refactor: currentTypes
 
 var interestHistory;
 var maxInterestHistory = 8;
 
-var interests = []; //current set of interests
 var sensorClient = { };
 
 var sensorsInitted = false;

@@ -281,3 +281,4 @@ for (k=0;k<x.length;k+=16) {
      return temp.toLowerCase();
 };
 
+exports.MD5 = MD5;

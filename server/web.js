@@ -41,7 +41,7 @@ Server.clientState = { };	//current state of all clients, indexed by their clien
 var file = new(nodestatic.Server)('./client');
 
 var mongo = require("mongojs");
-var databaseUrl = process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
+var databaseUrl = process.env['MongoURL'] || Server.database; //"mydb"; // "username:password@example.com/mydb"
 var collections = [ "obj" ];
 
  
@@ -313,8 +313,8 @@ passport.use(new GoogleStrategy({
   function(identifier, profile, done) {
   	//console.log(identifier);
   	//console.log(done);
-  	//console.log(profile);
-  	done(null, {id: identifier} );
+  	//console.log('google', profile);
+  	done(null, {id: identifier, email: profile.emails[0].value } );
     // User.findOrCreate({ openId: identifier }, function(err, user) {
       // done(err, user);
     // });
@@ -453,11 +453,13 @@ sessionSockets.on('connection', function (err, socket, session) {
     });
     
     socket.on('connectSelf', function(cid) {
-       var key = '';
+       var key = '', email = null;
    	   if (session)
    			if (session.passport)
-   				if (session.passport.user)
+   				if (session.passport.user) {
    					key = session.passport.user.id;
+   					email = session.passport.user.email;
+   				}
    					
        if (!cid) {
        	   cid = util.uuid();
@@ -465,6 +467,10 @@ sessionSockets.on('connection', function (err, socket, session) {
        nlog('connect: ' + cid + ', ' + key);
        socket.set('clientID', cid);
        socket.emit('setClientID', cid, key);
+       
+       if (email) {
+       		clients[cid].emailHash = util.MD5(email);
+       }
 
        for (c in clients) {
            if (c == cid) continue;

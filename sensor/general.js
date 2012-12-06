@@ -8,7 +8,8 @@ var generalTypes = [
 		             'biography': { name: 'Biography', type: 'textarea' },            //{ uri: 'birthdate', name: 'Birthdate', type: 'date' },
 		             'age': { name: 'Age', type: 'real' },
 		             'male': { name: 'Male', type: 'boolean' },
-		             'female': { name: 'Female', type: 'boolean' }		             
+		             'female': { name: 'Female', type: 'boolean' },
+		             'email': { name: 'E-Mail', type: 'text' }
 		},
 	},
 	{ uri: 'general.Event', name: 'Event'}, //params: start, end, due by, rsvp by 
