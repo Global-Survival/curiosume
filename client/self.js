@@ -264,12 +264,15 @@ var interestElements = {};
 
 function updateSelfUI() {
 	$('#CurrentInterests').html('');
+
+	if (!interests)
+		interests = [];
 	
 	if (focusedObject) {
 		interests = focusedObject.type;
 		interestStrength = { };
 	}
-	
+		
 	for (var l = 0; l < interests.length; l++) {		
 		var ni = interests[l];
 		
@@ -355,6 +358,17 @@ function updateSelfUI() {
 		    		})();
 		    		
 		    		b.click(f);
+		    		
+		    		if (focusedObject) {
+		    			if (focusedObject.values) {
+		    				for (var v = 0; v < focusedObject.values.length; v++) {
+		    					var vp = focusedObject.values[v];
+		    					if (vp.uri == pi) {
+									pArea.append(newPropertyEdit(i, vp.uri, vp.value));		    						
+		    					}
+		    				}
+		    			}
+		    		}
 		    	}
 		    	
 		    	ss.append(pbuttons);

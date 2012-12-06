@@ -173,6 +173,10 @@ function getAvatar(emailHash) {
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
+function clearProperties() {
+	$('.PropertyEdit').html('');
+}
+
 function clearInterests() {
 	interestStrength = { };
 	interests = [ ];
@@ -236,6 +240,11 @@ function newObjectEdit(x) {
 	
 	var mdd = $('<div class="SelfBarSection">');
 	var md = $('<textarea class="MessageDescription" rows="5" /><br/>');
+	if (x)
+		if (x.text) {
+			md.val(x.text);
+		}
+	
 	md.appendTo(mdd);
 	
     miS.keyup(function(event) {
@@ -243,6 +252,9 @@ function newObjectEdit(x) {
     	if (!expandedDesc) {
             if (event.keyCode==13) {
         		sendMessage(saveForm());
+              	miS.val('');		
+        		md.val('');
+        		clearProperties();
             }
       	}
     });
@@ -291,16 +303,16 @@ function newObjectEdit(x) {
 	function saveForm() {
 		if (!x) x = { };
 		
-		x.uuid = uuid();
+		if (!x.uuid)
+			x.uuid = uuid();
+		
 		x.name = miS.val();
 		
-      	miS.val('');		
 		
 		if (expandedDesc) {
 			x.text = md.val(); 
 		}
 		
-		md.val('');
 		
 		if (map) {
 			var tb = map.targetLocation.geometry.bounds;
@@ -314,6 +326,7 @@ function newObjectEdit(x) {
 		
 		
 		x.values = [];
+				
 		$('.PropertyArea').children().each(function() { 
 			var z = $(this);
 			var pr = z.data('property'); 
@@ -336,6 +349,11 @@ function newObjectEdit(x) {
 		c.show();
 		expandedDesc = false;
 		
+		
+		
+		
+		
+		
 		return x;
 	}
 	
@@ -344,6 +362,9 @@ function newObjectEdit(x) {
 	var shareButton = $('<button><b>Save</b></button>');
 	shareButton.click(function() {
 		sendMessage(saveForm());
+      	miS.val('');		
+		md.val('');
+		clearProperties();
 	});
 	shareButton.appendTo(ex);
 	shareButton.wrap('<div style="float:right">');
@@ -379,6 +400,7 @@ function newObjectEdit(x) {
 		}
 		
 		
+		/*
 		if (x.values) {
 			for (p in x.values) {
 				var pr = x.values[p];
@@ -387,7 +409,7 @@ function newObjectEdit(x) {
 					desc = desc + t + "\n";
 				}
 			}
-		}
+		}*/
 		
 		if (d.length > 0) {
 			md.val(desc);
@@ -640,13 +662,15 @@ function newPropertyEdit(typeID, propertyID, value) {
 
 function withObject(uri, success, failure) {
 	$.getJSON('/object/' + uri + '/json', function(s) {
+		
 		if (s.length == 0) {
 			if (failure)
 				failure();
 		}
 		else {
-			if (success)
+			if (success) {				
 				success(s);
+			}
 		}
 	});
 }
@@ -656,7 +680,8 @@ function newDefaultSelf() {
 	return {
 		uuid: 'Self-' + cid,
 		name: 'Unnamed User ' + cid,
-		type: [ 'general.Human' ]
+		type: [ 'general.Human' ],
+		typeStrength: [ 1.0 ]
 	}; 
 }
 
@@ -664,7 +689,7 @@ function focusSelf() {
 	var cid = Self.get('clientID');
 	
 	withObject('Self-' + cid, function(x) {
-		focusObject(x);
+		focusObject(x[0]);
 	}, function() {
 		focusObject(newDefaultSelf());
 	});

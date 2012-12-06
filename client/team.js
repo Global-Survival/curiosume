@@ -7,7 +7,7 @@ function isInterestSelected(k) {
 function getInterestsAsTypes(removeSelected) {
 	var p = [];
 	var s = [];
-	for (var k in interests) {
+	for (var k = 0; k < interests.length; k++) {
 		var i = interests[k];
 		var strength = interestStrength[i];
 		/*
@@ -17,6 +17,9 @@ function getInterestsAsTypes(removeSelected) {
 					continue;
 			}
 		*/
+		if (!strength)
+			strength = 1.0;
+		
 		if (strength > 0) {
 			p.push(i);
 			s.push(strength);
@@ -59,6 +62,8 @@ function sendMessage(ox) {
 	    	x.content = v;
 	    }
     }*/
+	if (x._id)
+		delete x._id;
 
     notice(x);
     pub(x);
