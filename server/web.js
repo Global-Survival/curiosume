@@ -75,6 +75,22 @@ function loadState() {
 
 }
 
+function deleteObject(objectID, whenFinished) {
+	attention.remove(objectID);
+	
+	nlog('removing ' + objectID);
+	
+	//TODO move to 'removed' db collection
+	
+	var db = mongo.connect(databaseUrl, collections);
+	db.obj.remove({ uuid: objectID }, function(err, docs) {
+		db.close();
+		if (whenFinished) {
+			whenFinished();
+		}
+	});    
+}
+		
 function notice(o) {
 	if (!o.uuid)
 		return;
@@ -516,6 +532,11 @@ sessionSockets.on('connection', function (err, socket, session) {
 			withObjects(docs);					
 			db.close();
 		});    
+    });
+    
+    socket.on('delete', function(objectID, whenFinished) {
+    	if (!util.isSelfObject(objectID))
+    		deleteObject(objectID, whenFinished);
     });
     
 });

@@ -3,6 +3,8 @@
  */
 var types = { };
 var properties = { };
+var deleted = { };
+
 
 var updateAttentionInterval = 6000;
 
@@ -91,7 +93,7 @@ function newObjectView(x, onRemoved) {
 	var xn = x.name;
 	var authorID = '';
 	
-	if (x.uuid.indexOf('Self-')!=0) { //exclude Self- objects
+	if (!isSelfObject(x.uuid)) { //exclude Self- objects
 		if (x.author) {
 			var a = x.author;
 			var as = getSelf(x.author);
@@ -102,12 +104,18 @@ function newObjectView(x, onRemoved) {
 	}
 
 	var hb = $('<div>').addClass('ObjectViewHideButton');
-	var focusButton = $('<button>^</button>');
+	var focusButton = $('<button title="Focus">^</button>');
 	focusButton.click(function() {
 		focusObject(x);
 	});
+	var deleteButton = $('<button title="Delete">X</button>');
+	deleteButton.click(function() {
+		if (confirm('Permanently delete? ' + x.uuid)) {
+			deleteObject(x);			
+		}
+	});
 	hb.append(focusButton);
-	hb.append('<button>X</button>');
+	hb.append(deleteButton);
 	d.append(hb);
 	
     (function() {
@@ -694,8 +702,8 @@ function focusSelf() {
 	focusObject(getSelf());
 }
 
-var focusedObject = null;
 
+var focusedObject = null;
 function focusObject(x) {
 	focusedObject = x;
 	
@@ -703,4 +711,22 @@ function focusObject(x) {
 	newObjectEdit(x).appendTo($('#SelfTarget'));	
 	updateTypes();		
 	updateSelfUI();
+}
+
+function deleteObject(x) {
+	var id = x.uuid;
+	
+	if (isSelfObject(id)) {
+		alert('Can not delete user profiles');
+		return;
+	}
+	
+	deleted[id] = Date.now();
+	delete attention[id];	
+	
+	socket.emit('delete', id, function() {
+		saveSelf();
+		updateDataView();		
+	});
+	
 }

@@ -21,6 +21,24 @@ var generalTypes = [
 		             'mass': { name: 'Mass (kg)', type: 'real' }		            
 		}
 	},
+	{ uri: 'general.Money', name: 'Money',
+		properties: {
+					 //http://www.therichest.org/business/most-traded-currencies/
+					 'moneyBTC': { name: 'Bitcoin (BTC)', type: 'real' },		            
+		             'moneyUSD': { name: 'USD ($)', type: 'real' },		            
+		             'moneyEUR': { name: 'EUR (€)', type: 'real' },		            
+		             'moneyGold': { name: 'Gold (g)', type: 'real' },		            
+		             'moneySilver': { name: 'Silver (g)', type: 'real' }	            
+		}
+	},
+	{ uri: 'general.Transaction', name: 'Transaction',
+		properties: {
+					 //http://www.therichest.org/business/most-traded-currencies/
+					 'transactionPaid': { name: 'Paid', type: 'boolean' },		            
+					 'transactionDue': { name: 'Due', type: 'boolean' },		            
+					 'transactionGratis': { name: 'Gratis', type: 'boolean' }		            
+		}
+	},
 	{ uri: 'general.Action', name: 'Action',
 		properties: {
             'active': { name: 'Active', type: 'boolean' },		            

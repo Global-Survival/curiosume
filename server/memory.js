@@ -8,10 +8,10 @@ function Attention(memoryMomentum) {
 			since: { },
 			values: { },
 			totals: { },
-			remove: function(x) {
-				delete that.since[x];
-				delete that.values[x];
-				delete that.totals[x];
+			remove: function(objectID) {
+				delete that.since[objectID];
+				delete that.values[objectID];
+				delete that.totals[objectID];
 			},
 			summary: function() { return [ that.values, that.totals ]; },
 			notice : function(o, strength) {
