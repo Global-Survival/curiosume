@@ -261,7 +261,7 @@ function newObjectEdit(x) {
 	var expandedDesc = false;
 	var expandedMap = false;
 	
-	var miS = $('<input type="text" class="MessageSubject"/>');
+	var miS = $('<input type="text" class="MessageSubject" x-webkit-speech="x-webkit-speech"/>');
 	if (x)
 		if (x.name)
 			miS.val(x.name);

@@ -158,14 +158,15 @@ function getTypeCounts(whenFinished) {
 		for (var k in docs) {
 			var d = docs[k];
 			if (d.type) {
-				d.type = util.getTypeArray(d.type);
+				d.type = util.getTypeArray(d.type); //TODO shouldn't be necessary
 				for (var i = 0; i < d.type.length; i++) {
 					var dtype = d.type[i];
 					if (totals[dtype])
 						totals[dtype][0]++;
 					else
 						totals[dtype] = [ 1, 0];
-					totals[dtype][1] = attention.totals[dtype] || 0;
+					//totals[dtype][1] = attention.totals[dtype] || 0;
+					totals[dtype][1] = Server.interestTime[dtype] || 0;
 				}
 			}
 			
@@ -552,7 +553,7 @@ function updateInterestTime() {
 }
 
 function sub(socket, channel, sendExisting) {
-	nlog(socket.clientID + ' subscribed ' + channel );
+	//nlog(socket.clientID + ' subscribed ' + channel );
 	socket.join(channel);
 	
 	if (sendExisting) {
@@ -579,8 +580,7 @@ function updateInterests(clientID, state, socket, resubscribe) {
 	
 	if (!prevState) {
 		prevState = { interests: { }, when: new Date().getTime() };
-		
-	}	
+	}
 	
 	var addends = { };
 
