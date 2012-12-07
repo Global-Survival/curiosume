@@ -31,7 +31,7 @@ function getInterestsAsTypes(removeSelected) {
 function sendMessage(ox) {
 	var x = ox;
     
-    var name = Self.get("name");
+    var name = getSelfName();
     
     if (typeof(ox) == "string") {
         x = "" + name + ": " + JSON.stringify(x);
@@ -51,8 +51,7 @@ function sendMessage(ox) {
 	var now = new Date();
 	x.when = now.getTime();
     
-  	var authorID = ((Self.get('name')) + ' <' + Self.get('clientID') + '>');
-	x.author = authorID;
+	x.author = getSelfID();
 
     /*if (ox === undefined) {
 	    var d = $("#MessageDescription");
@@ -98,44 +97,6 @@ function addSuggestions(x) {
     
 }
 
-
-
-function setClient(cid, s) {
-    clients[cid] = s;
-    
-    /*
-    var ds = cid + '-summary';
-    var r = $('#' + ds);
-
-    if (r.length == 0) {
-        r = $('<div id="' + ds + '" class="RosterSummary"></div>');
-        r.appendTo('#teamRoster');
-    }*/
-    
-    /*
-    var x = '<a href="javascript:showClient(\'' + cid + '\');">' + s.name + '</a>' ;
-    
-    x += '<div id="' + ds + 'Full" class="RosterFull">' + s.geolocation + '<br/>';
-    for (var i in s.interests) {
-        x += i + ':' + s.interests[i] + '<br/>';
-    }
-    x += '</div>';
-    
-    r.html(x);
-    */
-}
-
-function showClient(cid) {
-    var ds = cid + '-summaryFull';
-    //$('#' + ds).toggle();
-    
-/*    $('#' + ds).dialog({
-			height: 650,
-                        width: '70%',
-                        zIndex: 5000,
-                        title: clients[cid].name,
-		});    */
-}
 
 function initTeam() {
 	

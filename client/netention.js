@@ -7,7 +7,6 @@ var socket;
 //var etherpadBaseURL = 'http://localhost:9001';
 var Self;
 
-var clients = { };
 
 function showHelp() {
     $('#help').html('<center>Loading...</center>');
@@ -127,12 +126,10 @@ function initNetention(f) {
         loadSelf();
 	     
 	    socket.on('setClientID', function (cid, key) {
-	         Self.set('clientID', cid);
+	         setSelfID(cid);
 	         Self.set('auth', key);
 	    });
-	    socket.on('setClient', function (cid,s) {
-	         setClient(cid, s);
-	    });
+	    
 	    socket.on('reconnect', function () {
 	         connectSelf();
 	    });
@@ -144,6 +141,8 @@ function initNetention(f) {
 		});
 
         initTeam();
+        
+        socket.emit('subscribe', 'general.User', true);
         
 		addMenu(function() {
 

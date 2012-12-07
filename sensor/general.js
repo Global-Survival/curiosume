@@ -27,7 +27,8 @@ var generalTypes = [
 		}
 	},
 	{ uri: 'general.Media', name: 'Media'}, //params: contentType
-	{ uri: 'general.Goal', name: 'Goal'} //=Project=Program=Action
+	{ uri: 'general.Goal', name: 'Goal'}, //=Project=Program=Action
+	{ uri: 'general.User', name: 'User'} 
 ];
 
 sensor.addTypes(generalTypes);

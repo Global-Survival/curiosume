@@ -1,16 +1,9 @@
-var clients = { };
-var objects = { };
-var types =  { };
-var objectInterest = { };
-
 var memory = require('./memory.js');
 var util = require('../client/util.js');
-var config = require('../config.js');
 var cortexit = require('./cortexit.js');
 var expressm = require('express');
 var express = expressm();
 var connect = require('connect');
-
 var http = require('http')
   , url = require('url')
   , fs = require('fs')
@@ -18,6 +11,9 @@ var http = require('http')
   , socketio= require('socket.io')
   , nodestatic = require('node-static')
   , server;
+
+
+var types =  { };
   
 var attention = memory.Attention(0.95);
 
@@ -27,16 +23,26 @@ var Server = {
 	
 	memoryUpdatePeriodMS: 5000	
 };
+
 exports.Server = Server;
 
 var sensor = require('../sensor/sensor.js');
+
+var b = util.OutputBuffer(300, function(message) {
+	message.type = util.getTypeArray(message.type);
+	pub(message);
+	
+});
+b.start();
+
 sensor.setDefaults(b, types);
+
 require('../init.js').init();
 
 
 var logMemory = util.createRingBuffer(256); 
 Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
-Server.clientState = { };	//current state of all clients, indexed by their clientID
+Server.clientState = { };	//current state of all clients, indexed by their clientID DEPRECATED
 
 var file = new(nodestatic.Server)('./client');
 
@@ -72,7 +78,10 @@ function loadState() {
 function notice(o) {
 	if (!o.uuid)
 		return;
-		
+	
+	if (o._id)
+		delete o._id;
+			
 	attention.notice(o, 0.1);
 	
 	var db = mongo.connect(databaseUrl, collections);
@@ -85,6 +94,7 @@ function notice(o) {
 	});
 
 }
+
 function getObjectSnapshot(uri, whenFinished) {
 	if (types[uri]!=undefined) {
 		whenFinished(types[uri]);
@@ -245,9 +255,9 @@ http.globalAgent.maxSockets = 256;
 
 var httpServer = http.createServer(express);
 
-httpServer.listen(config.port);
+httpServer.listen(Server.port);
 
-nlog('Web server on port ' + config.port);
+nlog('Web server on port ' + Server.port);
 
 var io = socketio.listen(httpServer);
 
@@ -440,8 +450,8 @@ sessionSockets.on('connection', function (err, socket, session) {
 //io.sockets.on('connection', function(socket) {
 	
 	//https://github.com/LearnBoost/socket.io/wiki/Rooms
-	socket.on('subscribe', function(channel) { 
-		sub(socket, channel); 
+	socket.on('subscribe', function(channel, sendAll) { 
+		sub(socket, channel, sendAll); 
 	});
 	socket.on('unsubscribe', function(channel) { 
 		unsub(socket, channel); 
@@ -468,16 +478,12 @@ sessionSockets.on('connection', function (err, socket, session) {
        socket.set('clientID', cid);
        socket.emit('setClientID', cid, key);
        
-       if (email) {
-       		clients[cid].emailHash = util.MD5(email);
-       }
-
-       for (c in clients) {
-           if (c == cid) continue;
-           var s = clients[c];           
-           socket.emit('setClient', c, s);
-       }
+	   //TODO share known clients
+	   
+	   //share server information
        socket.emit('setServer', Server.name, Server.description);
+       
+       //share ontology
        socket.emit('addTypes', types);
     });
     
@@ -488,9 +494,11 @@ sessionSockets.on('connection', function (err, socket, session) {
             }
             else {
             	socket.clientID = c;
-                //nlog('update: ' + c + ': ' + s.name + ' , ' + s.geolocation);
-                clients[c] = s;
-                socket.broadcast.emit('setClient', c, s);
+
+				notice(s);
+				
+                //broadcast client's self
+                socket.broadcast.emit('notice', s);
                 
                 s.created = Date.now();
                 updateInterests(c, s, socket, getObjects);
@@ -522,9 +530,15 @@ function updateInterestTime() {
 	}
 }
 
-function sub(socket, channel) {
+function sub(socket, channel, sendExisting) {
 	nlog(socket.clientID + ' subscribed ' + channel );
 	socket.join(channel);
+	
+	if (sendExisting) {
+		getObjectsByType(channel, function(objects) {
+			socket.emit('notice', objects);		
+		});		
+	}
 }
 function unsub(socket, channel) {
 	nlog(socket.clientID + ' unsubscribed ' + channel );
@@ -532,11 +546,7 @@ function unsub(socket, channel) {
 }
 
 function interestAdded(socket, interest) {
-	sub(socket, interest);
-	
-	getObjectsByType(interest, function(objects) {
-		socket.emit('notice', objects);		
-	});
+	sub(socket, interest, true);	
 }
 function interestRemoved(socket, interest) {
 	unsub(socket, interest);
@@ -619,13 +629,6 @@ function updateInterests(clientID, state, socket, resubscribe) {
 // });
 
 
-
-var b = util.OutputBuffer(300, function(message) {
-	message.type = util.getTypeArray(message.type);
-	pub(message);
-	
-});
-b.start();
 
 
 setInterval(attention.update, Server.memoryUpdatePeriodMS);

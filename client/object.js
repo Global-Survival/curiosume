@@ -80,6 +80,8 @@ function getRelevance(x) {
 	return v;
 }
 
+
+
 function newObjectView(x, onRemoved) {
 	var r = getRelevance(x);
 	
@@ -87,19 +89,16 @@ function newObjectView(x, onRemoved) {
 	
 	var d = $('<div class="objectView" style="font-size:' + fs + '">');
 	var xn = x.name;
-	var authorID = ''; //Self.get('clientID');
-	if (x.author) {
-		var a = x.author;
-		var ci = a.indexOf('<');
-		if (ci!=-1) {
-			a = a.substring(0, ci-1);
-			authorID = x.author.substring(ci+1, x.author.length-1);
+	var authorID = '';
+	
+	if (x.uuid.indexOf('Self-')!=0) { //exclude Self- objects
+		if (x.author) {
+			var a = x.author;
+			var as = getSelf(x.author);
+			if (as)
+				a = as.name;
+			xn = a + ': ' + xn;
 		}
-		else {
-			authorID = x.author;
-		}
-		
-		xn = a + ': ' + xn;
 	}
 
 	var hb = $('<div>').addClass('ObjectViewHideButton');
@@ -116,9 +115,9 @@ function newObjectView(x, onRemoved) {
     })();
     hb.hide();
 
-	var authorClient = clients[authorID];
+	var authorClient = getSelf(authorID);
 	if (authorClient) {
-		var av = getAvatar(authorClient.emailHash).attr('align', 'left');
+		var av = getAvatar(authorID).attr('align', 'left');
 		
 		d.append(av);
 		av.wrap('<div class="AvatarIcon"/>');
@@ -172,12 +171,25 @@ function newObjectView(x, onRemoved) {
 	return d;
 }
 
-function getAvatar(emailHash) {
+function getAvatar(authorID) {
+	var emailHash = getProperty(getSelf(authorID), 'email', 'unknown@unknown.com');
+	emailHash = MD5(emailHash);
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
+}
+
+function getProperty(object, propertyID, defaultValue) {
+	if (object.values) {
+		for (var k = 0; k < object.values.length; k++) {
+			if (object.values[k].uri == propertyID)
+				return object.values[k].value;
+		}
+	}
+	return defaultValue;
 }
 
 function clearProperties() {
 	$('.PropertyEdit').html('');
+	focusedObject = null;
 }
 
 function clearInterests() {
@@ -438,11 +450,10 @@ function newTypeMenu() {
 	{
 		var loggedIn = isAuthorized();
 		
-		if (loggedIn)
-			xMain.append('<li><a href="javascript:focusSelf();">Me</a></li>');
+		xMain.append('<li><a href="javascript:focusSelf();">Me</a></li>');
 		
-		xMain.append('<li><a href="#">Load...</a></li>');
-		xMain.append('<li><a href="#">Save...</a></li>');
+		//xMain.append('<li><a href="#">Load...</a></li>');
+		//xMain.append('<li><a href="#">Save...</a></li>');
 		xMain.append('<li><a href="#"><hr/></li>');
 		xMain.append('<li><a href="javascript:clearInterests();">Clear</li>');
 		xMain.append('<li><a href="javascript:addURL();">URL</li>');
@@ -678,24 +689,9 @@ function withObject(uri, success, failure) {
 	});
 }
 
-function newDefaultSelf() {
-	var cid = Self.get('clientID');
-	return {
-		uuid: 'Self-' + cid,
-		name: 'Unnamed User ' + cid,
-		type: [ 'general.Human' ],
-		typeStrength: [ 1.0 ]
-	}; 
-}
 
 function focusSelf() {	
-	var cid = Self.get('clientID');
-	
-	withObject('Self-' + cid, function(x) {
-		focusObject(x[0]);
-	}, function() {
-		focusObject(newDefaultSelf());
-	});
+	focusObject(getSelf());
 }
 
 var focusedObject = null;

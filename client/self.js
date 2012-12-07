@@ -2,9 +2,11 @@ var attention = { };
 
 var interestStrength = { };  //refactor: currentTypeStrength
 var interests = []; //refactor: currentTypes
+var urlInterests = {}; //refactor: urlTypes
+var nextURLInterest = 0; //refactor: nextURLType
+var interestElements = {}; //refactor: typeElements
+//var selectedInterests = [];
 
-var interestHistory;
-var maxInterestHistory = 8;
 
 var sensorClient = { };
 
@@ -19,10 +21,6 @@ function loadInterests() {
         interestStrength = { };    
     }
     
-    interestHistory = Self.get('interestHistory');
-    if (interestHistory == null) {
-    	interestHistory = { };
-    }
 
     for (var k in interestStrength) {
         var s = getInterestItem(k);
@@ -38,35 +36,77 @@ function loadInterests() {
 
 }
 
-function loadSelf() {
-    var n = Self.get("name");
-    if (n == undefined) {
-        n = 'Anonymous';
-        Self.set("name", n);
-    }
-    $('#selfName').val(Self.get('name'));
 
-	var emailHash = Self.get('emailHash');
-	if (emailHash) {
-		$('#selfEmail').attr('placeholder', 'already hashed');
+function getSelfID() {
+	return Self.get('clientID');
+}
+function setSelfID(cid) {
+    Self.set('clientID', cid);	
+}
+
+function getSelfName() {
+	return getSelf().name;	
+}
+
+function setSelf(clientID, o) {
+	attention['Self-' + clientID] = o;
+}
+
+function getSelf(clientID) {
+	if (!clientID) {
+		var cid = getSelfID();
+		if (!cid) {
+			cid = uuid();
+			setSelfID(cid);
+		}	
+		
+		var so = getSelf(cid);
+		
+		if (!so) {
+			so = newDefaultSelf();
+			setSelf(cid, so);
+		}
+		return so;
 	}
+	else {
+		var si = 'Self-' + clientID;
+		if (attention[si])
+			return attention[si];
+		return null;
+	}
+}
+
+
+function newDefaultSelf() {
+	var cid = getSelfID();
+	return {
+		uuid: 'Self-' + cid,
+		name: 'Anonymous ' + cid,
+		type: [ 'general.Human', 'general.User' ],
+		typeStrength: [ 1.0 ]
+	}; 
+}
+
+function loadSelf() {
 	
+		
     attention = Self.get("attention");
     if (attention == null)
     	attention = { };
     	
     types = Self.get("types");
     if (types == null)
-    	types = { };
-    	
-    	
-    //add self to clients
-    var s = {
-    	uuid: Self.get('clientID'), 
-    	name: n,
-    	emailHash: emailHash
-    };
-    setClient(s.uuid, s);
+    	types = { };    	
+
+	console.log('Self loaded', getSelf());
+}
+
+function saveSelf() {    
+    Self.set("attention", attention);
+    Self.set('types', types);
+    Self.set('self', getSelf());
+
+    updateStatus();    
 }
 
 function saveInterests() {
@@ -78,43 +118,13 @@ function saveInterests() {
         }
     }
     Self.set('interests', si);
-    Self.set('interestHistory', interestHistory);
 }
 
-function saveSelf() {
-    var n = $('#selfName').val();
-    if (n)
-	    if (n.length > 0)
-	    	Self.set("name", n);
-    
-    var email = $('#selfEmail').val();
-    if (email)
-	    if (email.length > 0)    
-	    	Self.set('emailHash', MD5(email) );
-    
-    Self.set("attention", attention);
-    Self.set('types', types);
-
-    updateStatus();
-    
-}
 
 var nearestFactor, soonFactor;
 
-
-
-
-function getSelfSnapshot() {
-    return {
-        name: Self.get('name'),        
-        emailHash: Self.get('emailHash'),
-        geolocation: Self.get('geolocation'),
-        interests: Self.get('interests')
-    };
-}
-
 function connectSelf() {
-    socket.emit('connectSelf', Self.get('clientID'));
+    socket.emit('connectSelf', getSelfID());
 }
 function updateSelf() {
 	var getInstances = false;
@@ -125,13 +135,7 @@ function updateSelf() {
         getInstances = true;        
     }
     
-    var ss = getSelfSnapshot();
-    
-    interestHistory[Date.now()] = ss;
-    
-    timeArrayLimitSize(interestHistory, maxInterestHistory);
-    
-    socket.emit('updateSelf', ss, getInstances);
+    socket.emit('updateSelf', getSelf(), getInstances);
     
 	updateDataView();
 }
@@ -167,11 +171,11 @@ function encodeInterestForElement(x) {
 }
 
 function getInterestItem(sensor) { 
-		return $('#Interest-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
-	}
+	return $('#Interest-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
+}
 function getInterestControls(sensor) { 
-		return $('#InterestControl-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
-	}
+	return $('#InterestControl-' + encodeInterestForElement(interestElements[sensor] || uuid())); 
+}
 
 function setInterest(sensorID, newImportance, force, updateAll) {
     //console.log('sensor: ' + sensor + ' importance=' + newImportance);
@@ -220,12 +224,12 @@ function setInterest(sensorID, newImportance, force, updateAll) {
     
 
     if (newImportance == 0) {
-        if (confirm('Remove ' + sensorID + ' ?')) {
+        //if (confirm('Remove ' + sensorID + ' ?')) {
             removeInterest(sensorID);
-        }
-        else {
+        //}
+        /*else {
             setInterest(sensorID, oldImportance, true, false);
-        }
+        }*/
     }
     else {
     	
@@ -256,12 +260,6 @@ function newInterest(i) {
 }
 
 
-
-var urlInterests = {};
-var nextURLInterest = 0;
-var interestElements = {};
-//var selectedInterests = [];
-
 function updateSelfUI() {
 	$('#CurrentInterests').html('');
 
@@ -284,6 +282,9 @@ function updateSelfUI() {
 			if (focusedObject.typeStrength)
 				interestStrength[i] = focusedObject.typeStrength[l]; 
 		
+		if (interestStrength[i] > 0)
+			addInterest(i, false, false);
+			
 	    var eid = i;
 	    if (!types[i]) {
 	    	console.log('Unknown type: ' + i);
