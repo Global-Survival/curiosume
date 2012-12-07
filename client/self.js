@@ -261,7 +261,8 @@ function newInterest(i) {
 
 
 function updateSelfUI() {
-	$('#CurrentInterests').html('');
+	var ci = $('#CurrentInterests'); 
+	ci.html('');
 
 	if (!interests)
 		interests = [];
@@ -271,6 +272,7 @@ function updateSelfUI() {
 		interestStrength = { };
 	}
 		
+	
 	for (var l = 0; l < interests.length; l++) {		
 		var ni = interests[l];
 		
@@ -303,7 +305,7 @@ function updateSelfUI() {
 	    eid = encodeInterestForElement(eid);
 	    
 		var ss = $('<div id="Interest-' + eid + '" class="InterestItem"></div>');
-	    $('#CurrentInterests').append(ss);
+	    ci.append(ss);
 	    
 	    
 	    /*ss.click(function() {

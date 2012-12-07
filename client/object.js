@@ -207,6 +207,13 @@ function clearInterests() {
 	
 	updateSelf();
 	updateSelfUI();
+	
+	$('#CurrentInterests').append('Add one or more types from the Type menu above to find relevant objects or to create an object of certain types.');
+	$('.MessageSubject').hide();
+	$('.MessageDescription').hide();
+	$('.MessageButtons').hide();
+
+
 }
 
 function newObjectEdit(x) {
@@ -291,7 +298,7 @@ function newObjectEdit(x) {
 	var em = $('<div class="SelfBarSection">Location</div>');
 	emM.appendTo(em);
 	
-	var ex = $('<div>');
+	var ex = $('<div class="MessageButtons">');
 	
 	var b = $('<button title="Add Description">..</buton>');
 	b.click(function() {
@@ -706,11 +713,15 @@ function focusSelf() {
 var focusedObject = null;
 function focusObject(x) {
 	focusedObject = x;
+	interests = x.type;
 	
 	$('#SelfTarget').html('');
 	newObjectEdit(x).appendTo($('#SelfTarget'));	
+	
+	updateSelf();
 	updateTypes();		
 	updateSelfUI();
+	updateDataView();
 }
 
 function deleteObject(x) {
