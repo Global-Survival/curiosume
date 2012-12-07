@@ -442,8 +442,13 @@ function removeInterest(i) {
     if (focusedObject)
     	focusedObject.type = interests;
     
+    
     updateSelf();
     updateSelfUI();
+
+    if (interests.length == 0) {
+		addNoInterestsMessage();    
+    }
 }
 
 

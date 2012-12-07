@@ -112,7 +112,7 @@ function loadScripts(f) {
 
 function initNetention(f) {
 		
-	console.log('loading scripts...');
+	console.log('Loading scripts...');
 	
 	loadScripts(function(data, textStatus) {
 		

@@ -202,6 +202,10 @@ function clearProperties() {
 	focusedObject = null;
 }
 
+function addNoInterestsMessage() {
+	$('#CurrentInterests').append('Add one or more types from the Type menu above to find relevant objects or to create an object of certain types.');	
+}
+
 function clearInterests() {
 	interestStrength = { };
 	interests = [ ];
@@ -210,10 +214,7 @@ function clearInterests() {
 	updateSelf();
 	updateSelfUI();
 	
-	$('#CurrentInterests').append('Add one or more types from the Type menu above to find relevant objects or to create an object of certain types.');
-	$('.MessageSubject').hide();
-	$('.MessageDescription').hide();
-	$('.MessageButtons').hide();
+	addNoInterestsMessage();
 
 
 }
@@ -249,7 +250,16 @@ function newObjectEdit(x) {
 			b2.append('Anytime'); b2.append(sb); b2.append('Recent');*/
 	
 	b.append('<input type="text" class="DataViewFilter" placeholder="filter"/>');
-	b.append('<select><option>By Age</option><option>By Relevance</option><option>By Author</option></select>');
+	
+	var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Author</option></select>');
+	dataViewSort = 'By Relevance';
+	sortSelect.change(function() {
+		var v = $(this).val();
+		dataViewSort = v;
+		updateDataView();
+	});
+	b.append(sortSelect);
+	
 	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
 	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
 	b.append('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
@@ -278,15 +288,22 @@ function newObjectEdit(x) {
 		}
 	
 	md.appendTo(mdd);
+
+	function saveIt() {
+		sendMessage(saveForm());
+      	miS.val('');		
+		md.val('');
+		clearProperties();
+		
+		x.uuid = uuid();
+		focusObject(x);
+	}
 	
     miS.keyup(function(event) {
  
     	if (!expandedDesc) {
             if (event.keyCode==13) {
-        		sendMessage(saveForm());
-              	miS.val('');		
-        		md.val('');
-        		clearProperties();
+            	saveIt();
             }
       	}
     });
@@ -391,12 +408,10 @@ function newObjectEdit(x) {
 	
 	mdd.appendTo(ed);
 	
+	
 	var shareButton = $('<button><b>Save</b></button>');
 	shareButton.click(function() {
-		sendMessage(saveForm());
-      	miS.val('');		
-		md.val('');
-		clearProperties();
+		saveIt();
 	});
 	shareButton.appendTo(ex);
 	shareButton.wrap('<div style="float:right">');
@@ -592,6 +607,7 @@ function initDataView(e) {
 }
 
 var currentView = 0;
+var dataViewSort;
 
 function updateDataView() {
 	var tc = $('#teamContent');	
@@ -618,10 +634,17 @@ function updateDataView() {
 			
 		}
 		
-		//sort x
-		x.sort(function(a,b) {
-			return relevance[b.uuid] - relevance[a.uuid];
-		});
+		var objectsort = {
+			'By Relevance': function(a,b) {
+				return relevance[b.uuid] - relevance[a.uuid];
+			},
+			'By Age': function(a,b) {
+				return a.when - b.when;
+			},
+			'By Author': function() { }
+		};
+		
+		x.sort(objectsort[dataViewSort]);
 		
 		for (var i = 0; i < x.length; i++) {
 			var d = $('<div/>');
