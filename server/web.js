@@ -577,12 +577,10 @@ function updateInterests(clientID, state, socket, resubscribe) {
 	var prevState = Server.clientState[clientID];
 	var now = Date.now();
 	
-		
 	if (!prevState) {
 		prevState = { interests: { }, when: new Date().getTime() };
 		
-	}
-	
+	}	
 	
 	var addends = { };
 

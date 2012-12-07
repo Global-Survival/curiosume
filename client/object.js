@@ -91,7 +91,7 @@ function newObjectView(x, onRemoved) {
 	
 	var d = $('<div class="objectView" style="font-size:' + fs + '">');
 	var xn = x.name;
-	var authorID = '';
+	var authorID = x.author;
 	
 	if (!isSelfObject(x.uuid)) { //exclude Self- objects
 		if (x.author) {
@@ -125,10 +125,12 @@ function newObjectView(x, onRemoved) {
 
 	var authorClient = getSelf(authorID);
 	if (authorClient) {
-		var av = getAvatar(authorID).attr('align', 'left');
-		
-		d.append(av);
-		av.wrap('<div class="AvatarIcon"/>');
+		if (authorID) {
+			var av = getAvatar(authorID).attr('align', 'left');
+			
+			d.append(av);
+			av.wrap('<div class="AvatarIcon"/>');
+		}
 	}
 
 	if (x.name) {
@@ -650,8 +652,6 @@ function newPropertyEdit(typeID, propertyID, value) {
 	var p = properties[propertyID];
 	var type = p.type;
 	
-	if (!value)
-		value = '';
 	
 	if (!p) {
 		return $('<div>Unknown property: ' + propertyID + '</div>');
@@ -670,6 +670,9 @@ function newPropertyEdit(typeID, propertyID, value) {
 	x.data('type', typeID);
 	
 	if (p.type == 'textarea') {
+		if (!value)
+			value = '';
+		
 		x.append('<br/>');
 		var t = $('<textarea rows="3">' + value + '</textarea>');
 		x.append(t);
@@ -679,6 +682,10 @@ function newPropertyEdit(typeID, propertyID, value) {
 	}
 	else if (p.type == 'boolean') {
 		var t = $('<input type="checkbox">');
+		
+		if (!value)
+			value = true;
+		
 		t.attr('checked', value ? 'on' : undefined);
 		x.append(t);
 		x.data('value', function(target) {
@@ -686,6 +693,9 @@ function newPropertyEdit(typeID, propertyID, value) {
 		});
 	}
 	else /* if (p.type == 'text') */ {
+		if (!value)
+			value = '';
+
 		var t = $('<input type="text" value="' + value + '">');
 		x.append(t);		
 		x.data('value', function(target) {

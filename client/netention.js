@@ -100,7 +100,6 @@ function loadScripts(f) {
 	/*loadCSS('/lib/superfish/css/superfish-navbar.css');
 	loadCSS('/lib/superfish/css/superfish-vertical.css');*/
 	
-	loadCSS('/self.css');
 	loadCSS('/gss.css');
 	loadCSS('/gss.fixed.css');
 	loadCSS('/team.css');

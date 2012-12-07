@@ -135,7 +135,13 @@ function updateSelf() {
         getInstances = true;        
     }
     
-    socket.emit('updateSelf', getSelf(), getInstances);
+    var ss = getSelf();
+    
+    //attach 'interests' to self object that we are updating.  
+    //TODO make it unnecessary to send entire self object when only interests have changed
+    ss.interests = interestStrength;
+    
+    socket.emit('updateSelf', ss, getInstances);
     
 	updateDataView();
 }

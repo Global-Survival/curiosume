@@ -46,7 +46,8 @@ var generalTypes = [
 	},
 	{ uri: 'general.Media', name: 'Media'}, //params: contentType
 	{ uri: 'general.Goal', name: 'Goal'}, //=Project=Program=Action
-	{ uri: 'general.User', name: 'User'} 
+	{ uri: 'general.User', name: 'User'}, 
+	{ uri: 'general.Netention', name: 'Netention'} //Netention itself, meta 
 ];
 
 sensor.addTypes(generalTypes);
