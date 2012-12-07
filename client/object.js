@@ -677,7 +677,15 @@ function newPropertyEdit(typeID, propertyID, value) {
 			return t.val();			
 		});
 	}
-	else {
+	else if (p.type == 'boolean') {
+		var t = $('<input type="checkbox">');
+		t.attr('checked', value ? 'on' : undefined);
+		x.append(t);
+		x.data('value', function(target) {
+			return t.attr('checked') == 'checked' ? true : false;
+		});
+	}
+	else /* if (p.type == 'text') */ {
 		var t = $('<input type="text" value="' + value + '">');
 		x.append(t);		
 		x.data('value', function(target) {
