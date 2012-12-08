@@ -264,7 +264,7 @@ function sendJSON(res, x, pretty) {
 	if (!pretty)
 		p = JSON.stringify(x);
 	else
-		p = JSON.stringify(x,null,4)
+		p = JSON.stringify(x,null,4);
 	res.end( p );
 }
 
@@ -462,7 +462,16 @@ function pub(message) {
 	}
 }
 
-  
+function isAuthenticated(session) {
+   if (session)
+		if (session.passport)
+			if (session.passport.user) {
+				return true;
+			}
+   	return false;
+	
+} 
+
 sessionSockets.on('connection', function (err, socket, session) {
 //io.sockets.on('connection', function(socket) {
 	
@@ -536,6 +545,11 @@ sessionSockets.on('connection', function (err, socket, session) {
     });
     
     socket.on('delete', function(objectID, whenFinished) {
+    	if (!isAuthenticated(session)) {
+    		whenFinished('not authenticated');
+    		return;
+    	}
+    		
     	if (!util.isSelfObject(objectID))
     		deleteObject(objectID, whenFinished);
     });

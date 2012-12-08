@@ -358,6 +358,8 @@ function setLocation() {
 }
 
 function requestUserSupport(message) {
+	alert('Feature coming soon: ' + message);
+	/*
     $('#userSupportMessage').html(message);
     $("#userSupport").dialog({
             height: 450,
@@ -365,7 +367,7 @@ function requestUserSupport(message) {
             zIndex: 5000,
             title: 'requestUserSupport()',
             modal: true
-    });    
+    });*/    
 }
 
 function enablePreset(p) {

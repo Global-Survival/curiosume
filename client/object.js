@@ -251,7 +251,7 @@ function newObjectEdit(x) {
 	
 	b.append('<input type="text" class="DataViewFilter" placeholder="filter"/>');
 	
-	var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Author</option></select>');
+	var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Proximity</option><option>By Author</option></select>');
 	dataViewSort = 'By Relevance';
 	sortSelect.change(function() {
 		var v = $(this).val();
@@ -260,9 +260,25 @@ function newObjectEdit(x) {
 	});
 	b.append(sortSelect);
 	
-	b.append('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
-	b.append('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
-	b.append('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
+	var proxFilter = $('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
+	proxFilter.change(function() {
+		requestUserSupport('Proximity Filter');
+	});
+	b.append(proxFilter);
+
+	var timeFilter = $('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
+	timeFilter.change(function() {
+		requestUserSupport('Time Filter');
+	});
+	b.append(timeFilter);
+	
+	var authorFilter = $('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
+	authorFilter.change(function() {
+		requestUserSupport('Author Filter');
+	});
+	b.append(authorFilter);
+	
+	
 
 	$('.DataSubViewMenu').html('');
 	$('.DataSubViewMenu').append(b);
