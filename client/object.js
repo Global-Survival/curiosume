@@ -311,8 +311,11 @@ function newObjectEdit(x) {
 		md.val('');
 		clearProperties();
 		
-		x.uuid = uuid();
-		focusObject(x);
+		focusObject({
+			uuid: uuid(),
+			type: x.type,
+			typeStrength: x.typeStrength			
+		});
 	}
 	
     miS.keyup(function(event) {

@@ -1,5 +1,6 @@
 Netention for Node.JS
 =====================
+
 Netention collects a community of peoples' stories, and interlinks them with automatically discovered opportunities that are mutually inter-satisfying - essentially suggesting to its participants how they could realize the desired futures they have described.
 
 Netention is a tool for describing one's current life situation (“is”), and potential future situations (“will be”)  – as linked data objects. A semantic description of a human life can be considered to consist of a set of declarations representing aspects about which one is concerned or interested.  Link the current and desired states of real and imaginary concepts - including people, environments, objects, processes, knowledge, or time.
@@ -26,7 +27,4 @@ A semantic concept represents each agent (ex: a human) participating in interact
 
 A Network is a community-managed web service to which clients connect.  Servers communicate with other servers in a P2P network.
 
-
-
-Documentation:
-https://docs.google.com/document/d/1S6GJoytdG_iWeFtztc5TPaXMZe_e6ewCPtqzy2_V7q8/edit
+http://netention.org

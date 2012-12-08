@@ -270,13 +270,14 @@ function updateSelfUI() {
 	var ci = $('#CurrentInterests'); 
 	ci.html('');
 
-	if (!interests)
-		interests = [];
 	
 	if (focusedObject) {
 		interests = focusedObject.type;
 		interestStrength = { };
 	}
+
+	if (!interests)
+		interests = [];
 		
 	
 	for (var l = 0; l < interests.length; l++) {		
