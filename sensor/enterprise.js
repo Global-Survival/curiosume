@@ -1,4 +1,5 @@
 //FROM: http://equitylancer.com/search
+//	http://blog.automenta.com/2012/11/building-instant-enterprises-with.html
 
 /*
 	Compensation
