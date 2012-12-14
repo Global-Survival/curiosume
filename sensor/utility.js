@@ -45,14 +45,21 @@
  *      Shower
  *      Bathtub
  *      Hose
- *      Spigot
+ *      Faucet
  *      Desalinator
+ *      Fresh Water Body (River, Lake, Creek, Underground River, Aquifer)
+ *      Salt Water Body (Sea, Ocean)
+ *      Rainwater Collection
+ *      Reservoir
+ *      Water Purifier
  */
 
 /*
  * Waste Disposal
  *      Drain
  *      Toilet
+ *          Toilet paper?
+ *          Bidet?
  *      Solid waste management
         Municipal garbage and recyclables collection
         Landfills
@@ -78,9 +85,20 @@
  */
 
 /* Cooling
- *      Refrigerator
  *      Fan
  *      Air Conditioning
  * 
  */
 
+/* Dining
+ *      Kitchen
+ *          Meat?
+ *          Vegetarian?
+ *          Vegan?
+ *          Kosher?
+ *          Halal?
+ *      Refrigerator
+ *      Oven
+ *      Microwave
+ * 
+ */
