@@ -15,7 +15,7 @@ function Attention(memoryMomentum) {
 			},
 			summary: function() { return [ that.values, that.totals ]; },
 			notice : function(o, strength) {
-				var i = o.uuid;
+				var i = o.uri;
 				
 				var prevStrength = that.values[i];				
 				var prevSince = that.since[i];

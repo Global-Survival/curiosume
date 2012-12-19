@@ -197,8 +197,8 @@ function notice(x) {
 			}
 		}   
 		
-		if (y.uuid) {
-			attention[y.uuid] = y;
+		if (y.uri) {
+			attention[y.uri] = y;
 		}
 		
 	}

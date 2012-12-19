@@ -17,7 +17,7 @@ var RSSFeed = function(url, process) {
 				maxlen = Math.max(maxlen, a['description'].length);
 			
 			var x = {
-				uuid: a['guid'],
+				uri: a['guid'],
 				link: a['link'],
 				when: new Date(a['date']).getTime(),
 				name: a['title'],

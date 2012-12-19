@@ -93,7 +93,7 @@ function newObjectView(x, onRemoved) {
 	var xn = x.name;
 	var authorID = x.author;
 	
-	if (!isSelfObject(x.uuid)) { //exclude Self- objects
+	if (!isSelfObject(x.uri)) { //exclude Self- objects
 		if (x.author) {
 			var a = x.author;
 			var as = getSelf(x.author);
@@ -110,7 +110,7 @@ function newObjectView(x, onRemoved) {
 	});
 	var deleteButton = $('<button title="Delete">X</button>');
 	deleteButton.click(function() {
-		if (confirm('Permanently delete? ' + x.uuid)) {
+		if (confirm('Permanently delete? ' + x.uri)) {
 			deleteObject(x);			
 		}
 	});
@@ -312,7 +312,7 @@ function newObjectEdit(x) {
 		clearProperties();
 		
 		focusObject({
-			uuid: uuid(),
+			uri: uuid(),
 			type: x.type,
 			typeStrength: x.typeStrength			
 		});
@@ -371,8 +371,8 @@ function newObjectEdit(x) {
 	function saveForm() {
 		if (!x) x = { };
 		
-		if (!x.uuid)
-			x.uuid = uuid();
+		if (!x.uri)
+			x.uri = uuid();
 		
 		x.name = miS.val();
 		
@@ -655,7 +655,7 @@ function updateDataView() {
 		
 		var objectsort = {
 			'By Relevance': function(a,b) {
-				return relevance[b.uuid] - relevance[a.uuid];
+				return relevance[b.uri] - relevance[a.uri];
 			},
 			'By Age': function(a,b) {
 				return a.when - b.when;
@@ -785,7 +785,7 @@ function focusObject(x) {
 }
 
 function deleteObject(x) {
-	var id = x.uuid;
+	var id = x.uri;
 	
 	if (isSelfObject(id)) {
 		alert('Can not delete user profiles');

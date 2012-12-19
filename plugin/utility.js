@@ -56,6 +56,13 @@
 
 /*
  * Waste Disposal
+ *      Trashcan
+ *          Recyclables Only
+ *          Glass Only
+ *          Bottles Only
+ *          Paper Only
+ *      Dumpster
+ *      Compost Bin
  *      Drain
  *      Toilet
  *          Toilet paper?

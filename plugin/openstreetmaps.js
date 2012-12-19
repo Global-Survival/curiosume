@@ -43,7 +43,7 @@ function OpenStreetMaps(bounds) {
 					if (name!='') {
 						var uri = 'osm.node.' + obj.id;
 						s.out.push({
-							uuid: uri,
+							'uri': uri,
 							name: name,
 							type: 'osm.' + amenity,
 							geolocation: [lat, lon]

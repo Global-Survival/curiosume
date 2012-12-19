@@ -113,7 +113,7 @@ function graphEnformableTimelineCZ(data, maxEvents, root) {
 		
 		console.dir(e);
 		
-		var text = e.name || e.uuid || e.title;
+		var text = e.name || e.uri || e.title;
 		
 						
 		boxes.push( {

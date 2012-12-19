@@ -80,7 +80,7 @@ function getSelf(clientID) {
 function newDefaultSelf() {
 	var cid = getSelfID();
 	return {
-		uuid: 'Self-' + cid,
+		uri: 'Self-' + cid,
 		name: 'Anonymous ' + cid,
 		type: [ 'general.Human', 'general.User' ],
 		typeStrength: [ 1.0 ]

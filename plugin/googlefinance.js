@@ -51,7 +51,7 @@ function get_quote(tickers, output) {
 					var quote = {};
 					quote.ticker = data_object[i].t;
 					quote.last_trade_time = data_object[i].lt;
-					quote.uuid = quote.ticker + "_" + quote.last_trade_time;
+					quote.uri = quote.ticker + "_" + quote.last_trade_time;
 					quote.type = 'FinanceQuote';
 					quote.exchange = data_object[i].e;
 					quote.price = data_object[i].l_cur;
