@@ -387,6 +387,11 @@ exports.start = function(host, port, database, init) {
 	
 	
 	express.use("/", expressm.static('./client'));
+    
+    express.get('/#', function(req,res) {
+       res.sendfile('./client/index.html');
+    });
+    
 	express.get('/log', function (req, res) {
 		sendJSON(res, logMemory.buffer);		
 	});

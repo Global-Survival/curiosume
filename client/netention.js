@@ -89,14 +89,22 @@ function netention(f) {
 		
         Self = Backbone.Model.extend({
             defaults: {
-                uri: 'Self-' + uuid(),
-		        name: 'Anonymous',
-		        type: [ 'general.Human', 'general.User' ],
-		        typeStrength: [ 1.0, 1.0 ],
                 types: { },
                 properties: { },
-                attention: { }
+                attention: { },
+                focus: null,
+                
+                //public data object
+                myself: {
+                    uri: 'Self-' + uuid(),
+        	        name: 'Anonymous',
+    		        type: [ 'general.Human', 'general.User' ],
+    		        typeStrength: [ 1.0, 1.0 ]                    
+                }
             },
+            
+            myself: function() { return this.get('myself'); },
+            
             connect: function() {
                 var socket = io.connect('/');
                     

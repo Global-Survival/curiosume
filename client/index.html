@@ -8,35 +8,54 @@
         <script src="netention.js"></script> 
         
         <script>
+        
+            function setFocus(x) {
+                $("#focus").html(JSON.stringify(x));
+            }
             
             $(document).ready(function(){
 	    	
 			    netention(function(self) 
                 {
-                    $("#output").append(JSON.stringify(self));
                     window.self = self;
                     
+                    self.on('change:focus', function() {
+                        setFocus(self.get('focus'));
+                    });                                            
                 
                     //SETUP ROUTER
                     var Workspace = Backbone.Router.extend({
 
                       routes: {
+                        "me":                   "me",    // #help
                         "help":                 "help",    // #help
-                        "search/:query":        "search",  // #search/kiwis
-                        "search/:query/p:page": "search"   // #search/kiwis/p7
+                        "query/:query":         "query",  // #search/kiwis
+                        //"search/:query/:page":  "query"   // #search/kiwis/p7
                       },
                     
+                      me: function() {
+                            self.set('focus', self.myself());
+                      },
+                        
                       help: function() {
-                        alert('help');
+                            self.set('focus', {
+                               uri: uuid(),
+                               type: [ 'help ']
+                            });
                       },
                     
-                      search: function(query, page) {
-                        alert('search ' + query + ' ' + page);
+                      query: function(query) {
+                            self.set('focus', {
+                               uri: uuid(),
+                               name: query
+                            });
                       }
                     
                     });
+                    
                     var w = new Workspace();
                     Backbone.history.start();
+                    
                     
 			    });
                 
@@ -69,21 +88,32 @@
     </head>
     
     <body>
-        <div class="dropdown">
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">File</a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-            <li><a href="/me">Me</a></li>
-            <li><a href="/team">Team</a></li>
-            <li><a href="/trends">Trends</a></li>
-            <li><a href="/types">Types</a></li>
-          </ul>
+        
+        <div id="SelfTarget">
+            <div class="dropdown">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">File</a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li><a href="/#/me">Me</a></li>
+                <li><a href="/#/team">Team</a></li>
+                <li><a href="/#/trends">Trends</a></li>
+                <li><a href="/#/types">Types</a></li>
+                <li><a href="/#/help">Help</a></li>
+              </ul>
+            </div>            
+            <div id="focus">
+                
+            </div>
         </div>
-        <div id="output"></div>
         
-        
-        <!--
-        <div id="SelfTarget"></div>
-	    <div id="DataTarget"></div>		 -->
+	    <div id="DataTarget">
+            <ul class="nav nav-tabs">
+              <li><a href="#" data-toggle="tab">List</a></li>
+              <li><a href="#" data-toggle="tab">Map</a></li>
+              <li><a href="#" data-toggle="tab">Time</a></li>
+              <li><a href="#" data-toggle="tab">Slides</a></li>
+            </ul>
+         
+	    </div>
 
     </body>
 </html>
