@@ -11,18 +11,79 @@
             
             $(document).ready(function(){
 	    	
-			    netention(function(self) {
+			    netention(function(self) 
+                {
                     $("#output").append(JSON.stringify(self));
                     window.self = self;
+                    
+                
+                    //SETUP ROUTER
+                    var Workspace = Backbone.Router.extend({
+
+                      routes: {
+                        "help":                 "help",    // #help
+                        "search/:query":        "search",  // #search/kiwis
+                        "search/:query/p:page": "search"   // #search/kiwis/p7
+                      },
+                    
+                      help: function() {
+                        alert('help');
+                      },
+                    
+                      search: function(query, page) {
+                        alert('search ' + query + ' ' + page);
+                      }
+                    
+                    });
+                    var w = new Workspace();
+                    Backbone.history.start();
+                    
 			    });
                 
             });
    
         </script>
+        
+        <style>
+    		#SelfTarget, #DataTarget {
+    			position: fixed;			
+    			height: 100%;
+    		}
+    		
+    		#DataTarget {
+    			width: 65%;
+    			right:0.5em;			
+    		}
+    		
+    		#SelfTarget {
+    			width: 33%;
+    			left: 0.5em;			
+    		}
+    		
+    		#Menu {
+    			display: none;
+    		}
+	    </style>    
+        
+        
     </head>
     
     <body>
+        <div class="dropdown">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">File</a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li><a href="/me">Me</a></li>
+            <li><a href="/team">Team</a></li>
+            <li><a href="/trends">Trends</a></li>
+            <li><a href="/types">Types</a></li>
+          </ul>
+        </div>
         <div id="output"></div>
+        
+        
+        <!--
+        <div id="SelfTarget"></div>
+	    <div id="DataTarget"></div>		 -->
 
     </body>
 </html>
