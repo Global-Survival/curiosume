@@ -1,0 +1,504 @@
+.pHidden {
+	display: none;
+}
+
+
+.cortexitWrap {
+	background-color: gray;
+	padding: 0.5em;
+	padding-bottom: 2em;
+}
+
+.cortexitContent {
+	min-height: 20px;
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+.cortexitMenu {
+	float: right;
+	color: white;
+	font-size: 2em;
+	font-family: Arial, sans;	
+}
+.cortexitSubMenu {
+	float: left;
+	color: white;
+	font-size: 1em;
+}
+.cortexitMenu span {
+	margin-left: 0.25em;
+	margin-right: 0.25em;
+}
+.cortexitMenuButton, .cortexitFontSizer {
+	cursor: pointer;
+	color: white;
+	text-decoration: none;
+}
+.cortexitMenuButton:hover { color: yellow; }
+.cortexitFontSizer:hover { color: orange; }
+.sensorTitle {
+    margin-top: 0.5em;
+    font-size: 150%;
+    font-weight: bold;
+    clear: both;
+    background-color: #ddd;
+}
+.sensorLabel {
+    font-size: 125%;
+    float: left;
+    clear: both;
+}
+
+.sensorValue {
+    font-size: 150%;
+    float: right;
+    width: 30%;   
+}
+
+.sensorDesc {
+    font-style: italic;
+    font-size: 80%;
+}#map, #mapHeat {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+}
+
+#statusWrap { }
+
+#statusContent { }
+
+#status {
+}
+root { 
+    display: block;
+}
+
+body {
+    font-family: Arial, sans;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+
+#mapHeat {
+    z-index: 3000;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+#tabs {
+    border: none;
+    height: 95%;
+}
+#tabs-0, #tabs-1, #tabs-2, #tabs-3 {
+    overflow: auto;    
+    height: 100%;
+}
+#tree1 {
+    margin-left: 0px;
+    margin-top: 0px;
+}
+#tree1  {
+    font-size: 100%;
+    padding-top: 0.3em;    
+    padding-bottom: 0.3em;    
+}
+#tree1 li b {
+    font-size: larger;
+    text-decoration: underline;
+}
+ul.mktree, ul.mktree ul, ul.mktree li {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+ul.mktree ul {
+}
+ul.mktree li.libullet .bullet {
+    cursor: default;
+    background: none;
+    display: none;
+}
+
+
+#presets {
+    margin: 0px;
+    padding-left: 0px;
+}
+
+#presets li {
+    font-size: 120%;
+    list-style: none;
+}
+
+#presets li p {
+    margin-left: 2em;
+}
+
+
+div.sensorItem {
+    float: left;
+    clear: both;
+    width: 100%;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-bottom: 0.25em;
+    border-bottom: solid 1px rgba(150, 150, 150, 0.25);
+}
+div.sensorControl {
+    margin-left: 3em;    
+}
+.controlDisabled {
+    display: none;
+}
+.controlEnabled {
+    display: block;
+}
+
+.table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+}
+.sf-menu {
+    margin-bottom: 0.5em;
+}
+.sf-menu a, .sf-menu a:visited {
+        color: #fff;
+        text-shadow: none;
+        border: none;
+}
+.sf-menu li {
+	background:		#444;
+}
+.sf-menu li li {
+	background:		#555;
+}
+.sf-menu li li li {
+	background:		#666;
+}
+.sf-menu li:hover, .sf-menu li.sfHover, .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
+	background:		#cfcfcf;
+	color: 			black;
+	outline:		0;
+	
+}
+
+.ui-tabs .ui-tabs-panel {
+    padding: 0.5em 0.7em;
+}
+
+.inlineAlert {
+    color: #a00;
+    border: 1px solid gray;
+    padding: 0.5em;
+}
+
+#userSupportMessage {
+    font-size: 2em;
+}
+
+#Menu {
+	z-index: 50000;
+	position: fixed;
+	top: 0;
+	left: 0;	
+}
+
+.PageWrapper {
+	margin-top: 3em;
+}
+
+.ModeSelectButton0 { background-color: gray; color: black; }
+.ModeSelectButton1 { background-color: #4F8728; color: white; }
+.ModeSelectButton2 { background-color: #207045; color: white; }
+.ModeSelectButton3 { background-color: #2E008F; color: white; }
+.ModeSelectButton4 { background-color: #46008F; color: white; }
+.ModeSelectButton5 { background-color: #7E007F; color: white; }
+.ModeSelectButton6 { background-color: #7E3255; color: white; }#map, #mapHeat {
+	height: 100%;
+}
+#statusWrap {
+}
+
+
+#status {
+    width: 58%;
+    height: 48%;
+    position: fixed;
+    right: 1em;
+    top: 0;
+    overflow: auto;
+}
+#statusContent {
+}
+.objectView {
+	padding: 0.25em;
+	margin-bottom: 0.5em;
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(top right, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+	border-left: 5px solid rgba(0,0,0,0.5);
+}
+.objectView h1 {
+	font-size: 125%;
+	font-weight: bold;
+}
+.objectView h2 {
+	font-size: 115%;
+	font-weight: normal;
+	margin: 0;
+}
+.objectView h3 {
+	font-size: 70%;
+	font-weight: normal;
+	color: #333;
+	margin: 0;
+}
+
+.MessageSubject {
+    width: 100%;
+    font-size: 125%;
+}
+.MessageDescription {
+    width: 98%;	
+}
+
+
+.TypePropertyButtons {
+	padding-left: 0.25em;	
+	padding-top: 0.15em;
+	padding-bottom: 0.25em;
+}
+.TypePropertyButtons button {
+	font-size: 60%;
+	padding: 0.25em;
+}
+
+.PropertyArea {
+	margin-left: 2em;
+	font-size: 75%;	
+}
+
+.DataViewMenu {
+	background-color: black;
+	margin-bottom: 0.25em;
+	height: 35px;
+}
+.TypesMenuButtons {
+	height: 35px;
+	background: black;
+}
+.PropertyEdit {
+	margin-bottom: 0.25em;
+}
+.PropertyEdit textarea {
+	width: 100%;
+}
+.AvatarIcon {
+	padding: 5px;	
+	float: left;
+}
+.AvatarIcon img {
+	height: 2em;
+}
+.ObjectViewHideButton {
+	float: right;
+}
+.DataSubViewMenu {
+	margin-left: 2em;
+	float: right;
+	color: white;
+}
+.ContentScroll {
+	overflow: auto;	
+}
+#teamContent {
+    width: 100%;
+    overflow: none;
+    height: 95%;
+}
+
+.DataViewFilter {
+	background: transparent;
+	color: white;	
+}
+div.olMapViewport {
+     z-index: 0;
+}
+
+
+#CurrentInterests {
+    clear: both;
+}
+#InterestsBar {
+    clear: both;
+}
+
+.InterestItem {
+    margin-bottom: 0.3em;
+    
+    padding: 0.2em;
+    border-right: 5px solid rgba(125,25,0,0.5);
+	padding-bottom: 1.0em;	
+
+/*
+   -webkit-transition:border-color 2.618s ease-in;  
+   -moz-transition:border-color 2.618s ease-in;  
+   -o-transition:border-color 2.618s ease-in;*/  
+
+	-webkit-transition:background-color 0.618s ease-in;  
+   -moz-transition:background-color 0.618s ease-in;  
+   -o-transition:background-color 0.618s ease-in;  
+
+}
+.interestSelected {
+	border-color: rgba(255, 0, 0, 0.75);	
+   -webkit-transition:border-color 0.618s ease-in;  
+   -moz-transition:border-color 0.618s ease-in;  
+   -o-transition:border-color 0.618s ease-in;  
+}
+
+/* http://www.quackit.com/css/css_color_codes.cfm */
+.interestItem25 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #000;
+    font-size: 96%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear; 
+   color: #333;  
+
+}
+.interestItem50 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #463544;
+    font-size: 110%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #222;  
+}
+.interestItem75 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #5B468D;
+    font-size: 140%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #111;  
+}
+.interestItem100 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #358DD4;
+    font-size: 180%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 2.618s linear;  
+   -o-transition:border-color 2.618s linear;
+   color: #000;  
+}
+
+.SelfBarSection {
+	padding: 0.5em;
+}
+
+#Profile {
+    clear:both;
+}
+
+.ImportanceButtons {
+	float: right;
+	position: relative;
+	top:0;
+}
+
+.ImportanceButtons button {
+	padding: 2px;
+	margin: 0;
+	border-left: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 2px;
+	height: 20px;
+}
+
+
+		.nameInput {
+			width: 100%;
+			font-size: 150%;
+		}
+		.valueInput {
+			width: 95%;
+			font-size: 125%;
+			margin-bottom: 0.4em;
+		}
+		
+		.updateButton {
+			font-weight: bold;
+		}
+		
+		.eBottom {
+			border-top: 1px solid gray;
+			clear: both;
+			float: right;
+			width: 100%;
+			text-align: right;
+		}
+		.typeCollapsible {
+			margin-left: 1em;
+		}
+		.typeMenu {
+			float: left;
+			width: 32%;
+		}
+		.valueArea {
+			overflow: auto;
+			width: 63%;
+			float: right;
+			margin-top: 0.5em;
+		}
+
+.PropertyEdit input[type="checkbox"] {
+}
+#teamWrapper {
+    width: 100%;
+}
+ 
+
+#teamRoster {
+    width: 32%;
+    height: 80%;
+    bottom: 10%;
+	overflow: auto;
+	float: right;
+}
+
+
+.teamMessage {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    margin-bottom: 0.25em;
+}
+
+.RosterSummary {
+    border: 1px solid gray;
+    overflow: auto;
+}
+.RosterFull {
+    /*display: none;*/
+}

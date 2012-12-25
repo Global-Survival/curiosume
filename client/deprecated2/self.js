@@ -87,27 +87,8 @@ function newDefaultSelf() {
 	}; 
 }
 
-function loadSelf() {
-	
-		
-    attention = Self.get("attention");
-    if (attention == null)
-    	attention = { };
-    	
-    types = Self.get("types");
-    if (types == null)
-    	types = { };    	
 
-	console.log('Self loaded', getSelf());
-}
 
-function saveSelf() {    
-    Self.set("attention", attention);
-    Self.set('types', types);
-    Self.set('self', getSelf());
-
-    updateStatus();    
-}
 
 function saveInterests() {
     var si = { };

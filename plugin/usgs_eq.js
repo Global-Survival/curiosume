@@ -2,7 +2,7 @@
 
 //Past 7 Days - M 5+ earthquakes 
 //http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml
-var rss = require('../rss.js');
+var rss = require('./rss.js');
 
 exports.USGSEarthquakes = function() {
 	return rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {

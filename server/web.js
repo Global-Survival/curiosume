@@ -14,7 +14,16 @@ var http = require('http')
 var mongo = require("mongojs");
 
 function plugin(v) {
-	require('./plugin/' + v);
+	var p = require('../plugin/' + v).plugin;
+	if (p) {
+		if (p.name) {
+			console.log('Loaded plugin: ' + p.name);
+			return;
+		}
+	}
+	
+	
+	console.log('Loaded invalid plugin: ' + v);
 }
 
 exports.start = function(host, port, database, init) {
@@ -678,11 +687,11 @@ exports.start = function(host, port, database, init) {
 	nlog('Ready');
 	
 	fs.readdirSync("./plugin").forEach(function(file) {
-		if (file.indexOf('.js')==-1) //avoid directories
-			return;
+		if (file.indexOf('.js')==-1) {//avoid directories
+			file = file + '/netention.js';
+		}
 			
-		nlog('Loading plugin ' + file);
-  		require("../plugin/" + file);
+		plugin(file);
 	});
 	
 	init();

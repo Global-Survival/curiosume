@@ -11,7 +11,7 @@
 	<script src="netention.js"></script> 
 	<script>
 		
-		
+		        
 	    $(document).ready(function(){
 	    	
 			initNetention(function() {
@@ -24,10 +24,12 @@
 				var m = 0;
 				var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
 				
+                
 				function updatePrompt() {
 					var l = msgs[parseInt(Math.random() * msgs.length)];
 					$('.MessageSubject').attr('placeholder', l + '...');					
 				} 
+                
 				
 				setInterval(updatePrompt, 7000);
 				updatePrompt();
