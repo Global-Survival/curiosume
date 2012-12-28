@@ -1,3 +1,40 @@
+function hasType(o, t) {    
+	if (!o.type)
+		return false;
+        
+	var ot = o.type;
+
+    //TODO use an underscore function instead of this loop
+	for (var i = 0; i < ot.length; i++) {
+		if (ot[i] == t)
+			return true;
+	}
+	return false;
+}
+
+function getProperties(t) {
+    //TODO add 'extends' supertype inheritance
+    if (t.properties)
+        return t.properties;
+    return [];
+}
+
+function addProperty(x, p) {
+    x.values.push( { uri: p, val: p } );
+    return x;
+}
+
+function acceptsAnotherProperty(x, p) {
+    //TODO determine this by Property arity constraints
+    return true;
+}
+
+function addType(x, t) {
+    x.type.push(t);
+    x.typeStrength.push(t);
+    return x;
+}
+
 function newObjectView(self, x, onRemoved, r) {
 	
 	var fs = (1.0 + r/2.0)*100.0 + '%';
@@ -19,12 +56,14 @@ function newObjectView(self, x, onRemoved, r) {
 	var hb = $('<div>').addClass('ObjectViewHideButton');
 	var focusButton = $('<button title="Focus">^</button>');
 	focusButton.click(function() {
-		focusObject(x);
+		//setFocus(x);
+        var oid = x.uri;
+        Backbone.history.navigate('/object/' + oid, {trigger: true});
 	});
 	var deleteButton = $('<button title="Delete">X</button>');
 	deleteButton.click(function() {
 		if (confirm('Permanently delete? ' + x.uri)) {
-			deleteObject(x);			
+			self.deleteObject(x);			
 		}
 	});
 	hb.append(focusButton);
@@ -96,20 +135,84 @@ function newObjectView(self, x, onRemoved, r) {
 	return d;
 }
 
+function newPropertyEdit(p, v) {
+    var propertyID = p.uri;
+    
+    var value = p.value;
+    
+	var type = v.type;
+		
+	if (!p) {
+		return $('<div>Unknown property: ' + propertyID + '</div>');
+	}
+		
+	var x = $('<div>').addClass('FocusSection');
+	x.append(propertyID + ':');
+	
+	var removeButton = $('<button>X</button>');
+	removeButton.click(function() {
+		x.remove();
+	});
+	x.append(removeButton);
+	
+	x.data('property', propertyID);
+	
+	if (type == 'textarea') {
+		if (!value)
+			value = '';
+		
+		x.append('<br/>');
+		var t = $('<textarea rows="3">' + value + '</textarea>');
+		x.append(t);
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}
+	else if (type == 'boolean') {
+		var t = $('<input type="checkbox">');
+		
+		if (!value)
+			value = true;
+		
+		t.attr('checked', value ? 'on' : undefined);
+		x.append(t);
+		x.data('value', function(target) {
+			return t.attr('checked') == 'checked' ? true : false;
+		});
+	}
+	else /* if (type == 'text') */ {
+		if (!value)
+			value = '';
+
+		var t = $('<input type="text" value="' + value + '">');
+		x.append(t);		
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}
+	
+	
+	return x;
+}
+
+function withObject(uri, success, failure) {
+	$.getJSON('/object/' + uri + '/json', function(s) {
+		
+		if (s.length == 0) {
+			if (failure)
+				failure();
+		}
+		else {
+			if (success) {				
+				success(s);
+			}
+		}
+	});
+}
+
 function getAvatar(authorID) {
     var emailHash = getProperty(getSelf(authorID), 'email', 'unknown@unknown.com');
 	emailHash = MD5(emailHash);
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
-function hasType(o, t) {    
-	if (!o.type)
-		return false;
-	var ot = o.type;
-	
-	for (var i = 0; i < ot.length; i++) {
-		if (ot[i] == t)
-			return true;
-	}
-	return false;
-}

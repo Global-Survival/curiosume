@@ -100,6 +100,7 @@ function netention(f) {
                 types: { },
                 properties: { },
                 attention: { },
+                deleted: { },
                 focus: null,
                 
                 //public data object
@@ -107,7 +108,8 @@ function netention(f) {
                     uri: 'Self-' + uuid(),
         	        name: 'Anonymous',
     		        type: [ 'general.Human', 'general.User' ],
-    		        typeStrength: [ 1.0, 1.0 ]                    
+    		        typeStrength: [ 1.0, 1.0 ],
+                    properties: [ ]
                 }
             },
             
@@ -120,7 +122,7 @@ function netention(f) {
                 
                 socket.on('setClientID', function (cid, key) {
                      that.set('clientID', cid);
-                     that.set('auth', key);
+                     that.set('authorized', key);
                 });
                 
                 /*socket.on('reconnect', function () {
@@ -172,8 +174,8 @@ function netention(f) {
                 ty[t.uri] = t;
 	
 	            if (t.properties) {
-		            for (var p in ty[t.uri].properties) {
-			            p[p] = ty[t.uri].properties[p];
+		            for (var tp in t.properties) {
+			            p[tp] = ty[t.uri].properties[tp];
 		            }
 	            }
                 
@@ -195,7 +197,30 @@ function netention(f) {
                 */
             },
             
-            
+            deleteObject: function(x) {
+                
+                var id = x.uri;
+            	
+                /*
+            	if (isSelfObject(id)) {
+            		alert('Can not delete user profiles');
+            		return;
+            	}
+                */
+            	
+                this.get('deleted')[id] = Date.now();
+            	delete (this.get('attention'))[id];	
+            	
+                var that = this;
+            	this.socket.emit('delete', id, function() {
+            		//saveSelf();
+            		//updateDataView();		
+                    that.trigger('change:deleted');
+                    that.trigger('change:attention');
+            	});
+            	
+            },
+
             getObjects: function(query, onObject, onFinished) {
                 var that = this;
             	this.socket.emit('getObjects', query, function(objs) {
@@ -266,8 +291,8 @@ function netention(f) {
             },
             
             isAuthorized: function() {
-            	if (Self.get('auth')) {
-            		if (Self.get('auth').length > 0) {
+            	if (this.get('authorized')) {
+            		if (this.get('authorized').length > 0) {
             			return true;
             		}
             	}	

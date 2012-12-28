@@ -10,7 +10,99 @@
         <script>
         
             function setFocus(x) {
-                //$("#focusSource").html(JSON.stringify(x,null,4));
+                if (!x) {
+                    x = { };
+                }
+                
+                if (!x.values)
+                    x.values  = [];
+                
+                if (!x.type) {
+                    x.type = [];
+                    x.typeStrength = [];
+                }
+                                
+                                
+                $('#FocusTypes').html('');
+                $('#FocusName').val(x.name);
+                
+                if (x.description) {
+                    $('#FocusDescription').val(x.description);
+                    $('#FocusDescriptionSection').show();
+                }
+                else {
+                    $('#FocusDescriptionSection').hide();
+                }
+                
+                
+                
+                if (x.geolocation) {
+                    $('#FocusMapSection').show();                    
+                    initLocationChooserMap('focusMap');
+                }
+                else {
+                    $('#FocusMapSection').hide();
+                    $('#focusMap').html('');
+                }
+                
+                
+                
+                if (x.type.length == 0) {
+                    $('#FocusTypes').hide();
+                }
+                else {
+                    $('#FocusTypes').show();
+                    for (var k = 0; k < x.type.length; k++) {
+                        var t = x.type[k];
+                        var typeWidget = $('<span class="dropdown">');
+                        
+                        var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + t + '</a>');
+                        typeWidget.append(b);
+                        
+                        var u = $('<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">');
+                        typeWidget.append(u);
+    
+    
+                        var tv = window.self.get('types')[t];
+                        if (!tv)
+                            tv = { };
+                        
+                        var pr = getProperties(tv);
+                        for (var p in pr) {
+                            (function() {
+                                var pri = p;
+                                var a = $('<a href="#">' + pr[p].name + '</a>');
+                                a.click(function() { 
+                                    var f = window.self.get('focus');
+                                    if (acceptsAnotherProperty(f, pri)) {
+                                        window.self.set('focus', addProperty(f, pri) );
+                                        window.self.trigger('change:focus');
+                                    }
+                                    
+                                });
+                                var l = $('<li/>'); l.append(a);
+                                u.append(l);                        
+                            })();
+                        }
+                        
+                        $('#FocusTypes').append(typeWidget);
+                    }
+                    
+                                        
+                    
+                }
+                
+                $('#FocusProperties').html('');
+                if (x.values) {
+                    for (var k = 0; k < x.values.length; k++) {
+                        var pr = x.values[k];
+                        var pv = window.self.get('properties')[pr.uri];
+                        $('#FocusProperties').append(newPropertyEdit(pr, pv));
+                    }
+                }
+                
+                console.log('focused', x);
+                
             }
             
 
@@ -45,22 +137,46 @@
                     d.append(u);
                 
                     for (var c = 0; c < typeMenu[k].length; c++) {
-                        u.append('<li><a href="#">' + typeMenu[k][c] + '</a></li>');
+                        (function() {
+                            var id = typeMenu[k][c];
+                            var label = id.split('.')[1];
+                            var a = $('<a href="#">' +  label + '</a>');
+                            a.click(function() {
+                                var f = window.self.get('focus');
+                                if (!hasType(f, id)) {
+                                    window.self.set('focus', addType(f, id) );
+                                    window.self.trigger('change:focus');
+                                }
+                            });
+                            
+                            var l = $('<li/>'); l.append(a);
+                            
+                            u.append(l);
+                        })();
+                        
                     }
                     
                 }
 
             }
                                 
+            function updateFocus() {
+                setFocus(window.self.get('focus'));                
+            }
+            
             function initUI(self) {
                 self.on('change:focus', function() {
-                    setFocus(self.get('focus'));
-                });                                            
+                    updateFocus();
+                }); 
             
                 self.on('change:currentView', function() {
                     updateView(self.get('currentView'));
-                });                               
+                });
                 
+                self.on('change:types', function() {
+                    updateTypes();
+                    updateFocus();
+                });
 
                 $('#ViewMap').click(function() { self.set('currentView', 'map');  });
                 $('#ViewList').click(function() { self.set('currentView', 'list');  });
@@ -68,11 +184,18 @@
                 $('#ViewGraph').click(function() { self.set('currentView', 'graph');  });
                 $('#ViewTime').click(function() { self.set('currentView', 'time');  });
                 
-                initLocationChooserMap('focusMap');
-                
-                self.on('change:types', function() {
-                    updateTypes();
+                $('#ToggleDescriptionButton').click(function() {
+                    $('#FocusDescriptionSection').toggle();
                 });
+                $('#ToggleGeographicButton').click(function() {
+                    
+                });
+                $('#SaveButton').click(function() {
+                    
+                });
+                
+                
+                updateFocus();
                 updateTypes();
                 
             }
@@ -113,46 +236,64 @@
             
 			    netention(function(self) 
                 {
-                    window.self = self;                    
-                                        
-                    //SETUP ROUTER
-                    var Workspace = Backbone.Router.extend({
-
-                      routes: {
-                        "me":                   "me",    // #help
-                        "help":                 "help",    // #help
-                        "query/:query":         "query",  // #search/kiwis
-                        //"search/:query/:page":  "query"   // #search/kiwis/p7
-                      },
+                    window.self = self;        
+                    self.set('focus', { });
+                    self.set('currentView', 'list');
                     
-                      me: function() {
-                            self.set('focus', self.myself());
-                            //set relevancy filter to 'mine
-                            self.set('currentView', 'list');
-                      },
+                    self.getObjects('', function(obj) { }, function() { 
                         
-                      help: function() {
-                            self.set('focus', {
-                               uri: uuid(),
-                               type: [ 'help ']
-                            });
-                      },
-                    
-                      query: function(query) {
-                            self.set('focus', {
-                               uri: uuid(),
-                               name: query
-                            });
-                      }
-                    
+                        //SETUP ROUTER
+                        var Workspace = Backbone.Router.extend({
+    
+                          routes: {
+                            "new":                  "new",
+                            "me":                   "me",    // #help
+                            "help":                 "help",    // #help
+                            "query/:query":         "query",  // #search/kiwis
+                            "object/:id":      "object"
+                            //"search/:query/:page":  "query"   // #search/kiwis/p7
+                          },
+                          
+                          new: function() {
+                                self.set('focus', { });
+                                //set relevancy filter to 'mine
+                          },
+                        
+                          me: function() {
+                                self.set('focus', self.myself());
+                                //set relevancy filter to 'mine
+                                self.set('currentView', 'list');
+                          },
+                            
+                          help: function() {
+                                self.set('focus', {
+                                   uri: uuid(),
+                                   type: [ 'help '], typeStrength: [ 1.0 ]
+                                });
+                          },
+                        
+                          query: function(query) {
+                                self.set('focus', {
+                                   uri: uuid(),
+                                   name: query
+                                });
+                          },
+                          
+                          object: function(id) {
+                              var a = self.get('attention');
+                              self.set('focus', a[id]);
+                          }
+                        
+                        });
+                        
+    
+                        var w = new Workspace();
+                        Backbone.history.start();
+                        
+                        initUI(self);
+                        
                     });
-                    
-                    self.getObjects('', function(obj) { }, function() { });
-
-                    var w = new Workspace();
-                    Backbone.history.start();
-                    
-                    initUI(self);
+                                        
                     
 			    });
                 
@@ -190,11 +331,33 @@
             #ViewOptions {
                 float: right;
             }
-            
-            #focus div {
-                margin-top: 1em;
+            #focus {
                 width: 100%;
             }
+            #focus div {
+                padding-top: 0.5em;
+                padding-bottom: 0.25em;                
+                width: 100%;
+                
+            }
+            .FocusSection {
+                margin-bottom: 0.3em;
+                
+                padding: 0.2em;
+                border-right: 5px solid rgba(125,25,0,0.5);
+                padding-bottom: 1.0em;	
+            
+            /*
+               -webkit-transition:border-color 2.618s ease-in;  
+               -moz-transition:border-color 2.618s ease-in;  
+               -o-transition:border-color 2.618s ease-in;*/  
+            
+            	-webkit-transition:background-color 0.618s ease-in;  
+               -moz-transition:background-color 0.618s ease-in;  
+               -o-transition:background-color 0.618s ease-in;  
+
+            }
+            
             #focusName, #focusDescription {
                 width: 100%;
             }
@@ -214,6 +377,14 @@
                 height: 200px;
             }
             
+            #FocusName, #FocusDescription {
+                width: 100%;
+            }
+            #MenuWrapper {
+                margin-bottom: 1.5em;
+            }
+            
+            
 	    </style>    
         
         
@@ -222,36 +393,50 @@
     <body>
         
         <div id="SelfTarget">
-            <span id="MainMenu" class="dropdown">
-              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <li><a href="/#/me">Me</a></li>
-                <li><a href="/#/team">Team</a></li>
-                <li><a href="/#/trends">Trends</a></li>
-                <li><a href="/#/types">Types</a></li>
-                <li><a href="/#/help">Help</a></li>
-              </ul>
-              <!-- <a class="btn" href="#">Location</a> -->
-            </span>            
-            
-            <span id="TypeMenu"></span>
+            <div id="MenuWrapper">
+                <span id="MainMenu" class="dropdown">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <li><a href="/#/new">New</a></li>
+                    <li><a href="/#/me">Me</a></li>
+                    <li><a href="/#/team">Team</a></li>
+                    <li><a href="/#/trends">Trends</a></li>
+                    <li><a href="/#/types">Types</a></li>
+                    <hr/>
+                    <li><a href="/#/help">Help</a></li>
+                  </ul>
+                  <!-- <a class="btn" href="#">Location</a> -->
+                </span>            
+                
+                <span id="TypeMenu"></span>
+            </div>
+                
             
             <div id="focus">
+
+                <div>
+                    <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
+                </div>
                 
-                <div>
-                    <input id="focusName" type="text" x-webkit-speech="x-webkit-speech"/> <br/>
+                <div id="FocusTypes"></div>
+                
+                <div id="FocusDescriptionSection">
+                    <textarea id="FocusDescription"></textarea><br/>
                 </div>
-                <div>
-                    <textarea id="focusDescription"></textarea><br/>
-                </div>
-                <div>
+                <div id="FocusMapSection">
                     <div id="focusMap" class="map" style="height: 200px; width: 100%">
                     </div>
+                </div>
+                
+                <div id="FocusProperties">
+                    
                 </div>
                     
                 <div id="SaveButtonWrapper" style="width: auto">
                     <div class="btn-group">
-                        <button class="btn" title="Save"><i class="icon-check"></i></button>
+                        <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
+                        <button id="ToggleLocationButton"><i class="icon-globe"></i></button>
+                        <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
