@@ -273,7 +273,7 @@ function netention(f) {
             		n(x[i]);
                     
                 this.set('attention', attention);
-            	
+            	this.trigger('change:attention');
             },
             
             subscribe: function(channel, f) {

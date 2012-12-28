@@ -14,8 +14,19 @@
                 var f = window.self.get('focus');
                 
                 x.uri = f.uri;
+                x.type = f.type;
+                x.typeStrength = f.typeStrength;
+                
                 x.name = $('#FocusName').val();
                 //x.description
+                
+                x.values = [];
+                
+                var pe = window.propertyEdits;
+                for (var p = 0; p < pe.length; p++) {
+                    var px = pe[p];
+                    x.values.push( { uri: px.data('property'), value: px.data('value')() } );
+                }
                 
                 return x;
             }
@@ -24,6 +35,9 @@
                 if (!x) {
                     x = { };
                 }
+                
+                if (!x.uri)
+                    x.uri = uuid();
                 
                 if (!x.values)
                     x.values  = [];
@@ -118,16 +132,18 @@
                         $('#FocusTypes').append(typeWidget);
                     }
                     
-                                        
-                    
                 }
                 
                 $('#FocusProperties').html('');
+                
+                window.propertyEdits = [];
                 if (x.values) {
                     for (var k = 0; k < x.values.length; k++) {
                         var pr = x.values[k];
                         var pv = window.self.get('properties')[pr.uri];
-                        $('#FocusProperties').append(newPropertyEdit(pr, pv));
+                        var pe = newPropertyEdit(pr, pv);
+                        window.propertyEdits.push(pe);
+                        $('#FocusProperties').append(pe);
                     }
                 }
                 
@@ -150,6 +166,7 @@
                 
                     typeMenu[x[0]].push(k);                    
                 }
+                
                 var t = $('#TypeMenu');                
                 t.html('');
                 
@@ -193,12 +210,16 @@
             }
             
             function initUI(self) {
+                self.on('change:attention', function() {
+                    updateView();
+                }); 
+                
                 self.on('change:focus', function() {
                     updateFocus();
                 }); 
             
                 self.on('change:currentView', function() {
-                    updateView(self.get('currentView'));
+                    updateView();
                 });
                 
                 self.on('change:types', function() {
@@ -219,7 +240,13 @@
                     
                 });
                 $('#SaveButton').click(function() {
-                    
+                    var p = getEditedFocus();
+                    self.notice(p);
+                    self.pub(p);
+                    $.pnotify({
+                        title: 'Saved',
+                        text: p.uri                        
+                    });         
                 });
                 
                 
@@ -232,7 +259,8 @@
                 return _.values(self.get('attention'));
             }
             
-            function updateView(view) {
+            function updateView() {
+                var view = window.self.get('currentView');
                 var relevant = getRelevant();
                 
                 if (view === 'list') {
@@ -261,7 +289,7 @@
             
             function showEditedFocus() {
                 $.pnotify({
-                    title: 'Current Focus (as JSON)',
+                    title: 'Current Focus (JSON)',
                     text: (JSON.stringify(getEditedFocus(), null, 4))
                 });                
             }
