@@ -49,13 +49,13 @@ function loadScripts(f) {
 //		                "/lib/superfish/js/hoverIntent.js"
 //		                "/lib/superfish/js/superfish.js",
 //		                "/lib/superfish/js/supersubs.js",
+
 		                "/util.js", "./map.js", "./object.js"
+                        
 /*		                "/self.js",
-		                "/object.js",
 		                "/team.js",
 		                "/sensor.js",
 		                "/time.js",
-		                "/map.js",
 		                "/map.heatmap.js",
 		                "/environment.js",
 		                "/cortexit.js"	                */

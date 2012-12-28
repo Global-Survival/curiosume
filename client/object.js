@@ -24,6 +24,7 @@ function addProperty(x, p) {
     return x;
 }
 
+
 function acceptsAnotherProperty(x, p) {
     //TODO determine this by Property arity constraints
     return true;
@@ -32,6 +33,11 @@ function acceptsAnotherProperty(x, p) {
 function addType(x, t) {
     x.type.push(t);
     x.typeStrength.push(t);
+    return x;
+}
+function removeType(x, index) {
+    x.type.splice(index, 1);    
+    x.typeStrength.splice(index, 1);    
     return x;
 }
 

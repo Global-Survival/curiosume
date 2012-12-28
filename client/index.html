@@ -38,6 +38,7 @@
                 
                 if (x.geolocation) {
                     $('#FocusMapSection').show();                    
+                    $('#focusMap').html('');
                     initLocationChooserMap('focusMap');
                 }
                 else {
@@ -67,7 +68,7 @@
                         if (!tv)
                             tv = { };
                         
-                        var pr = getProperties(tv);
+                        var pr = getProperties(tv);                        
                         for (var p in pr) {
                             (function() {
                                 var pri = p;
@@ -83,7 +84,23 @@
                                 var l = $('<li/>'); l.append(a);
                                 u.append(l);                        
                             })();
+                            
                         }
+                        u.append('<hr/>');
+                        
+                        
+                        (function() {
+                            var kk = k;
+                            var rb = $('<a href="#">Remove</a>');
+                            rb.click(function() {
+                                var f = window.self.get('focus');
+                                window.self.set('focus', removeType(f, kk) );
+                                console.log(window.self.get('focus'));
+                                window.self.trigger('change:focus');                   
+                            });
+                            var rbi = $('<li/>'); rbi.append(rb);
+                            u.append(rbi);
+                        }());
                         
                         $('#FocusTypes').append(typeWidget);
                     }
@@ -100,8 +117,6 @@
                         $('#FocusProperties').append(newPropertyEdit(pr, pv));
                     }
                 }
-                
-                console.log('focused', x);
                 
             }
             
