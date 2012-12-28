@@ -10,6 +10,9 @@ var generalTypes = [
 		             'male': { name: 'Male', type: 'boolean' },
 		             'female': { name: 'Female', type: 'boolean' },
 		             'email': { name: 'E-Mail', type: 'text' }
+                     /*
+                     <select name="ext_sel[]" id="ext_sel2">  <option value="" selected="selected">select 3rd filter...</option>  <option value="languages">Spoken languages</option>  <option value="body">Body type</option>  <option value="height">Height</option>  <option value="weight">Weight</option>  <option value="hair">Hair color</option>  <option value="eyes">Eye color</option>  <option value="sexuality">Sexuality</option>  <option value="relationship">Status</option>  <option value="children">Children</option>  <option value="education">Education</option>  <option value="star_sign">Star sign</option>  <option value="drinking">Drinking</option>  <option value="smoking">Smoking</option>  </select>
+                     */
 		},
 	},
 	{ uri: 'general.Event', name: 'Event'}, //params: start, end, due by, rsvp by 

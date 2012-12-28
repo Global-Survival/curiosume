@@ -182,9 +182,9 @@ function newObjectView(x, onRemoved) {
 }
 
 function getAvatar(authorID) {
-	var emailHash = getProperty(getSelf(authorID), 'email', 'unknown@unknown.com');
-	emailHash = MD5(emailHash);
-	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
+    var emailHash = getProperty(getSelf(authorID), 'email', 'unknown@unknown.com');
+    emailHash = MD5(emailHash);
+    return $("<img>").attr("src", "http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
 function getProperty(object, propertyID, defaultValue) {

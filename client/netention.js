@@ -1,3 +1,6 @@
+//Measurement types:
+//<select class="ucw_selector" id="ucw_cs"><option value="Temperature">Temperature</option><option value="Length">Length</option><option value="Mass">Mass</option><option value="Speed">Speed</option><option value="Volume">Volume</option><option value="Area">Area</option><option value="Fuel consumption">Fuel consumption</option><option value="Time">Time</option><option value="Digital Storage">Digital Storage</option></select>
+
 
 function loadCSS(url) {
     $(document.head).append(
@@ -29,8 +32,10 @@ function loadScripts(f) {
 	var scripts = [     "/socket.io/socket.io.js", 
 //		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
 		                "http://www.openlayers.org/api/OpenLayers.js",
-		                //"http://code.jquery.com/ui/jquery-ui-git.js",
+                        
+//		                "http://code.jquery.com/ui/jquery-ui-git.js",
 //		                "/lib/jquery-tmpl/jquery.tmpl.js",
+                        
 		                "/lib/jstorage/jstorage.js",
 		                "/lib/jQuery-URL-Parser/purl.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js',
@@ -38,12 +43,13 @@ function loadScripts(f) {
                         
                         "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js',
+
                         
 //		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 //		                "/lib/superfish/js/hoverIntent.js"
 //		                "/lib/superfish/js/superfish.js",
 //		                "/lib/superfish/js/supersubs.js",
-		                "/util.js"
+		                "/util.js", "./map.js", "./object.js"
 /*		                "/self.js",
 		                "/object.js",
 		                "/team.js",
@@ -74,8 +80,10 @@ function loadScripts(f) {
 	loadCSS('/gss.fixed.css');
 	loadCSS('/team.css');
 	loadCSS('/environment.css');
-	loadCSS('/cortexit.css');
-	loadCSS('/object.css');*/
+	loadCSS('/cortexit.css'); */
+    
+    loadCSS('/map.css');
+    loadCSS('/object.css');
 }
 
 
@@ -123,7 +131,7 @@ function netention(f) {
                     that.notice(n);   
                 });
             	socket.on('addTypes', function(t) {
-                    that.addTypes(t);
+                    that.addTypes(t);                    
             	});
                 
                 socket.emit('connectSelf', this.get('clientID'));
@@ -145,6 +153,7 @@ function netention(f) {
                 types = Self.get("types");
                 if (types == null)
                 	types = { };    	*/
+            
             
             	console.log('Self loaded');
             },
@@ -178,6 +187,7 @@ function netention(f) {
                 for (var k in at) {
             		this.addType(at[k]);
             	}
+                this.trigger('change:types');
                 
                 /*
             	saveSelf();
@@ -185,11 +195,13 @@ function netention(f) {
                 */
             },
             
+            
             getObjects: function(query, onObject, onFinished) {
+                var that = this;
             	this.socket.emit('getObjects', query, function(objs) {
             		for (k in objs) {
             			var x = objs[k];
-            			this.notice(x);
+            			that.notice(x);
             			if (onObject!=null)
             				onObject(x);
             		}
@@ -198,16 +210,18 @@ function netention(f) {
             },
             
             notice: function(x) {
-                /*
+                
             	if (!Array.isArray(x)) {
             		this.notice([x]);
             	}
+                
+                var attention = this.get('attention');
             
             	function n(y) {
             		if (!y)
             			return;
             		
-            		if (y.type) {
+            		/*if (y.type) {
             			//y.type = getTypeArray(y.type);
                         
             			for (var ti = 0; ti < y.type.length; ti++) {
@@ -218,7 +232,7 @@ function netention(f) {
             					types[y.type] = { uri: y.type, name: y.type };
             				}
             			}
-            		}   
+            		}*/   
             		
             		if (y.uri) {
             			attention[y.uri] = y;
@@ -228,7 +242,9 @@ function netention(f) {
             	
             	for (var i = 0; i < x.length; i++)
             		n(x[i]);
-            	*/
+                    
+                this.set('attention', attention);
+            	
             },
             
             subscribe: function(channel, f) {

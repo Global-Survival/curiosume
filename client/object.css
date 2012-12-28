@@ -1,0 +1,235 @@
+.objectView {
+	padding: 0.25em;
+	margin-bottom: 0.5em;
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(top right, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+	border-left: 5px solid rgba(0,0,0,0.5);
+}
+.objectView h1 {
+	font-size: 125%;
+	font-weight: bold;
+}
+.objectView h2 {
+	font-size: 115%;
+	font-weight: normal;
+	margin: 0;
+}
+.objectView h3 {
+	font-size: 70%;
+	font-weight: normal;
+	color: #333;
+	margin: 0;
+}
+
+.MessageSubject {
+    width: 100%;
+    font-size: 125%;
+}
+.MessageDescription {
+    width: 98%;	
+}
+
+
+.TypePropertyButtons {
+	padding-left: 0.25em;	
+	padding-top: 0.15em;
+	padding-bottom: 0.25em;
+}
+.TypePropertyButtons button {
+	font-size: 60%;
+	padding: 0.25em;
+}
+
+.PropertyArea {
+	margin-left: 2em;
+	font-size: 75%;	
+}
+
+.DataViewMenu {
+	background-color: black;
+	margin-bottom: 0.25em;
+	height: 35px;
+}
+.TypesMenuButtons {
+	height: 35px;
+	background: black;
+}
+.PropertyEdit {
+	margin-bottom: 0.25em;
+}
+.PropertyEdit textarea {
+	width: 100%;
+}
+.AvatarIcon {
+	padding: 5px;	
+	float: left;
+}
+.AvatarIcon img {
+	height: 2em;
+}
+.ObjectViewHideButton {
+	float: right;
+}
+.DataSubViewMenu {
+	margin-left: 2em;
+	float: right;
+	color: white;
+}
+.ContentScroll {
+	overflow: auto;	
+}
+#teamContent {
+    width: 100%;
+    overflow: none;
+    height: 95%;
+}
+
+.DataViewFilter {
+	background: transparent;
+	color: white;	
+}
+div.olMapViewport {
+     z-index: 0;
+}
+
+
+#CurrentInterests {
+    clear: both;
+}
+#InterestsBar {
+    clear: both;
+}
+
+.InterestItem {
+    margin-bottom: 0.3em;
+    
+    padding: 0.2em;
+    border-right: 5px solid rgba(125,25,0,0.5);
+	padding-bottom: 1.0em;	
+
+/*
+   -webkit-transition:border-color 2.618s ease-in;  
+   -moz-transition:border-color 2.618s ease-in;  
+   -o-transition:border-color 2.618s ease-in;*/  
+
+	-webkit-transition:background-color 0.618s ease-in;  
+   -moz-transition:background-color 0.618s ease-in;  
+   -o-transition:background-color 0.618s ease-in;  
+
+}
+.interestSelected {
+	border-color: rgba(255, 0, 0, 0.75);	
+   -webkit-transition:border-color 0.618s ease-in;  
+   -moz-transition:border-color 0.618s ease-in;  
+   -o-transition:border-color 0.618s ease-in;  
+}
+
+/* http://www.quackit.com/css/css_color_codes.cfm */
+.interestItem25 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #000;
+    font-size: 96%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear; 
+   color: #333;  
+
+}
+.interestItem50 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #463544;
+    font-size: 110%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #222;  
+}
+.interestItem75 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #5B468D;
+    font-size: 140%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #111;  
+}
+.interestItem100 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #358DD4;
+    font-size: 180%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 2.618s linear;  
+   -o-transition:border-color 2.618s linear;
+   color: #000;  
+}
+
+.SelfBarSection {
+	padding: 0.5em;
+}
+
+#Profile {
+    clear:both;
+}
+
+.ImportanceButtons {
+	float: right;
+	position: relative;
+	top:0;
+}
+
+.ImportanceButtons button {
+	padding: 2px;
+	margin: 0;
+	border-left: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 2px;
+	height: 20px;
+}
+
+
+		.nameInput {
+			width: 100%;
+			font-size: 150%;
+		}
+		.valueInput {
+			width: 95%;
+			font-size: 125%;
+			margin-bottom: 0.4em;
+		}
+		
+		.updateButton {
+			font-weight: bold;
+		}
+		
+		.eBottom {
+			border-top: 1px solid gray;
+			clear: both;
+			float: right;
+			width: 100%;
+			text-align: right;
+		}
+		.typeCollapsible {
+			margin-left: 1em;
+		}
+		.typeMenu {
+			float: left;
+			width: 32%;
+		}
+		.valueArea {
+			overflow: auto;
+			width: 63%;
+			float: right;
+			margin-top: 0.5em;
+		}
+
+.PropertyEdit input[type="checkbox"] {
+}

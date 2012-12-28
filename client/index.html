@@ -10,19 +10,111 @@
         <script>
         
             function setFocus(x) {
-                $("#focus").html(JSON.stringify(x));
+                //$("#focusSource").html(JSON.stringify(x,null,4));
             }
             
+
+            function updateTypes() {
+                //THIS CURRENTLY ASSUMES THAT ALL TYPE ID's ARE IN THE FOLLOWING FORMAT:
+                //  package.type
+                //ex:
+                //  general.Human
+                
+                var types = window.self.get('types');
+                var typeMenu = { };
+                for (var k in types) {
+                    var x = k.split('.');                        
+                    
+                    if (!typeMenu[x[0]])
+                        typeMenu[x[0]] = [ ];
+                
+                    typeMenu[x[0]].push(k);                    
+                }
+                var t = $('#TypeMenu');                
+                t.html('');
+                
+                
+                for (var k in typeMenu) {
+                    var d = $('<span class="dropdown">');
+                    t.append(d);
+                    
+                    var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + k + '</a>');
+                    d.append(b);
+                    
+                    var u = $('<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">');
+                    d.append(u);
+                
+                    for (var c = 0; c < typeMenu[k].length; c++) {
+                        u.append('<li><a href="#">' + typeMenu[k][c] + '</a></li>');
+                    }
+                    
+                }
+
+            }
+                                
+            function initUI(self) {
+                self.on('change:focus', function() {
+                    setFocus(self.get('focus'));
+                });                                            
+            
+                self.on('change:currentView', function() {
+                    updateView(self.get('currentView'));
+                });                               
+                
+
+                $('#ViewMap').click(function() { self.set('currentView', 'map');  });
+                $('#ViewList').click(function() { self.set('currentView', 'list');  });
+                $('#ViewSlides').click(function() { self.set('currentView', 'slides');  });
+                $('#ViewGraph').click(function() { self.set('currentView', 'graph');  });
+                $('#ViewTime').click(function() { self.set('currentView', 'time');  });
+                
+                initLocationChooserMap('focusMap');
+                
+                self.on('change:types', function() {
+                    updateTypes();
+                });
+                updateTypes();
+                
+            }
+            
+            function getRelevant() {
+                return _.values(self.get('attention'));
+            }
+            
+            function updateView(view) {
+                var relevant = getRelevant();
+                
+                if (view === 'list') {
+                    $('#myTab a:first').tab('show');     
+                    
+                    $('#View').html('');
+                    
+                    for (var x = 0; x < relevant.length; x++) {
+                        $('#View').append(newObjectView( window.self, relevant[x] , function() { }, 1.0 ));                     
+                    }
+                    
+                }
+                else if (view === 'map') {
+                    $('#View').html('');
+                    
+                    var e = uuid();
+                    $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo('#View');
+                    initLocationChooserMap(e);
+                    
+                }
+                else {
+                    $('#View').html('Unknown view: ' + view);                    
+                }
+                
+            }
+                        
+            
             $(document).ready(function(){
-	    	
+            
 			    netention(function(self) 
                 {
-                    window.self = self;
-                    
-                    self.on('change:focus', function() {
-                        setFocus(self.get('focus'));
-                    });                                            
-                
+                    window.self = self;                    
+                                        
                     //SETUP ROUTER
                     var Workspace = Backbone.Router.extend({
 
@@ -35,6 +127,8 @@
                     
                       me: function() {
                             self.set('focus', self.myself());
+                            //set relevancy filter to 'mine
+                            self.set('currentView', 'list');
                       },
                         
                       help: function() {
@@ -53,9 +147,12 @@
                     
                     });
                     
+                    self.getObjects('', function(obj) { }, function() { });
+
                     var w = new Workspace();
                     Backbone.history.start();
                     
+                    initUI(self);
                     
 			    });
                 
@@ -70,18 +167,53 @@
     		}
     		
     		#DataTarget {
-    			width: 65%;
+    			width: 64%;
     			right:0.5em;			
     		}
     		
     		#SelfTarget {
-    			width: 33%;
+    			width: 32%;
     			left: 0.5em;			
+                padding-left: 0.5em;
     		}
     		
     		#Menu {
     			display: none;
     		}
+            
+            #ViewSelect, #ViewOptions {
+                width: 48%;
+            }
+            #ViewSelect {
+                float: left;
+            }
+            #ViewOptions {
+                float: right;
+            }
+            
+            #focus div {
+                margin-top: 1em;
+                width: 100%;
+            }
+            #focusName, #focusDescription {
+                width: 100%;
+            }
+            #SaveButtonWrapper {
+                //text-align: right;
+                float: right;
+            }
+            #View {
+                clear: both;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+            }
+            
+            .map {
+                width: 100%;
+                height: 200px;
+            }
+            
 	    </style>    
         
         
@@ -90,8 +222,8 @@
     <body>
         
         <div id="SelfTarget">
-            <div class="dropdown">
-              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">File</a>
+            <span id="MainMenu" class="dropdown">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                 <li><a href="/#/me">Me</a></li>
                 <li><a href="/#/team">Team</a></li>
@@ -99,19 +231,59 @@
                 <li><a href="/#/types">Types</a></li>
                 <li><a href="/#/help">Help</a></li>
               </ul>
-            </div>            
+              <!-- <a class="btn" href="#">Location</a> -->
+            </span>            
+            
+            <span id="TypeMenu"></span>
+            
             <div id="focus">
+                
+                <div>
+                    <input id="focusName" type="text" x-webkit-speech="x-webkit-speech"/> <br/>
+                </div>
+                <div>
+                    <textarea id="focusDescription"></textarea><br/>
+                </div>
+                <div>
+                    <div id="focusMap" class="map" style="height: 200px; width: 100%">
+                    </div>
+                </div>
+                    
+                <div id="SaveButtonWrapper" style="width: auto">
+                    <div class="btn-group">
+                        <button class="btn" title="Save"><i class="icon-check"></i></button>
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Export...</a></li>
+                            <li><a href="#">Clone...</a></li>
+                            <li><a href="#">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
                 
             </div>
         </div>
         
 	    <div id="DataTarget">
-            <ul class="nav nav-tabs">
-              <li><a href="#" data-toggle="tab">List</a></li>
-              <li><a href="#" data-toggle="tab">Map</a></li>
-              <li><a href="#" data-toggle="tab">Time</a></li>
-              <li><a href="#" data-toggle="tab">Slides</a></li>
-            </ul>
+            <div>
+                <div id="ViewSelect">
+                    <ul class="nav nav-tabs">
+                      <li><a href="#" id='ViewList' data-toggle="tab" title="List"><i class="icon-th-list"></i></a></li>
+                      <li><a href="#" id='ViewMap' data-toggle="tab" title="Map"</a><i class="icon-globe"></i></a></li>
+                      <li><a href="#" id='ViewTime' data-toggle="tab" title="Time"><i class="icon-time"></i></a></li>
+                      <li><a href="#" id='ViewSlides' data-toggle="tab" title="Slides"><i class="icon-play"></i></a></li>
+                      <li><a href="#" id='ViewGraph' data-toggle="tab" title="Graph"><i class="icon-random"></i></a></li>
+                    </ul>
+                </div>
+                <div id="ViewOptions">
+                    
+                </div>
+            </div>
+            <div id="View">
+                
+            </div>
          
 	    </div>
 
