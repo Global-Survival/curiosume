@@ -44,6 +44,8 @@ function loadScripts(f) {
                         "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js',
 
+                        '/lib/pnotify/jquery.pnotify.min.js',
+
                         
 //		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 //		                "/lib/superfish/js/hoverIntent.js"
@@ -84,6 +86,8 @@ function loadScripts(f) {
     
     loadCSS('/map.css');
     loadCSS('/object.css');
+    
+    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
 }
 
 

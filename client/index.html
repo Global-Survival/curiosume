@@ -9,6 +9,17 @@
         
         <script>
         
+            function getEditedFocus() {
+                var x = { };
+                var f = window.self.get('focus');
+                
+                x.uri = f.uri;
+                x.name = $('#FocusName').val();
+                //x.description
+                
+                return x;
+            }
+            
             function setFocus(x) {
                 if (!x) {
                     x = { };
@@ -69,6 +80,7 @@
                             tv = { };
                         
                         var pr = getProperties(tv);                        
+                        var propertiesAdded = 0;
                         for (var p in pr) {
                             (function() {
                                 var pri = p;
@@ -84,9 +96,11 @@
                                 var l = $('<li/>'); l.append(a);
                                 u.append(l);                        
                             })();
-                            
+                            propertiesAdded++;   
                         }
-                        u.append('<hr/>');
+                        
+                        if (propertiesAdded)
+                            u.append('<hr/>');
                         
                         
                         (function() {
@@ -95,7 +109,6 @@
                             rb.click(function() {
                                 var f = window.self.get('focus');
                                 window.self.set('focus', removeType(f, kk) );
-                                console.log(window.self.get('focus'));
                                 window.self.trigger('change:focus');                   
                             });
                             var rbi = $('<li/>'); rbi.append(rb);
@@ -244,6 +257,13 @@
                     $('#View').html('Unknown view: ' + view);                    
                 }
                 
+            }
+            
+            function showEditedFocus() {
+                $.pnotify({
+                    title: 'Current Focus (as JSON)',
+                    text: (JSON.stringify(getEditedFocus(), null, 4))
+                });                
             }
                         
             
@@ -456,7 +476,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Export...</a></li>
+                            <li><a href="javascript:showEditedFocus();">Export...</a></li>
                             <li><a href="#">Clone...</a></li>
                             <li><a href="#">Delete</a></li>
                         </ul>
