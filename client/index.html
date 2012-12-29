@@ -67,8 +67,10 @@
                 
                 
                 if (x.text) {
-                    $('#FocusDescription').val(x.text);
                     $('#FocusDescriptionSection').show();
+                    
+                    initDescriptionRichText();
+                    $('#FocusDescription').val(x.text);
                 }
                 else {
                     $('#FocusDescriptionSection').hide();
@@ -242,7 +244,13 @@
                 setFocus(window.self.get('focus'));                
             }
             
+            function initDescriptionRichText() {
+                $('#FocusDescriptionSection').html('<textarea id="FocusDescription"></textarea>');
+                $('#FocusDescription').wysihtml5();                                           
+            }
+            
             function initUI(self) {
+                
                 self.on('change:attention', function() {
                     updateView();
                 }); 
@@ -270,6 +278,12 @@
                 
                 $('#ToggleDescriptionButton').click(function() {
                     $('#FocusDescriptionSection').toggle();
+                    if ($('#FocusDescriptionSection').is(':visible')) {
+                        $('#FocusDescription').val(' '); //initialize as non-empty
+
+                        //reset rich text editor
+                        initDescriptionRichText();
+                    }
                 });
                 $('#ToggleLocationButton').click(function() {
                     var x = self.get('focus');
@@ -649,6 +663,10 @@
             #FocusName, #FocusDescription {
                 width: 100%;
             }
+            #FocusDescriptionSection, #FocusMapSection {
+                padding-left: 1.25em;
+            }
+            
             #MenuWrapper {
                 margin-bottom: 1.5em;
             }
@@ -709,7 +727,7 @@
                 <div id="FocusTypes"></div>
                 
                 <div id="FocusDescriptionSection">
-                    <textarea id="FocusDescription"></textarea><br/>
+                    <textarea id="FocusDescription"></textarea>
                 </div>
                 <div id="FocusMapSection">
                     <div id="focusMap" class="map" style="height: 200px; width: 100%">

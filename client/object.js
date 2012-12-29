@@ -103,13 +103,20 @@ function newObjectView(self, x, onRemoved, r) {
 	}
 
 	var hb = $('<div>').addClass('ObjectViewHideButton');
-	var focusButton = $('<button title="Focus">^</button>');
+    
+    var favoriteButton = $('<button title="Favorite"><i class="icon-star"></i></button>');
+    hb.append(favoriteButton);
+    
+    var replyButton = $('<button title="Reply"><i class="icon-share"></i></button>');
+    hb.append(replyButton);
+    
+	var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
 	focusButton.click(function() {
 		//setFocus(x);
         var oid = x.uri;
         Backbone.history.navigate('/object/' + oid, {trigger: true});
 	});
-	var deleteButton = $('<button title="Delete">X</button>');
+	var deleteButton = $('<button title="Delete"><i class="icon-remove"></i></button>');
 	deleteButton.click(function() {
 		if (confirm('Permanently delete? ' + x.uri)) {
 			self.deleteObject(x);			
@@ -148,16 +155,6 @@ function newObjectView(self, x, onRemoved, r) {
 			d.append('<h3>' + x.type + '</h3>');
 	}
 	
-	if (x.values) {
-		var ud = $('<ul>');
-		d.append(ud);
-		for (var vi = 0; vi < x.values.length; vi++) {
-			var vv = x.values[vi];
-			ud.append('<li>' + vv.uri + ': ' + vv.value + '</li>');
-		}
-	}
-	
-	
 	
 	if (x.geolocation) {
 		var dist = '?';
@@ -180,6 +177,14 @@ function newObjectView(self, x, onRemoved, r) {
 		}
 	}
 	
+    if (x.values) {
+		var ud = $('<ul>');
+		d.append(ud);
+		for (var vi = 0; vi < x.values.length; vi++) {
+			var vv = x.values[vi];
+			ud.append('<li>' + vv.uri + ': ' + vv.value + '</li>');
+		}
+	}
 	
 	
 	return d;
