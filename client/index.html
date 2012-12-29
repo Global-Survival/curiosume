@@ -282,7 +282,7 @@
                 if (view === 'list') {
                     $('#myTab a:first').tab('show');     
                     
-                    var sort = window.self.get('list-sort') || 'By Relevance';
+                    var sort = window.self.get('list-sort') || 'Recent';
                     var scope = window.self.get('list-scope') || 'Public';
                     
                     var now = Date.now();
@@ -305,13 +305,13 @@
                         
                         //sort
                         var r = 1.0;                        
-                        if (sort == 'By Age') {
+                        if (sort == 'Recent') {
                             if (!x.when)
                                 continue;
                             var ageSeconds = (now - x.when) / 1000.0;
                             r = Math.exp(-ageSeconds/1000.0);
                         }
-                        else if (sort == 'By Proximity') {
+                        else if (sort == 'Near') {
                             
                             if (!location) {
                                 continue;
@@ -338,7 +338,7 @@
                     }
                     
                     
-                    var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Proximity</option></select>'); //<option>By Author</option>
+                    var sortSelect = $('<select><option>Relevant</option><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
                 	dataViewSort = 'By Relevance';
                 	sortSelect.change(function() {
                 		var v = $(this).val();

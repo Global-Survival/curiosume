@@ -104,7 +104,12 @@ exports.start = function(host, port, database, init) {
 		db.obj.remove({ uri: objectID }, function(err, docs) {
 			db.close();
 			if (whenFinished) {
-				whenFinished();
+                if (err) {
+                    whenFinished(err);    
+                }
+                else {
+				    whenFinished();
+                }
 			}
 		});    
 	}
@@ -572,7 +577,7 @@ exports.start = function(host, port, database, init) {
 	    
 	    socket.on('delete', function(objectID, whenFinished) {
 	    	if (!isAuthenticated(session)) {
-	    		whenFinished('not authenticated');
+	    		whenFinished('Unable to delete (not logged in)');
 	    		return;
 	    	}
 	    		

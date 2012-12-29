@@ -216,11 +216,23 @@ function netention(f) {
             	delete (this.get('attention'))[id];	
             	
                 var that = this;
-            	this.socket.emit('delete', id, function() {
-            		//saveSelf();
-            		//updateDataView();		
-                    that.trigger('change:deleted');
-                    that.trigger('change:attention');
+            	this.socket.emit('delete', id, function(err) {
+                    if (!err) {
+                		//saveSelf();
+                		//updateDataView();		
+                        that.trigger('change:deleted');
+                        that.trigger('change:attention');
+                        $.pnotify({
+                            title: 'Deleted',
+                            text: id                        
+                        });   
+                    }
+                    else {
+                        $.pnotify({
+                            title: err,
+                            text: id                        
+                        });                           
+                    }
             	});
             	
             },
