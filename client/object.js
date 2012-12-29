@@ -123,7 +123,8 @@ function newObjectView(self, x, onRemoved, r) {
 		
 		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}
-	d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
+    
+	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');

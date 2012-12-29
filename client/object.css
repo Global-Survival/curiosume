@@ -8,17 +8,27 @@
 .objectView h1 {
 	font-size: 125%;
 	font-weight: bold;
+    line-height: 1.2em;
 }
 .objectView h2 {
 	font-size: 115%;
 	font-weight: normal;
 	margin: 0;
+    line-height: 1.2em;
 }
 .objectView h3 {
 	font-size: 70%;
 	font-weight: normal;
 	color: #333;
 	margin: 0;
+    line-height: 1.2em;
+}
+.objectView h3, .objectView ul, .objectView p {
+    padding-left: 10px;
+    padding-top: 5px;
+}
+.objectView img {
+    max-height: 12em;
 }
 
 .MessageSubject {

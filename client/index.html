@@ -22,7 +22,10 @@
                 x.when = Date.now();
                 
                 x.name = $('#FocusName').val();
-                //x.description
+                
+                var fdv = $('#FocusDescription').val();
+                if (fdv.length > 0)
+                    x.text = fdv;
                 
                 x.values = [];
                 
@@ -55,8 +58,8 @@
                 $('#FocusTypes').html('');
                 $('#FocusName').val(x.name);
                 
-                if (x.description) {
-                    $('#FocusDescription').val(x.description);
+                if (x.text) {
+                    $('#FocusDescription').val(x.text);
                     $('#FocusDescriptionSection').show();
                 }
                 else {
@@ -243,6 +246,7 @@
                 $('#ViewSlides').click(function() { self.set('currentView', 'slides');  });
                 $('#ViewGraph').click(function() { self.set('currentView', 'graph');  });
                 $('#ViewTime').click(function() { self.set('currentView', 'time');  });
+                $('#ViewTrends').click(function() { self.set('currentView', 'trends');  });
                 
                 $('#ToggleDescriptionButton').click(function() {
                     $('#FocusDescriptionSection').toggle();
@@ -379,6 +383,42 @@
                     var e = uuid();
                     $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
                     initLocationChooserMap(e);
+                    
+                }
+                else if (view === 'trends') {
+                    
+                    //total objects
+                    v.append('Known objects: ' + _.size(window.self.get('attention')));
+                    
+                    v.append('<br/><br/>');
+                    
+                    //tag distribution (bar chart)
+                    v.append('Tag Distribution: (random numbers for now)<br/>');
+                    
+                    var xu = uuid();
+                    var xx = $('<div></div>').attr('id', xu);
+                    v.append(xx);
+                    
+                    var labels = [];
+        			var values = [];
+    				for (k in [1,2,3]) {
+    					var s = Math.random();
+    					labels.push(k + '(' + parseInt(s) + ')');
+    					values.push(s);
+    				}
+    				
+    				var plot2 = $.jqplot(xu, 						
+                       [values], {
+                       seriesDefaults: {renderer: $.jqplot.BarRenderer},
+                       series:[
+                        {pointLabels:{
+                           show: true,
+                           labels:labels
+                         }}],
+                       axes: {
+                         xaxis:{renderer:$.jqplot.CategoryAxisRenderer},
+                         yaxis:{padMax:1.3}}
+                    });                    
                     
                 }
                 else {
@@ -669,6 +709,7 @@
                       <li><a href="#" id='ViewTime' data-toggle="tab" title="Time"><i class="icon-time"></i></a></li>
                       <li><a href="#" id='ViewSlides' data-toggle="tab" title="Slides"><i class="icon-play"></i></a></li>
                       <li><a href="#" id='ViewGraph' data-toggle="tab" title="Graph"><i class="icon-random"></i></a></li>
+                      <li><a href="#" id='ViewTrends' data-toggle="tab" title="Trends"><i class="icon-signal"></i></a></li>
                     </ul>
                 </span>
                 <span id="ViewOptions">

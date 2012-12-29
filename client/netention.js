@@ -52,7 +52,7 @@ function loadScripts(f) {
 //		                "/lib/superfish/js/superfish.js",
 //		                "/lib/superfish/js/supersubs.js",
 
-		                "/util.js", "./map.js", "./object.js"
+		                "/util.js", "./map.js", "./object.js",
                         
 /*		                "/self.js",
 		                "/team.js",
@@ -61,6 +61,11 @@ function loadScripts(f) {
 		                "/map.heatmap.js",
 		                "/environment.js",
 		                "/cortexit.js"	                */
+                        
+                        "/lib/jqplot/jquery.jqplot.min.js",
+                        "/lib/jqplot/plugins/jqplot.barRenderer.min.js",
+                        "/lib/jqplot/plugins/jqplot.categoryAxisRenderer.min.js",
+                        "/lib/jqplot/plugins/jqplot.pointLabels.min.js"
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -105,19 +110,33 @@ function netention(f) {
                 properties: { },
                 attention: { },
                 deleted: { },
-                focus: null,
-                
-                //public data object
-                myself: {
-                    uri: 'Self-' + uuid(),
-        	        name: 'Anonymous',
-    		        type: [ 'general.Human', 'general.User' ],
-    		        typeStrength: [ 1.0, 1.0 ],
-                    properties: [ ]
-                }
+                focus: null                
             },
             
-            myself: function() { return this.get('myself'); },
+            id : function() { return this.get('clientID'); },
+            
+            getObject : function(id) { return this.get('attention')[id]; }, 
+            
+            setObject : function(o) {
+                var i = o.uri;
+                this.get('attention')[i] = o;
+                return o;  
+            },
+            
+            myself: function() { 
+                var o = this.getObject('Self-' + this.id()); 
+                if (!o) {
+                    o = {
+                        uri: 'Self-' + this.id(),
+                        name: 'Anonymous',
+        		        type: [ 'general.Human', 'general.User' ],
+        		        typeStrength: [ 1.0, 1.0 ],
+                        properties: [ ]
+                    };
+                    this.setObject(o);
+                }
+                return o;
+            },
             
             connect: function() {
                 var socket = io.connect('/');
@@ -127,6 +146,11 @@ function netention(f) {
                 socket.on('setClientID', function (cid, key) {
                      that.set('clientID', cid);
                      that.set('authorized', key);
+                     that.saveLocal();
+                     $.pnotify({
+                        title: 'Connected',
+                        text: cid + ', ' + key + ', [name]'
+                     }); 
                 });
                 
                 /*socket.on('reconnect', function () {
@@ -151,6 +175,8 @@ function netention(f) {
             loadLocal: function() {
                 this.localStore = $.jStorage;		 	
                 	
+                this.set(this.localStore.get('self'));
+                
                     /*
                 attention = Self.get("attention");
                 if (attention == null)
