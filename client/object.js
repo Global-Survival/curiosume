@@ -118,8 +118,8 @@ function newObjectView(self, x, onRemoved, r) {
 	
 	if (x.geolocation) {
 		var dist = '?';
-		if (self.get('geolocation'))
-			dist = geoDist(x.geolocation, Self.get('geolocation'));
+		if (self.myself().geolocation)
+			dist = geoDist(x.geolocation, self.myself().geolocation);
 		
 		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}

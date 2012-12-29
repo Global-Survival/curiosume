@@ -535,8 +535,6 @@ exports.start = function(host, port, database, init) {
 	       socket.set('clientID', cid);
 	       socket.emit('setClientID', cid, key);
 	       
-		   //TODO share known clients
-		   
 		   //share server information
 	       socket.emit('setServer', Server.name, Server.description);
 	       

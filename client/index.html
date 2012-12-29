@@ -71,7 +71,7 @@
                 if (x.geolocation) {
                     $('#FocusMapSection').show();                    
                     $('#focusMap').html('');
-                    initLocationChooserMap('focusMap');
+                    initLocationChooserMap('focusMap', x.geolocation);
                 }
                 else {
                     $('#FocusMapSection').hide();
@@ -162,7 +162,11 @@
                 }
                 
             }
-            
+
+            function commitFocus(f) {
+                window.self.set('focus', f );
+                window.self.trigger('change:focus');                
+            }
 
             function updateTypes() {
                 //THIS CURRENTLY ASSUMES THAT ALL TYPE ID's ARE IN THE FOLLOWING FORMAT:
@@ -203,8 +207,7 @@
                             a.click(function() {
                                 var f = window.self.get('focus');
                                 if (!hasType(f, id)) {
-                                    window.self.set('focus', addType(f, id) );
-                                    window.self.trigger('change:focus');
+                                    commitFocus(addType(f, id));
                                 }
                             });
                             
@@ -251,8 +254,18 @@
                 $('#ToggleDescriptionButton').click(function() {
                     $('#FocusDescriptionSection').toggle();
                 });
-                $('#ToggleGeographicButton').click(function() {
-                    
+                $('#ToggleLocationButton').click(function() {
+                    var x = self.get('focus');
+                    if (x.geolocation) {
+                        if (confirm('Remove geolocation?')) {
+                            delete x.geolocation;
+                            commitFocus(x);
+                        }
+                    }  
+                    else {
+                        x.geolocation = [];
+                        commitFocus(x);
+                    }
                 });
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
@@ -290,7 +303,7 @@
                     var scope = window.self.get('list-scope') || 'Public';
                     
                     var now = Date.now();
-                    var location = window.self.get('geolocation');
+                    var location = window.self.myself().geolocation;
                     
                     var relevance = { };
                     for (var k in window.self.get('attention')) {
@@ -483,25 +496,25 @@
                           },
                           
                           new: function() {
-                                self.set('focus', { });
+                                commitFocus({ });
                                 //set relevancy filter to 'mine
                           },
                         
                           me: function() {
-                                self.set('focus', self.myself());
+                                commitFocus( self.myself() );
                                 //set relevancy filter to 'mine
                                 self.set('currentView', 'list');
                           },
                             
                           help: function() {
-                                self.set('focus', {
+                                commitFocus({
                                    uri: uuid(),
                                    type: [ 'help '], typeStrength: [ 1.0 ]
                                 });
                           },
                         
                           query: function(query) {
-                                self.set('focus', {
+                                commitFocus({
                                    uri: uuid(),
                                    name: query
                                 });
@@ -509,7 +522,7 @@
                           
                           object: function(id) {
                               var a = self.get('attention');
-                              self.set('focus', a[id]);
+                              commitFocus(a[id]);
                           }
                         
                         });
@@ -644,7 +657,7 @@
                         <a tabindex="-1" href="#">Options</a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Listen to all Channels</a></li>
-                            <li><a href="#">Listen to no Channels</a></li>
+                            <li><a href="#">Silence</a></li>
                         </ul>
                       </li>
                     <br/>

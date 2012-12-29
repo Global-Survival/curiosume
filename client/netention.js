@@ -105,6 +105,7 @@ function netention(f) {
 	loadScripts(function(data, textStatus) {
 		
         Self = Backbone.Model.extend({
+            
             defaults: {
                 types: { },
                 properties: { },
@@ -149,7 +150,7 @@ function netention(f) {
                      that.saveLocal();
                      $.pnotify({
                         title: 'Connected',
-                        text: cid + ', ' + key + ', [name]'
+                        text: cid + '@' + (key ? key : '?') + ', ' + that.myself().name
                      }); 
                 });
                 
@@ -176,24 +177,19 @@ function netention(f) {
                 this.localStore = $.jStorage;		 	
                 	
                 this.set(this.localStore.get('self'));
-                
-                    /*
-                attention = Self.get("attention");
-                if (attention == null)
-                	attention = { };
-                	
-                types = Self.get("types");
-                if (types == null)
-                	types = { };    	*/
-            
-            
+                            
             	console.log('Self loaded');
+                /*$.pnotify({
+                    title: 'Loaded.',
+                    text: JSON.stringify(this.myself(), null, 4)
+                });*/
             },
             
             saveLocal: function() {
                 this.localStore.set("self", this.attributes);
-                //this.localStore.set('types', this.types);
-                //this.localStore.set('self', getSelf());
+                $.pnotify({
+                    title: 'Saved.'
+                });              
             },
             
             addType: function(t) {
@@ -211,6 +207,18 @@ function netention(f) {
                 
                 //this.set('types', t);
                 //this.set('properties', p);
+            },
+            
+            geolocate : function(ex) {
+                this.myself().geolocation = ex;
+                $.pnotify({
+                    title: 'Geolocated.',
+                    text: this.myself().geolocation
+                });              
+                
+                this.saveLocal();
+                this.pub(this.myself());
+    
             },
             
             addTypes: function(at) {
