@@ -117,6 +117,7 @@ function netention(f) {
             id : function() { return this.get('clientID'); },
             
             getObject : function(id) { return this.get('attention')[id]; }, 
+            getSelf : function(clientID) { return this.get('attention')['Self-' + clientID]; }, 
             
             setObject : function(o) {
                 var i = o.uri;
@@ -124,8 +125,10 @@ function netention(f) {
                 return o;  
             },
             
+            focus : function() { return this.get('focus'); },
+            
             myself: function() { 
-                var o = this.getObject('Self-' + this.id()); 
+                var o = this.getSelf(this.id()); 
                 if (!o) {
                     o = {
                         uri: 'Self-' + this.id(),
@@ -187,9 +190,9 @@ function netention(f) {
             
             saveLocal: function() {
                 this.localStore.set("self", this.attributes);
-                $.pnotify({
+                /*$.pnotify({
                     title: 'Saved.'
-                });              
+                }); */
             },
             
             addType: function(t) {

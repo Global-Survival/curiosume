@@ -12,6 +12,25 @@ function hasType(o, t) {
 	return false;
 }
 
+function getTypeMatch(x,y) {
+    if (!x.type)
+		return 0;
+    if (!y.type)
+        return 0;
+
+    var xt = x.type;
+    var yt = y.type;
+
+    var match = 0;
+    for (var i = 0; i < xt.length; i++) {
+        if (_.indexOf(yt, xt[i])!=-1) {
+            match++;
+        }
+    }
+    return match;
+    
+}
+
 function getProperties(t) {
     //TODO add 'extends' supertype inheritance
     if (t.properties)
@@ -41,6 +60,25 @@ function removeType(x, index) {
     return x;
 }
 
+function getProperty(object, propertyID, defaultValue) {
+    if (object.values) {
+		for (var k = 0; k < object.values.length; k++) {
+			if (object.values[k].uri == propertyID)
+				return object.values[k].value;
+		}
+	}
+	return defaultValue;
+}
+
+
+function getAvatar(s) {
+    var emailHash = getProperty(s, 'email', 'unknown@unknown.com');
+    emailHash = MD5(emailHash);
+	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
+}
+
+function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
+
 function newObjectView(self, x, onRemoved, r) {
 	
 	var fs = (1.0 + r/2.0)*100.0 + '%';
@@ -49,12 +87,12 @@ function newObjectView(self, x, onRemoved, r) {
 	var xn = x.name;
 	var authorID = x.author;
 	
-	/*if (!isSelfObject(x.uri))*/ { //exclude Self- objects
+	if (!isSelfObject(x.uri)) { //exclude Self- objects
 		if (x.author) {
 			var a = x.author;
-			var as = /*getSelf*/(x.author);
-			//if (as)
-			//	a = as.name;
+			var as = self.getSelf(x.author);
+			if (as)
+				a = as.name;
 			xn = a + ': ' + xn;
 		}
 	}
@@ -81,17 +119,17 @@ function newObjectView(self, x, onRemoved, r) {
     })();
     hb.hide();
 
-    /*
-	var authorClient = getSelf(authorID);
+    
+	var authorClient = self.getSelf(authorID);
 	if (authorClient) {
 		if (authorID) {
-			var av = getAvatar(authorID).attr('align', 'left');
+			var av = getAvatar(authorClient).attr('align', 'left');
 			
 			d.append(av);
 			av.wrap('<div class="AvatarIcon"/>');
 		}
 	}
-    */
+    
 
 	if (x.name) {
 		d.append('<h1>' + xn + '</h1>');
@@ -219,11 +257,5 @@ function withObject(uri, success, failure) {
 			}
 		}
 	});
-}
-
-function getAvatar(authorID) {
-    var emailHash = getProperty(getSelf(authorID), 'email', 'unknown@unknown.com');
-	emailHash = MD5(emailHash);
-	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 

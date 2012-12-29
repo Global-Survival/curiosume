@@ -65,6 +65,7 @@
                 $('#FocusTypes').html('');
                 $('#FocusName').val(x.name);
                 
+                
                 if (x.text) {
                     $('#FocusDescription').val(x.text);
                     $('#FocusDescriptionSection').show();
@@ -72,7 +73,6 @@
                 else {
                     $('#FocusDescriptionSection').hide();
                 }
-                
                 
                 
                 if (x.geolocation) {
@@ -85,7 +85,6 @@
                     $('#focusMap').html('');
                     focusMap = null;
                 }
-                
                 
                 
                 if (x.type.length == 0) {
@@ -241,6 +240,7 @@
                 
                 self.on('change:focus', function() {
                     updateFocus();
+                    updateView();
                 }); 
             
                 self.on('change:currentView', function() {
@@ -296,7 +296,9 @@
             }
             
             function updateView() {
-                var view = window.self.get('currentView');
+                var s = window.self;
+
+                var view = s.get('currentView');
 
                 var o = $('#ViewOptions');
                 var v = $('#View');
@@ -307,24 +309,24 @@
                 if (view === 'list') {
                     $('#myTab a:first').tab('show');     
                     
-                    var sort = window.self.get('list-sort') || 'Recent';
-                    var scope = window.self.get('list-scope') || 'Public';
+                    var sort = s.get('list-sort') || 'Recent';
+                    var scope = s.get('list-scope') || 'Public';
                     
                     var now = Date.now();
-                    var location = window.self.myself().geolocation;
+                    var location = s.myself().geolocation;
                     
                     var relevance = { };
-                    for (var k in window.self.get('attention')) {
+                    for (var k in s.get('attention')) {
                         
-                        var x = window.self.get('attention')[k];
+                        var x = s.getObject(k);
                         
                         //scope prefilter
                         if (scope == 'Mine') {
-                            if (x.author != window.self.get('clientID'))
+                            if (x.author != s.id())
                                 continue;
                         }
                         else if (scope == 'Others') {
-                            if (x.author == window.self.get('clientID'))
+                            if (x.author == s.id())
                                 continue;                            
                         }
                         
@@ -346,6 +348,10 @@
                             }
                             //...
                         }
+                        else if (sort == 'Relevant') { 
+                            var m = getTypeMatch(s.focus(), x);
+                            r *= m;
+                        }
                         
                         
                         relevance[k] = r;
@@ -357,9 +363,9 @@
             		});
                     
                     for (var x = 0; x < relevant.length; x++) {
-                        var xx = window.self.get('attention')[relevant[x]];                        
+                        var xx = s.get('attention')[relevant[x]];                        
                         var rr =  relevance[relevant[x]];
-                        v.append(newObjectView( window.self, xx , function() { }, rr ));                     
+                        v.append(newObjectView( s, xx , function() { }, rr ));                     
                     }
                     
                     
@@ -367,7 +373,7 @@
                 	dataViewSort = 'By Relevance';
                 	sortSelect.change(function() {
                 		var v = $(this).val();
-                        window.self.set('list-sort', v);
+                        s.set('list-sort', v);
                 		updateView();
                 	});
                     sortSelect.val(sort);
@@ -390,7 +396,7 @@
                 	var authorFilter = $('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
                 	authorFilter.change(function() {
                     	var v = $(this).val();
-                        window.self.set('list-scope', v);
+                        s.set('list-scope', v);
                 		updateView();
                 	});
                     authorFilter.val(scope);
@@ -409,7 +415,7 @@
                 else if (view === 'trends') {
                     
                     //total objects
-                    v.append('Known objects: ' + _.size(window.self.get('attention')));
+                    v.append('Known objects: ' + _.size(s.get('attention')));
                     
                     v.append('<br/><br/>');
                     
@@ -459,7 +465,7 @@
                 var y = getEditedFocus();
                 var oldURI = y.uri;
                 y.uri = uuid();
-                window.self.set('focus', y);
+                commitFocus(y);
                 $.pnotify({
                     title: 'Cloning...',
                     text: oldURI + ' -> ' + y.uri
