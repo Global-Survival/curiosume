@@ -147,6 +147,10 @@ function initLocationChooserMap(target, location) {
         });
     }
 
+    m.location = function() {
+        return unproject(m.getCenter());  
+    };
+    
     return m;
 }
 

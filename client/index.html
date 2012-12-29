@@ -35,8 +35,15 @@
                     x.values.push( { uri: px.data('property'), value: px.data('value')() } );
                 }
                 
+                if (focusMap) {
+                    var r = focusMap.location();    
+                    x.geolocation = [ r.lat, r.lon ];
+                }
+                
                 return x;
             }
+            
+            var focusMap;
             
             function setFocus(x) {
                 if (!x) {
@@ -71,11 +78,12 @@
                 if (x.geolocation) {
                     $('#FocusMapSection').show();                    
                     $('#focusMap').html('');
-                    initLocationChooserMap('focusMap', x.geolocation);
+                    focusMap = initLocationChooserMap('focusMap', x.geolocation);
                 }
                 else {
                     $('#FocusMapSection').hide();
                     $('#focusMap').html('');
+                    focusMap = null;
                 }
                 
                 
