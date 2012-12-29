@@ -65,7 +65,7 @@ exports.start = function(host, port, database, init) {
 	
 	var file = new(nodestatic.Server)('./client');
 	
-	var databaseUrl = process.env['MongoURL'] || Server.database; //"mydb"; // "username:password@example.com/mydb"
+	var databaseUrl = Server.database || process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 	var collections = [ "obj" ];
 	
 	 

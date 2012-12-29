@@ -31,7 +31,7 @@ function loadScripts(f) {
 		
 	var scripts = [     "/socket.io/socket.io.js", 
 //		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
-		                "http://www.openlayers.org/api/OpenLayers.js",
+		                "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.11/OpenLayers.js",
                         
 //		                "http://code.jquery.com/ui/jquery-ui-git.js",
 //		                "/lib/jquery-tmpl/jquery.tmpl.js",

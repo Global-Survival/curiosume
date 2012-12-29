@@ -1,5 +1,7 @@
+var ASTRONOMICAL_DISTANCE = 99999999.0; //in km
+
 function setGeolocatedLocation(map, onUpdated) {
-    geolocate = new OpenLayers.Control.Geolocate({
+    var geolocate = new OpenLayers.Control.Geolocate({
         bind: false,
         geolocationOptions: {
             enableHighAccuracy: false,

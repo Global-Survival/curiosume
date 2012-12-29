@@ -19,6 +19,7 @@
                 
                 if (!x.author)
                     x.author = window.self.get('clientID');
+                x.when = Date.now();
                 
                 x.name = $('#FocusName').val();
                 //x.description
@@ -117,7 +118,7 @@
                         }
                         
                         if (propertiesAdded)
-                            u.append('<hr/>');
+                            u.append('<br/>');
                         
                         
                         (function() {
@@ -284,10 +285,15 @@
                     var sort = window.self.get('list-sort') || 'By Relevance';
                     var scope = window.self.get('list-scope') || 'Public';
                     
+                    var now = Date.now();
+                    var location = window.self.get('geolocation');
+                    
                     var relevance = { };
                     for (var k in window.self.get('attention')) {
                         
                         var x = window.self.get('attention')[k];
+                        
+                        //scope prefilter
                         if (scope == 'Mine') {
                             if (x.author != window.self.get('clientID'))
                                 continue;
@@ -297,12 +303,32 @@
                                 continue;                            
                         }
                         
-                        relevance[k] = 1.0;
+                        //sort
+                        var r = 1.0;                        
+                        if (sort == 'By Age') {
+                            if (!x.when)
+                                continue;
+                            var ageSeconds = (now - x.when) / 1000.0;
+                            r = Math.exp(-ageSeconds/1000.0);
+                        }
+                        else if (sort == 'By Proximity') {
+                            
+                            if (!location) {
+                                continue;
+                            }
+                            if (!x.geolocation) {
+                                continue;
+                            }
+                            //...
+                        }
+                        
+                        
+                        relevance[k] = r;
                     }
                     
                     var relevant = _.keys(relevance);
             		relevant.sort(function(a, b) {
-                	    return relevance[a] - relevance[b];
+                	    return relevance[b] - relevance[a];
             		});
                     
                     for (var x = 0; x < relevant.length; x++) {
@@ -312,7 +338,7 @@
                     }
                     
                     
-                    var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Proximity</option><option>By Author</option></select>');
+                    var sortSelect = $('<select><option>By Relevance</option><option>By Age</option><option>By Proximity</option></select>'); //<option>By Author</option>
                 	dataViewSort = 'By Relevance';
                 	sortSelect.change(function() {
                 		var v = $(this).val();
@@ -550,6 +576,9 @@
             #ViewOptions select {
                 width: auto;
             }
+            .PropertyRemoveButton {
+                float: right;
+            }
             
             
 	    </style>    
@@ -565,10 +594,12 @@
                   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                     <li><a href="/#/new">New</a></li>
+                    <br/>
                     <li><a href="/#/me">Me</a></li>
                     <li><a href="/#/team">Team</a></li>
                     <li><a href="/#/trends">Trends</a></li>
                     <li><a href="/#/types">Types</a></li>
+                    <li><a href="/#/plugins">Plugins</a></li>
                     <li class="dropdown-submenu">
                         <a tabindex="-1" href="#">Options</a>
                         <ul class="dropdown-menu">
@@ -576,9 +607,10 @@
                             <li><a href="#">Listen to no Channels</a></li>
                         </ul>
                       </li>
-                    <hr/>
+                    <br/>
                     <li><a href="/login.html">Login</a></li>
-                    <hr/>
+                    <li><a href="/logout">Logout</a></li>
+                    <br/>
                     <li><a href="/#/help">Help</a></li>
                   </ul>
                   <!-- <a class="btn" href="#">Location</a> -->
@@ -612,6 +644,7 @@
                     <div class="btn-group">
                         <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
                         <button id="ToggleLocationButton"><i class="icon-globe"></i></button>
+                        <button id="AttachFileButton"><i class="icon-file"></i></button>                
                         <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>

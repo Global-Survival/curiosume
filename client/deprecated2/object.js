@@ -702,11 +702,10 @@ function newPropertyEdit(typeID, propertyID, value) {
 	var x = $('<div>').addClass('PropertyEdit');
 	x.append(propertyID + ':');
 	
-	var removeButton = $('<button>X</button>');
+	var removeButton = $('<button class="PropertyRemoveButton">X</button>');
 	removeButton.click(function() {
 		x.remove();
 	});
-	x.append(removeButton);
 	
 	x.data('property', propertyID);
 	x.data('type', typeID);
@@ -744,6 +743,8 @@ function newPropertyEdit(typeID, propertyID, value) {
 			return t.val();			
 		});
 	}
+    
+    x.append(removeButton);
 	
 	
 	return x;

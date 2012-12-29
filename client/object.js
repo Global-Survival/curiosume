@@ -155,12 +155,15 @@ function newPropertyEdit(p, v) {
 	var x = $('<div>').addClass('FocusSection');
 	x.append(propertyID + ':');
 	
-	var removeButton = $('<button>X</button>');
+	var removeButton = $('<button class="PropertyRemoveButton"><i class="icon-remove"></i></button>');
 	removeButton.click(function() {
 		x.remove();
 	});
-	x.append(removeButton);
-	
+	(function() {
+        x.hover(function(){ removeButton.fadeIn(200);}, function() { removeButton.fadeOut(200);});	    
+    })();
+    removeButton.hide();
+    
 	x.data('property', propertyID);
 	
 	if (type == 'textarea') {
@@ -197,6 +200,7 @@ function newPropertyEdit(p, v) {
 		});
 	}
 	
+    x.append(removeButton);
 	
 	return x;
 }
