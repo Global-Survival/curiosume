@@ -467,6 +467,8 @@ exports.start = function(host, port, database, init) {
 			}
 			
 		}
+        
+        io.sockets.in('*').emit('notice', message);
 	}
 	
 	function pub(message) {
@@ -483,6 +485,7 @@ exports.start = function(host, port, database, init) {
 	
 			}
 		}
+        
 	}
 	
 	function isAuthenticated(session) {

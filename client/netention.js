@@ -238,6 +238,17 @@ function netention(f) {
             	});
             },
             
+            listenAll : function(b) {
+                if (b) {
+                    this.subscribe('*', function(f) {
+                        this.notice(f);
+                    });
+                }
+                else {
+                    this.unsubscribe('*');
+                }    
+            },
+            
             notice: function(x) {
                 
             	if (!Array.isArray(x)) {
