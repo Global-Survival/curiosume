@@ -355,6 +355,7 @@ function netention(f) {
                 this.socket.emit('pub', message);
             },
             
+            //THIS NEEDS UPDATED
             getClientInterests: function(f) {
             	this.socket.emit('getClientInterests', f);
             },

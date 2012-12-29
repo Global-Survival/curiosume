@@ -13,11 +13,14 @@ var http = require('http')
   , server;
 var mongo = require("mongojs");
 
-function plugin(v) {
+function plugin(netention, v) {
 	var p = require('../plugin/' + v).plugin;
 	if (p) {
 		if (p.name) {
 			console.log('Loaded plugin: ' + p.name);
+                        
+            p.start(netention);
+            
 			return;
 		}
 	}
@@ -133,6 +136,7 @@ exports.start = function(host, port, database, init) {
 		});
 	
 	}
+    that.notice = notice;
 	
 	function getObjectSnapshot(uri, whenFinished) {
 		if (types[uri]!=undefined) {
@@ -538,7 +542,7 @@ exports.start = function(host, port, database, init) {
 		   //share server information
 	       socket.emit('setServer', Server.name, Server.description);
 	       
-	       //share ontology
+	       //share types
 	       socket.emit('addTypes', types);
 	    });
 	    
@@ -702,7 +706,7 @@ exports.start = function(host, port, database, init) {
 			file = file + '/netention.js';
 		}
 			
-		plugin(file);
+		plugin(that, file);
 	});
 	
 	init();
@@ -710,3 +714,4 @@ exports.start = function(host, port, database, init) {
 	return that;
 		
 };
+

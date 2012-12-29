@@ -116,7 +116,7 @@
                                 var pri = p;
                                 var a = $('<a href="#">' + pr[p].name + '</a>');
                                 a.click(function() { 
-                                    var f = window.self.get('focus');
+                                    var f = getEditedFocus();
                                     if (acceptsAnotherProperty(f, pri)) {
                                         window.self.set('focus', addProperty(f, pri) );
                                         window.self.trigger('change:focus');
@@ -221,7 +221,7 @@
                             var label = id.split('.')[1];
                             var a = $('<a href="#">' +  label + '</a>');
                             a.click(function() {
-                                var f = window.self.get('focus');
+                                var f = getEditedFocus();
                                 if (!hasType(f, id)) {
                                     commitFocus(addType(f, id));
                                 }
@@ -311,8 +311,8 @@
                 });
                 
                 
-                updateFocus();
                 updateTypes();
+                updateFocus();
                 
             }
             
@@ -371,7 +371,9 @@
                             if (!x.geolocation) {
                                 continue;
                             }
-                            //...
+                            
+                            var distance = geoDist(location, x.geolocation);
+                            r = Math.exp(-distance/10000.0);
                         }
                         else if (sort == 'Relevant') { 
                             var m = getTypeMatch(s.focus(), x);
@@ -512,8 +514,7 @@
             
             $(document).ready(function(){
             
-			    netention(function(self) 
-                {
+			    netention(function(self) {
                     window.self = self;        
                     self.set('focus', { });
                     self.set('currentView', 'list');
@@ -530,7 +531,7 @@
                             "me":                   "me",    // #help
                             "help":                 "help",    // #help
                             "query/:query":         "query",  // #search/kiwis
-                            "object/:id":      "object"
+                            "object/:id":           "object"
                             //"search/:query/:page":  "query"   // #search/kiwis/p7
                           },
                           
@@ -696,7 +697,7 @@
                     <li><a href="/#/team">Team</a></li>
                     <li><a href="/#/trends">Trends</a></li>
                     <li><a href="/#/types">Types</a></li>
-                    <li><a href="/#/plugins">Plugins</a></li>
+                    <li><a href="/plugins.html">Plugins</a></li>
                     <li class="dropdown-submenu">
                         <a tabindex="-1" href="#">Options</a>
                         <ul class="dropdown-menu">
@@ -787,6 +788,7 @@
             </div>
          
 	    </div>
+
 
     </body>
 </html>
