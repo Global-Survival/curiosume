@@ -49,11 +49,16 @@ function acceptsAnotherProperty(x, p) {
     return true;
 }
 
-function addType(x, t) {
+function addType(x, t, value) {
     x.type.push(t);
-    x.typeStrength.push(t);
+    
+    if (!value)
+        value = 1.0;
+        
+    x.typeStrength.push(value);
     return x;
 }
+
 function removeType(x, index) {
     x.type.splice(index, 1);    
     x.typeStrength.splice(index, 1);    
