@@ -15,7 +15,11 @@ var generalTypes = [
                      */
 		},
 	},
-	{ uri: 'general.Event', name: 'Event'}, //params: start, end, due by, rsvp by 
+	{ uri: 'general.Event', name: 'Event', properties: {
+    	             'startsAt': { name: 'Starts At', type: 'text' /*datetime*/ },
+                     'stopsAt': { name: 'Stops At', type: 'text' /*datetime*/ }
+        
+	}}, //params: start, end, due by, rsvp by 
 	{ uri: 'general.Geometry', name: 'Geometry',
 		properties: {
 		             'length': { name: 'Length (m)', type: 'real' },		            

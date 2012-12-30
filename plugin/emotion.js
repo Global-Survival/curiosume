@@ -1,4 +1,4 @@
-var sensor = require('./sensor.js');
+//var sensor = require('./sensor.js');
 
 var emotionTypes = [
 	{ uri: 'emotion.happy', name: 'Happy' },
@@ -26,12 +26,27 @@ var emotionTypes = [
 
 	The situation may in fact be negative – but your thinking may be worsening it.
 	*/	
+    { uri: 'emotion.sad', name: 'Sad', properties: {
+        'undulyExtremeMeaning': { name: 'Is the meaning I’m assigning to this event unduly extreme?', type: 'textarea' },
+        'harshConclusions': { name: 'Am I exaggerating a simple event to derive harsh conclusions from it?', type: 'textarea' }
+        //...
+	}},
+    
 	{ uri: 'emotion.afraid', name: 'Afraid'},
-	{ uri: 'emotion.sad', name: 'Sad'},
 	{ uri: 'emotion.angry', name: 'Angry'},
 	{ uri: 'emotion.disgusted', name: 'Disgusted'}
 	
 ];
 
-
-sensor.addTypes(emotionTypes);
+exports.plugin = {
+        name: 'Emotions',	
+		description: 'Plutchik\'s 8 Primary Emotions',
+		options: { },
+		start: function(netention) { 
+            
+            netention.addTypes(emotionTypes);
+            
+        },
+		stop: function(netention) {
+		}
+};

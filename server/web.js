@@ -16,8 +16,8 @@ var mongo = require("mongojs");
 
 exports.start = function(host, port, database, init) {
 
-
 	console.log('Starting');
+    
 	var Server = { 
 		name: 'Netention',
 		description: 'http://netention.org',
@@ -62,9 +62,12 @@ exports.start = function(host, port, database, init) {
 	
     function plugin(netention, v) {
         var p = require('../plugin/' + v).plugin;
+        v = v.split('.js')[0];
+        v = v.split('/netention')[0];
         if (p) {
     		if (p.name) {
-    			console.log('Loaded plugin: ' + p.name);
+                
+                var enabled = false;
     
                 plugins[v] = p;
                 if (!Server.plugins[v]) {
@@ -80,8 +83,15 @@ exports.start = function(host, port, database, init) {
                 
                 if (Server.plugins[v].enabled) {
                     p.start(netention);                
+                    enabled = true;
                 }
                 
+                if (enabled) {
+            	    nlog('Started plugin: ' + p.name);                    
+                }
+                else {
+        		    nlog('Loaded inactive plugin: ' + p.name);
+                }
                 
     			return;
     		}
@@ -97,7 +107,7 @@ exports.start = function(host, port, database, init) {
     	console.log('Loaded invalid plugin: ' + v);
     }
 	 
-	function loadState() {
+	function loadState(f) {
 		var db = mongo.connect(databaseUrl, collections);
 		
 		db.obj.find({ type: 'ServerState' }).limit(1).sort({time:-1}, function(err, objs) {
@@ -107,14 +117,28 @@ exports.start = function(host, port, database, init) {
 				  nlog('Resuming from ' + (now - x.time)/1000.0 + ' seconds downtime');
 				  Server.interestTime = x.interestTime;
 				  Server.clientState = x.clientState;
+                  
+                  if (x.plugins) {
+                      for (var pl in x.plugins) {
+                          if (!Server.plugins[pl])
+                            Server.plugins[pl] = { };
+                          if (x.plugins[pl].enabled)
+                            Server.plugins[pl].enabled = x.plugins[pl].enabled;    
+                      }                  
+                  }
+                  
 				  /* logMemory = util.createRingBuffer(256);
 				  logMemory.buffer = x.logMemoryBuffer;
 				  logMemory.pointer = x.logMemoryPointer;*/
 				  
-				  nlog("State loaded");
-				  nlog(Server);
+				  //nlog("State loaded");
+				  //nlog(Server);
 				  
 			  } );
+              
+              if (f) 
+                f();
+                
 			  db.close();
 		});
 		
@@ -141,6 +165,7 @@ exports.start = function(host, port, database, init) {
 			}
 		});    
 	}
+    that.deleteObject = deleteObject;
 			
 	function notice(o) {
 		if (!o.uri)
@@ -162,6 +187,16 @@ exports.start = function(host, port, database, init) {
 	
 	}
     that.notice = notice;
+    
+    function addTypes(at) {
+        for (var i = 0; i < at.length; i++) {
+    		var a = at[i];
+    		types[at[i].uri] = a;
+    	}        
+        
+        //TODO broadcast change in types?
+    }
+    that.addTypes = addTypes;
 	
 	function getObjectSnapshot(uri, whenFinished) {
 		if (types[uri]!=undefined) {
@@ -240,7 +275,6 @@ exports.start = function(host, port, database, init) {
 	
 	function saveState(onSaved, onError) {
 		var t = Date.now()
-		console.log(Server);
 		
 		/*
 		logMemoryBuffer = logMemory.buffer;
@@ -248,23 +282,30 @@ exports.start = function(host, port, database, init) {
 		
 		delete Server._id;
 		Server.type = 'ServerState';
-		Server.time = t;
+		Server.time = t;            
 	
+
 		var db = mongo.connect(databaseUrl, collections);
 		
 		db.obj.save(Server, function(err, saved) {
 			  
-			  if( err || !saved ) 
-				  onError(err);
-			  else
+			  if( err || !saved ) {
+    		      if (onError)			  
+				    onError(err);
+			  }
+			  else {
+    		    if (onSaved)   			  
 				  onSaved();
+			  }
 			  
 			  db.close();
 		});
 		
 	}
 	
-	loadState();
+	loadState(function() {
+        loadPlugins();   
+	});
 	
 	//process.stdin.on('keypress', function(char, key) {
 	//	  if (key && key.ctrl && key.name == 'c') {
@@ -574,6 +615,12 @@ exports.start = function(host, port, database, init) {
                             pm.stop(that);
                             nlog('Plugin ' +  pid + ' disabled');
                         }
+                        saveState(function() {
+                            //nlog('saved state');                            
+                        }, function(err) {
+                            nlog('error saving state on plugin activation');
+                            nlog(err);
+                        });
                         callback();
                         return;
                     }
@@ -762,13 +809,15 @@ exports.start = function(host, port, database, init) {
 	
 	nlog('Ready');
 	
-	fs.readdirSync("./plugin").forEach(function(file) {
-		if (file.indexOf('.js')==-1) {//avoid directories
-			file = file + '/netention.js';
-		}
-			
-		plugin(that, file);
-	});
+    function loadPlugins() {
+    	fs.readdirSync("./plugin").forEach(function(file) {
+    		if (file.indexOf('.js')==-1) {//avoid directories
+    			file = file + '/netention.js';
+    		}
+    			
+    		plugin(that, file);
+    	});
+    }
 	
 	init();
 	

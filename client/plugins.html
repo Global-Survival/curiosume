@@ -18,10 +18,13 @@
                         var pu = pl[k];
                         var pd = $('<div class="PluginID"></div>');
                         pd.append('<h3>' + k + '</h3>' + (pu.description ? (pu.description) : ""));
+                        pd.append('<br/>');
                         
                         if (pu.valid) {
                             pd.append('<br/>');
                             if (pu.enabled) {
+                                pd.addClass('PluginEnabled');
+                                
                                 var b = $('<button>Disable</button>');
                                 b.click(function() {
                                    self.setPlugin(pu.id, false, function(err) {
@@ -35,10 +38,12 @@
                                         }
                                    }); 
                                 });
-                                pd.append('Currently enabled.');
+                                pd.append('Currently enabled. ');
                                 pd.append(b);
                             }
                             else {
+                                pd.addClass('PluginDisabled');
+                                
                                 var b = $('<button>Enable</button>');
                                 b.click(function() {
                                    self.setPlugin(pu.id, true, function(err) {
@@ -52,9 +57,12 @@
                                         }
                                    }); 
                                 });
-                                pd.append('Currently disabled.');
+                                pd.append('Currently disabled. ');
                                 pd.append(b);                            
                             }
+                        }
+                        else {
+                            pd.addClass('PluginInvalid');
                         }
     //                    var ps = $('<div class="PluginSettings"></div>');
     //                    if (pu.valid) {
@@ -93,10 +101,10 @@
                 text-align: right;
             }
             .PluginID {
-                width: 25%;
+                width: 50%;
+                left: auto;
                 float: left;
                 clear: both;
-                border-bottom: 1px solid gray;
             }
             .PluginSettings {
                 width: 50%;
@@ -105,6 +113,15 @@
             #Bottom {
                 clear: both;
                 text-align: right;
+            }
+            .PluginEnabled {
+                background-color: rgba(128,255,128,0.2);
+            }
+            .PluginDisabled {
+                background-color: rgba(255,128,128,0.2);
+            }
+            .PluginInvalid {
+                color: gray;
             }
         </style>
     </head>

@@ -1,5 +1,6 @@
 /*
 Sensor plugin
+DEPRECATED
 */
 var util = require('../client/util.js');
 

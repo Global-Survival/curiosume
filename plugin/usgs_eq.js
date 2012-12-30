@@ -8,6 +8,9 @@ exports.plugin = {
     	name: 'USGS Earthquakes',	
 		description: 'United States Geographical Survey Earthquakes Data (> Magnitude 5, last 7 days)',
 		options: { },
+        version: '1.0',
+        author: 'http://netention.org',
+        
 		start: function(netention) { 
             
             //TODO add type
@@ -24,6 +27,7 @@ exports.plugin = {
 	        });
             
         },
+        
 		stop: function(netention) {
 		}
 };
