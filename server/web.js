@@ -78,7 +78,6 @@ exports.start = function(host, port, database, init) {
                     };
                 }
                 
-                Server.plugins[v].id = v;
                 Server.plugins[v].name = p.name;
                 Server.plugins[v].description = p.description;
                 
@@ -98,7 +97,6 @@ exports.start = function(host, port, database, init) {
     		}
     	}
         Server.plugins[v] = { };
-        Server.plugins[v].id = v;
         Server.plugins[v].name = v;
         Server.plugins[v].valid = false;
         

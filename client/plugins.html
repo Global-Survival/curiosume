@@ -13,11 +13,11 @@
                 
                 var p = $('#PluginList');
                 p.html('');
-                for (var k in pl) {
+                for (var kk in pl) {
                     (function() {
+                        var k = kk;
                         var pu = pl[k];
                         
-                        console.dir(pu);
                         
                         var pd = $('<div class="PluginID"></div>');
                         pd.append('<h3>' + k + '</h3>' + (pu.description ? (pu.description) : ""));
@@ -31,7 +31,7 @@
                                 
                                 var b = $('<button>Disable</button>');
                                 b.click(function() {
-                                   self.setPlugin(pu.id, false, function(err) {
+                                   self.setPlugin(k, false, function(err) {
                                         if (!err)  {
                                             self.getPlugins();
                                             //notify
@@ -52,7 +52,7 @@
                                 
                                 var b = $('<button>Enable</button>');
                                 b.click(function() {
-                                   self.setPlugin(pu.id, true, function(err) {
+                                   self.setPlugin(k, true, function(err) {
                                         if (!err)  {
                                             self.getPlugins();
                                             //notify
