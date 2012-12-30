@@ -45,7 +45,7 @@
             
             var focusMap;
             
-            function setFocus(x) {
+            function setFocusUnthrottled(x) {
                 if (!x) {
                     x = { };
                 }
@@ -250,12 +250,13 @@
                 $('#FocusDescription').wysihtml5();                                           
             }
             
-            var updateView;
+            var updateView, setFocus;
             
             function initUI(self) {
                 $('body').timeago();
                 
                 updateView = _.throttle(updateViewUnthrottled, 750);
+                setFocus = _.throttle(setFocusUnthrottled, 750);
 
                 self.on('change:attention', function() {
                     updateView();
@@ -457,6 +458,7 @@
                     
                     var sort = s.get('list-sort') || 'Recent';
                     var scope = s.get('list-scope') || 'Public';
+                    var semantic = s.get('list-semantic') || 'Any';
                     
                     var now = Date.now();
                     var location = s.myself().geolocation;
@@ -496,13 +498,15 @@
                             var distance = geoDist(location, x.geolocation);
                             r = Math.exp(-distance/10000.0);
                         }
-                        else if (sort == 'Relevant') { 
+                        
+                        if (semantic == 'Relevant') { 
                             var m = getTypeMatch(s.focus(), x);
                             r *= m;
                         }
                         
-                        
-                        relevance[k] = r;
+                        if (r > 0) {                                    
+                            relevance[k] = r;
+                        }
                     }
                     
                     var relevant = _.keys(relevance);
@@ -525,8 +529,16 @@
                         v.append(newObjectView( s, xx , function() { }, rr ));                     
                     }
                     
+                    var semanticFilter = $('<select><option>Any</option><option>Relevant</option></select>');
+                	semanticFilter.change(function() {
+                    	var v = $(this).val();
+                        s.set('list-semantic', v);
+                		updateView();
+                	});
+                    semanticFilter.val(semantic);
+                	o.append(semanticFilter);
                     
-                    var sortSelect = $('<select><option>Relevant</option><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
+                    var sortSelect = $('<select><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
                 	dataViewSort = 'By Relevance';
                 	sortSelect.change(function() {
                 		var v = $(this).val();
@@ -572,24 +584,40 @@
                 }
                 else if (view === 'trends') {
                     
+                    var aa = s.get('attention');
+                    
                     //total objects
-                    v.append('Known objects: ' + _.size(s.get('attention')));
+                    v.append('Known objects: ' + _.size(aa));
                     
                     v.append('<br/><br/>');
                     
                     //tag distribution (bar chart)
-                    v.append('Tag Distribution: (random numbers for now)<br/>');
+                    v.append('Tag Distribution: log(tag count)<br/>');
                     
                     var xu = uuid();
                     var xx = $('<div></div>').attr('id', xu);
                     v.append(xx);
                     
+                    var typeCount = { };
+                    
+                    for (var ai in aa) {
+                        var t = aa[ai].type;
+                        if (!t)                 continue;
+                        if (!Array.isArray(t))  continue;
+                        
+                        for (var i = 0; i < t.length; i++) {
+                            var tt = t[i];
+                            if (!typeCount[tt])
+                                typeCount[tt] = 0;
+                            typeCount[tt] = typeCount[tt] + 1.0; //TODO add the normalized type strength
+                        }
+                    }
+                    
                     var labels = [];
         			var values = [];
-    				for (k in [1,2,3]) {
-    					var s = Math.random();
-    					labels.push(k + '(' + parseInt(s) + ')');
-    					values.push(s);
+    				for (k in typeCount) {
+    					labels.push(k + '(' + typeCount[k] + ')');
+    					values.push(Math.log(typeCount[k]));
     				}
     				
     				var plot2 = $.jqplot(xu, 						
@@ -663,7 +691,8 @@
                             "me":                   "me",    // #help
                             "help":                 "help",    // #help
                             "query/:query":         "query",  // #search/kiwis
-                            "object/:id":           "object"
+                            "object/:id":           "object",
+                            "tag/:tag":             "tag",
                             //"search/:query/:page":  "query"   // #search/kiwis/p7
                           },
                           
@@ -676,14 +705,19 @@
                         
                           me: function() {
                                 commitFocus( self.myself() );
-                                //set relevancy filter to 'mine
-                                self.set('currentView', 'list');
                           },
                             
                           help: function() {
                                 commitFocus({
                                    uri: uuid(),
                                    type: [ 'help '], typeStrength: [ 1.0 ]
+                                });
+                          },
+                          
+                          tag: function(tag) {
+                                commitFocus({
+                                   uri: uuid(),
+                                   type: [ tag ], typeStrength: [ 1.0 ]
                                 });
                           },
                         
@@ -701,11 +735,11 @@
                         
                         });
                         
+                        initUI(self);
     
                         var w = new Workspace();
                         Backbone.history.start();
                         
-                        initUI(self);
                         
                     });
                                         
@@ -739,7 +773,7 @@
     		}
             
             #ViewSelect, #ViewOptions {
-                width: 48%;
+                width: 35%;
             }
             #ViewSelect {
                 float: left;
@@ -748,6 +782,7 @@
                 text-align: right;
                 float: right;
                 padding-top: 0.5em;
+                width: 62%;
             }
             #focus {
                 width: 100%;
