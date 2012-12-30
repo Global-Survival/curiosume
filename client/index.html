@@ -249,6 +249,7 @@
             }
             
             function initUI(self) {
+                $('body').timeago();
                 
                 self.on('change:attention', function() {
                     updateView();
@@ -506,7 +507,8 @@
                 	});
                     authorFilter.val(scope);
                 	o.append(authorFilter);
-
+                    
+                    $('body').timeago('refresh');
 
 
                 }

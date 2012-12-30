@@ -49,8 +49,11 @@ exports.plugin = {
                 for (var k in that.feeds) {
                     var f = that.feeds[k];
                     
+                    if (!f)
+                        continue; //???
+                        
                     var needsFetch = false;
-                    
+                                        
                     if (!util.getProperty(f, 'lastUpdate')) {
                         needsFetch = true;
                     }
@@ -92,8 +95,9 @@ exports.plugin = {
         notice: function(x) {
             if (!x.type)
                 return;
-            if (_.contains(x.type, 'web.RSSFeed'))
+            if (_.contains(x.type, 'web.RSSFeed')) {
                 this.update();
+            }
         },
         
 		stop: function(netention) {

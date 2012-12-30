@@ -137,7 +137,7 @@ function newObjectView(self, x, onRemoved, r) {
               + pad(d.getUTCSeconds())+'Z'}
         
         tt.attr('datetime', ISODateString(new Date(x.when)));
-        tt.timeago();
+        
         d.append(tt);
     }
     
