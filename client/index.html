@@ -357,18 +357,20 @@
                     });
                     
                     for (var m in matched) {
-                        var e = getEditedFocus();
-                        if (hasType(e, m))
-                            continue;
+                        (function() {
+                            var e = getEditedFocus();
+                            if (hasType(e, m))
+                                return;
+                                
+                            var mx = window.self.getType(m);
+                            var mn = mx.name;
                             
-                        var mx = window.self.getType(m);
-                        var mn = mx.name;
-                        
-                        var bb = $('<button>' + mn + '?</button>');
-                        bb.click(function() {
-                            commitFocus(addType(e, m, 1.0));
-                        });
-                        mt.append(bb);
+                            var bb = $('<button>' + mn + '?</button>');
+                            bb.click(function() {
+                                commitFocus(addType(e, mx.uri, 1.0));
+                            });
+                            mt.append(bb);                        
+                        })();
                     }
                 }
                 
