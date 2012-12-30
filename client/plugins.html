@@ -1,9 +1,123 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title> </title>
+        <title>Server Plugins | Netention</title>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="netention.js"></script> 
+        
+        <script>
+        
+            function updatePlugins() {
+                var pl = window.self.get('plugins');
+                
+                var p = $('#PluginList');
+                p.html('');
+                for (var k in pl) {
+                    (function() {
+                        var pu = pl[k];
+                        var pd = $('<div class="PluginID"></div>');
+                        pd.append('<h3>' + k + '</h3>' + (pu.description ? (pu.description) : ""));
+                        
+                        if (pu.valid) {
+                            pd.append('<br/>');
+                            if (pu.enabled) {
+                                var b = $('<button>Disable</button>');
+                                b.click(function() {
+                                   self.setPlugin(pu.id, false, function(err) {
+                                        if (!err)  {
+                                            self.getPlugins();
+                                            //notify
+                                        }
+                                        else {
+                                            //notify
+                                            
+                                        }
+                                   }); 
+                                });
+                                pd.append('Currently enabled.');
+                                pd.append(b);
+                            }
+                            else {
+                                var b = $('<button>Enable</button>');
+                                b.click(function() {
+                                   self.setPlugin(pu.id, true, function(err) {
+                                        if (!err)  {
+                                            self.getPlugins();
+                                            //notify
+                                        }
+                                        else {
+                                            //notify
+                                            
+                                        }
+                                   }); 
+                                });
+                                pd.append('Currently disabled.');
+                                pd.append(b);                            
+                            }
+                        }
+    //                    var ps = $('<div class="PluginSettings"></div>');
+    //                    if (pu.valid) {
+    //                        
+    //                            
+    //                        //ps.append(px);
+    //                    }
+    //                    else {
+    //                        ps.html('' + JSON.stringify(pu) + '</div>');
+    //                    }
+    //                    pd.append(ps);
+                        
+                        p.append(pd);
+                    })();
+                    
+                }
+            }
+            
+            $(document).ready(function(){
+                netention(function(self) {
+                    window.self = self;
+                    
+                    $('#PluginList').html('Loading...');
+                    self.on('change:plugins', updatePlugins);
+                    self.getPlugins();
+                    
+                    
+                });
+            });
+        </script>
+        <style>
+            body {
+                padding: 2em;
+            }
+            #Settings {
+                text-align: right;
+            }
+            .PluginID {
+                width: 25%;
+                float: left;
+                clear: both;
+                border-bottom: 1px solid gray;
+            }
+            .PluginSettings {
+                width: 50%;
+                float: right;
+            }
+            #Bottom {
+                clear: both;
+                text-align: right;
+            }
+        </style>
     </head>
     <body>
+        <div id="Header">
+            <h1>Server Plugins</h1>
+        </div>
+        <div id="PluginList">
+            
+        </div>
+        <div id="Bottom">
+            <!-- <button id="SaveButton">Save</button> -->
+        </div>
 
     </body>
 </html>

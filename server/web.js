@@ -13,30 +13,17 @@ var http = require('http')
   , server;
 var mongo = require("mongojs");
 
-function plugin(netention, v) {
-	var p = require('../plugin/' + v).plugin;
-	if (p) {
-		if (p.name) {
-			console.log('Loaded plugin: ' + p.name);
-                        
-            p.start(netention);
-            
-			return;
-		}
-	}
-	
-	
-	console.log('Loaded invalid plugin: ' + v);
-}
 
 exports.start = function(host, port, database, init) {
+
 
 	console.log('Starting');
 	var Server = { 
 		name: 'Netention',
 		description: 'http://netention.org',
 		
-		memoryUpdatePeriodMS: 5000	
+		memoryUpdatePeriodMS: 5000,
+        plugins: { }
 	};
 
 	Server.host = host;
@@ -44,6 +31,8 @@ exports.start = function(host, port, database, init) {
 	Server.databse = database;	
 
 
+    var plugins = { };
+    
 	var that = { };
 	
 	var types =  { };
@@ -71,6 +60,42 @@ exports.start = function(host, port, database, init) {
 	var databaseUrl = Server.database || process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 	var collections = [ "obj" ];
 	
+    function plugin(netention, v) {
+        var p = require('../plugin/' + v).plugin;
+        if (p) {
+    		if (p.name) {
+    			console.log('Loaded plugin: ' + p.name);
+    
+                plugins[v] = p;
+                if (!Server.plugins[v]) {
+                    Server.plugins[v] = {
+                        valid: true,
+                        enabled: false
+                    };
+                }
+                
+                Server.plugins[v].id = v;
+                Server.plugins[v].name = p.name;
+                Server.plugins[v].description = p.description;
+                
+                if (Server.plugins[v].enabled) {
+                    p.start(netention);                
+                }
+                
+                
+    			return;
+    		}
+    	}
+        Server.plugins[v] = { };
+        Server.plugins[v].id = v;
+        Server.plugins[v].name = v;
+        Server.plugins[v].valid = false;
+        
+        
+    	//TODO remove unused Server.plugins entries
+    	
+    	console.log('Loaded invalid plugin: ' + v);
+    }
 	 
 	function loadState() {
 		var db = mongo.connect(databaseUrl, collections);
@@ -523,6 +548,42 @@ exports.start = function(host, port, database, init) {
 			broadcast(socket, message);
 	    });
 	    
+        socket.on('getPlugins', function(f) {
+            f(Server.plugins);
+        });
+        
+        socket.on('setPlugin', function(pid, enabled, callback) {
+            /*
+            if requires authentication to activate/deactivate plugins..
+        	if (!isAuthenticated(session)) {
+	    		whenFinished('Unable to delete (not logged in)');
+	    		return;
+	    	}*/
+            var pm = plugins[pid];
+            if (pm) {
+                if (Server.plugins[pid].valid) {
+                    var currentState = Server.plugins[pid].enabled;
+                    if (currentState!=enabled) {
+                        if (enabled) {
+                            Server.plugins[pid].enabled = true;
+                            pm.start(that);
+                            nlog('Plugin ' +  pid + ' enabled');
+                        }
+                        else {
+                            Server.plugins[pid].enabled = false;    
+                            pm.stop(that);
+                            nlog('Plugin ' +  pid + ' disabled');
+                        }
+                        callback();
+                        return;
+                    }
+                }
+            }
+            callback('Unable to set activity of plugin ' + pid + ' to ' + enabled);
+            
+        });
+        
+        
 	    socket.on('connectSelf', function(cid) {
 	       var key = '', email = null;
 	   	   if (session)

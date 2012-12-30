@@ -6,7 +6,7 @@ var rss = require('./rss.js');
 
 exports.plugin = {
     	name: 'USGS Earthquakes',	
-		description: '',
+		description: 'United States Geographical Survey Earthquakes Data (> Magnitude 5, last 7 days)',
 		options: { },
 		start: function(netention) { 
             

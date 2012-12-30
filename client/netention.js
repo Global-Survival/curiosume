@@ -278,7 +278,17 @@ function netention(f) {
             	});
             	
             },
-
+            getPlugins: function() {
+                var that = this;
+                this.socket.emit('getPlugins', function(p) {
+                    that.set('plugins', p);
+            	});            
+            },
+            
+            setPlugin: function(pid, enabled, callback) {
+                this.socket.emit('setPlugin', pid, enabled, callback);                    
+            },
+            
             getObjects: function(query, onObject, onFinished) {
                 var that = this;
             	this.socket.emit('getObjects', query, function(objs) {
