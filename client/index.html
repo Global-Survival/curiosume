@@ -322,7 +322,11 @@
                     });         
                 });
                 $('#ClearButton').click(function() {
-                    commitFocus({ }); 
+                    var u = uuid();
+                    Backbone.history.navigate('/object/' + u);
+                    commitFocus({
+                        uri: u
+                    }); 
                 });
 
                 //file uploads
