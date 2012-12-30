@@ -78,6 +78,63 @@ function getTypeArray(t) {
 exports.getTypeArray = getTypeArray;
 
 
+
+function addProperty(x, p) {
+    x.values.push( { uri: p, val: p } );
+    return x;
+}
+exports.addProperty = addProperty;
+
+
+function acceptsAnotherProperty(x, p) {
+    //TODO determine this by Property arity constraints
+    return true;
+}
+exports.acceptsAnotherProperty = acceptsAnotherProperty;
+
+function addType(x, t, value) {
+    x.type.push(t);
+    
+    if (!value)
+        value = 1.0;
+        
+    x.typeStrength.push(value);
+    return x;
+}
+exports.addType = addType;
+
+function removeType(x, index) {
+    x.type.splice(index, 1);    
+    x.typeStrength.splice(index, 1);    
+    return x;
+}
+exports.removeType = removeType;
+
+function getProperty(object, propertyID, defaultValue) {
+    if (object.values) {
+    	for (var k = 0; k < object.values.length; k++) {
+			if (object.values[k].uri == propertyID)
+				return object.values[k].value;
+		}
+	}
+	return defaultValue;
+}
+exports.getProperty = getProperty;
+
+/** sets the only instance of the property, or creates if doesn't exist */
+function setTheProperty(object, propertyID, newValue) {
+    for (var k = 0; k < object.values.length; k++) {
+		if (object.values[k].uri == propertyID) {
+			object.values[k].value = newValue;
+            return object;
+		}
+	}
+    object.values.push( {uri: propertyID, value: newValue } );
+	return object;
+}
+exports.setTheProperty = setTheProperty;
+
+
 //Chris Coyier's MD5 Library
 //http://css-tricks.com/snippets/javascript/javascript-md5/
 var MD5 = function (string) {

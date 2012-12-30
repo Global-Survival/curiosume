@@ -21,7 +21,8 @@
 	"passport-google":"",
 	"passport-twitter":"",
 	"session.socket.io":"",
-	"connect":""
+	"connect":"",
+	"underscore":""
     },
     "engines": {
 	"node": "0.8.x", 

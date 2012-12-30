@@ -1,4 +1,8 @@
 var feedparser = require('feedparser');     //https://github.com/danmactough/node-feedparser
+var _ = require('underscore');
+var util = require('../client/util.js');
+
+var minUrlFetchPeriod = 60*10;
 
 exports.plugin = {
         name: 'RSS Feeds (Really Simple Syndication)',	
@@ -20,29 +24,83 @@ exports.plugin = {
                 }
             ]);
             
-            /*
-            rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
-
-                eq.eqMagnitude = parseFloat( eq.name.substring(1, eq.name.indexOf(',')));
-		        eq.type = [ 'geo.EarthQuake' ];
-                
-                netention.notice(eq);
-
-
-                return eq;
-	        });
-            */
             
-        },
-        
-        notice: function(x) {
-            if (_.contains(x.type, 'web.RSSFeed')) {
-                console.log('rss noticed: ' + x.uri);
+            this.netention = netention;
+            this.feeds = { };
+            var that = this;
+            
+            this.updateUnthrottled = function() {
                 
-            }
+                that.feeds = { };                
+                
+                this.netention.getObjectsByType('web.RSSFeed', function(objs) {
+                    for (var i = 0; i < objs.length; i++) {
+                        var x = objs[i];
+                        that.feeds[x.uri] = x;
+                    }
+                });                    
+                
+            };            
+            this.update = _.throttle(this.updateUnthrottled, 1000 /* Increase longer */);
+            
+            this.update();
+            
+            this.loop = setInterval(function() {
+                for (var k in that.feeds) {
+                    var f = that.feeds[k];
+                    
+                    var needsFetch = false;
+                    
+                    if (!util.getProperty(f, 'lastUpdate')) {
+                        needsFetch = true;
+                    }
+                    else {
+                        var age = (Date.now() - util.getProperty(f, 'lastUpdate'))/1000.0;
+                        
+                        var fp = util.getProperty(f, 'urlFetchPeriod');
+                        fp = Math.max(fp, minUrlFetchPeriod);
+                        
+                        if (fp < age) {
+                            needsFetch = true;
+                        }                        
+                        else {
+                            //console.log(fp - age, 'seconds to go');
+                        }
+                    }
+                    
+                    if (needsFetch) {
+                    
+                        var furi = util.getProperty(f, 'url');
+                        
+                        if (furi) {
+                            RSSFeed(furi, function(a) {            
+                                netention.pub(a);
+                                return a;
+                	        });
+                        }
+                        else {
+                            //set error message as f property
+                        }
+                        
+                        util.setTheProperty(f, 'lastUpdate', Date.now());                        
+                        netention.pub(f);
+                    }
+                }
+            }, 5000);
+        },
+                
+        notice: function(x) {
+            if (!x.type)
+                return;
+            if (_.contains(x.type, 'web.RSSFeed'))
+                this.update();
         },
         
 		stop: function(netention) {
+            if (this.loop) {
+                clearInterval(this.loop);
+                this.loop = null;
+            }
 		}
 };
 
@@ -63,7 +121,7 @@ var RSSFeed = function(url, perArticle) {
 			link: a['link'],
 			when: new Date(a['date']).getTime(),
 			name: a['title'],
-			type: "Message",
+			type: [ "Message" ],
 			length: maxlen
 		};
 		if (a['georss:point']) {

@@ -38,42 +38,6 @@ function getProperties(t) {
     return [];
 }
 
-function addProperty(x, p) {
-    x.values.push( { uri: p, val: p } );
-    return x;
-}
-
-
-function acceptsAnotherProperty(x, p) {
-    //TODO determine this by Property arity constraints
-    return true;
-}
-
-function addType(x, t, value) {
-    x.type.push(t);
-    
-    if (!value)
-        value = 1.0;
-        
-    x.typeStrength.push(value);
-    return x;
-}
-
-function removeType(x, index) {
-    x.type.splice(index, 1);    
-    x.typeStrength.splice(index, 1);    
-    return x;
-}
-
-function getProperty(object, propertyID, defaultValue) {
-    if (object.values) {
-		for (var k = 0; k < object.values.length; k++) {
-			if (object.values[k].uri == propertyID)
-				return object.values[k].value;
-		}
-	}
-	return defaultValue;
-}
 
 
 function getAvatar(s) {

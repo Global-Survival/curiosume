@@ -232,6 +232,7 @@ exports.start = function(host, port, database, init) {
 		});
 		
 	}
+    that.getObjectsByType = getObjectsByType;
 	
 	function getTypeCounts(whenFinished) {
 		//this can probably be optimized very much
@@ -545,7 +546,8 @@ exports.start = function(host, port, database, init) {
 	
 		if (message.type) {
 			
-			nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+            if (socket)
+			    nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
 			
 			var targets = { };
 			
@@ -555,8 +557,9 @@ exports.start = function(host, port, database, init) {
 				var cc = io.sockets.clients(chan);
 				for (var cck in cc) {
 					var i = cc[cck].id;
-					if (i!=socket.id)
-						targets[i] = '';
+                    if (socket)
+    					if (i!=socket.id)
+	    					targets[i] = '';
 				}						
 			}
 			
@@ -575,7 +578,13 @@ exports.start = function(host, port, database, init) {
             }
         }
 	}
-	
+    that.broadcast = broadcast;
+    
+	function pub(message) {
+        broadcast(null, message);   
+	}
+    that.pub = pub;
+    
     /*
 	function pub(message) {
 		notice(message);
