@@ -23,7 +23,8 @@ exports.start = function(host, port, database, init) {
 		description: 'http://netention.org',
 		
 		memoryUpdatePeriodMS: 5000,
-        plugins: { }
+        plugins: { },
+        permissions: { },
 	};
 
 	Server.host = host;
@@ -594,12 +595,13 @@ exports.start = function(host, port, database, init) {
         });
         
         socket.on('setPlugin', function(pid, enabled, callback) {
-            /*
-            if requires authentication to activate/deactivate plugins..
-        	if (!isAuthenticated(session)) {
-	    		whenFinished('Unable to delete (not logged in)');
-	    		return;
-	    	}*/
+            if (Server.permissions['authenticate_to_configure_plugins']!=false) {
+                if (!isAuthenticated(session)) {
+    	    		callback('Unable to configure plugins (not logged in)');
+    	    		return;
+    	    	}                
+            }
+            
             var pm = plugins[pid];
             if (pm) {
                 if (!(Server.plugins[pid].valid == false)) {
@@ -686,10 +688,12 @@ exports.start = function(host, port, database, init) {
 	    });
 	    
 	    socket.on('delete', function(objectID, whenFinished) {
-	    	if (!isAuthenticated(session)) {
-	    		whenFinished('Unable to delete (not logged in)');
-	    		return;
-	    	}
+            if (Server.permissions['authenticate_to_delete_objects']!=false) {
+    	    	if (!isAuthenticated(session)) {
+    	    		whenFinished('Unable to delete (not logged in)');
+    	    		return;
+    	    	}
+            }
 	    		
 	    	if (!util.isSelfObject(objectID))
 	    		deleteObject(objectID, whenFinished);
@@ -819,7 +823,9 @@ exports.start = function(host, port, database, init) {
     	});
     }
 	
-	init();
+    that.permissions = Server.permissions;
+    
+    init(that);
 	
 	return that;
 		
