@@ -16,11 +16,15 @@
                 for (var k in pl) {
                     (function() {
                         var pu = pl[k];
+                        
+                        console.dir(pu);
+                        
                         var pd = $('<div class="PluginID"></div>');
                         pd.append('<h3>' + k + '</h3>' + (pu.description ? (pu.description) : ""));
                         pd.append('<br/>');
                         
-                        if (pu.valid) {
+                        
+                        if (!(pu.valid == false)) {
                             pd.append('<br/>');
                             if (pu.enabled) {
                                 pd.addClass('PluginEnabled');
