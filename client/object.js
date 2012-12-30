@@ -82,8 +82,6 @@ function getAvatar(s) {
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
-function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
-
 function newObjectView(self, x, onRemoved, r) {
 	
 	var fs = (1.0 + r/2.0)*100.0 + '%';

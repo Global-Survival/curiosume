@@ -14,6 +14,12 @@ exports.plugin = {
 		start: function(netention) { 
             
             //TODO add type
+            netention.addTypes([
+                {
+                    uri: 'geo.EarthQuake', name: 'Earthquake', properties: {
+                    }
+                }
+            ]);
             
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 

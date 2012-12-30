@@ -131,7 +131,15 @@
                         
                         if (propertiesAdded)
                             u.append('<br/>');
-                        
+                            
+                        {
+                            var si = $('<ul></ul>');
+                            si.append('<button title="25%" style="background-color: rgba(100, 100, 100, 0.5)">&nbsp;</button>');
+                            si.append('<button title="50%"style="background-color: rgba(150, 150, 150, 0.5)">&nbsp;</button>');
+                            si.append('<button title="75%"style="background-color: rgba(200, 200, 200, 0.5)">&nbsp;</button>');
+                            si.append('<button title="100%"style="background-color: rgba(250, 250, 250, 0.5)">&nbsp;</button>');
+                            u.append(si);
+                        }
                         
                         (function() {
                             var kk = k;

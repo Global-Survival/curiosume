@@ -1,4 +1,26 @@
-var sensor = require('../sensor.js');
+exports.plugin = {
+    	name: 'Craigslist Categories',	
+		description: 'Various categories from craigslist.org',
+		options: { },
+        version: '1.0',
+        author: 'http://netention.org',
+		start: function(netention) { 
+            var t = [];
+            for (var k in cldata.categories) {
+                var c = cldata.categories[k];
+                t.push( {
+            		uri: 'craigslist.' + k,
+            		name: k
+            	});
+            }
+            
+            netention.addTypes(t);
+            
+        },
+		stop: function(netention) { }
+};
+
+
 
 var cldata = {
     "categories": {
@@ -673,13 +695,3 @@ var cldata = {
     }
 };
 
-var t = [];
-for (var k in cldata.categories) {
-	var c = cldata.categories[k];
-	t.push( {
-		uri: 'craigslist.' + k,
-		name: k
-	});
-}
-
-sensor.addTypes(t);

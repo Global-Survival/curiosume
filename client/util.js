@@ -283,9 +283,6 @@ for (k=0;k<x.length;k+=16) {
 
 exports.MD5 = MD5;
 
-function isSelfObject(objectID) {
-	if (objectID)
-		return objectID.indexOf('Self-')==0;
-	return false;
-}
+function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
+
 exports.isSelfObject = isSelfObject;

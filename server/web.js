@@ -41,16 +41,19 @@ exports.start = function(host, port, database, init) {
 	var attention = memory.Attention(0.95);
 	
 	
-	var sensor = require('../plugin/sensor.js');
-	
-	var b = util.OutputBuffer(300, function(message) {
-		message.type = util.getTypeArray(message.type);
-		pub(message);
-		
-	});
-	b.start();
-	
-	sensor.setDefaults(b, types);
+    //DEPRECATED
+    /*{
+    	var sensor = require('../plugin/sensor.js');
+    	
+    	var b = util.OutputBuffer(300, function(message) {
+    		message.type = util.getTypeArray(message.type);
+    		//pub(message);
+    		
+    	});
+    	b.start();
+    	
+    	sensor.setDefaults(b, types);
+    }*/
 	
 	var logMemory = util.createRingBuffer(256); 
 	Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
@@ -463,6 +466,8 @@ exports.start = function(host, port, database, init) {
 	express.use("/", expressm.static('./client'));
     
     express.post('/upload', function(req, res) {
+        //TODO validate permission to upload
+        
         /*console.log(JSON.stringify(req.files));
         console.log(req.files.uploadfile);
         console.log(req.files.uploadfile.name);*/
@@ -562,8 +567,16 @@ exports.start = function(host, port, database, init) {
 		}
         
         io.sockets.in('*').emit('notice', message);
+        
+        for (var p in plugins) {
+            var pp = plugins[p];
+            if (pp.notice) {
+                pp.notice(message);
+            }
+        }
 	}
 	
+    /*
 	function pub(message) {
 		notice(message);
 	
@@ -579,7 +592,7 @@ exports.start = function(host, port, database, init) {
 			}
 		}
         
-	}
+	}*/
 	
 	function isAuthenticated(session) {
 	   if (session)
@@ -714,6 +727,9 @@ exports.start = function(host, port, database, init) {
 	    		
 	    	if (!util.isSelfObject(objectID))
 	    		deleteObject(objectID, whenFinished);
+            else {
+                whenFinished('Unable to delete user profile');
+            }
 	    });
 	    
 	});

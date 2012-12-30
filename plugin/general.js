@@ -1,5 +1,3 @@
-var sensor = require('./sensor.js');
-
 var generalTypes = [
 	{ uri: 'general.Human', name: 'Human',		
 		extends: [ 'general.Being' ],
@@ -57,4 +55,14 @@ var generalTypes = [
 	{ uri: 'general.Netention', name: 'Netention'} //Netention itself, meta 
 ];
 
-sensor.addTypes(generalTypes);
+exports.plugin = {
+    	name: 'General',	
+		description: 'Generally helpful types',
+		options: { },
+        version: '1.0',
+        author: 'http://netention.org',
+		start: function(netention) { 
+            netention.addTypes(generalTypes);    
+        },
+		stop: function(netention) { }
+};
