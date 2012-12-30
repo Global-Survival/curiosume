@@ -69,7 +69,8 @@ function loadScripts(f) {
                         
                         "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
                         "/lib/wysihtml5/bootstrap-wysihtml5.js",
-                        '/lib/timeago/jquery.timeago.js'
+                        '/lib/timeago/jquery.timeago.js',
+                        '/lib/jquery-form/jquery.form.js'
 		                ];
 		
 		LazyLoad.js(scripts, f);

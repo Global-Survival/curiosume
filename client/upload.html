@@ -1,13 +1,56 @@
 <!DOCTYPE html>
 <html>
+    
     <head>
         <title>Upload | Netention</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="netention.js"></script> 
     </head>
-    <body>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-        <p>File: <input type="file" name="uploadfile" /></p>
-        <p><input type="submit" value="Upload" /></p>
-        </form>
     
+    <body>
+        <!-- view-source:http://malsup.com/jquery/form/progress.html -->
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <p>File:
+                <input type="file" name="uploadfile" />
+            </p>
+            <p>
+                <input type="submit" value="Upload" />
+            </p>
+        </form>
+        <div class="progress">
+            <div class="bar"></div>
+            <div class="percent">0%</div>
+        </div>
+        <div id="status"></div>
     </body>
+    <script>
+        $(document).ready(function() {
+            netention(function() {
+    
+                var bar = $('.bar');
+                var percent = $('.percent');
+                var status = $('#status');
+    
+                $('form').ajaxForm({
+                    beforeSend: function() {
+                        status.empty();
+                        var percentVal = '0%';
+                        bar.width(percentVal)
+                        percent.html(percentVal);
+                    },
+                    uploadProgress: function(event, position, total, percentComplete) {
+                        var percentVal = percentComplete + '%';
+                        bar.width(percentVal)
+                        percent.html(percentVal);
+                        //console.log(percentVal, position, total);
+                    },
+                    complete: function(xhr) {
+                        status.html(xhr.responseText);
+                    }
+                });
+    
+            });
+        });
+    </script>
+
 </html>
