@@ -464,6 +464,25 @@ exports.start = function(host, port, database, init) {
 	
 	express.use("/", expressm.static('./client'));
     
+    express.post('/upload', function(req, res) {
+        console.log(JSON.stringify(req.files));
+        console.log(req.files.uploadfile);
+        console.log(req.files.uploadfile.name);
+
+        var temp_path = req.files.uploadfile.path;
+        var save_path = './upload/' + req.files.uploadfile.name;
+
+        fs.rename(temp_path, save_path, function(error) {
+            if (error) throw error;
+
+            fs.unlink(temp_path, function() {
+                if (error) throw error;
+                res.send("File uploaded to: " + save_path);
+            });
+
+        });
+    });
+    
     express.get('/#', function(req,res) {
        res.sendfile('./client/index.html');
     });
