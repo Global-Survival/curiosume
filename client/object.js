@@ -163,6 +163,21 @@ function newObjectView(self, x, onRemoved, r) {
 		
 		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
 	}
+    if (x.when) {
+        var tt = $('<time class="timeago"/>');
+        function ISODateString(d){
+            function pad(n){return n<10 ? '0'+n : n}
+            return d.getUTCFullYear()+'-'
+              + pad(d.getUTCMonth()+1)+'-'
+              + pad(d.getUTCDate())+'T'
+              + pad(d.getUTCHours())+':'
+              + pad(d.getUTCMinutes())+':'
+              + pad(d.getUTCSeconds())+'Z'}
+        
+        tt.attr('datetime', ISODateString(new Date(x.when)));
+        tt.timeago();
+        d.append(tt);
+    }
     
 	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	

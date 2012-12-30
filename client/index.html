@@ -607,7 +607,9 @@
                           },
                           
                           new: function() {
-                                commitFocus({ });
+                                commitFocus({ 
+                                    uri: uuid()
+                                });
                                 //set relevancy filter to 'mine
                           },
                         
@@ -768,7 +770,7 @@
                     <li><a href="/#/team">Team</a></li>
                     <li><a href="/#/trends">Trends</a></li>
                     <li><a href="/#/types">Types</a></li>
-                    <li><a href="/plugins.html">Plugins</a></li>
+                    <li><a href="/plugins.html" target="_blank">Plugins</a></li>
                     <li class="dropdown-submenu">
                         <a tabindex="-1" href="#">Options</a>
                         <ul class="dropdown-menu">

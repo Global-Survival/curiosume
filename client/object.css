@@ -23,7 +23,7 @@
 	margin: 0;
     line-height: 1.2em;
 }
-.objectView h3, .objectView ul, .objectView p {
+.objectView h3, .objectView ul, .objectView p, .objectView time {
     padding-left: 10px;
     padding-top: 5px;
 }

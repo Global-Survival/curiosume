@@ -68,7 +68,8 @@ function loadScripts(f) {
                         "/lib/jqplot/plugins/jqplot.pointLabels.min.js",
                         
                         "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
-                        "/lib/wysihtml5/bootstrap-wysihtml5.js"
+                        "/lib/wysihtml5/bootstrap-wysihtml5.js",
+                        '/lib/timeago/jquery.timeago.js'
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -98,6 +99,8 @@ function loadScripts(f) {
     loadCSS('/lib/pnotify/jquery.pnotify.default.css');
     
     loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
+
+    
 }
 
 
