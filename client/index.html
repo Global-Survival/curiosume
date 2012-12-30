@@ -89,6 +89,8 @@
                     focusMap = null;
                 }
                 
+                $('#FocusUploadSection').hide();
+                
                 
                 if (x.type.length == 0) {
                     $('#FocusTypes').hide();
@@ -304,6 +306,11 @@
                         commitFocus(f);
                     }
                 });
+                
+                $('#ToggleUploadButton').click(function() {
+                    $('#FocusUploadSection').toggle();
+                });
+                
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
                     self.notice(p);
@@ -317,6 +324,34 @@
                     commitFocus({ }); 
                 });
 
+                //file uploads
+                {
+                    $('#FocusUploadSection').hide();
+                    
+                    var bar = $('.FocusUploadBar');
+                    var percent = $('.FocusUploadPercent');
+                    var status = $('#FocusUploadStatus');
+        
+                    $('#FocusUploadForm').ajaxForm({
+                        beforeSend: function() {
+                            status.empty();
+                            var percentVal = '0%';
+                            bar.width(percentVal)
+                            percent.html(percentVal);
+                        },
+                        uploadProgress: function(event, position, total, percentComplete) {
+                            var percentVal = percentComplete + '%';
+                            bar.width(percentVal)
+                            percent.html(percentVal);
+                            //console.log(percentVal, position, total);
+                        },
+                        complete: function(xhr) {
+                            var url = xhr.responseText;
+                            status.html($('<a>File uploaded</a>').attr('href', url));
+                        }
+                    });
+                }
+                
                 {
         			var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
     				            
@@ -764,7 +799,8 @@
                 width: 100%;
             }
             #FocusDescriptionSection, #FocusMapSection {
-                padding-left: 1.25em;
+                
+                
             }
             
             #MenuWrapper {
@@ -776,7 +812,6 @@
             .PropertyRemoveButton {
                 float: right;
             }
-            
             
 	    </style>    
         
@@ -834,6 +869,21 @@
                     <div id="focusMap" class="map" style="height: 200px; width: 100%">
                     </div>
                 </div>
+                <div id="FocusUploadSection">
+                    <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                        <p>File:
+                            <input type="file" name="uploadfile" />
+                        </p>
+                        <p>
+                            <input type="submit" value="Upload" />
+                        </p>
+                    </form>
+                    <div class="FocusUploadProgress">
+                        <div class="FocusUploadBar"></div>
+                        <div class="FocusUploadPercent">0%</div>
+                    </div>
+                    <div id="FocusUploadStatus"></div>        
+                </div>
                 
                 <div id="FocusProperties">
                     
@@ -847,11 +897,9 @@
                     </span>
                     
                     <span class="btn-group">
-
-
                         <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
                         <button id="ToggleLocationButton"><i class="icon-globe"></i></button>
-                        <button id="AttachFileButton"><i class="icon-file"></i></button>                
+                        <button id="ToggleUploadButton"><i class="icon-file"></i></button>                
                         <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>

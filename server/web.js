@@ -481,7 +481,8 @@ exports.start = function(host, port, database, init) {
 
             fs.unlink(temp_path, function() {
                 if (error) throw error;
-                res.send("File uploaded to: <a href='" + save_path + "'>here</a>.");
+                //res.send("File uploaded to: <a href='" + save_path + "'>here</a>.");
+                res.send(save_path);
             });
 
         });
