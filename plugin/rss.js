@@ -139,8 +139,13 @@ var RSSFeed = function(url, perArticle) {
 		
 	}	
 
-	feedparser.parseUrl(url)
-  		.on('article', onArticle);
+    try {
+    	feedparser.parseUrl(url)
+      		.on('article', onArticle);
+    }
+    catch (e) {
+        console.error(e);
+    }
 	
 }
 

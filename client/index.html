@@ -248,9 +248,13 @@
                 $('#FocusDescription').wysihtml5();                                           
             }
             
+            var updateView;
+            
             function initUI(self) {
                 $('body').timeago();
                 
+                updateView = _.throttle(updateViewUnthrottled, 750);
+
                 self.on('change:attention', function() {
                     updateView();
                 }); 
@@ -308,6 +312,9 @@
                         title: 'Saved',
                         text: p.uri                        
                     });         
+                });
+                $('#ClearButton').click(function() {
+                    commitFocus({ }); 
                 });
 
                 {
@@ -399,7 +406,7 @@
                 return _.values(window.self.get('attention'));
             }
             
-            function updateView() {
+            function updateViewUnthrottled() {
                 var s = window.self;
 
                 var view = s.get('currentView');
@@ -467,6 +474,15 @@
             		relevant.sort(function(a, b) {
                 	    return relevance[b] - relevance[a];
             		});
+                    
+                    var MAX_DISPLAYED_LIST_ITEMS = 75;
+                    if (relevant.length > MAX_DISPLAYED_LIST_ITEMS) {
+                        o.prepend('<span>Too many: 1..' + MAX_DISPLAYED_LIST_ITEMS + ' of ' + relevant.length + '</span>');
+                    }
+                    else {
+                        
+                    }
+                    relevant = _.first(relevant, MAX_DISPLAYED_LIST_ITEMS);
                     
                     for (var x = 0; x < relevant.length; x++) {
                         var xx = s.get('attention')[relevant[x]];                        
@@ -774,8 +790,8 @@
                 <span id="MainMenu" class="dropdown">
                   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
                   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                    <li><a href="/#/new">New</a></li>
-                    <br/>
+                    <!--<li><a href="/#/new">New</a></li>
+                    <br/>-->
                     <li><a href="/#/me">Me</a></li>
                     <li><a href="/#/team">Team</a></li>
                     <li><a href="/#/trends">Trends</a></li>
@@ -798,7 +814,7 @@
                   <!-- <a class="btn" href="#">Location</a> -->
                 </span>            
                 
-                <span id="TypeMenu2"></span>
+                <button id="ClearButton"><i class="icon-remove"></i></button>
             </div>
                 
             

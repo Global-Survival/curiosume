@@ -847,7 +847,9 @@ exports.start = function(host, port, database, init) {
 	   // console.error('An uncaught error occurred!');
 	   // console.error(err.stack);
 	// });
-	
+	process.on('uncaughtException', function(err) {
+        console.error(err.stack);
+    });
 	
 	
 	
