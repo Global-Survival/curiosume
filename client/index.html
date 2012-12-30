@@ -309,7 +309,69 @@
                         text: p.uri                        
                     });         
                 });
+
+                {
+        			var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
+    				            
+    				function updatePrompt() {
+    					var l = msgs[parseInt(Math.random() * msgs.length)];
+    					$('#FocusName').attr('placeholder', l + '...');					
+    				} 
+                    				
+    				setInterval(updatePrompt, 7000);
+    				updatePrompt();
+                }
+
+                function isValidKeyword(x) {
+                    if (x.length < 2) return false;
+                    return true;
+                }
                 
+                function getKeywords(s) {
+                    return s.toLowerCase().replace(',',' ').replace('\.',' ').split(' ');
+                }
+                
+                function updateTypeSuggestions(t) {
+                    t = getKeywords(t);
+                    
+                    var keywords = _.filter(t, isValidKeyword);
+                    
+                    var matchedTypes = [];
+                    var mt = $('#MatchedTypes');
+                    mt.html('');
+                    var matched = { };
+                    _.each(keywords, function(keyword) {
+                        var types = window.self.types();
+                        
+                        function keywordMatchesType(k, t) {
+                            var name = types[t].name;
+                            var desc = types[t].description;
+                            if (desc) {
+                                name = name + ' ' + desc;
+                            }
+                            var kk = getKeywords(name);
+                            
+                            return _.contains(kk, k);                            
+                        }
+                        
+                        for (var t in types) {
+                            if (keywordMatchesType(keyword, t)) {
+                                matched[t] = true;
+                            }
+                        }
+                        
+                    });
+                    
+                    mt.append(JSON.stringify(matched, null, 4));
+                    
+                }
+                
+                var throttledUTS = _.throttle(updateTypeSuggestions, 700);
+                
+                $('#FocusName').keyup(function() {
+                    var t = $('#FocusName').val();
+                    throttledUTS(t);
+                });
                 
                 updateTypes();
                 updateFocus();
@@ -515,6 +577,7 @@
             $(document).ready(function(){
             
 			    netention(function(self) {
+                    
                     window.self = self;        
                     self.set('focus', { });
                     self.set('currentView', 'list');
@@ -724,6 +787,7 @@
                 <div>
                     <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
                 </div>
+                <div id="MatchedTypes"></div>
                 
                 <div id="FocusTypes"></div>
                 

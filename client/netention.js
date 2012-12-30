@@ -131,6 +131,7 @@ function netention(f) {
             },
             
             focus : function() { return this.get('focus'); },
+            types : function() { return this.get('types'); },
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 
