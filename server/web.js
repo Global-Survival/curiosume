@@ -602,7 +602,7 @@ exports.start = function(host, port, database, init) {
 	    	}*/
             var pm = plugins[pid];
             if (pm) {
-                if (Server.plugins[pid].valid) {
+                if (!(Server.plugins[pid].valid == false)) {
                     var currentState = Server.plugins[pid].enabled;
                     if (currentState!=enabled) {
                         if (enabled) {

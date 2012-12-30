@@ -127,6 +127,7 @@ function netention(f) {
             getObject : function(id) { return this.get('attention')[id]; }, 
             getSelf : function(clientID) { return this.get('attention')['Self-' + clientID]; }, 
             getType : function(t) { return this.types()[t]; },
+            getProperty : function(p) { return this.properties()[p]; },
             
             setObject : function(o) {
                 var i = o.uri;
@@ -136,6 +137,7 @@ function netention(f) {
             
             focus : function() { return this.get('focus'); },
             types : function() { return this.get('types'); },
+            properties : function() { return this.get('properties'); },
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 

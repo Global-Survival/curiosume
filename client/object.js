@@ -207,7 +207,7 @@ function newObjectView(self, x, onRemoved, r) {
 
 function newPropertyEdit(p, v) {
     var propertyID = p.uri;
-    
+    var name = window.self.getProperty(propertyID).name;
     var value = p.value;
     
 	var type = v.type;
@@ -217,7 +217,7 @@ function newPropertyEdit(p, v) {
 	}
 		
 	var x = $('<div>').addClass('FocusSection');
-	x.append(propertyID + ':');
+	x.append(name + ':');
 	
 	var removeButton = $('<button class="PropertyRemoveButton"><i class="icon-remove"></i></button>');
 	removeButton.click(function() {
