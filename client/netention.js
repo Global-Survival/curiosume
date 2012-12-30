@@ -123,6 +123,7 @@ function netention(f) {
             
             getObject : function(id) { return this.get('attention')[id]; }, 
             getSelf : function(clientID) { return this.get('attention')['Self-' + clientID]; }, 
+            getType : function(t) { return this.types()[t]; },
             
             setObject : function(o) {
                 var i = o.uri;
