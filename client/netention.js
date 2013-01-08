@@ -70,7 +70,10 @@ function loadScripts(f) {
                         "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
                         "/lib/wysihtml5/bootstrap-wysihtml5.js",
                         '/lib/timeago/timeago.js',
-                        '/lib/jquery-form/jquery.form.js'
+                        '/lib/jquery-form/jquery.form.js',
+                        
+                        '/view.map.js',
+                        '/view.list.js'
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -136,7 +139,13 @@ function netention(f) {
                 return o;  
             },
             
-            focus : function() { return this.get('focus'); },
+            focus : function() { 
+                var f = this.get('focus'); 
+                if (!f)
+                    return { };
+                return f;
+            },
+            
             types : function() { return this.get('types'); },
             properties : function() { return this.get('properties'); },
             

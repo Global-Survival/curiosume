@@ -11,7 +11,7 @@
         
             function getEditedFocus() {
                 var x = { };
-                var f = window.self.get('focus');
+                var f = window.self.focus();
                 
             
                 x.uri = f.uri;
@@ -148,7 +148,7 @@
                             var kk = k;
                             var rb = $('<a href="#">Remove</a>');
                             rb.click(function() {
-                                var f = window.self.get('focus');
+                                var f = window.self.focus();
                                 commitFocus(removeType(f, kk));
                             });
                             var rbi = $('<li/>'); rbi.append(rb);
@@ -243,7 +243,7 @@
             }
                                 
             function updateFocus() {
-                setFocus(window.self.get('focus'));                
+                setFocus(window.self.focus());                
             }
             
             function initDescriptionRichText() {
@@ -256,8 +256,8 @@
             function initUI(self) {
                 $('body').timeago();
                 
-                updateView = _.throttle(updateViewUnthrottled, 750);
-                setFocus = _.throttle(setFocusUnthrottled, 750);
+                updateView = _.throttle(updateViewUnthrottled, 400);
+                setFocus = _.throttle(setFocusUnthrottled, 400);
 
                 self.on('change:attention', function() {
                     updateView();
@@ -277,6 +277,25 @@
                     updateFocus();
                 });
 
+                $('#FocusToggleButton').click(function() {
+                    var focusShown = $('#focus').is(':visible');
+                    if (focusShown) {
+                        //hide it
+                        $('#focus').hide();
+                        $('#DataTarget').addClass('DataTargetFull');
+                        $('#ViewSelect').addClass('ViewSelectIndented');
+                        $('#FocusMainMenu').hide();
+                    }
+                    else {
+                        //show it
+                        $('#DataTarget').removeClass('DataTargetFull');
+                        $('#ViewSelect').removeClass('ViewSelectIndented');
+                        $('#focus').show();
+                        $('#FocusMainMenu').show();
+                    }
+                    updateView();
+                });
+                
                 $('#ViewMap').click(function() { self.set('currentView', 'map');  });
                 $('#ViewList').click(function() { self.set('currentView', 'list');  });
                 $('#ViewSlides').click(function() { self.set('currentView', 'slides');  });
@@ -294,7 +313,7 @@
                     }
                 });
                 $('#ToggleLocationButton').click(function() {
-                    var x = self.get('focus');
+                    var x = self.focus();
                     if (x.geolocation) {
                         if (confirm('Remove geolocation?')) {
                             var f = getEditedFocus();
@@ -459,133 +478,12 @@
                 o.html('');
                 
                 if (view === 'list') {
-                    $('#myTab a:first').tab('show');     
+                    //$('#myTab a:first').tab('show');     
+                    renderList(s, o, v);
                     
-                    var sort = s.get('list-sort') || 'Recent';
-                    var scope = s.get('list-scope') || 'Public';
-                    var semantic = s.get('list-semantic') || 'Any';
-                    
-                    var now = Date.now();
-                    var location = s.myself().geolocation;
-                    
-                    var relevance = { };
-                    for (var k in s.get('attention')) {
-                        
-                        var x = s.getObject(k);
-                        
-                        //scope prefilter
-                        if (scope == 'Mine') {
-                            if (x.author != s.id())
-                                continue;
-                        }
-                        else if (scope == 'Others') {
-                            if (x.author == s.id())
-                                continue;                            
-                        }
-                        
-                        //sort
-                        var r = 1.0;                        
-                        if (sort == 'Recent') {
-                            if (!x.when)
-                                continue;
-                            var ageSeconds = (now - x.when) / 1000.0;
-                            r = Math.exp(-ageSeconds/1000.0);
-                        }
-                        else if (sort == 'Near') {
-                            
-                            if (!location) {
-                                continue;
-                            }
-                            if (!x.geolocation) {
-                                continue;
-                            }
-                            
-                            var distance = geoDist(location, x.geolocation);
-                            r = Math.exp(-distance/10000.0);
-                        }
-                        
-                        if (semantic == 'Relevant') { 
-                            var m = getTypeMatch(s.focus(), x);
-                            r *= m;
-                        }
-                        
-                        if (r > 0) {                                    
-                            relevance[k] = r;
-                        }
-                    }
-                    
-                    var relevant = _.keys(relevance);
-            		relevant.sort(function(a, b) {
-                	    return relevance[b] - relevance[a];
-            		});
-                    
-                    var MAX_DISPLAYED_LIST_ITEMS = 75;
-                    if (relevant.length > MAX_DISPLAYED_LIST_ITEMS) {
-                        o.prepend('<span>Too many: 1..' + MAX_DISPLAYED_LIST_ITEMS + ' of ' + relevant.length + '</span>');
-                    }
-                    else {
-                        
-                    }
-                    relevant = _.first(relevant, MAX_DISPLAYED_LIST_ITEMS);
-                    
-                    for (var x = 0; x < relevant.length; x++) {
-                        var xx = s.get('attention')[relevant[x]];                        
-                        var rr =  relevance[relevant[x]];
-                        v.append(newObjectView( s, xx , function() { }, rr ));                     
-                    }
-                    
-                    var semanticFilter = $('<select><option>Any</option><option>Relevant</option></select>');
-                	semanticFilter.change(function() {
-                    	var v = $(this).val();
-                        s.set('list-semantic', v);
-                		updateView();
-                	});
-                    semanticFilter.val(semantic);
-                	o.append(semanticFilter);
-                    
-                    var sortSelect = $('<select><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
-                	dataViewSort = 'By Relevance';
-                	sortSelect.change(function() {
-                		var v = $(this).val();
-                        s.set('list-sort', v);
-                		updateView();
-                	});
-                    sortSelect.val(sort);
-                	o.append(sortSelect);
-                	
-                    /*
-                	var proxFilter = $('<select><option>Anywhere</option><option>Near 1km</option><option>Near 5km</option></select>');
-                	proxFilter.change(function() {
-                		requestUserSupport('Proximity Filter');
-                	});
-                	o.append(proxFilter);
-                
-                	var timeFilter = $('<select><option>Anytime</option><option>Recent 1m</option><option>Recent 5m</option><option>Recent 30m</option><option>Recent 1h</option><option>Recent 24h</option></select>');
-                	timeFilter.change(function() {
-                		requestUserSupport('Time Filter');
-                	});
-                	o.append(timeFilter);
-                	*/
-                    
-                	var authorFilter = $('<select><option>Public</option><option>Mine</option><option>Others</option></select>');
-                	authorFilter.change(function() {
-                    	var v = $(this).val();
-                        s.set('list-scope', v);
-                		updateView();
-                	});
-                    authorFilter.val(scope);
-                	o.append(authorFilter);
-                    
-                    $('body').timeago('refresh');
-
-
                 }
                 else if (view === 'map') {
-                    
-                    var e = uuid();
-                    $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
-                    initLocationChooserMap(e);
-                    
+                    renderMap(s, o, v);
                 }
                 else if (view === 'trends') {
                     
@@ -665,7 +563,7 @@
             }
             
             function deleteFocus() {
-                var f = window.self.get('focus');
+                var f = window.self.focus();
                 
                 $.pnotify({
                     title: 'Delete coming soon',
@@ -681,7 +579,6 @@
 			    netention(function(self) {
                     
                     window.self = self;        
-                    self.set('focus', { });
                     self.set('currentView', 'list');
                     
                     self.getObjects('', function(obj) { }, function() { 
@@ -745,6 +642,7 @@
                         var w = new Workspace();
                         Backbone.history.start();
                         
+                        $('#LoadingSplash').fadeOut();
                         
                     });
                                         
@@ -756,14 +654,34 @@
         </script>
         
         <style>
+            #LoadingSplash {
+                position: fixed;
+                width: 95%;
+                height: 90%;
+                left: auto;
+                top: auto;
+                background-color: white;
+            }
+            #LoadingSplash h1 {
+                text-align: center;
+            }
+            
+            .DataTargetNormal {
+                width: 64%;
+        		right:0.5em;			
+            }
+            
+            .DataTargetFull {
+                width: 95%;
+                right: 2.5%;
+            }
+            
     		#SelfTarget, #DataTarget {
     			position: fixed;			
     			height: 100%;
     		}
     		
     		#DataTarget {
-    			width: 64%;
-    			right:0.5em;			
                 z-index: -5000;
     		}
     		
@@ -771,15 +689,22 @@
     			width: 32%;
     			left: 0.5em;			
                 padding-left: 0.5em;
+                margin-top: 2.5em;
     		}
     		
     		#Menu {
     			display: none;
     		}
             
-            #ViewSelect, #ViewOptions {
-                width: 35%;
+            #ViewSelect {
+                width: 34%;
             }
+            .ViewSelectNormal {
+            }
+            .ViewSelectIndented {
+                padding-left: 6%;
+            }
+            
             #ViewSelect {
                 float: left;
             }
@@ -787,7 +712,7 @@
                 text-align: right;
                 float: right;
                 padding-top: 0.5em;
-                width: 62%;
+                width: 60%;
             }
             #focus {
                 width: 100%;
@@ -836,7 +761,7 @@
             }
             
             #FocusName, #FocusDescription {
-                width: 100%;
+                width: 97%;
             }
             #FocusDescriptionSection, #FocusMapSection {
                 
@@ -845,12 +770,16 @@
             
             #MenuWrapper {
                 margin-bottom: 1.5em;
+                z-index: 500;
             }
             #ViewOptions select {
                 width: auto;
             }
             .PropertyRemoveButton {
                 float: right;
+            }
+            #MenuWrapper {
+                position: fixed;
             }
             
 	    </style>    
@@ -860,37 +789,41 @@
     
     <body>
         
-        <div id="SelfTarget">
-            <div id="MenuWrapper">
-                <span id="MainMenu" class="dropdown">
-                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                    <!--<li><a href="/#/new">New</a></li>
-                    <br/>-->
-                    <li><a href="/#/me">Me</a></li>
-                    <li><a href="/#/team">Team</a></li>
-                    <li><a href="/#/trends">Trends</a></li>
-                    <li><a href="/#/types">Types</a></li>
-                    <li><a href="/plugins.html" target="_blank">Plugins</a></li>
-                    <li class="dropdown-submenu">
-                        <a tabindex="-1" href="#">Options</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Listen to all Channels</a></li>
-                            <li><a href="#">Silence</a></li>
-                        </ul>
-                    </li>
-                    <br/>
-                    <li><a href="/login.html">Login</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                    <br/>
-                    <li><a href="/#/help">Help</a></li>
-                    
-                  </ul>
-                  <!-- <a class="btn" href="#">Location</a> -->
-                </span>            
+        <div id="MenuWrapper">
+            <span id="MainMenu" class="dropdown">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <!--<li><a href="/#/new">New</a></li>
+                <br/>-->
+                <li><a href="/#/me">Me</a></li>
+                <li><a href="/#/team">Team</a></li>
+                <li><a href="/#/trends">Trends</a></li>
+                <li><a href="/#/types">Types</a></li>
+                <li><a href="/plugins.html" target="_blank">Plugins</a></li>
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">Options</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Listen to all Channels</a></li>
+                        <li><a href="#">Silence</a></li>
+                    </ul>
+                </li>
+                <br/>
+                <li><a href="/login.html">Login</a></li>
+                <li><a href="/logout">Logout</a></li>
+                <br/>
+                <li><a href="/#/help">Help</a></li>
                 
+              </ul>
+              <!-- <a class="btn" href="#">Location</a> -->
+            </span>            
+                                
+            <button id="FocusToggleButton"><i class="icon-resize-full"></i></button>
+            
+            <span id="FocusMainMenu">
                 <button id="ClearButton"><i class="icon-remove"></i></button>
-            </div>
+            </span>
+        </div>
+        <div id="SelfTarget">
                 
             
             <div id="focus">
@@ -955,11 +888,11 @@
             </div>
         </div>
         
-	    <div id="DataTarget">
+	    <div id="DataTarget" class="DataTargetNormal">
             <div>
-                <span id="ViewSelect">
+                <span id="ViewSelect" class="ViewSelectNormal">
                     <ul class="nav nav-tabs">
-                      <li><a href="#" id='ViewList' data-toggle="tab" title="List"><i class="icon-th-list"></i></a></li>
+                      <li class="active"><a href="#" id='ViewList' data-toggle="tab" title="List"><i class="icon-th-list"></i></a></li>
                       <li><a href="#" id='ViewMap' data-toggle="tab" title="Map"</a><i class="icon-globe"></i></a></li>
                       <li><a href="#" id='ViewTime' data-toggle="tab" title="Time"><i class="icon-time"></i></a></li>
                       <li><a href="#" id='ViewSlides' data-toggle="tab" title="Slides"><i class="icon-play"></i></a></li>
@@ -976,7 +909,10 @@
             </div>
          
 	    </div>
-
-
+    
+        <div id="LoadingSplash">        
+            <h1>Loading...</h1>
+        </div>
+    
     </body>
 </html>
