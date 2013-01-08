@@ -14,6 +14,9 @@ function renderList(s, o, v) {
         
         var x = s.getObject(k);
         
+        if (x.replyTo)
+            continue;
+        
         //scope prefilter
         if (scope == 'Mine') {
             if (x.author != s.id())

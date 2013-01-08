@@ -39,6 +39,10 @@
     width: 98%;	
 }
 
+.ObjectReply {
+    margin-left: 2em;
+    margin-top: 2em;
+}
 
 .TypePropertyButtons {
 	padding-left: 0.25em;	
@@ -242,4 +246,9 @@ div.olMapViewport {
 		}
 
 .PropertyEdit input[type="checkbox"] {
+}
+
+.ReplyWidget textarea {
+    width: 98%;
+    height: 5em;
 }

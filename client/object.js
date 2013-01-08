@@ -46,6 +46,42 @@ function getAvatar(s) {
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
+function newReplyWidget(onReply, onCancel) {
+    var w = $('<div></div>');
+    w.addClass('ReplyWidget');
+    
+    var ta = $('<textarea/>');
+    w.append(ta);
+    
+    var bw = $('<div style="text-align: right"></div>');
+    w.append(bw);
+    
+    var c = $('<button>Cancel</button>');
+    c.click(function() {
+        var ok;
+        if (ta.val() != "") {
+            ok = confirm('Cancel this reply?');
+        }
+        else {
+            ok = true;
+        }
+        
+        if (ok)            
+            onCancel();
+    });
+    bw.append(c);
+    
+    var b = $('<button>Reply</button>');
+    b.click(function() {
+        if (ta.val() != "") {
+            onReply(ta.val());
+        }
+    });
+    bw.append(b);
+    
+    return w;
+}
+
 function newObjectView(self, x, onRemoved, r) {
 	
 	var fs = (1.0 + r/2.0)*100.0 + '%';
@@ -64,17 +100,63 @@ function newObjectView(self, x, onRemoved, r) {
 		}
 	}
 
+    var replies = $('<div></div>');    
+    
+    function refreshReplies() {
+        var r = self.getReplies(x.uri);
+        if (replies.length > 0) {
+            replies.show();
+            replies.append(JSON.stringify(r, null, 4));
+        }
+        else {
+            replies.hide();
+        }
+    }
+
 	var hb = $('<div>').addClass('ObjectViewHideButton');
     
     var favoriteButton = $('<button title="Favorite"><i class="icon-star"></i></button>');
     hb.append(favoriteButton);
     
     var replyButton = $('<button title="Reply"><i class="icon-share"></i></button>');
+    replyButton.click(function() {
+        
+        newReply.show();
+        newReply.html('');
+        newReply.append(newReplyWidget( 
+            //on reply
+            function(text) {
+                
+                newReply.hide();
+                
+                var rr = {
+                    name: text,
+                    uri: uuid(), 
+                    type: [ 'Message' ],
+                    typeStrength: [1],
+                    values: [],
+                    replyTo: [ x.uri ],
+                    when: Date.now()
+                };
+                
+                self.notice(rr);
+                
+                self.pub(rr);
+                
+                refreshReplies();
+            },
+            
+            //on cancel
+            function() {                
+                newReply.hide();
+            }
+        ));
+        replyButton.enabled = false;
+    });
     hb.append(replyButton);
     
 	var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
 	focusButton.click(function() {
-		//setFocus(x);
         var oid = x.uri;
         Backbone.history.navigate('/object/' + oid, {trigger: true});
 	});
@@ -162,8 +244,18 @@ function newObjectView(self, x, onRemoved, r) {
 			ud.append('<li>' + vv.uri + ': ' + vv.value + '</li>');
 		}
 	}
+
+    replies.addClass('ObjectReply objectView');
+    replies.hide();
+    d.append(replies);
 	
+    var newReply = $('<div></div>');    
+    newReply.addClass('ObjectReply objectView');
+    newReply.hide();
+    d.append(newReply);
 	
+    refreshReplies();
+    
 	return d;
 }
 

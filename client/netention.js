@@ -136,21 +136,23 @@ function netention(f) {
             
             id : function() { return this.get('clientID'); },
             
-            getObject : function(id) { return this.get('attention')[id]; }, 
-            getSelf : function(clientID) { return this.get('attention')['Self-' + clientID]; }, 
+            objects : function() { return this.get('attention'); },
+            getObject : function(id) { return this.objects()[id]; }, 
+            getSelf : function(clientID) { return this.objects()['Self-' + clientID]; }, 
             getType : function(t) { return this.types()[t]; },
             getProperty : function(p) { return this.properties()[p]; },
             
             setObject : function(o) {
                 var i = o.uri;
-                this.get('attention')[i] = o;
+                this.objects()[i] = o;
                 return o;  
             },
             
             focus : function() { 
                 var f = this.get('focus'); 
-                if (!f)
-                    return { };
+                if (!f) {
+                    return { values: [ ], type: [ ], typeStrength: [ ] };
+                }
                 return f;
             },
             
@@ -280,7 +282,7 @@ function netention(f) {
                 */
             	
                 this.get('deleted')[id] = Date.now();
-            	delete (this.get('attention'))[id];	
+            	delete (this.objects())[id];	
             	
                 var that = this;
             	this.socket.emit('delete', id, function(err) {
@@ -327,6 +329,19 @@ function netention(f) {
             	});
             },
             
+            getReplies : function (uri) {
+                //TODO use an index to speed this up
+                var replies = [];
+                for (var x in this.objects()) {
+                    if (this.objects()[x].replyTo) {
+                        if (_.contains(this.objects()[x].replyTo, uri)) {
+                            replies.push(x);
+                        }
+                    }
+                }
+                return replies;
+            },
+            
             listenAll : function(b) {
                 if (b) {
                     this.subscribe('*', function(f) {
@@ -344,7 +359,7 @@ function netention(f) {
             		this.notice([x]);
             	}
                 
-                var attention = this.get('attention');
+                var attention = this.objects();
             
             	function n(y) {
             		if (!y)
