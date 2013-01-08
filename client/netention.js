@@ -33,7 +33,9 @@ function loadScripts(f) {
 //		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
 		                "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.11/OpenLayers.js",
                         
-//		                "http://code.jquery.com/ui/jquery-ui-git.js",
+                        //NEEDED FOR CHRONOZOOM:
+		                "http://code.jquery.com/ui/jquery-ui-git.js",
+                        
 //		                "/lib/jquery-tmpl/jquery.tmpl.js",
                         
 		                "/lib/jstorage/jstorage.js",
@@ -73,7 +75,11 @@ function loadScripts(f) {
                         '/lib/jquery-form/jquery.form.js',
                         
                         '/view.map.js',
-                        '/view.list.js'
+                        '/view.list.js',
+                        '/view.trends.js',
+                        '/view.slides.js',
+                        '/view.timeline.js'
+                        
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -87,6 +93,8 @@ function loadScripts(f) {
 	//loadCSS('/lib/superfish/css/superfish.css');
 	/*loadCSS('/lib/superfish/css/superfish-navbar.css');
 	loadCSS('/lib/superfish/css/superfish-vertical.css');*/
+    
+    loadCSS('/icon.type.css');
 	
     loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');
     
@@ -104,7 +112,7 @@ function loadScripts(f) {
     
     loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
 
-    
+ 
 }
 
 
