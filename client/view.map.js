@@ -14,7 +14,7 @@ function renderMap(s, o, v) {
         div: target,
         projection: fromProjection,
         displayProjection: toProjection,
-        numZoomLevels: 9
+        numZoomLevels: 12
     });
     var mapnik = new OpenLayers.Layer.OSM();
     var vector = new OpenLayers.Layer.Vector("Editable Vectors", {});

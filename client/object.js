@@ -104,7 +104,7 @@ function newObjectView(self, x, onRemoved, r) {
     
     function refreshReplies() {
         var r = self.getReplies(x.uri);
-        if (replies.length > 0) {
+        if (r.length > 0) {
             replies.show();
             replies.append(JSON.stringify(r, null, 4));
         }
