@@ -13,54 +13,53 @@ http://www.overpass-api.de/api/xapi?map?bbox=-180,-90,180,90
 */
 
 var xml2object = require('xml2object');
-var sensor = require('./sensor.js');
 var util = require('../client/util.js');
 
-function OpenStreetMaps(bounds) {
-
-	var s = sensor.Sensor('OpenStreetMaps' + JSON.stringify(bounds), function() {
-
-		var parser = new xml2object([ 'node' ], /*TODO get bounds from URL*/ '/tmp/node.xml');
-	
-		parser.on('object', function(name, obj) {
-		    //console.log('Found an object: %s', name);
-		    if (name == 'node') {
-		    	
-		    	if (obj.tag) {
-		    		var name = '';
-		    		var amenity = 'node';
-		    		var lat = parseFloat(obj.lat);
-		    		var lon = parseFloat(obj.lon);			    	
-					
-					for (var i = 0; i < obj.tag.length; i++) {
-						var t = obj.tag[i];
-						if (t.k == 'amenity')
-							amenity = t.v;
-						else if (t.k == 'name')
-							name = t.v;
-					}
-					
-					if (name!='') {
-						var uri = 'osm.node.' + obj.id;
-						s.out.push({
-							'uri': uri,
-							name: name,
-							type: 'osm.' + amenity,
-							geolocation: [lat, lon]
-						});
-					}
-		    	}
-		    }
-		});
-		parser.on('end', function() {
-		    //console.log('Finished parsing xml!');
-		});
-	
-		parser.start();
-	});
-	
-	return s;
-	
-}
-
-exports.OpenStreetMaps = OpenStreetMaps;
+//function OpenStreetMaps(bounds) {
+//
+//	var s = sensor.Sensor('OpenStreetMaps' + JSON.stringify(bounds), function() {
+//
+//		var parser = new xml2object([ 'node' ], /*TODO get bounds from URL*/ '/tmp/node.xml');
+//	
+//		parser.on('object', function(name, obj) {
+//		    //console.log('Found an object: %s', name);
+//		    if (name == 'node') {
+//		    	
+//		    	if (obj.tag) {
+//		    		var name = '';
+//		    		var amenity = 'node';
+//		    		var lat = parseFloat(obj.lat);
+//		    		var lon = parseFloat(obj.lon);			    	
+//					
+//					for (var i = 0; i < obj.tag.length; i++) {
+//						var t = obj.tag[i];
+//						if (t.k == 'amenity')
+//							amenity = t.v;
+//						else if (t.k == 'name')
+//							name = t.v;
+//					}
+//					
+//					if (name!='') {
+//						var uri = 'osm.node.' + obj.id;
+//						s.out.push({
+//							'uri': uri,
+//							name: name,
+//							type: 'osm.' + amenity,
+//							geolocation: [lat, lon]
+//						});
+//					}
+//		    	}
+//		    }
+//		});
+//		parser.on('end', function() {
+//		    //console.log('Finished parsing xml!');
+//		});
+//	
+//		parser.start();
+//	});
+//	
+//	return s;
+//	
+//}
+//
+//exports.OpenStreetMaps = OpenStreetMaps;

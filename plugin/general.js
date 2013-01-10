@@ -1,4 +1,4 @@
-var generalTypes = [
+var generalTags = [
 	{ uri: 'general.Human', name: 'Human',		
 		extends: [ 'general.Being' ],
 		properties: {
@@ -52,18 +52,18 @@ var generalTypes = [
 	{ uri: 'general.Media', name: 'Media'}, //params: contentType
 	{ uri: 'general.Goal', name: 'Goal'}, //=Project=Program=Action
 	{ uri: 'general.User', name: 'User'}, 
-	{ uri: 'general.Netention', name: 'Netention'} //Netention itself, meta 
+	{ uri: 'general.Netention', name: 'Netention'}, //Netention itself, meta 
     { uri: 'general.Message', name: 'Message'} //Netention itself, meta 
 ];
 
 exports.plugin = {
     	name: 'General',	
-		description: 'Generally helpful types',
+		description: 'General Tags',
 		options: { },
         version: '1.0',
         author: 'http://netention.org',
 		start: function(netention) { 
-            netention.addTypes(generalTypes);    
+            netention.addTags(generalTags);    
         },
 		stop: function(netention) { }
 };

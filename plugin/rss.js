@@ -13,12 +13,11 @@ exports.plugin = {
         
 		start: function(netention) { 
             
-            //TODO add type
-            netention.addTypes([
+            netention.addTags([
                 {
                     uri: 'web.RSSFeed', name: 'RSS Feed', properties: {
-                        'url': { name: 'URL', type: 'text' /* url */ },
-                        'urlFetchPeriod': { name: 'Fetch Period (seconds)', type: 'text' /* number */, defaultValue: "3600" }
+                        'url': { name: 'URL', type: 'text' /* url */, min: 1 },
+                        'urlFetchPeriod': { name: 'Fetch Period (seconds)', type: 'text' /* number */, default: "3600", min: 1, max: 1 }
                         //'urlLastFetchedAt': { name: 'Last Fetched (timestamp)', type: 'text' /* number */ }
                     }
                 }
@@ -33,7 +32,7 @@ exports.plugin = {
                 
                 that.feeds = { };                
                 
-                this.netention.getObjectsByType('web.RSSFeed', function(objs) {
+                this.netention.getObjectsByTag('web.RSSFeed', function(objs) {
                     for (var i = 0; i < objs.length; i++) {
                         var x = objs[i];
                         that.feeds[x.uri] = x;
@@ -77,6 +76,8 @@ exports.plugin = {
                         
                         if (furi) {
                             RSSFeed(furi, function(a) {            
+                                //TODO add extra tags from 'f'
+                                
                                 netention.pub(a);
                                 return a;
                 	        });
@@ -93,9 +94,9 @@ exports.plugin = {
         },
                 
         notice: function(x) {
-            if (!x.type)
+            if (!x.tag)
                 return;
-            if (_.contains(x.type, 'web.RSSFeed')) {
+            if (_.contains(x.tag, 'web.RSSFeed')) {
                 this.update();
             }
         },
@@ -125,8 +126,10 @@ var RSSFeed = function(url, perArticle) {
 			link: a['link'],
 			when: new Date(a['date']).getTime(),
 			name: a['title'],
-			type: [ "Message" ],
-			length: maxlen
+			tag: [ "general.Message" ],
+            tagStrength: [ "1.0" ],
+			length: maxlen,
+            text: a['description']
 		};
 		if (a['georss:point']) {
 			x.geolocation = a['georss:point'];

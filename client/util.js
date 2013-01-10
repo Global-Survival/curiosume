@@ -67,18 +67,6 @@ function uuid() {
 }
 exports.uuid = uuid;
 
-function getTypeArray(t) {
-	if (typeof(t) == "array")
-		return t;
-	if (typeof(t) == "string") {
-		return t.split(",");
-	}
-	return t;
-}
-exports.getTypeArray = getTypeArray;
-
-
-
 function addProperty(x, p) {
     x.values.push( { uri: p, val: p } );
     return x;
@@ -92,23 +80,23 @@ function acceptsAnotherProperty(x, p) {
 }
 exports.acceptsAnotherProperty = acceptsAnotherProperty;
 
-function addType(x, t, value) {
-    x.type.push(t);
+function addTag(x, t, value) {
+    x.tag.push(t);
     
     if (!value)
         value = 1.0;
         
-    x.typeStrength.push(value);
+    x.tagStrength.push(value);
     return x;
 }
-exports.addType = addType;
+exports.addTag = addTag;
 
-function removeType(x, index) {
-    x.type.splice(index, 1);    
-    x.typeStrength.splice(index, 1);    
+function removeTag(x, index) {
+    x.tag.splice(index, 1);    
+    x.tagStrength.splice(index, 1);    
     return x;
 }
-exports.removeType = removeType;
+exports.removeTag = removeTag;
 
 function getProperty(object, propertyID, defaultValue) {
     if (object.values) {

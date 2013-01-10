@@ -1,6 +1,4 @@
-//var sensor = require('./sensor.js');
-
-var emotionTypes = [
+var emotionTags = [
 	{ uri: 'emotion.happy', name: 'Happy' },
 	{ uri: 'emotion.trusting', name:'Trusting'},
 	{ uri: 'emotion.anticipating', name: 'Anticipating'},
@@ -44,7 +42,7 @@ exports.plugin = {
 		options: { },
 		start: function(netention) { 
             
-            netention.addTypes(emotionTypes);
+            netention.addTags(emotionTags);
             
         },
 		stop: function(netention) {

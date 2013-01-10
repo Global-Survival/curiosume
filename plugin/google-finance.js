@@ -1,15 +1,14 @@
-var sensor = require('./sensor.js');
+//var http = require('http');
+//var util = require('util');
 
-var http = require('http');
-var util = require('util');
+//var myutil = require('../client/util.js');
 
-var myutil = require('../client/util.js');
-
+/*
 //TODO implement request-per-second parameter, bunch as many symbols together as possible per request
 function GoogleFinanceSymbols(symbols) {
 	var s = sensor.PeriodicSensor('GoogleFinanceSymbols_' + symbols, 5.0 * 60 * 1000, function() {
 		get_quote(symbols, function(next) {
-			s.out.push([ /*'Finance'*/ "emotion-happy", next]);
+			s.out.push([ 'Finance' "emotion-happy", next]);
 		});
 	});
 
@@ -52,7 +51,7 @@ function get_quote(tickers, output) {
 					quote.ticker = data_object[i].t;
 					quote.last_trade_time = data_object[i].lt;
 					quote.uri = quote.ticker + "_" + quote.last_trade_time;
-					quote.type = 'FinanceQuote';
+					quote.tag = [ 'FinanceQuote' ];
 					quote.exchange = data_object[i].e;
 					quote.price = data_object[i].l_cur;
 					quote.change = data_object[i].c;
@@ -65,18 +64,10 @@ function get_quote(tickers, output) {
 				
 
 
-				/*p_socket.emit('quote', PRETTY_PRINT_JSON ? JSON.stringify(quote, true, '\t') : JSON.stringify(quote));*/
+				//p_socket.emit('quote', PRETTY_PRINT_JSON ? JSON.stringify(quote, true, '\t') : JSON.stringify(quote));
 			}
 		});
 	});
 }
-
-/*
-var b = myutil.OutputBuffer(1000, function(s) {
-	console.log('O: ' , s);
-});
-b.start();
-sensor.addSensor(GoogleFinanceSymbols(['aapl','msft','ibm','goog']), b);
-sensor.addSensor(GoogleFinanceSymbols(['mon','bp','exc']), b);
 */
 

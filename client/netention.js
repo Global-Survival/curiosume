@@ -47,22 +47,10 @@ function loadScripts(f) {
                         'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js',
 
                         '/lib/pnotify/jquery.pnotify.min.js',
-
                         
 //		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
-//		                "/lib/superfish/js/hoverIntent.js"
-//		                "/lib/superfish/js/superfish.js",
-//		                "/lib/superfish/js/supersubs.js",
 
 		                "/util.js", "./map.js", "./object.js",
-                        
-/*		                "/self.js",
-		                "/team.js",
-		                "/sensor.js",
-		                "/time.js",
-		                "/map.heatmap.js",
-		                "/environment.js",
-		                "/cortexit.js"	                */
                         
                         "/lib/jqplot/jquery.jqplot.min.js",
                         "/lib/jqplot/plugins/jqplot.barRenderer.min.js",
@@ -89,29 +77,18 @@ function loadScripts(f) {
     //loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
 
 	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
+	    
 	
-	//loadCSS('/lib/superfish/css/superfish.css');
-	/*loadCSS('/lib/superfish/css/superfish-navbar.css');
-	loadCSS('/lib/superfish/css/superfish-vertical.css');*/
-    
-    loadCSS('/icon.type.css');
-	
-    loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');
-    
-    
-	/*loadCSS('/gss.css');
-	loadCSS('/gss.fixed.css');
-	loadCSS('/team.css');
-	loadCSS('/environment.css');
-	loadCSS('/cortexit.css'); */
-    
-    loadCSS('/map.css');
-    loadCSS('/object.css');
-    
+    loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
+            
     loadCSS('/lib/pnotify/jquery.pnotify.default.css');
     
     loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
 
+    loadCSS('/icon.type.css');
+    loadCSS('/map.css');
+    loadCSS('/object.css');
+    
  
 }
 
@@ -127,7 +104,7 @@ function netention(f) {
         Self = Backbone.Model.extend({
             
             defaults: {
-                types: { },
+                tags: { },
                 properties: { },
                 attention: { },
                 deleted: { },
@@ -136,8 +113,7 @@ function netention(f) {
             
             id : function() { return this.get('clientID'); },
 
-            //->tags
-            types : function() { return this.get('types'); },
+            tags : function() { return this.get('tags'); },
             properties : function() { return this.get('properties'); },
             
             objects : function() { return this.get('attention'); },
@@ -145,7 +121,7 @@ function netention(f) {
             getSelf : function(clientID) { return this.objects()['Self-' + clientID]; }, 
             
             //->getTag
-            getType : function(t) { return this.types()[t]; },
+            getTag : function(t) { return this.tags()[t]; },
             getProperty : function(p) { return this.properties()[p]; },
             
             setObject : function(o) {
@@ -157,7 +133,7 @@ function netention(f) {
             focus : function() { 
                 var f = this.get('focus'); 
                 if (!f) {
-                    return { values: [ ], type: [ ], typeStrength: [ ] };
+                    return { uri: uuid(), values: [ ], tag: [ ], tagStrength: [ ] };
                 }
                 return f;
             },
@@ -169,8 +145,8 @@ function netention(f) {
                     o = {
                         uri: 'Self-' + this.id(),
                         name: 'Anonymous',
-        		        type: [ 'general.Human', 'general.User' ],
-        		        typeStrength: [ 1.0, 1.0 ],
+        		        tag: [ 'general.Human', 'general.User' ],
+        		        tagStrength: [ 1.0, 1.0 ],
                         properties: [ ]
                     };
                     this.setObject(o);
@@ -200,8 +176,8 @@ function netention(f) {
                 socket.on('notice', function(n) {
                     that.notice(n);   
                 });
-            	socket.on('addTypes', function(t) {
-                    that.addTypes(t);                    
+            	socket.on('addTags', function(t) {
+                    that.addTags(t);                    
             	});
                 
                 socket.emit('connectSelf', this.get('clientID'));
@@ -231,9 +207,9 @@ function netention(f) {
                 }); */
             },
             
-            addType: function(t) {
-                var ty = this.get('types');
-                var p = this.get('properties');
+            addTag: function(t) {
+                var ty = this.tags();
+                var p = this.properties();
                 
                 
                 ty[t.uri] = t;
@@ -260,18 +236,13 @@ function netention(f) {
     
             },
             
-            addTypes: function(at) {
-                //console.log('Adding types: ', at);
+            addTags: function(at) {
                                 
                 for (var k in at) {
-            		this.addType(at[k]);
+            		this.addTag(at[k]);
             	}
-                this.trigger('change:types');
+                this.trigger('change:tags');
                 
-                /*
-            	saveSelf();
-            	updateTypes();
-                */
             },
             
             deleteObject: function(x) {
@@ -406,6 +377,8 @@ function netention(f) {
             },
             
             pub: function(message) {
+                if (message.tag.length == 0)
+                    message = addTag(message, 'general.Message');
                 this.socket.emit('pub', message);
             },
             

@@ -36,25 +36,10 @@ exports.start = function(host, port, database, init) {
     
 	var that = { };
 	
-	var types =  { };
+	var tags =  { };
 
 	var attention = memory.Attention(0.95);
-	
-	
-    //DEPRECATED
-    /*{
-    	var sensor = require('../plugin/sensor.js');
-    	
-    	var b = util.OutputBuffer(300, function(message) {
-    		message.type = util.getTypeArray(message.type);
-    		//pub(message);
-    		
-    	});
-    	b.start();
-    	
-    	sensor.setDefaults(b, types);
-    }*/
-	
+		
 	var logMemory = util.createRingBuffer(256); 
 	Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
 	Server.clientState = { };	//current state of all clients, indexed by their clientID DEPRECATED
@@ -112,11 +97,11 @@ exports.start = function(host, port, database, init) {
 	function loadState(f) {
 		var db = mongo.connect(databaseUrl, collections);
 		
-		db.obj.find({ type: 'ServerState' }).limit(1).sort({time:-1}, function(err, objs) {
+		db.obj.find({ tag: { $in: [ 'ServerState' ] } }).limit(1).sort({when:-1}, function(err, objs) {
 			  if( err || !objs) console.log("No object found");
 			  else objs.forEach( function(x) {
 				  var now = Date.now();
-				  nlog('Resuming from ' + (now - x.time)/1000.0 + ' seconds downtime');
+				  nlog('Resuming from ' + (now - x.when)/1000.0 + ' seconds downtime');
 				  Server.interestTime = x.interestTime;
 				  Server.clientState = x.clientState;
                   
@@ -190,19 +175,20 @@ exports.start = function(host, port, database, init) {
 	}
     that.notice = notice;
     
-    function addTypes(at) {
+    function addTags(at) {
         for (var i = 0; i < at.length; i++) {
     		var a = at[i];
-    		types[at[i].uri] = a;
+    		tags[at[i].uri] = a;
     	}        
         
-        //TODO broadcast change in types?
+        //TODO broadcast change in tags?
     }
-    that.addTypes = addTypes;
+    that.addTags = addTags;
 	
 	function getObjectSnapshot(uri, whenFinished) {
-		if (types[uri]!=undefined) {
-			whenFinished(types[uri]);
+		if (tags[uri]!=undefined) {
+            //it's a tag
+			whenFinished(tags[uri]);
 		}
 		else {
 			var db = mongo.connect(databaseUrl, collections);
@@ -219,9 +205,9 @@ exports.start = function(host, port, database, init) {
 		
 	}
 	
-	function getObjectsByType(t, withObjects) {
+	function getObjectsByTag(t, withObjects) {
 		var db = mongo.connect(databaseUrl, collections);
-		db.obj.find({ type: { $in: [ t ] } }, function(err, docs) {
+		db.obj.find({ tag: { $in: [ t ] } }, function(err, docs) {
 	
 			db.close();
 			
@@ -232,25 +218,24 @@ exports.start = function(host, port, database, init) {
 		});
 		
 	}
-    that.getObjectsByType = getObjectsByType;
+    that.getObjectsByTag = getObjectsByTag;
 	
-	function getTypeCounts(whenFinished) {
+	function getTagCounts(whenFinished) {
 		//this can probably be optimized very much
 		
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find(function(err, docs) {
 			if (err) {
-				console.log('getTypeCounts: ' + err);
+				console.log('getTagCounts: ' + err);
 			}
 			db.close();
 			
 			var totals = { };
 			for (var k in docs) {
 				var d = docs[k];
-				if (d.type) {
-					d.type = util.getTypeArray(d.type); //TODO shouldn't be necessary
-					for (var i = 0; i < d.type.length; i++) {
-						var dtype = d.type[i];
+				if (d.tag) {					
+					for (var i = 0; i < d.tag.length; i++) {
+						var dtype = d.tag[i];
 						if (totals[dtype])
 							totals[dtype][0]++;
 						else
@@ -284,8 +269,8 @@ exports.start = function(host, port, database, init) {
 		logMemoryPointer = logMemory.pointer;*/
 		
 		delete Server._id;
-		Server.type = 'ServerState';
-		Server.time = t;            
+		Server.tag = [ 'ServerState' ];
+		Server.when = t;            
 	
 
 		var db = mongo.connect(databaseUrl, collections);
@@ -329,18 +314,6 @@ exports.start = function(host, port, database, init) {
 	
 	process.on('SIGINT', finish);
 	process.on('SIGTERM', finish);
-	
-	//http://howtonode.org/node-js-and-mongodb-getting-started-with-mongojs
-	/*db.obj.save({ id: 'AnonymousAgentExample',  type: [ 'agent'], email: "anonymous@server.com", name: 'Anonymous'}, function(err, saved) {
-		  if( err || !saved ) console.log("User not saved: " + err);
-		  else console.log("User saved");
-	});*/
-	/*db.obj.find({ }, function(err, objs) {
-		  if( err || !objs) console.log("No object found");
-		  else objs.forEach( function(x) {
-		    console.log(x);
-		  } );
-	});*/
 	
 	
 	function nlog(x) {
@@ -513,7 +486,7 @@ exports.start = function(host, port, database, init) {
 		//return known map data as czml list
 	});
 	express.get('/attention', function (req, res) {
-		getTypeCounts(function(x) {
+		getTagCounts(function(x) {
 			sendJSON(res, x, false);
 		});			
 	});
@@ -545,15 +518,15 @@ exports.start = function(host, port, database, init) {
 	function broadcast(socket, message) {
 		notice(message);
 	
-		if (message.type) {
+		if (message.tag) {
 			
             if (socket)
 			    nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
 			
 			var targets = { };
 			
-			for (var t = 0; t < message.type.length; t++) {
-				var chan = message.type[t];
+			for (var t = 0; t < message.tag.length; t++) {
+				var chan = message.tag[t];
 				
 				var cc = io.sockets.clients(chan);
 				for (var cck in cc) {
@@ -586,24 +559,6 @@ exports.start = function(host, port, database, init) {
 	}
     that.pub = pub;
     
-    /*
-	function pub(message) {
-		notice(message);
-	
-		nlog(JSON.stringify(message, null, 4));
-	
-		if (message.type) {
-			//TODO gather list of clients to avoid sending duplicate messages to some clients
-			for (var t = 0; t < message.type.length; t++) {
-				var chan = message.type[t];
-				//console.dir(io.sockets.in(chan));
-				io.sockets.in(chan).emit('notice', message);	
-	
-			}
-		}
-        
-	}*/
-	
 	function isAuthenticated(session) {
 	   if (session)
 			if (session.passport)
@@ -692,8 +647,8 @@ exports.start = function(host, port, database, init) {
 		   //share server information
 	       socket.emit('setServer', Server.name, Server.description);
 	       
-	       //share types
-	       socket.emit('addTypes', types);
+	       //share tags
+	       socket.emit('addTags', tags);
 	    });
 	    
 	    socket.on('updateSelf', function(s, getObjects) {
@@ -759,7 +714,7 @@ exports.start = function(host, port, database, init) {
 		socket.join(channel);
 		
 		if (sendExisting) {
-			getObjectsByType(channel, function(objects) {
+			getObjectsByTag(channel, function(objects) {
 				socket.emit('notice', objects);		
 			});		
 		}

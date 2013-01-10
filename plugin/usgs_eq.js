@@ -13,8 +13,7 @@ exports.plugin = {
         
 		start: function(netention) { 
             
-            //TODO add type
-            netention.addTypes([
+            netention.addTags([
                 {
                     uri: 'geo.EarthQuake', name: 'Earthquake', properties: {
                     }
@@ -24,7 +23,7 @@ exports.plugin = {
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 
                 eq.eqMagnitude = parseFloat( eq.name.substring(1, eq.name.indexOf(',')));
-		        eq.type = [ 'geo.EarthQuake' ];
+		        eq.tag = [ 'geo.EarthQuake' ];
                 
                 netention.notice(eq);
 

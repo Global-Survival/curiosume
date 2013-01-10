@@ -50,7 +50,7 @@ function renderList(s, o, v) {
         
         if (semantic == 'Relevant') { 
             if (focus) {
-                var m = getTypeMatch(s.focus(), x);
+                var m = getTagMatch(s.focus(), x);
                 r *= m;
             }
             else

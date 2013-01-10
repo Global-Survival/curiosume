@@ -13,26 +13,26 @@ function renderTrends(s, o, v) {
     var xx = $('<div></div>').attr('id', xu);
     v.append(xx);
     
-    var typeCount = { };
+    var tagCount = { };
     
     for (var ai in aa) {
-        var t = aa[ai].type;
+        var t = aa[ai].tag;
         if (!t)                 continue;
         if (!Array.isArray(t))  continue;
         
         for (var i = 0; i < t.length; i++) {
             var tt = t[i];
-            if (!typeCount[tt])
-                typeCount[tt] = 0;
-            typeCount[tt] = typeCount[tt] + 1.0; //TODO add the normalized type strength
+            if (!tagCount[tt])
+                tagCount[tt] = 0;
+            tagCount[tt] = tagCount[tt] + 1.0; //TODO add the normalized tag strength
         }
     }
     
     var labels = [];
 	var values = [];
-	for (k in typeCount) {
-		labels.push(k + '(' + typeCount[k] + ')');
-		values.push(Math.log(typeCount[k]));
+	for (k in tagCount) {
+		labels.push(k + '(' + tagCount[k] + ')');
+		values.push(Math.log(tagCount[k]));
 	}
 	
 	var plot2 = $.jqplot(xu, 						

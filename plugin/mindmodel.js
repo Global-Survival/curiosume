@@ -2,7 +2,6 @@
 //5 cols: source type, source name, statement, target type, target name
 
 var csv = require('ya-csv');
-var sensor = require('./sensor.js');
 
 var readCSV = function(path, out, finished) {
 	var reader = csv.createCsvFileReader(path, {
@@ -42,7 +41,7 @@ var getEntry = function(data) {
 
 	var o = {
 		uri: srcID,
-		type: data[0],
+		tag: data[0],
 		statement: [
 			[ data[2], targetID ]
 		]
@@ -51,6 +50,7 @@ var getEntry = function(data) {
 	return o;
 }
 
+/*
 var MMCSV = function(channel, path) {
 	var s = sensor.Sensor('MMSCV_' + path, function() {
 
@@ -66,3 +66,4 @@ var MMCSV = function(channel, path) {
 exports.readCSV = readCSV;
 exports.getEntry = getEntry;
 exports.MMCSV = MMCSV;
+*/

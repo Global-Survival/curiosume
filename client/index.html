@@ -16,9 +16,9 @@
                 
             
                 x.uri = f.uri;
-                x.type = f.type;
-                x.typeStrength = f.typeStrength;
-                
+                x.tag = f.tag;
+                x.tagStrength = f.tagStrength;
+                                
                 if (!x.author)
                     x.author = window.self.get('clientID');
                 x.when = Date.now();
@@ -58,9 +58,9 @@
                 if (!x.values)
                     x.values  = [];
                 
-                if (!x.type) {
-                    x.type = [];
-                    x.typeStrength = [];
+                if (!x.tag) {
+                    x.tag = [];
+                    x.tagStrength = [];
                 }
                                 
                                 
@@ -94,13 +94,13 @@
                 $('#FocusUploadSection').hide();
                 
                 
-                if (x.type.length == 0) {
+                if (x.tag.length == 0) {
                     $('#FocusTypes').hide();
                 }
                 else {
                     $('#FocusTypes').show();
-                    for (var k = 0; k < x.type.length; k++) {
-                        var t = x.type[k];
+                    for (var k = 0; k < x.tag.length; k++) {
+                        var t = x.tag[k];
                         var typeWidget = $('<span class="dropdown">');
                         
                         var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + t + '</a>');
@@ -110,7 +110,7 @@
                         typeWidget.append(u);
     
     
-                        var tv = window.self.get('types')[t];
+                        var tv = window.self.tags()[t];
                         if (!tv)
                             tv = { };
                         
@@ -150,14 +150,14 @@
                             var rb = $('<a href="#">Remove</a>');
                             rb.click(function() {
                                 var f = window.self.focus();
-                                commitFocus(removeType(f, kk));
+                                commitFocus(removeTag(f, kk));
                             });
                             var rbi = $('<li/>'); rbi.append(rb);
                             u.append(rbi);
                         }());
                         (function() {
                             var kk = k;
-                            var rb = $('<a href="/#/type/' + k + '">Edit Type</a>');
+                            var rb = $('<a href="/#/tag/' + k + '">Edit Tag</a>');
                             var rbi = $('<li/>'); rbi.append(rb);
                             u.append(rbi);
                         }());
@@ -188,15 +188,15 @@
                 window.self.trigger('change:focus');                
             }
 
-            function updateTypes() {
+            function updateTags() {
                 //THIS CURRENTLY ASSUMES THAT ALL TYPE ID's ARE IN THE FOLLOWING FORMAT:
                 //  package.type
                 //ex:
                 //  general.Human
                 
-                var types = window.self.get('types');
+                var tags = window.self.tags();
                 var typeMenu = { };
-                for (var k in types) {
+                for (var k in tags) {
                     var x = k.split('.');                        
                     
                     if (!typeMenu[x[0]])
@@ -232,8 +232,8 @@
                             
                             a.click(function() {
                                 var f = getEditedFocus();
-                                if (!hasType(f, id)) {
-                                    commitFocus(addType(f, id));
+                                if (!hasTag(f, id)) {
+                                    commitFocus(addTag(f, id));
                                 }
                             });
                             
@@ -279,8 +279,8 @@
                     updateView();
                 });
                 
-                self.on('change:types', function() {
-                    updateTypes();
+                self.on('change:tags', function() {
+                    updateTags();
                     updateFocus();
                 });
 
@@ -288,7 +288,7 @@
                     var focusShown = $('#focus').is(':visible');
                     if (focusShown) {
                         //hide it
-                        $('#focus').hide();
+                        $('#SelfTarget').hide();
                         $('#DataTarget').addClass('DataTargetFull');
                         $('#ViewSelect').addClass('ViewSelectIndented');
                         $('#FocusMainMenu').hide();
@@ -297,7 +297,7 @@
                         //show it
                         $('#DataTarget').removeClass('DataTargetFull');
                         $('#ViewSelect').removeClass('ViewSelectIndented');
-                        $('#focus').show();
+                        $('#SelfTarget').show();
                         $('#FocusMainMenu').show();
                     }
                     updateView();
@@ -408,7 +408,7 @@
                             replace('\/',' ').split(' ');
                 }
                 
-                function updateTypeSuggestions(t) {
+                function updateTagSuggestions(t) {
                     t = getKeywords(t);
                     
                     var keywords = _.filter(t, isValidKeyword);
@@ -418,9 +418,9 @@
                     
                     var matched = { };
                     _.each(keywords, function(keyword) {
-                        var types = window.self.types();
+                        var types = window.self.tags();
                         
-                        function keywordMatchesType(k, t) {
+                        function keywordMatchesTag(k, t) {
                             var name = types[t].name;
                             var desc = types[t].description;
                             if (desc) {
@@ -432,7 +432,7 @@
                         }
                         
                         for (var t in types) {
-                            if (keywordMatchesType(keyword, t)) {
+                            if (keywordMatchesTag(keyword, t)) {
                                 matched[t] = true;
                             }
                         }
@@ -442,29 +442,29 @@
                     for (var m in matched) {
                         (function() {
                             var e = getEditedFocus();
-                            if (hasType(e, m))
+                            if (hasTag(e, m))
                                 return;
                                 
-                            var mx = window.self.getType(m);
+                            var mx = window.self.getTag(m);
                             var mn = mx.name;
                             
                             var bb = $('<button>' + mn + '?</button>');
                             bb.click(function() {
-                                commitFocus(addType(e, mx.uri, 1.0));
+                                commitFocus(addTag(e, mx.uri, 1.0));
                             });
                             mt.append(bb);                        
                         })();
                     }
                 }
                 
-                var throttledUTS = _.throttle(updateTypeSuggestions, 700);
+                var throttledUTS = _.throttle(updateTagSuggestions, 700);
                 
                 $('#FocusName').keyup(function() {
                     var t = $('#FocusName').val();
                     throttledUTS(t);
                 });
                 
-                updateTypes();
+                updateTags();
                 updateFocus();
                 
             }
@@ -582,14 +582,14 @@
                           help: function() {
                                 commitFocus({
                                    uri: uuid(),
-                                   type: [ 'help '], typeStrength: [ 1.0 ]
+                                   tag: [ 'help '], tagStrength: [ 1.0 ]
                                 });
                           },
                           
                           tag: function(tag) {
                                 commitFocus({
                                    uri: uuid(),
-                                   type: [ tag ], typeStrength: [ 1.0 ]
+                                   tag: [ tag ], tagStrength: [ 1.0 ]
                                 });
                           },
                         
@@ -774,7 +774,7 @@
                 <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
                 <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
                 <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li>
-                <li><a href="/#/types"><img src="/icon/rrze/actions/back-to-ou.png"/>Types</a></li>
+                <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li>
                 <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
                 <li class="dropdown-submenu">
                     <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>

@@ -15,7 +15,7 @@ exports.plugin = {
             			name: n
             		});
             	}
-            	netention.addTypes(lt);
+            	netention.addTags(lt);
             }
             
             add4ChanTopics([ 'Video Games',
@@ -35,4 +35,3 @@ exports.plugin = {
         },
 		stop: function(netention) { }
 };
-//exports.initTypes = initTypes;

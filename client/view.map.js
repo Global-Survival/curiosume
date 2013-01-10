@@ -4,6 +4,8 @@ function renderMap(s, o, v) {
     
     var target = e;
     var location = self.myself().geolocation;
+    if (!location)
+        location = [0,0];
     
     var defaultZoomLevel = 9;
     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984

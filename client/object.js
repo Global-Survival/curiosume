@@ -1,8 +1,8 @@
-function hasType(o, t) {    
-	if (!o.type)
+function hasTag(o, t) {    
+	if (!o.tag)
 		return false;
         
-	var ot = o.type;
+	var ot = o.tag;
 
     //TODO use an underscore function instead of this loop
 	for (var i = 0; i < ot.length; i++) {
@@ -12,14 +12,12 @@ function hasType(o, t) {
 	return false;
 }
 
-function getTypeMatch(x,y) {
-    if (!x.type)
-		return 0;
-    if (!y.type)
-        return 0;
+function getTagMatch(x,y) {
+    var xt = x.tag;
+    var yt = y.tag;
 
-    var xt = x.type;
-    var yt = y.type;
+    if ((!xt) || (!yt))
+		return 0;
 
     var match = 0;
     for (var i = 0; i < xt.length; i++) {
@@ -32,7 +30,7 @@ function getTypeMatch(x,y) {
 }
 
 function getProperties(t) {
-    //TODO add 'extends' supertype inheritance
+    //TODO add 'extends' supertag inheritance
     if (t.properties)
         return t.properties;
     return [];
@@ -47,7 +45,6 @@ function getAvatar(s) {
 }
 
 function newTagButton(t) {
-    console.dir(t);
     var b = $('<a href="#">' + t.name + '</a>');
     return b;
 }
@@ -145,8 +142,8 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
                     var rr = {
                         name: text,
                         uri: uuid(), 
-                        type: [ 'general.Message' ],
-                        typeStrength: [1],
+                        tag: [ 'general.Message' ],
+                        tagStrength: [1],
                         values: [],
                         replyTo: [ x.uri ],
                         when: Date.now()
@@ -167,13 +164,14 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
             replyButton.enabled = false;
         });
         hb.append(replyButton);
+        
+        var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
+    	focusButton.click(function() {
+            var oid = x.uri;
+            Backbone.history.navigate('/object/' + oid, {trigger: true});
+    	});
     }
     
-	var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
-	focusButton.click(function() {
-        var oid = x.uri;
-        Backbone.history.navigate('/object/' + oid, {trigger: true});
-	});
 	var deleteButton = $('<button title="Delete"><i class="icon-remove"></i></button>');
 	deleteButton.click(function() {
 		if (confirm('Permanently delete? ' + x.uri)) {
@@ -208,10 +206,10 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
     var mdline = $('<span></span>');
     mdline.addClass('MetadataLine');
     
-	if (x.type) {
-        for (var i = 0; i < x.type.length; i++) {
-            var t = x.type[i];            
-            var tt = self.getType(t);
+	if (x.tag) {
+        for (var i = 0; i < x.tag.length; i++) {
+            var t = x.tag[i];            
+            var tt = self.getTag(t);
             if (tt) {
                 mdline.append(newTagButton(tt));
             }
@@ -226,7 +224,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
         return x.toFixed(2);
 	}
         	
-	if (x.geolocation) {
+	if (x.geolocation && self.myself().geolocation) {
 		var dist = '?';
 		if (self.myself().geolocation)
 			dist = geoDist(x.geolocation, self.myself().geolocation);
@@ -258,7 +256,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
 		
-		if (hasType(x, 'general.Media')) {
+		if (hasTag(x, 'general.Media')) {
 			var imgURL = x.text;
 			if (imgURL.indexOf('http://')==0)
 				d.append('<img src="'+imgURL+'"/>');
