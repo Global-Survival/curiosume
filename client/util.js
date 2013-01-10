@@ -67,8 +67,11 @@ function uuid() {
 }
 exports.uuid = uuid;
 
-function addProperty(x, p) {
-    x.values.push( { uri: p, val: p } );
+function addProperty(x, p, value) {
+    if (!value)
+        value = "";
+        
+    x.values.push( { uri: p, 'value': value } );
     return x;
 }
 exports.addProperty = addProperty;
@@ -91,6 +94,29 @@ function addTag(x, t, value) {
 }
 exports.addTag = addTag;
 
+function addTagWithRequiredProperties(self, x, t, value) {
+    var y = addTag(x, t, value);
+    
+    var tt = self.getTag(t);
+    for (var i in tt.properties) {
+        var pp = tt.properties[i];
+        if (pp.min) {
+            if (pp.min > 0) {
+                if (!getProperty(x, i)) {
+                    var dv = '';
+                    
+                    if (pp.default)
+                        dv = pp.default;
+                        
+                    y = addProperty(y, i, dv);                    
+                }
+            }
+        }
+    }
+    
+    return y;
+}
+
 function removeTag(x, index) {
     x.tag.splice(index, 1);    
     x.tagStrength.splice(index, 1);    
@@ -108,6 +134,19 @@ function getProperty(object, propertyID, defaultValue) {
 	return defaultValue;
 }
 exports.getProperty = getProperty;
+
+function getPropertyValues(object, propertyID) {
+    var v = [];
+    if (object.values) {
+        for (var k = 0; k < object.values.length; k++) {
+			if (object.values[k].uri == propertyID)
+				v.push( object.values[k].value );
+		}
+	}
+	return v;
+}
+exports.getPropertyValues = getPropertyValues;
+
 
 /** sets the only instance of the property, or creates if doesn't exist */
 function setTheProperty(object, propertyID, newValue) {

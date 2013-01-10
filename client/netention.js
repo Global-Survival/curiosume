@@ -111,6 +111,15 @@ function netention(f) {
                 focus: null
             },
             
+            clear : function() {
+                this.set('tags', { });
+                this.set('properties', { });    
+                this.set('attention', { });    
+                this.set('deleted', { });    
+                this.set('focus', null);    
+                this.socket.emit('connectSelf', this.get('clientID'));
+            },
+            
             id : function() { return this.get('clientID'); },
 
             tags : function() { return this.get('tags'); },

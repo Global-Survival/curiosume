@@ -16,9 +16,11 @@ exports.plugin = {
             netention.addTags([
                 {
                     uri: 'web.RSSFeed', name: 'RSS Feed', properties: {
-                        'url': { name: 'URL', type: 'text' /* url */, min: 1 },
-                        'urlFetchPeriod': { name: 'Fetch Period (seconds)', type: 'text' /* number */, default: "3600", min: 1, max: 1 }
+                        'url': { name: 'URL', type: 'text' /* url */, min: 1, default: 'http://' },
+                        'urlFetchPeriod': { name: 'Fetch Period (seconds)', type: 'text' /* number */, default: "3600", min: 1, max: 1 },
+                        'addArticleTag': { name: 'Add Tag to Articles', type: 'text' }
                         //'urlLastFetchedAt': { name: 'Last Fetched (timestamp)', type: 'text' /* number */ }
+                        
                     }
                 }
             ]);
@@ -40,7 +42,7 @@ exports.plugin = {
                 });                    
                 
             };            
-            this.update = _.throttle(this.updateUnthrottled, 1000 /* Increase longer */);
+            this.update = _.throttle(this.updateUnthrottled, 5000 /* Increase longer */);
             
             this.update();
             
@@ -72,15 +74,17 @@ exports.plugin = {
                     
                     if (needsFetch) {
                     
-                        var furi = util.getProperty(f, 'url');
+                        var furi = util.getPropertyValues(f, 'url');
                         
                         if (furi) {
-                            RSSFeed(furi, function(a) {            
-                                //TODO add extra tags from 'f'
-                                
-                                netention.pub(a);
-                                return a;
-                	        });
+                            for (var ff = 0; ff < furi.length; ff++) {
+                                RSSFeed(furi[ff], function(a) {            
+                                    //TODO add extra tags from 'f'
+                                    
+                                    netention.pub(a);
+                                    return a;
+                    	        });
+                            }
                         }
                         else {
                             //set error message as f property
@@ -105,7 +109,7 @@ exports.plugin = {
             if (this.loop) {
                 clearInterval(this.loop);
                 this.loop = null;
-            }
+            }   
 		}
 };
 
