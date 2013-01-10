@@ -53,6 +53,7 @@ var generalTypes = [
 	{ uri: 'general.Goal', name: 'Goal'}, //=Project=Program=Action
 	{ uri: 'general.User', name: 'User'}, 
 	{ uri: 'general.Netention', name: 'Netention'} //Netention itself, meta 
+    { uri: 'general.Message', name: 'Message'} //Netention itself, meta 
 ];
 
 exports.plugin = {

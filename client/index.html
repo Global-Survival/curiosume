@@ -531,6 +531,15 @@
             }
             
             function setTheme(t) {
+                if (!t)
+                    t = 'bright';
+                    
+                var oldTheme = window.self.get('theme');
+                if (oldTheme !== t) {
+                    window.self.set('theme', t);
+                    window.self.saveLocal();
+                }                
+                
                 $('#themecss').remove();                
                 $('head').append('<link id="themecss" href="/theme/' + t + '.css" type="text/css" rel="stylesheet"/>');
             }
@@ -597,6 +606,8 @@
                           }
                         
                         });
+                        
+                        setTheme(self.get('theme'));
                         
                         initUI(self);
     
@@ -771,6 +782,9 @@
                         <li><a href="javascript:setTheme('bright')">Bright</a></li>
                         <li><a href="javascript:setTheme('dark')">Dark</a></li>
                         <li><a href="javascript:setTheme('space')">Space</a></li>
+                        <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
+                        <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
+                        <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
                     </ul>
                 </li>
                 <li class="dropdown-submenu">

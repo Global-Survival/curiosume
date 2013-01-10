@@ -79,7 +79,7 @@ function renderList(s, o, v) {
     for (var x = 0; x < relevant.length; x++) {
         var xx = s.get('attention')[relevant[x]];                        
         var rr =  relevance[relevant[x]];
-        v.append(newObjectView( s, xx , function() { }, rr ));                     
+        v.append(newObjectView( s, xx , function() { }, rr, 1 ));
     }
     
     var semanticFilter = $('<select><option>Any</option><option>Relevant</option></select>');

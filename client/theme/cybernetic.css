@@ -1,8 +1,8 @@
-@import url("http://bootswatch.com/spacelab/bootstrap.min.css");
-@import url("/theme/dark.css");
+
+@import url("/theme/bright.css");
 
 body {
-    background-image: url('/theme/space/orbit.jpg'); 
+    background-image: url('/theme/cybernetic/p2p_banner.jpg'); 
     background-attachment: fixed;
     background-size: stretch;
     background-position: center bottom;

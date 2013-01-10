@@ -131,14 +131,20 @@ function netention(f) {
                 properties: { },
                 attention: { },
                 deleted: { },
-                focus: null                
+                focus: null
             },
             
             id : function() { return this.get('clientID'); },
+
+            //->tags
+            types : function() { return this.get('types'); },
+            properties : function() { return this.get('properties'); },
             
             objects : function() { return this.get('attention'); },
             getObject : function(id) { return this.objects()[id]; }, 
             getSelf : function(clientID) { return this.objects()['Self-' + clientID]; }, 
+            
+            //->getTag
             getType : function(t) { return this.types()[t]; },
             getProperty : function(p) { return this.properties()[p]; },
             
@@ -156,8 +162,6 @@ function netention(f) {
                 return f;
             },
             
-            types : function() { return this.get('types'); },
-            properties : function() { return this.get('properties'); },
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 

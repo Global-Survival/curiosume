@@ -4,3 +4,10 @@
     height: 30px;
     background: transparent url(http://www.gravatar.com/avatar/1a0bd4c1f6b1093fc191aa4fa6c0eccc&s=200) no-repeat center right;
 }
+
+.general-Event-icon {
+    color: red;
+    width: 30px;
+    height: 30px;
+    background: transparent url(/icon/rrze/actions/dial-in.png) no-repeat center right;
+}

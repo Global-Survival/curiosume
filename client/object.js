@@ -46,6 +46,12 @@ function getAvatar(s) {
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 
+function newTagButton(t) {
+    console.dir(t);
+    var b = $('<a href="#">' + t.name + '</a>');
+    return b;
+}
+
 function newReplyWidget(onReply, onCancel) {
     var w = $('<div></div>');
     w.addClass('ReplyWidget');
@@ -82,8 +88,10 @@ function newReplyWidget(onReply, onCancel) {
     return w;
 }
 
-function newObjectView(self, x, onRemoved, r) {
-	
+function newObjectView(self, x, onRemoved, r, depthRemaining) {
+
+    var mini = (depthRemaining == 0);
+    
 	var fs = (1.0 + r/2.0)*100.0 + '%';
 	
 	var d = $('<div class="objectView" style="font-size:' + fs + '">');
@@ -106,7 +114,11 @@ function newObjectView(self, x, onRemoved, r) {
         var r = self.getReplies(x.uri);
         if (r.length > 0) {
             replies.show();
-            replies.append(JSON.stringify(r, null, 4));
+            //TODO sort the replies by age, oldest first
+            for (var i = 0; i < r.length; i++) {
+                var p = r[i];
+                replies.append(newObjectView(self, self.getObject(p), null, r*0.618, depthRemaining-1));
+            }
         }
         else {
             replies.hide();
@@ -118,42 +130,44 @@ function newObjectView(self, x, onRemoved, r) {
     var favoriteButton = $('<button title="Favorite"><i class="icon-star"></i></button>');
     hb.append(favoriteButton);
     
-    var replyButton = $('<button title="Reply"><i class="icon-share"></i></button>');
-    replyButton.click(function() {
-        
-        newReply.show();
-        newReply.html('');
-        newReply.append(newReplyWidget( 
-            //on reply
-            function(text) {
-                
-                newReply.hide();
-                
-                var rr = {
-                    name: text,
-                    uri: uuid(), 
-                    type: [ 'Message' ],
-                    typeStrength: [1],
-                    values: [],
-                    replyTo: [ x.uri ],
-                    when: Date.now()
-                };
-                
-                self.notice(rr);
-                
-                self.pub(rr);
-                
-                refreshReplies();
-            },
+    if (!mini) {
+        var replyButton = $('<button title="Reply"><i class="icon-share"></i></button>');
+        replyButton.click(function() {
             
-            //on cancel
-            function() {                
-                newReply.hide();
-            }
-        ));
-        replyButton.enabled = false;
-    });
-    hb.append(replyButton);
+            newReply.show();
+            newReply.html('');
+            newReply.append(newReplyWidget( 
+                //on reply
+                function(text) {
+                    
+                    newReply.hide();
+                    
+                    var rr = {
+                        name: text,
+                        uri: uuid(), 
+                        type: [ 'general.Message' ],
+                        typeStrength: [1],
+                        values: [],
+                        replyTo: [ x.uri ],
+                        when: Date.now()
+                    };
+                    
+                    self.notice(rr);
+                    
+                    self.pub(rr);
+                    
+                    refreshReplies();
+                },
+                
+                //on cancel
+                function() {                
+                    newReply.hide();
+                }
+            ));
+            replyButton.enabled = false;
+        });
+        hb.append(replyButton);
+    }
     
 	var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
 	focusButton.click(function() {
@@ -191,21 +205,35 @@ function newObjectView(self, x, onRemoved, r) {
 		d.append('<h1>' + xn + '</h1>');
 	}
 	
+    var mdline = $('<span></span>');
+    mdline.addClass('MetadataLine');
+    
 	if (x.type) {
-		if (x.type.length) {
-			d.append('<h3>' + JSON.stringify(x.type, null, 2) + '</h3>');
-		}
-		else
-			d.append('<h3>' + x.type + '</h3>');
+        for (var i = 0; i < x.type.length; i++) {
+            var t = x.type[i];            
+            var tt = self.getType(t);
+            if (tt) {
+                mdline.append(newTagButton(tt));
+            }
+            else {
+                mdline.append('<a href="#">' + t + '</a>');
+            }
+            mdline.append('&nbsp;');
+        }        
 	}
-	
-	
+    
+	function _n(x) {
+        return x.toFixed(2);
+	}
+        	
 	if (x.geolocation) {
 		var dist = '?';
 		if (self.myself().geolocation)
 			dist = geoDist(x.geolocation, self.myself().geolocation);
 		
-		d.append('<h3>' + JSON.stringify(x.geolocation) + ' ' + dist + ' km away</h3>');
+        var lat = _n(x.geolocation[0]);
+        var lon = _n(x.geolocation[1]);
+		mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
 	}
     if (x.when) {
         var tt = $('<time class="timeago"/>');
@@ -220,8 +248,10 @@ function newObjectView(self, x, onRemoved, r) {
         
         tt.attr('datetime', ISODateString(new Date(x.when)));
         
-        d.append(tt);
+        mdline.append(tt);
     }
+    
+    d.append(mdline);
     
 	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
@@ -244,17 +274,20 @@ function newObjectView(self, x, onRemoved, r) {
 			ud.append('<li>' + vv.uri + ': ' + vv.value + '</li>');
 		}
 	}
+    
+    if (!mini) {
 
-    replies.addClass('ObjectReply objectView');
-    replies.hide();
-    d.append(replies);
-	
-    var newReply = $('<div></div>');    
-    newReply.addClass('ObjectReply objectView');
-    newReply.hide();
-    d.append(newReply);
-	
-    refreshReplies();
+        replies.addClass('ObjectReply');
+        replies.hide();
+        d.append(replies);
+    	
+        var newReply = $('<div></div>');    
+        newReply.addClass('ObjectReply objectView');
+        newReply.hide();
+        d.append(newReply);
+    	
+        refreshReplies();
+    }
     
 	return d;
 }

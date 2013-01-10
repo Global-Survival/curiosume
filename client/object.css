@@ -252,3 +252,8 @@ div.olMapViewport {
     width: 98%;
     height: 5em;
 }
+
+.MetadataLine {
+    margin-left: 1em;
+    color: gray;
+}
