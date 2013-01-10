@@ -292,7 +292,11 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
 
 function newPropertyEdit(p, v) {
     var propertyID = p.uri;
-    var name = v.name;
+    
+    var name = p.uri;
+    if (v)
+        name = v.name;
+        
     var value = p.value;
 		
 	if (!p || !v) {

@@ -351,6 +351,7 @@
                 $('#ClearButton').click(function() {
                     var u = uuid();
                     Backbone.history.navigate('/object/' + u);
+                    self.set('list-semantic', 'Any');
                     commitFocus({
                         uri: u
                     }); 
@@ -607,7 +608,10 @@
                           
                           object: function(id) {
                               var a = self.get('attention');
+                              self.set('list-semantic', 'Relevant');
                               commitFocus(a[id]);
+                              updateView();
+                              
                           }
                         
                         });

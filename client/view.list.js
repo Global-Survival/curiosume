@@ -87,7 +87,7 @@ function renderList(s, o, v) {
     	var v = $(this).val();
         s.set('list-semantic', v);
 		updateView();
-	});
+	});    
     semanticFilter.val(semantic);
 	o.append(semanticFilter);
     

@@ -126,7 +126,7 @@ var RSSFeed = function(url, perArticle) {
 			maxlen = Math.max(maxlen, a['description'].length);
 		
 		var x = {
-			uri: a['guid'],
+			uri: encodeURIComponent(['guid']),
 			link: a['link'],
 			when: new Date(a['date']).getTime(),
 			name: a['title'],
