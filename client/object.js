@@ -116,7 +116,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
     var replies = $('<div></div>');    
     
     function refreshReplies() {
-        var r = self.getReplies(x.uri);
+        var r = self.getReplies(x.uri);        
         if (r.length > 0) {
             replies.show();
             //TODO sort the replies by age, oldest first

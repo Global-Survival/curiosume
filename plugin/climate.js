@@ -1,5 +1,4 @@
 //interfaces to ClimateViewer.com datasets
-//  http://climateviewer.com/mobile/js/cv3d-lite-9001.js
 
 exports.plugin = {
         name: 'Climate',    
@@ -26,6 +25,8 @@ exports.plugin = {
 
             //Specific KML layers, with appropriate tags (see above)
             //  TODO add tags to classify each layer
+            //  from: http://climateviewer.com/mobile/js/cv3d-lite-9001.js
+
             var a = {
                 
                 "Area0": 

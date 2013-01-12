@@ -30,15 +30,18 @@ exports.plugin = {
             this.feeds = { };
             var that = this;
             
-            this.updateUnthrottled = function() {
+            this.updateUnthrottled = function(f) {
                 
                 that.feeds = { };                
                 
-                this.netention.getObjectsByTag('web.RSSFeed', function(objs) {
+                that.netention.getObjectsByTag('web.RSSFeed', function(objs) {
                     for (var i = 0; i < objs.length; i++) {
                         var x = objs[i];
                         that.feeds[x.uri] = x;
                     }
+                    
+                    if (f)
+                        f();
                 });                    
                 
             };            
@@ -46,55 +49,66 @@ exports.plugin = {
             
             this.update();
             
-            this.loop = setInterval(function() {
-                for (var k in that.feeds) {
-                    var f = that.feeds[k];
+            var ux = function() {
+                
+                that.update(function() {
                     
-                    if (!f)
-                        continue; //???
+                    
+                    for (var k in that.feeds) {
+                        var f = that.feeds[k];
                         
-                    var needsFetch = false;
-                                        
-                    if (!util.getProperty(f, 'lastUpdate')) {
-                        needsFetch = true;
-                    }
-                    else {
-                        var age = (Date.now() - util.getProperty(f, 'lastUpdate'))/1000.0;
                         
-                        var fp = util.getProperty(f, 'urlFetchPeriod');
-                        fp = Math.max(fp, minUrlFetchPeriod);
-                        
-                        if (fp < age) {
+                        if (!f)
+                            continue; //???
+                            
+                        var needsFetch = false;
+                                            
+                        if (!util.getProperty(f, 'lastUpdate')) {
                             needsFetch = true;
-                        }                        
-                        else {
-                            //console.log(fp - age, 'seconds to go');
                         }
-                    }
-                    
-                    if (needsFetch) {
-                    
-                        var furi = util.getPropertyValues(f, 'url');
-                        
-                        if (furi) {
-                            for (var ff = 0; ff < furi.length; ff++) {
-                                RSSFeed(furi[ff], function(a) {            
-                                    //TODO add extra tags from 'f'
-                                    
-                                    netention.pub(a);
-                                    return a;
-                    	        });
+                        else {
+                            var age = (Date.now() - util.getProperty(f, 'lastUpdate'))/1000.0;
+                            
+                            var fp = util.getProperty(f, 'urlFetchPeriod');
+                            fp = Math.max(fp, minUrlFetchPeriod);
+                            
+                            if (fp < age) {
+                                needsFetch = true;
+                            }                        
+                            else {
+                                //console.log(fp - age, 'seconds to go');
                             }
                         }
-                        else {
-                            //set error message as f property
-                        }
                         
-                        util.setTheProperty(f, 'lastUpdate', Date.now());                        
-                        netention.pub(f);
+                        if (needsFetch) {
+                        
+                            var furi = util.getPropertyValues(f, 'url');
+                            
+                            if (furi) {
+                                for (var ff = 0; ff < furi.length; ff++) {
+                                    RSSFeed(furi[ff], function(a) {            
+                                        //TODO add extra tags from 'f'
+                                        
+                                        netention.pub(a);
+                                        return a;
+                                    });
+                                }
+                            }
+                            else {
+                                //set error message as f property
+                            }
+                            
+                            util.setTheProperty(f, 'lastUpdate', Date.now());                        
+                            netention.pub(f);
+                        }
                     }
-                }
-            }, 5000);
+                    
+                });
+                
+            };
+            
+            this.loop = setInterval(ux, 15000);
+            ux();
         },
                 
         notice: function(x) {

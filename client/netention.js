@@ -108,6 +108,7 @@ function netention(f) {
                 properties: { },
                 attention: { },
                 deleted: { },
+                replies: { }, //reply index
                 focus: null
             },
             
@@ -116,6 +117,7 @@ function netention(f) {
                 this.set('properties', { });    
                 this.set('attention', { });    
                 this.set('deleted', { });    
+                this.set('replies', { });
                 this.set('focus', null);    
                 this.socket.emit('connectSelf', this.get('clientID'));
             },
@@ -289,6 +291,7 @@ function netention(f) {
             	});
             	
             },
+            
             getPlugins: function() {
                 var that = this;
                 this.socket.emit('getPlugins', function(p) {
@@ -303,7 +306,7 @@ function netention(f) {
             getObjects: function(query, onObject, onFinished) {
                 var that = this;
             	this.socket.emit('getObjects', query, function(objs) {
-            		for (k in objs) {
+            		for (var k in objs) {
             			var x = objs[k];
             			that.notice(x);
             			if (onObject!=null)
@@ -314,16 +317,7 @@ function netention(f) {
             },
             
             getReplies : function (uri) {
-                //TODO use an index to speed this up
-                var replies = [];
-                for (var x in this.objects()) {
-                    if (this.objects()[x].replyTo) {
-                        if (_.contains(this.objects()[x].replyTo, uri)) {
-                            replies.push(x);
-                        }
-                    }
-                }
-                return replies;
+                return  this.get('replies')[uri] || [];
             },
             
             listenAll : function(b) {
@@ -344,6 +338,7 @@ function netention(f) {
             	}
                 
                 var attention = this.objects();
+                var replies = this.get('replies');
             
             	function n(y) {
             		if (!y)
@@ -362,12 +357,23 @@ function netention(f) {
             			}
             		}*/   
             		
+                    if (y.replyTo) {
+                        var p = replies[y.replyTo];
+                        if (p) {
+                            p.push(y.uri);
+                        }
+                        else {
+                            replies[y.replyTo] = [ y. uri ];
+                        }
+                    }
+                    
             		if (y.uri) {
             			attention[y.uri] = y;
             		}
             		
             	}
             	
+                
             	for (var i = 0; i < x.length; i++)
             		n(x[i]);
                     
