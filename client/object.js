@@ -36,6 +36,14 @@ function getProperties(t) {
     return [];
 }
 
+function newPopupObjectView(_x) {
+    var x = window.self.getObject(_x);
+    var d = $('<div></div>');
+    d.attr('title', x.name);
+    d.append(newObjectView(window.self, x, null, 1.0, 4));
+    $('body').append(d);
+    d.dialog();
+}
 
 
 function getAvatar(s) {
@@ -168,7 +176,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
         var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
     	focusButton.click(function() {
             var oid = x.uri;
-            Backbone.history.navigate('/object/' + oid, {trigger: true});
+            Backbone.history.navigate('/object/' + oid + '/focus', {trigger: true});
     	});
     }
     
@@ -200,7 +208,13 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
     
 
 	if (x.name) {
-		d.append('<h1>' + xn + '</h1>');
+        var axn = $('<a href="#">' + xn + '</a>');
+        axn.click(function() {
+           newPopupObjectView(x.uri); 
+        });
+        var haxn = $('<h1>');
+        haxn.append(axn);
+		d.append(haxn);
 	}
 	
     var mdline = $('<span></span>');

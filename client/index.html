@@ -550,6 +550,7 @@
                     window.self.clear();
             }
             
+            
             $(document).ready(function(){
             
 			    netention(function(self) {
@@ -570,6 +571,7 @@
                             "help":                 "help",    // #help
                             "query/:query":         "query",  // #search/kiwis
                             "object/:id":           "object",
+                            "object/:id/focus":           "focus",
                             "tag/:tag":             "tag",
                             //"search/:query/:page":  "query"   // #search/kiwis/p7
                           },
@@ -607,9 +609,21 @@
                           },
                           
                           object: function(id) {
-                              var a = self.get('attention');
+                              var x = self.getObject(id);
+                              if (x) {
+                                  newPopupObjectView(x);
+                              }
+                              else {
+                                  $.pnotify({
+                                    title: 'Unknown object',
+                                    text: id
+                                  });       
+                              }
+                          },
+                          
+                          focus: function(id) {
                               self.set('list-semantic', 'Relevant');
-                              commitFocus(a[id]);
+                              commitFocus(self.getObject(id));
                               updateView();
                               
                           }

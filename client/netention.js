@@ -73,8 +73,8 @@ function loadScripts(f) {
 		LazyLoad.js(scripts, f);
 	});
 	
-	//loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
-    //loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
+	loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
+    loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
 
 	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
 	    
