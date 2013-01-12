@@ -15,7 +15,8 @@ exports.plugin = {
             
             netention.addTags([
                 {
-                    uri: 'geo.EarthQuake', name: 'Earthquake', properties: {
+                    uri: 'climate.EarthQuake', name: 'Earthquake', properties: {                        
+                        //extends climate.Seismic
                     }
                 }
             ]);
@@ -23,7 +24,7 @@ exports.plugin = {
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 
                 eq.eqMagnitude = parseFloat( eq.name.substring(1, eq.name.indexOf(',')));
-		        eq.tag = [ 'geo.EarthQuake' ];
+		        eq.tag = [ 'climate.EarthQuake' ];
                 
                 netention.notice(eq);
 
