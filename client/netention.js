@@ -360,7 +360,8 @@ function netention(f) {
                     if (y.replyTo) {
                         var p = replies[y.replyTo];
                         if (p) {
-                            p.push(y.uri);
+                            if (!_.contains(p, y.uri))
+                                p.push(y.uri);
                         }
                         else {
                             replies[y.replyTo] = [ y. uri ];
