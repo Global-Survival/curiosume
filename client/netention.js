@@ -69,6 +69,8 @@ function loadScripts(f) {
                         '/view.timeline.js',
                         
                         '/focus.semantic.js',
+                        '/focus.humanbody.js',
+                        '/focus.emotion.js',
                         '/focus.needs.js'
                         
 		                ];

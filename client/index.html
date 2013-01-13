@@ -17,7 +17,9 @@
                 
 	            var focusModeMap = {
 	                'Semantic': SemanticFocus,
-                    'Needs': NeedsFocus
+                    'Needs': NeedsFocus,
+                    'Human': HumanbodyFocus,
+                    'Emotion': EmotionFocus
 	            };
                 
                 var f = focusModeMap[v];
@@ -569,6 +571,7 @@
                     <option>Tag</option>
                     <option>Team</option>
                     <option>Human</option>
+                    <option>Emotion</option>
                 </select>
             </span>
         </div>
@@ -637,6 +640,12 @@
             </div>
             <div id="NeedsFocus" style="display:none">
                 <h1>NEEDS</h1>
+            </div>
+            <div id="HumanbodyFocus" style="display:none">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
+            </div>
+            <div id="EmotionFocus" style="display:none">
+                <img src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>
             </div>
         </div>
         

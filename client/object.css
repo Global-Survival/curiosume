@@ -4,6 +4,7 @@
     background-color: rgba(235,235,235,0.8);
     background-image: -webkit-linear-gradient(top right, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
 	border-left: 5px solid rgba(0,0,0,0.5);
+    clear: both;
 }
 .objectView h1 {
 	font-size: 125%;
