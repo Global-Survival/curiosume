@@ -29,7 +29,7 @@ exports.start = function(host, port, database, init) {
 
 	Server.host = host;
 	Server.port = port;
-	Server.databse = database;	
+	Server.database = database;	
 
 
     var plugins = { };
@@ -554,8 +554,10 @@ exports.start = function(host, port, database, init) {
         
         for (var p in plugins) {
             var pp = plugins[p];
-            if (pp.notice) {
-                pp.notice(message);
+            if (Server.plugins[p].enabled) {
+                if (pp.notice) {
+                    pp.notice(message);
+                }
             }
         }
 	}
