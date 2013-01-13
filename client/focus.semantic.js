@@ -3,6 +3,8 @@ var SemanticFocus = {
     init: function(self, target) {
         this.self = self;
         
+        $('#SemanticFocus').show();
+        
         $('#ToggleDescriptionButton').click(function() {
             $('#FocusDescriptionSection').toggle();
             if ($('#FocusDescriptionSection').is(':visible')) {
@@ -282,6 +284,7 @@ var SemanticFocus = {
     },
     
     destroy: function(target) {
+        $('#SemanticFocus').hide();
         
     },
     

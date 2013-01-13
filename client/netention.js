@@ -68,7 +68,8 @@ function loadScripts(f) {
                         '/view.slides.js',
                         '/view.timeline.js',
                         
-                        '/focus.semantic.js'
+                        '/focus.semantic.js',
+                        '/focus.needs.js'
                         
 		                ];
 		

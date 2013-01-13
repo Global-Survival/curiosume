@@ -14,12 +14,15 @@
             var focusMode;
             
             function setFocusMode(f) {
+                if (focusMode == f)
+                    return;
+                    
                 var existingMode = focusMode;
                 if (existingMode)
                     existingMode.destroy();
                     
                 focusMode = f;
-                f.init(window.self, $('#focus'));
+                f.init(window.self, $('#SelfTarget'));
             }
             
             function getEditedFocus() {
@@ -132,7 +135,7 @@
                 });
 
                 $('#FocusToggleButton').click(function() {
-                    var focusShown = $('#focus').is(':visible');
+                    var focusShown = $('#SelfTarget').is(':visible');
                     if (focusShown) {
                         //hide it
                         $('#SelfTarget').hide();
@@ -157,7 +160,21 @@
                 $('#ViewTime').click(function() { self.set('currentView', 'time');  });
                 $('#ViewTrends').click(function() { self.set('currentView', 'trends');  });
                 
-                
+                $('#FocusModeSelect').change(function() {
+                    var v = $(this).val();                    
+		            var focusMode = {
+    	                'Semantic': SemanticFocus,
+                        'Needs': NeedsFocus
+		            };
+                    var ff = focusMode[v];
+                    if (ff) {
+                        setFocusMode(ff);
+                    }
+                    else {
+                        console.dir('Unknown Focus Mode: ' + v);
+                    }
+	            });
+    
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
                     self.notice(p);
@@ -396,7 +413,7 @@
     			width: 32%;
     			left: 0.5em;			
                 padding-left: 0.5em;
-                margin-top: 2.5em;
+                margin-top: 3.0em;
     		}
     		
     		#Menu {
@@ -421,7 +438,7 @@
                 padding-top: 0.5em;
                 width: 60%;
             }
-            #focus {
+            #SemanticFocus {
                 width: 100%;
             }
             .FocusSection {
@@ -478,6 +495,12 @@
                 position: fixed;
             }
             
+            #FocusModeSelect {
+                width: auto;
+                margin-top: 4px;
+                padding: 1px;
+            }
+            
 	    </style>    
         
         
@@ -529,12 +552,19 @@
             
             <span id="FocusMainMenu">
                 <button id="ClearButton"><i class="icon-remove"></i></button>
+                <select id="FocusModeSelect">
+                    <option>Semantic</option>
+                    <option>Needs</option>
+                    <option>Where / When</option>
+                    <option>Search</option>
+                    <option>Help</option>
+                </select>
             </span>
         </div>
         <div id="SelfTarget">
                 
             
-            <div id="focus">
+            <div id="SemanticFocus" style="display:none">
 
                 <div>
                     <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
@@ -593,6 +623,9 @@
                     </span>
                 </div>
                 
+            </div>
+            <div id="NeedsFocus" style="display:none">
+                <h1>NEEDS</h1>
             </div>
         </div>
         
