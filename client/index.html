@@ -32,11 +32,11 @@
                         
                     var existingMode = focusMode;
                     if (existingMode)
-                        existingMode.destroy();
+                        existingMode.stop();
                         
                     focusMode = f;
                     
-                    f.init(window.self, $('#SelfTarget'));
+                    f.start(window.self, $('#SelfTarget'));
                 }
                 else {
                     console.dir('Unknown Focus Mode: ' + v);
@@ -649,7 +649,7 @@
                 <img src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
             </div>
             <div id="EmotionFocus" style="display:none">
-                <img src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>
+                
             </div>
         </div>
         

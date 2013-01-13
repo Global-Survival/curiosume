@@ -2,7 +2,7 @@
    the essential top-level interface to the 'global survival system' */
 var NeedsFocus = {
     
-    init: function(self, target) {
+    start: function(self, target) {
         $('#NeedsFocus').show();
         
         /*
@@ -141,7 +141,7 @@ var NeedsFocus = {
         
     },
     
-    destroy: function(target) {
+    stop: function(target) {
         $('#NeedsFocus').hide();
     },
     

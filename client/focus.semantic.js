@@ -1,6 +1,6 @@
 var SemanticFocus = {
     
-    init: function(self, target) {
+    start: function(self, target) {
         this.self = self;
         
         $('#SemanticFocus').show();
@@ -283,7 +283,7 @@ var SemanticFocus = {
         
     },
     
-    destroy: function(target) {
+    stop: function(target) {
         $('#SemanticFocus').hide();
         
     },

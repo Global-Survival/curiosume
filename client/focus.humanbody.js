@@ -1,10 +1,10 @@
 var HumanbodyFocus = {
     
-    init: function(self, target) {
+    start: function(self, target) {
         $('#HumanbodyFocus').show();    
     },
     
-    destroy: function(target) {
+    stop: function(target) {
         $('#HumanbodyFocus').hide();
     },
         
