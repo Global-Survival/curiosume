@@ -51,7 +51,6 @@ var EmotionFocus = {
             }
             
             self.set('focus', f);
-            self.trigger('change:focus');
         }));
         
         $('#EmotionFocus').show();    
