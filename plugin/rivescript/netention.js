@@ -31,7 +31,6 @@ exports.plugin = {
                 
                 bot.sortReplies();
                 bot.ready = true;
-                console.log(bot.reply('random', 'hi how are you?'));
                 
             }, error_handler);
             
@@ -51,7 +50,8 @@ exports.plugin = {
                            uri: util.uuid(),
                            name: response,
                            tag: [ 'general.Message' ],
-                           tagStrength: [ 1.0 ]                   
+                           tagStrength: [ 1.0 ],
+                           author: 'Rivescript1'
                         });
                     }
                 }

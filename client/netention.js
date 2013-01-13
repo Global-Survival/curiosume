@@ -275,13 +275,19 @@ function netention(f) {
                 this.get('deleted')[id] = Date.now();
             	delete (this.objects())[id];	
             	
+                //remove from replies
+                for (var k in this.get('replies')) {
+                    this.get('replies')[k] = _.without(this.get('replies')[k], id);
+                }
+                
                 var that = this;
             	this.socket.emit('delete', id, function(err) {
                     if (!err) {
-                		//saveSelf();
-                		//updateDataView();		
+                		that.saveLocal();
+                		
                         that.trigger('change:deleted');
                         that.trigger('change:attention');
+                        
                         $.pnotify({
                             title: 'Deleted',
                             text: id                        
@@ -289,7 +295,7 @@ function netention(f) {
                     }
                     else {
                         $.pnotify({
-                            title: err,
+                            title: 'Unable to delete: ' + err,
                             text: id                        
                         });                           
                     }

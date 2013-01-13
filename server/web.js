@@ -98,7 +98,9 @@ exports.start = function(host, port, database, init) {
 		var db = mongo.connect(databaseUrl, collections);
 		
 		db.obj.find({ tag: { $in: [ 'ServerState' ] } }).limit(1).sort({when:-1}, function(err, objs) {
-			  if( err || !objs) console.log("No object found");
+    		  db.close();
+
+              if( err || !objs) nlog("No state found");
 			  else objs.forEach( function(x) {
 				  var now = Date.now();
 				  nlog('Resuming from ' + (now - x.when)/1000.0 + ' seconds downtime');
@@ -126,7 +128,6 @@ exports.start = function(host, port, database, init) {
               if (f) 
                 f();
                 
-			  db.close();
 		});
 		
 	
@@ -135,21 +136,22 @@ exports.start = function(host, port, database, init) {
 	function deleteObject(objectID, whenFinished) {
 		attention.remove(objectID);
 		
-		nlog('removing ' + objectID);
 		
 		//TODO move to 'removed' db collection
 		
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.remove({ uri: objectID }, function(err, docs) {
 			db.close();
-			if (whenFinished) {
-                if (err) {
+            if (err) {
+                nlog('deleteObject: ' + err);
+                if (whenFinished)
                     whenFinished(err);    
-                }
-                else {
-				    whenFinished();
-                }
-			}
+            }
+            else {
+            	nlog('deleted ' + objectID);
+                if (whenFinished)
+			        whenFinished();
+            }
 		});    
 	}
     that.deleteObject = deleteObject;
@@ -166,7 +168,7 @@ exports.start = function(host, port, database, init) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.update({ uri: o.uri }, o, {upsert: true}, function(err) {
 			if (err) {
-				nlog(err);
+				nlog('notice: ' + err);
 			}
 			
 			db.close();		
@@ -193,13 +195,14 @@ exports.start = function(host, port, database, init) {
 		else {
 			var db = mongo.connect(databaseUrl, collections);
 			db.obj.find({ 'uri': uri }, function(err, docs) {
+    			db.close();
 				if (err) {
+                    nlog('getObjectSnapshot: ' + err);
 					whenFinished(err);
 				}
 				else {
 					whenFinished(docs);
 				}
-				db.close();
 			});		
 		}		
 		
@@ -211,10 +214,12 @@ exports.start = function(host, port, database, init) {
 	
 			db.close();
 			
-			if (!err) {		
-				
+			if (!err) {						
 				withObjects(docs);
 			}		
+            else {
+                nlog('getObjectsByTag: ' + err);
+            }
 		});
 		
 	}
@@ -226,7 +231,7 @@ exports.start = function(host, port, database, init) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find(function(err, docs) {
 			if (err) {
-				console.log('getTagCounts: ' + err);
+				nlog('getTagCounts: ' + err);
 			}
 			db.close();
 			
@@ -276,17 +281,19 @@ exports.start = function(host, port, database, init) {
 		var db = mongo.connect(databaseUrl, collections);
 		
 		db.obj.save(Server, function(err, saved) {
+    		  db.close();
 			  
 			  if( err || !saved ) {
-    		      if (onError)			  
+    		      if (onError) {        	           
+    		        nlog('saveState: ' + err);
 				    onError(err);
+    		      }
 			  }
 			  else {
     		    if (onSaved)   			  
 				  onSaved();
 			  }
 			  
-			  db.close();
 		});
 		
 	}
