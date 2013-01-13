@@ -1,4 +1,5 @@
-/* a way of specifying human needs.  every item related to a human need directly or indirectly */
+/* a way of specifying human needs.  every item related to a human need directly or indirectly.
+   the essential top-level interface to the 'global survival system' */
 var NeedsFocus = {
     
     init: function(self, target) {
@@ -36,7 +37,6 @@ var NeedsFocus = {
         
         /*
                   <ul class="mktree" id="tree1">
-
                             <li>Shelter
                                 <ul>
                                     <li>Bridges</li>
@@ -77,7 +77,6 @@ var NeedsFocus = {
                             <li>Money</li>
                             <li>Entertainment</li>
                             <li>Freedom</li>
-
                         </ul>*/
                         
                         /*
@@ -134,7 +133,6 @@ var NeedsFocus = {
                     addSensorCategory('Money');
                     addSensorCategory('Entertainment');
                     addSensorCategory('Freedom');
-
                         */
     },
     

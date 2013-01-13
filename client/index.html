@@ -13,16 +13,33 @@
             
             var focusMode;
             
-            function setFocusMode(f) {
-                if (focusMode == f)
-                    return;
+            function setFocusMode(v) {
+                
+	            var focusModeMap = {
+	                'Semantic': SemanticFocus,
+                    'Needs': NeedsFocus
+	            };
+                
+                var f = focusModeMap[v];
+                if (f) {
+                    if (focusMode == f)
+                        return;
+                        
+                    window.self.set('focusmode', v);
+                    window.self.saveLocal();
+                        
+                    var existingMode = focusMode;
+                    if (existingMode)
+                        existingMode.destroy();
+                        
+                    focusMode = f;
                     
-                var existingMode = focusMode;
-                if (existingMode)
-                    existingMode.destroy();
+                    f.init(window.self, $('#SelfTarget'));
+                }
+                else {
+                    console.dir('Unknown Focus Mode: ' + v);
+                }
                     
-                focusMode = f;
-                f.init(window.self, $('#SelfTarget'));
             }
             
             function getEditedFocus() {
@@ -30,7 +47,8 @@
             }
                         
             function _setFocus(x) {
-                focusMode.set(x);                
+                if (focusMode)
+                    focusMode.set(x);                
             }
 
             function commitFocus(f) {
@@ -162,17 +180,7 @@
                 
                 $('#FocusModeSelect').change(function() {
                     var v = $(this).val();                    
-		            var focusMode = {
-    	                'Semantic': SemanticFocus,
-                        'Needs': NeedsFocus
-		            };
-                    var ff = focusMode[v];
-                    if (ff) {
-                        setFocusMode(ff);
-                    }
-                    else {
-                        console.dir('Unknown Focus Mode: ' + v);
-                    }
+                    setFocusMode(v);
 	            });
     
                 $('#SaveButton').click(function() {
@@ -359,7 +367,8 @@
                         
                         setTheme(self.get('theme'));
                                                 
-                        setFocusMode(SemanticFocus);
+                        setFocusMode(self.get('focusmode') || 'Semantic');
+                        $('#FocusModeSelect').val(self.get('focusmode'));
                         
                         initUI(self);                        
 
@@ -557,11 +566,13 @@
                     <option>Needs</option>
                     <option>Where / When</option>
                     <option>Search</option>
-                    <option>Help</option>
+                    <option>Tag</option>
+                    <option>Team</option>
+                    <option>Human</option>
                 </select>
             </span>
         </div>
-        <div id="SelfTarget">
+        <div id="SelfTarget" refactorToID="FocusEdit">
                 
             
             <div id="SemanticFocus" style="display:none">
