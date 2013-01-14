@@ -66,7 +66,7 @@ function loadScripts(f) {
                         '/view.list.js',
                         '/view.trends.js',
                         '/view.slides.js',
-                        '/view.timeline.js',
+                        '/view.graph.js',
                         
                         '/focus.semantic.js',
                         '/focus.humanbody.js',

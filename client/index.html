@@ -227,8 +227,8 @@
                 else if (view === 'trends') {
                     renderTrends(s, o, v);                    
                 }
-                else if (view == 'time') {
-                    renderTimeline(s, o, v);
+                else if (view == 'graph') {
+                    renderGraph(s, o, v);
                 }
                 else if (view == 'slides') {
                     renderSlides(s, o, v);
@@ -417,12 +417,8 @@
             
     		#SelfTarget, #DataTarget {
     			position: fixed;			
-    			height: 95%;
-                overflow: auto;
+    			height: 96%;
     		}
-            #SelfTarget {
-                height: 96%;
-            }
             
     		
     		#DataTarget {
@@ -430,9 +426,10 @@
     		}
     		
     		#SelfTarget {
+                height: 96%;
+                overflow-y: auto;
     			width: 32%;
     			left: 0.5em;			
-                padding-left: 0.5em;
                 margin-top: 3.0em;
     		}
     		
