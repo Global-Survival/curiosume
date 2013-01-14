@@ -1,4 +1,4 @@
-﻿var elementclick = jQuery.Event("elementclick");
+var elementclick = jQuery.Event("elementclick");
 var getVisibleForElement = function (element, scale, viewport) {
 	var margin = 2 * (contentScaleMargin ? contentScaleMargin : 0);
 
@@ -199,8 +199,8 @@ var addAudio = function (element, layerid, id, audioSource, vx, vy, vw, vh, z) {
 @remarks
 Text width is adjusted using measureText() on first render call. 
 */
-function addText(element, layerid, id, vx, vy, baseline, vh, text, settings, vw) {
-	return addChild(element, new CanvasText(element.vc, layerid, id, vx, vy, baseline, vh, text, settings, vw));
+function addText(element, layerid, id, vx, vy, baseline, vh, text, settings, vw, suppressCheck) {
+	return addChild(element, new CanvasText(element.vc, layerid, id, vx, vy, baseline, vh, text, settings, vw), suppressCheck);
 };
 
 function addScrollText(element, layerid, id, vx, vy, vw, vh, text, z, settings) {
@@ -620,20 +620,40 @@ function CanvasRectangle(vc, layerid, id, vx, vy, vw, vh, settings) {
         var top = Math.max(0, p.y);
         var right = Math.min(viewport2d.width, p2.x);
         var bottom = Math.min(viewport2d.height, p2.y);
+        
+        if (this.settings.angle) {
+            //use raw data, don't check bounds
+            left = p.x;
+            top = p.y;
+            right = p2.x;
+            bottom = p2.y;
+        }
+        var centerX = (left + right)/2.0;
+        var centerY = (top + bottom)/2.0;
+        var width = right - left;
+        var height = bottom - top;
+        
         if (left < right && top < bottom) {
 
+            //netention
+            ctx.save();
+            ctx.translate(centerX-width/2.0, centerY-height/2.0);
+            if (this.settings.angle) {
+                ctx.rotate(this.settings.angle);
+            }
+                        
             if (this.settings.fillStyle) {
                 var opacity1 = this.settings.gradientOpacity ? opacity * (1 - this.settings.gradientOpacity) : opacity;
                 ctx.globalAlpha = opacity1;
                 ctx.fillStyle = this.settings.fillStyle;
-                ctx.fillRect(left, top, right - left, bottom - top);
+                ctx.fillRect(left-centerX, top-centerY, right - left, bottom - top);
 
                 if (this.settings.gradientOpacity && this.settings.gradientFillStyle) {
                     var lineargradient = ctx.createLinearGradient(left, bottom, right, top);
                     var transparent = "rgba(0, 0, 0, 0)";
                     lineargradient.addColorStop(0, this.settings.gradientFillStyle);
                     lineargradient.addColorStop(1, transparent);
-
+                    
                     ctx.globalAlpha = opacity * this.settings.gradientOpacity;
                     ctx.fillStyle = lineargradient;
                     ctx.fillRect(left, top, right - left, bottom - top);
@@ -665,29 +685,31 @@ function CanvasRectangle(vc, layerid, id, vx, vy, vw, vh, settings) {
 
                 if (p.x > 0) {
                     ctx.beginPath();
-                    ctx.moveTo(p.x, top - lineWidth2);
-                    ctx.lineTo(p.x, bottom + lineWidth2);
+                    ctx.moveTo(-centerX+p.x, -centerY+top - lineWidth2);
+                    ctx.lineTo(-centerX+p.x, -centerY+bottom + lineWidth2);
                     ctx.stroke();
                 }
                 if (p.y > 0) {
                     ctx.beginPath();
-                    ctx.moveTo(left - lineWidth2, p.y);
-                    ctx.lineTo(right + lineWidth2, p.y);
+                    ctx.moveTo(-centerX+left - lineWidth2, -centerY+p.y);
+                    ctx.lineTo(-centerX+right + lineWidth2,-centerY+ p.y);
                     ctx.stroke();
                 }
                 if (p2.x < viewport2d.width) {
                     ctx.beginPath();
-                    ctx.moveTo(p2.x, top - lineWidth2);
-                    ctx.lineTo(p2.x, bottom + lineWidth2);
+                    ctx.moveTo(-centerX+p2.x, -centerY+top - lineWidth2);
+                    ctx.lineTo(-centerX+p2.x, -centerY+bottom + lineWidth2);
                     ctx.stroke();
                 }
                 if (p2.y < viewport2d.height) {
                     ctx.beginPath();
-                    ctx.moveTo(left - lineWidth2, p2.y);
-                    ctx.lineTo(right + lineWidth2, p2.y);
+                    ctx.moveTo(-centerX+left - lineWidth2, -centerY+p2.y);
+                    ctx.lineTo(-centerX+right + lineWidth2, -centerY+p2.y);
                     ctx.stroke();
                 }
             }
+            
+            ctx.restore();
         }
     };
 }
