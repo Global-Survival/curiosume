@@ -3,9 +3,53 @@
 var NeedsFocus = {
     
     start: function(self, target) {
-        $('#NeedsFocus').show();
+        var nf = $('#NeedsFocus');
+        nf.show();
         
-        /*
+        nf.html('');
+
+
+        var t = { };
+        
+        
+        nf.append('<h3>Shelter</h3>');
+        nf.append(newTagSliders(
+            self,
+            [ 'Bridge', 'Homeless Shelter',  'Hotel', 'Camping', 'CouchSurf', 'Hostel', 'Apartment', 'RealEstate', 'Occupy' ]
+        , t, setFocusWithTagSliderResult));
+        
+        nf.append('<h3>Food</h3>');
+        nf.append(newTagSliders(
+            self,
+            [ 'GroceryStore', 'EdibleVegetation',  'PublicKitchen', 'CommunityGarden' ]
+        , t, setFocusWithTagSliderResult));
+        
+        
+        nf.append('<h3>Supplies and Tools</h3>');
+        nf.append('<h3>Health</h3>');
+        nf.append('<h3>Weather and Climate</h3>');
+        nf.append(newTagSliders(
+            self,
+            [ 'Earthquake', 'Fire',  'Hurricane', 'Flood' ]
+        , t, setFocusWithTagSliderResult));
+        
+        nf.append('<h3>Pollution</h3>');
+        nf.append(newTagSliders(
+            self,
+            [ 'NuclearPlant', 'Superfund' ]
+        , t, setFocusWithTagSliderResult));
+                    
+
+        nf.append('<h3>Society & Community</h3>');
+        nf.append('<h3>Transportation</h3>');
+        nf.append('<h3>Communication</h3>');
+        nf.append('<h3>Money</h3>');
+        nf.append('<h3>Entertainment</h3>');
+        nf.append('<h3>Law and Freedom</h3>');
+
+        nf.show();    
+    
+    /*
          applyTemplate("#presetTemplate", [
 
         //{ name: "1st World Civilization", desc: "The amenities and benefits of the world's most advanced societies." },                            
@@ -35,105 +79,7 @@ var NeedsFocus = {
     ], "#presetsShare" );
         */
         
-        /*
-                  <ul class="mktree" id="tree1">
-                            <li>Shelter
-                                <ul>
-                                    <li>Bridges</li>
-                                    <li>Homeless Shelters</li>
-                                    <li>Hotels</li>
-                                    <li>Campgrounds</li>
-                                    <li>CouchSurfing</li>
-                                    <li>Hostels</li>
-                                    <li>Apartments and Sublets</li>
-                                    <li>Real Estate</li>
-                                    <li>Occupy</li>
-                                </ul>
-                            </li>
-                            <li>Food
-                                <ul>
-                                    <li>Groceries<br/>
-                                        <input type="range"  min="0" max="100" />
-                                    </li>
-                                    <li>Edible Vegetation</li>
-                                    <li>Public Kitchens and Potlucks</li>
-                                    <li>Community Gardens</li>
-                                </ul>
-                            </li>
-                            <li>Supplies and Tools</li>
-                            <li>Healthcare</li>
-                            <li>Weather, Climate, & Geology</li>
-                            <li>Pollution
-                                <ul>
-                                    <li>Nuclear Facilities<br/>
-                                        <input type="range"  min="0" max="100" />
-                                    </li>
-                                    <li>Superfund Sites</li>
-                                </ul>
-                            </li>
-                            <li>Society & Community</li>
-                            <li>Transportation</li>
-                            <li>Communication</li>
-                            <li>Money</li>
-                            <li>Entertainment</li>
-                            <li>Freedom</li>
-                        </ul>*/
                         
-                        /*
-                        var shelter = addSensorCategory('Shelter');
-                    {
-                        addSensor(shelter, 'Bridges');
-                        addSensor(shelter, 'Homeless Shelters');
-                        addSensor(shelter, 'Hotels');
-                        addSensor(shelter, 'Campgrounds');
-                        addSensor(shelter, 'Couch Surfing'); //couchsurfing.org & bewelcome.org
-                        addSensor(shelter, 'Hostels');
-                        addSensor(shelter, 'Apartments and Sublets');
-                        addSensor(shelter, 'Real Estate');
-                        addSensor(shelter, 'Occupy');
-                    }
-                    
-                    var food = addSensorCategory('Food');
-                    {
-                        addSensor(food, 'Grocery Stores');
-                        addSensor(food, 'Edible Vegetation');
-                        addSensor(food, 'Public Kitchens and Potlucks');
-                        addSensor(food, 'Community Gardens');
-                        addSensor(food, 'Soup Kitchen');
-                    }
-                    
-                    addSensorCategory('Supplies and Tools');
-                    
-                    addSensorCategory('Healthcare');
-                    
-                    var climate = addSensorCategory('Weather, Climate, & Geology');
-                    {
-                        addSensor(climate, { 
-                            id: 'USGSEarthquake',
-                            name: 'USGS Earthquakes'
-                        });
-                        addSensor(climate, { 
-                            id: 'MODISFires',
-                            name: 'MODIS Fires'
-                        });
-                    }
-                    
-                    var pollution = addSensorCategory('Pollution');
-                    {
-                        addSensor(pollution, {
-                            id: 'IAEANuclear',
-                            name: 'Nuclear Facilities'
-                        });
-                        addSensor(pollution, 'Superfund Sites');
-                    }
-                    
-                    addSensorCategory('Society & Community');
-                    addSensorCategory('Transportation');
-                    addSensorCategory('Communication');
-                    addSensorCategory('Money');
-                    addSensorCategory('Entertainment');
-                    addSensorCategory('Freedom');
-                        */
     },
     
     set: function(x) {
