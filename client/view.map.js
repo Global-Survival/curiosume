@@ -26,7 +26,7 @@ function renderMap(s, o, v) {
         mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
     
-    var hh = project(new OpenLayers.LonLat(location[1], location[0]));
+    var hh = project(new OpenLayers.LonLat(location[1], location[0]));    
     center(hh);        
         
     m.targetLocation = m.getCenter();
@@ -49,9 +49,9 @@ function renderMap(s, o, v) {
         return x;
     }
 
-    function createMarker() {
-        var t = new OpenLayers.Geometry.Point(hh.lon, hh.lat /*location[1],location[0]*/);
-        var rad = 10;
+    function createMarker(lat, lon, rad) {
+        var p = project(new OpenLayers.LonLat(lon, lat));
+        var t = new OpenLayers.Geometry.Point(p.lon, p.lat /*location[1],location[0]*/);
         var opacity = 0.5;
 
         var targetLocation = new OpenLayers.Feature.Vector(
@@ -76,7 +76,7 @@ function renderMap(s, o, v) {
         
     }
 
-    var tg = createMarker();
+    var tg = createMarker(0,0, 10);
 
     m.location = function() {
         return unproject(m.getCenter());  
@@ -115,4 +115,10 @@ function renderMap(s, o, v) {
         }
     };
     
+    for (var k in s.objects()) {
+        var x = s.getObject(k);
+        if (x.geolocation) {
+            createMarker(x.geolocation[0], x.geolocation[1], 50000);
+        }
+    }
 }
