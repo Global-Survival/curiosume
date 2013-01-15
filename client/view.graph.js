@@ -1,3 +1,6 @@
+var graphUpdatePeriod = 50; //in ms
+var layoutFPS = 20;
+
 function renderGraph(s, o, v, withGraph) {
     
     var ee = uuid();
@@ -20,7 +23,7 @@ function renderGraph(s, o, v, withGraph) {
             var sys = arbor.ParticleSystem(1500, 762, 0.5);                
             sys.screenPadding(20);
             sys.screenSize(width, height);
-            sys.parameters({"fps":10, "repulsion":3600,"friction":0.5,"stiffness":25,"gravity":false});
+            sys.parameters({"fps":layoutFPS, "repulsion":3600,"friction":0.5,"stiffness":25,"gravity":false});
             
             
             sys.start();
@@ -30,7 +33,10 @@ function renderGraph(s, o, v, withGraph) {
             
             var that = { };
             
-            function addNode(id) {
+            function addNode(id, name, iconURL) {
+                if (!name)
+                    name = id;
+                    
                 var x = Math.random() * 400.0 - 200.0;  
                 var y = Math.random() * 400.0 - 200.0; 
                 
@@ -38,7 +44,7 @@ function renderGraph(s, o, v, withGraph) {
                 
                 //var circle = addCircle(shape, "layer2", id  + 'c', 0, 0, 23, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,240,40)' }, true);
 
-                var text = addText(shape, "layer1", id + '_t', -20, -20, y, 8, id, { fillStyle: 'white', fontName: 'Arial' }, undefined, true);
+                var text = addText(shape, "layer1", id + '_t', -20, -20, y, 8, name, { fillStyle: 'white', fontName: 'Arial' }, undefined, true);
                 
             /*var rect = addRectangle(root, "layer1", "r", -100, -50, 200, 100, { strokeStyle: 'rgb(240,240,240)', lineWidth: 2, fillStyle: 'rgb(140,140,140)' });
             rect.reactsOnMouse = true;
@@ -51,7 +57,9 @@ function renderGraph(s, o, v, withGraph) {
             }, 50);*/
             
             //var circle = addCircle(rect, "layer1", "c", 0, 0, 49, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,40,240)' });
-            //image = addImage(circle, "layer2", "i", -25, -25, 50, 50, "Images/flower.png", function () { vc.virtualCanvas("invalidate"); });
+                if (iconURL)
+                    addImage(shape, "layer1", id + "_i", -25, -25, 50, 50, iconURL, function () { vc.virtualCanvas("invalidate"); });
+                    
             //text = addText(image, "layer2", "t", -20, -20, 0, 8, "Hello World", { fillStyle: 'green', fontName: 'Calibri' });
 
                 nodeShapes[id] = shape;
@@ -131,7 +139,7 @@ function renderGraph(s, o, v, withGraph) {
                     }
                 });
                 root.vc.invalidate();
-            }, 100);
+            }, graphUpdatePeriod);
  
             that.visibleRegion = new VisibleRegion2d(-width/2.0, 0, 50.0 / 356.0);
             

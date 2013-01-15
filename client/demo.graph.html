@@ -56,7 +56,7 @@
             			e.endUnix = endunixtime;
             		}
             	
-                    console.log(e);
+                    //console.log(e);
                                     	
             		var text = e.name || e.uri || e.title;
             		
@@ -68,6 +68,43 @@
             	
             }
 
+            function initMetamapsGraph(g) {
+                $.getJSON('/demo/metamaps/public_library.json', function(data) {
+                    
+                    _.each(data, function(x) {
+                        var tag  = x.data.$metacode;
+                        
+                        var iconPrefix = 'http://www.metamaps.cc/assets/';
+                        var iconSuffix = '.png';
+                        var tagIcons = {
+                          'Opportunity':   'opportunity',
+                          'Resource': 'resource',
+                          'Tool': 'tool',
+                          'Action': 'action',
+                          'Reference': 'reference',
+                          'Role': 'role'
+                        };
+                        
+                        var icon = tagIcons[tag];
+                        if (!icon) {
+                            icon = tagIcons['Opportunity'];
+                            console.log('Un-iconized tag: ' + tag);
+                        }
+                            
+                        var node = g.addNode(x.id, x.name, iconPrefix + icon + iconSuffix); 
+                       
+                    });
+                    _.each(data, function(x) {
+                        (function() {
+                           _.each(x.adjacencies, function(a) {
+                                var eid = a.data.$id;
+                                g.addEdge(eid, a.nodeFrom, a.nodeTo);  
+                           });
+                        })();
+                    });
+                }); 
+                
+            }
             
             function initFukushimaTimelineGraph(g) {
                 $.getJSON('/demo/enformable/enformable-fukushima-timeline.json', function(data) {
@@ -106,7 +143,8 @@
                         
                         //initRandomGraph(g);
                         //initAtomicHistoryGraph(g);
-                        initFukushimaTimelineGraph(g);
+                        //initFukushimaTimelineGraph(g);
+                        initMetamapsGraph(g);
                         
                     });
                     

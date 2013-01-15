@@ -129,7 +129,7 @@ var addCircle = function (element, layerid, id, vxc, vyc, vradius, settings, sup
 */
 var addImage = function (element, layerid, id, vx, vy, vw, vh, imgSrc, onload) {
 	if (vw <= 0 || vh <= 0) throw "Image size must be positive";
-	return addChild(element, new CanvasImage(element.vc, layerid, id, imgSrc, vx, vy, vw, vh, onload));
+	return addChild(element, new CanvasImage(element.vc, layerid, id, imgSrc, vx, vy, vw, vh, onload), true);
 };
 var addLodImage = function (element, layerid, id, vx, vy, vw, vh, imgSources, onload) {
 	if (vw <= 0 || vh <= 0) throw "Image size must be positive";
