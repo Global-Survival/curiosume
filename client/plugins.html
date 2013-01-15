@@ -20,9 +20,10 @@
                         
                         
                         var pd = $('<div class="PluginID"></div>');
-                        pd.append('<h3>' + k + '</h3>' + (pu.description ? (pu.description) : ""));
-                        pd.append('<br/>');
+                        pd.append('<h3>' + k + '</h3>');
                         
+                        if (pu.description)
+                            pd.append('<span>' + pu.description + '</span>');
                         
                         if (!(pu.valid == false)) {
                             pd.append('<br/>');
@@ -44,7 +45,7 @@
                                         }
                                    }); 
                                 });
-                                pd.append('Currently enabled. ');
+                                pd.append('<span>Currently enabled.</span>&nbsp;');
                                 pd.append(b);
                             }
                             else {
@@ -65,7 +66,7 @@
                                         }
                                    }); 
                                 });
-                                pd.append('Currently disabled. ');
+                                pd.append('<span>Currently disabled.</span>&nbsp;');
                                 pd.append(b);                            
                             }
                         }
@@ -112,12 +113,19 @@
                 width: 50%;
                 left: auto;
                 float: left;
-                clear: both;
-                margin: 0.5em;
+                clear: both;                
+                margin: 0.25em;
             }
             .PluginSettings {
                 width: 50%;
                 float: right;
+            }
+            .PluginID h3 {
+                font-size: 15px;
+                line-height: 15px;
+            }
+            .PluginID span {
+                margin-left: 3em;
             }
             #Bottom {
                 clear: both;
