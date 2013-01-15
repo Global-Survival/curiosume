@@ -1,13 +1,13 @@
-function renderGraph(s, o, v) {
+function renderGraph(s, o, v, withGraph) {
     
     var ee = uuid();
     var r = $('<div style="width: 98%; height: 98%; overflow: hidden; background-image:url(/lib/chronozoom/Images/Blueprint_Paper.jpg);"/>').attr('id', ee);
     r.appendTo(v);
     
-    var l1 = $('<div id="layer1"></div>');
-    r.append(l1);
     var l2 = $('<div id="layer2"></div>');
     r.append(l2);
+    var l1 = $('<div id="layer1"></div>');
+    r.append(l1);
     
     initCZ(function() {
 		
@@ -28,6 +28,8 @@ function renderGraph(s, o, v) {
             var nodeShapes = { };
             var edgeShapes = { };
             
+            var that = { };
+            
             function addNode(id) {
                 var x = Math.random() * 400.0 - 200.0;  
                 var y = Math.random() * 400.0 - 200.0; 
@@ -38,9 +40,25 @@ function renderGraph(s, o, v) {
 
                 var text = addText(shape, "layer1", id + '_t', -20, -20, y, 8, id, { fillStyle: 'white', fontName: 'Arial' }, undefined, true);
                 
+            /*var rect = addRectangle(root, "layer1", "r", -100, -50, 200, 100, { strokeStyle: 'rgb(240,240,240)', lineWidth: 2, fillStyle: 'rgb(140,140,140)' });
+            rect.reactsOnMouse = true;
+            rect.onmouseclick = function(e) {
+                console.log('clicked rect');
+            };
+            setInterval(function() {
+                rect.height = (Math.random() + 0.5) * 10.0;
+                rect.vc.invalidate();
+            }, 50);*/
+            
+            //var circle = addCircle(rect, "layer1", "c", 0, 0, 49, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,40,240)' });
+            //image = addImage(circle, "layer2", "i", -25, -25, 50, 50, "Images/flower.png", function () { vc.virtualCanvas("invalidate"); });
+            //text = addText(image, "layer2", "t", -20, -20, 0, 8, "Hello World", { fillStyle: 'green', fontName: 'Calibri' });
+
                 nodeShapes[id] = shape;
                 sys.addNode(id);
             }
+            that.addNode = addNode;
+            
             function addEdge(edgeID, a, b) {
                 if (edgeShapes[edgeID])
                     return;
@@ -49,7 +67,7 @@ function renderGraph(s, o, v) {
                 var y = Math.random() * 400.0 - 200.0; 
                 
                 
-                var line = addRectangle(root, "layer1", edgeID, x, y, 1, 15, { fillStyle: 'rgba(240,240,240,0.8)', angle: 0});
+                var line = addRectangle(root, "layer2", edgeID, x, y, 1, 15, { fillStyle: 'rgba(240,240,240,0.8)', angle: 0});
                 line.from = a;
                 line.to = b;
                 
@@ -57,6 +75,7 @@ function renderGraph(s, o, v) {
                 sys.addEdge(a, b, { id: edgeID });
                 
             }
+            that.addEdge = addEdge;
             
             function moveShape(s, x, y, angle) {
                 s.x = x;
@@ -114,40 +133,11 @@ function renderGraph(s, o, v) {
                 root.vc.invalidate();
             }, 100);
  
-            var numNodes = 50;
-            var numEdges = 40;
-            for (var i = 0; i < numNodes; i++) {
-                addNode('s' + i);
-            }
-            for (var i = 0; i < numEdges; i++) {
-                var a = parseInt(Math.random() * numNodes);
-                var b = parseInt(Math.random() * numNodes);
-                if (a!=b) {
-                    var min = Math.min(a, b);
-                    var max = Math.max(a, b);
-                    addEdge(min + '_' + max, 's' + min, 's' + max);
-                }
-            }
+            that.visibleRegion = new VisibleRegion2d(-width/2.0, 0, 50.0 / 356.0);
             
-            /*var rect = addRectangle(root, "layer1", "r", -100, -50, 200, 100, { strokeStyle: 'rgb(240,240,240)', lineWidth: 2, fillStyle: 'rgb(140,140,140)' });
-            rect.reactsOnMouse = true;
-            rect.onmouseclick = function(e) {
-                console.log('clicked rect');
-            };
-            setInterval(function() {
-                rect.height = (Math.random() + 0.5) * 10.0;
-                rect.vc.invalidate();
-            }, 50);*/
+            return that;
             
-            //var circle = addCircle(rect, "layer1", "c", 0, 0, 49, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,40,240)' });
-            //image = addImage(circle, "layer2", "i", -25, -25, 50, 50, "Images/flower.png", function () { vc.virtualCanvas("invalidate"); });
-            //text = addText(image, "layer2", "t", -20, -20, 0, 8, "Hello World", { fillStyle: 'green', fontName: 'Calibri' });
-
-            return new VisibleRegion2d(-width/2.0, 0, 50.0 / 356.0);
-            
-			//return graphEnformableTimelineCZ(data.events, 512, root);                
-            
-		});								
+		}, withGraph);								
 	});
 
 }
@@ -190,7 +180,7 @@ function initCZ(f) {
 }
 
 var vc;
-function graphCZ(canvasElement, init) {
+function graphCZ(canvasElement, init, withGraph) {
     /*
     pos = $("#pos");
     pos.css("position", "absolute");
@@ -204,7 +194,7 @@ function graphCZ(canvasElement, init) {
     var root = vc.virtualCanvas("getLayerContent");
     root.beginEdit();
 
-    var bounds = init(root);
+    var graph = init(root);
     
     root.endEdit(true);
 
@@ -217,8 +207,11 @@ function graphCZ(canvasElement, init) {
                     },
                     getGesturesStream(vc));
 
-    vc.virtualCanvas("setVisible", bounds);
+    vc.virtualCanvas("setVisible", graph.visibleRegion);
     updateLayout();
+    
+    if (withGraph)
+        withGraph(graph);
     
 }
 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Graph Demos | Netention</title>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="netention.js"></script> 
+        
+        <script>
+        
+            function initRandomGraph(g) {
+                //g.clear();
+                
+                var numNodes = 50;
+                var numEdges = 40;
+                for (var i = 0; i < numNodes; i++) {
+                    g.addNode('s' + i);
+                }
+                for (var i = 0; i < numEdges; i++) {
+                    var a = parseInt(Math.random() * numNodes);
+                    var b = parseInt(Math.random() * numNodes);
+                    if (a!=b) {
+                        var min = Math.min(a, b);
+                        var max = Math.max(a, b);
+                        g.addEdge(min + '_' + max, 's' + min, 's' + max);
+                    }
+                }
+            }
+            
+            function graphEnformableTimelineCZ(data, graph, maxEvents) {
+                var l = [];
+            	
+            	var minTime, maxTime;
+            	var ll = data.length;
+            	if (ll > maxEvents)
+            		ll = maxEvents;
+            	
+            	for (i = 0; i < ll; i++) {
+            		var e = data[i];
+            		
+            		function p(u) {
+            			if ((i == 0) || (unixtime < minTime))
+            				minTime = unixtime;
+            			if ((i == 0) || (unixtime > maxTime))
+            				maxTime = unixtime;					
+            			
+            		}
+            		
+            		var unixtime = Date.parse(e.start);
+            		p(unixtime);
+            		e.startUnix = unixtime;
+            		
+            		if (e.end) {
+            			var endunixtime = Date.parse(e.end);
+            			p(endunixtime);
+            			e.endUnix = endunixtime;
+            		}
+            	
+                    console.log(e);
+                                    	
+            		var text = e.name || e.uri || e.title;
+            		
+                    graph.addNode(text);
+            	}
+                
+            						
+                        
+            	
+            }
+
+            
+            function initFukushimaTimelineGraph(g) {
+                $.getJSON('/demo/enformable/enformable-fukushima-timeline.json', function(data) {
+                    
+                    graphEnformableTimelineCZ(data.events, g, 400);
+                }); 
+            }
+            
+            function initAtomicHistoryGraph(g) {
+                console.log(g);
+                $.get('/demo/enformable/enformable_atomic_history.statements.tsv', function(data) {                    
+                    _.each(data.split('\n'), function(l) {
+                        var t = l.split('\t');                        
+                        console.log(t);  
+                        
+                    });
+                });
+            }
+                
+            
+            $(document).ready(function(){
+                netention(function(self) {
+                    
+                    window.self = self;
+                    
+                    var o = $('#Header');
+                    var v = $('#Content');
+                    
+                    v.css({'height':(($(document).height()))+'px'});
+
+                    $(window).resize(function(){
+                        v.css({'height':(($(document).height()))+'px'});
+                    });
+                                
+                    renderGraph(self, o, v, function(g) {
+                        
+                        //initRandomGraph(g);
+                        //initAtomicHistoryGraph(g);
+                        initFukushimaTimelineGraph(g);
+                        
+                    });
+                    
+                    
+                    
+                    
+                    
+                });
+            });
+        </script>
+        <style>
+            body {
+                width: 100%;
+            }
+            #Content {
+                width: 100%;
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="Header">
+        </div>
+        <div id="Content">
+        </div>
+    </body>
+</html>
