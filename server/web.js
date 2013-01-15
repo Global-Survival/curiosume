@@ -156,7 +156,7 @@ exports.start = function(host, port, database, init) {
 	}
     that.deleteObject = deleteObject;
 			
-	function notice(o) {
+	function notice(o, whenFinished) {
 		if (!o.uri)
 			return;
 		
@@ -172,6 +172,9 @@ exports.start = function(host, port, database, init) {
 			}
 			
 			db.close();		
+            
+            if (whenFinished)
+                whenFinished();
 		});
 	
 	}

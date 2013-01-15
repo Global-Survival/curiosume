@@ -238,14 +238,19 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
         return x.toFixed(2);
 	}
         	
-	if (x.geolocation && self.myself().geolocation) {
-		var dist = '?';
-		if (self.myself().geolocation)
-			dist = geoDist(x.geolocation, self.myself().geolocation);
-		
+	if (x.geolocation) {
         var lat = _n(x.geolocation[0]);
         var lon = _n(x.geolocation[1]);
-		mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
+        if (self.myself().geolocation) {
+    		var dist = '?';
+    		if (self.myself().geolocation)
+    			dist = geoDist(x.geolocation, self.myself().geolocation);
+    		
+    		mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
+        }
+        else {
+        	mdline.append('&nbsp;<span>[' + lat + ',' + lon + ']</span>');        
+        }
 	}
     if (x.when) {
         var tt = $('<time class="timeago"/>');

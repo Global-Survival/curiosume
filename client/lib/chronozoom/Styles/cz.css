@@ -1,4 +1,4 @@
-﻿body
+body
 {
 -ms-touch-action: none;
 }
@@ -26,19 +26,6 @@ user-select: none;
 user-select: text;
 }
 
-A
-{
-color: #DBDBDB;
-font-family: Arial;
-text-decoration: none;
-}
-
-A:hover
-{
-color: White;
-font-family: Arial;
-text-decoration: underline;
-}
 
 .virtualCanvas
 {

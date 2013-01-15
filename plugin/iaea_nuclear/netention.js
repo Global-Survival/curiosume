@@ -1,50 +1,67 @@
-var csv = require('../../server/csv.js');
+var csv = require('ya-csv');
 
-
-exports.sensor = {
-    
-    //parent "folder" in the taxonomy, separated by slashes, like "Society/Crime"
-    id: function() { return 'IAEANuclear'; },
-    
-    //list of named variables, their types, initial values, and limits, to generate UI controls for adjusting those variables
-    options: function() { 
-        return { };
-    },
-    
-    //SERVER to refresh the data in this cache, should be called at least once at the beginning
-    refresh: function(sensor, onFinished, onError) { 
-        var r = [];
-        var i = this.id();
+exports.plugin = {
+        name: 'Nuclear Facilities',    
+		description: 'Earth nuclear facilities (from IAEA)',
+		options: { },
+        version: '1.0',
+        author: 'http://enformable.com',
         
-        //TODO use relative URL or open from file
-        csv.parseCsvUrl('http://localhost:8080/sensor/pollution/IAEANuclear.csv', function(x) {
-           
-           var name = x['name'];
-           var location = x['location'];
-           
-           var lat = parseFloat(location.split(',')[0]);
-           var lon = parseFloat(location.split(',')[1]);
-           
-           var reactors = [ parseFloat(x['total number of reactors']), 
-                            parseFloat(x['active reactors']), 
-                            parseFloat(x['reactors under construction']),
-                            parseFloat(x['shut down reactors']) ];
-
-           var y = {
-                'name': name,
-                'lat': lat,
-                'lon': lon,
-                'reactors': reactors                
-           };
-           
-           r.push( y );
-           
-           
-        }, function() {
-            sensor[i].nuclear = r;
+		start: function(netention) { 
             
-            if (onFinished!=undefined)
-                onFinished();
-        });
-    }
+            netention.addTags([ {
+                uri: 'NuclearFacility', name: 'Nuclear Facility'                            
+            } ]);
+            
+            
+            var reader = csv.createCsvFileReader('./plugin/iaea_nuclear/IAEANuclear.csv', {
+                'separator': ',',
+                'quote': '"',
+                'escape': '"',       
+                'comment': '',
+            });
+
+            var f = [];
+            reader.addListener('data', function(data) {
+                var x = data;
+                
+                var name = x[1];
+                var location = x[2];
+                
+                if (!location)
+                    return;
+               
+                var lat = parseFloat(location.split(',')[0]);
+                var lon = parseFloat(location.split(',')[1]);
+               
+                var reactors = [ parseFloat(x[3]), 
+                                parseFloat(x[4]), 
+                                parseFloat(x[5]),
+                                parseFloat(x[6]) ];
+    
+                var y = {
+                    'uri': 'NuclearFacility_' + name.replace(/\s+/g, '_'),
+                     tag: ['NuclearFacility'],
+                     tagStrength: [1],
+                    'name': name + ' Nuclear Facility',                    
+                    'geolocation': [lat, lon],
+                    when: Date.now(),
+                    'reactors': reactors        //TODO as property
+                };
+                
+                console.log(y);
+                f.push(y);
+                
+            });
+            reader.addListener('end', function() {
+                function existMore() {
+                    if (f.length > 0)
+                        netention.notice(f.pop(), existMore);
+                }
+                existMore();
+            });
+
+            
+        },
+		stop: function(netention) { }
 };
