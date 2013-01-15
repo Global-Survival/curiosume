@@ -69,6 +69,7 @@ function loadScripts(f) {
                         '/view.graph.js',
                         
                         '/focus.semantic.js',
+                        '/focus.tag.js',
                         '/focus.humanbody.js',
                         '/focus.emotion.js',
                         '/focus.needs.js'
@@ -421,7 +422,29 @@ function netention(f) {
             		}
             	}	
             	return false;
+            },
+            
+            getTagCount : function(s) {
+                
+                var aa = this.get('attention');
+                
+                var tagCount = { };
+                
+                for (var ai in aa) {
+                    var t = aa[ai].tag;
+                    if (!t)                 continue;
+                    
+                    for (var i = 0; i < t.length; i++) {
+                        var tt = t[i];
+                        if (!tagCount[tt])
+                            tagCount[tt] = 0;
+                        tagCount[tt] = tagCount[tt] + 1.0; //TODO add the normalized tag strength
+                    }
+                }
+                return tagCount;
             }
+
+
             
         });
         

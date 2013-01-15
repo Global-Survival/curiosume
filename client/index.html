@@ -17,6 +17,7 @@
                 
 	            var focusModeMap = {
 	                'Semantic': SemanticFocus,
+                    'Tag': TagFocus,
                     'Needs': NeedsFocus,
                     'Human': HumanbodyFocus,
                     'Emotion': EmotionFocus
@@ -332,6 +333,7 @@
                           },
                           
                           tag: function(tag) {
+                                self.set('list-semantic', 'Relevant');
                                 commitFocus({
                                    uri: uuid(),
                                    tag: [ tag ], tagStrength: [ 1.0 ]
@@ -650,9 +652,8 @@
             <div id="HumanbodyFocus" style="display:none">
                 <img src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
             </div>
-            <div id="EmotionFocus" style="display:none">
-                
-            </div>
+            <div id="EmotionFocus" style="display:none"></div>
+            <div id="TagFocus" style="display:none"></div>
         </div>
         
 	    <div id="DataTarget" class="DataTargetNormal">

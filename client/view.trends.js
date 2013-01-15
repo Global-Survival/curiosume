@@ -12,21 +12,8 @@ function renderTrends(s, o, v) {
     var xu = uuid();
     var xx = $('<div></div>').attr('id', xu);
     v.append(xx);
-    
-    var tagCount = { };
-    
-    for (var ai in aa) {
-        var t = aa[ai].tag;
-        if (!t)                 continue;
-        if (!Array.isArray(t))  continue;
         
-        for (var i = 0; i < t.length; i++) {
-            var tt = t[i];
-            if (!tagCount[tt])
-                tagCount[tt] = 0;
-            tagCount[tt] = tagCount[tt] + 1.0; //TODO add the normalized tag strength
-        }
-    }
+    var tagCount = s.getTagCount();
     
     var labels = [];
 	var values = [];
