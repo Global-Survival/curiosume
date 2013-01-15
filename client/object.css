@@ -258,3 +258,15 @@ div.olMapViewport {
     margin-left: 1em;
     color: gray;
 }
+
+
+.tagSlider {
+    float: right;
+    width: 70%;
+}
+.tagSliderLabel {
+    clear: both;
+    float: left;
+    width: 25%;
+    font-weight: bold;
+}

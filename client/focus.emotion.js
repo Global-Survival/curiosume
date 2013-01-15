@@ -9,7 +9,7 @@ function newTagSliders(self, tags, result, onChanged) {
             if (tt) {
                 name = tt.name;
             }
-            var st = $('<div></div>');
+            var st = $('<div></div>').addClass('tagSlider');
             st.slider({ 
                 min: 0, max: 1.0, step: 0.25, value: 0,
                 slide: function (event, ui) {
@@ -22,11 +22,11 @@ function newTagSliders(self, tags, result, onChanged) {
                     onChanged(result);
                 }
             });
-            x.append('<b>' + name + '</b>');
-            x.append('<br/>');
-            x.append(st);
+            $('<div>' + name + '</div>').addClass('tagSliderLabel').appendTo(x);
+            st.appendTo(x);
         })();
     }    
+    x.append('<div style="clear:both;"></div>');
     x.result = result;
     
     return x;
