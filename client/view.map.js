@@ -24,8 +24,9 @@ function renderMap(s, o, v) {
     
     m.vector = vector;
     m.addLayers([
-        mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
+        mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
+    m.addLayers([markers]);
     
     m.events.register("moveend", m, function() {
         //save updated bounds to self
@@ -87,10 +88,10 @@ function renderMap(s, o, v) {
         6,
         0), {}, {
             fillColor: fill,
-            strokeColor: '#f00',
+            //strokeColor: '#fff',
             fillOpacity: opacity,
-            strokeOpacity: opacity,
-            strokeWidth: 1
+            //strokeOpacity: opacity,
+            strokeWidth: 0
             //view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
 
         });
@@ -100,11 +101,10 @@ function renderMap(s, o, v) {
         //m.zoomToExtent(m.vector.getDataExtent());
         
         if (iconURL) {
-            var iw = 25;
-            var ih = 25;
-            var iop = 0.5;
+            var iw = 35;
+            var ih = 35;
+            var iop = 0.95;
             var size = new OpenLayers.Size(iw,ih);
-            //var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
             var offset = new OpenLayers.Pixel(-iw/2.0,-ih/2.0);
             var icon = new OpenLayers.Icon(iconURL,size,offset);
             icon.setOpacity(iop);
@@ -158,13 +158,13 @@ function renderMap(s, o, v) {
         var x = s.getObject(k);
         if (x.geolocation) {
             var fill = '#888';
-            var op = 0.75;
+            var op = 0.5;
             var rad = 50000;
             var iconURL = undefined;
             
             if (x.when) {
             	var now = Date.now();
-            	op = Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
+            	op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
             }
 
             
@@ -173,9 +173,18 @@ function renderMap(s, o, v) {
                 rad = 100000 + (x.eqMagnitude - 5.0)*700000;
                 console.log(x, rad);
                 iconURL = '/icon/quake.png';
+                op *= 0.5;
             }
             else if (hasTag(x, 'NuclearFacility')) {
                 iconURL = '/icon/nuclear.png';
+                rad = 7000;
+                op = 0.3;
+                fill = '#ff0';
+            }
+            else if (hasTag(x, 'general.Human')) {
+                iconURL = '/icon/rrze/emblems/crown.png';
+                rad = 1000;
+                op = 0.25;
             }
             createMarker(k, x.geolocation[0], x.geolocation[1], rad, op, fill, iconURL);
         }
