@@ -49,7 +49,6 @@ exports.plugin = {
                     'reactors': reactors        //TODO as property
                 };
                 
-                console.log(y);
                 f.push(y);
                 
             });

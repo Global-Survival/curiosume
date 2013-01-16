@@ -63,6 +63,8 @@ function loadScripts(f) {
                         '/lib/jquery-form/jquery.form.js',
                         
                         '/view.map.js',
+                        //'/view.map.cesium.js',
+                        
                         '/view.list.js',
                         '/view.trends.js',
                         '/view.slides.js',
