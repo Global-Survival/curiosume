@@ -159,7 +159,7 @@ function renderMap(s, o, v) {
         if (x.geolocation) {
             var fill = '#888';
             var op = 0.5;
-            var rad = 50000;
+            var rad = 50;
             var iconURL = undefined;
             
             if (x.when) {
@@ -183,8 +183,13 @@ function renderMap(s, o, v) {
             }
             else if (hasTag(x, 'general.Human')) {
                 iconURL = '/icon/rrze/emblems/crown.png';
-                rad = 1000;
+                rad = 200;
                 op = 0.25;
+            }
+            else if (hasTag(x, 'general.Message')) {
+                iconURL = '/icon/rrze/emblems/at.png';
+                fill = '#55f';
+                rad = 50;
             }
             createMarker(k, x.geolocation[0], x.geolocation[1], rad, op, fill, iconURL);
         }

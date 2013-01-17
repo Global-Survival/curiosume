@@ -42,6 +42,16 @@ var generalTags = [
 					 'transactionPaid': { name: 'Paid', type: 'boolean' },		            
 					 'transactionDue': { name: 'Due', type: 'boolean' },		            
 					 'transactionGratis': { name: 'Gratis', type: 'boolean' }		            
+                     
+                     //http://troco.ourproject.org/
+                     //'valueGiven'
+                     //'recipient'
+                     //'valuePromisedReturn'
+                     //'due' (date)
+                     //'transactionStatus' [ ... ]
+                     //public enum TrocoKey {
+                     //   ISSUER, ISSUER_ID, ISSUER_BTN, ISSUER_IMG, RECPT, RECPT_ID, RECPT_BTN, RECPT_IMG, GIVE_VALUE, OTHER_VALUE, SAME_VALUE, BEFORE_DATE, SIGN_BTN, STATUS, ISSUER_SIGNED, RECPT_SIGNED, REDEEMED, REDEEM_BTN, ISSUER_GPGAUTH, RECPT_GPGAUTH, ISSUER_GPGSIGN, RECPT_GPGSIGN
+
 		}
 	},
 	{ uri: 'general.Action', name: 'Action',

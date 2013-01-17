@@ -23,6 +23,7 @@ exports.plugin = {
             
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 
+                eq.name = eq.name + ' Earthquake';
                 eq.eqMagnitude = parseFloat( eq.name.substring(1, eq.name.indexOf(',')));
 		        eq.tag = [ 'climate.EarthQuake' ];
                 

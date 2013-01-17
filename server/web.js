@@ -37,6 +37,7 @@ exports.start = function(host, port, database, init) {
 	var that = { };
 	
 	var tags =  { };
+    var properties = { };
 
 	var attention = memory.Attention(0.95);
 		
@@ -180,10 +181,19 @@ exports.start = function(host, port, database, init) {
 	}
     that.notice = notice;
     
+    
+    function addProperties(ap) {
+        for (var i = 0; i < ap.length; i++) {
+    		properties[ap[i].uri] = ap[i];
+    	}        
+        
+        //TODO broadcast change in properties?
+    }
+    that.addProperties = addProperties;
+    
     function addTags(at) {
         for (var i = 0; i < at.length; i++) {
-    		var a = at[i];
-    		tags[at[i].uri] = a;
+    		tags[at[i].uri] = at[i];
     	}        
         
         //TODO broadcast change in tags?
@@ -660,7 +670,7 @@ exports.start = function(host, port, database, init) {
 	       socket.emit('setServer', Server.name, Server.description);
 	       
 	       //share tags
-	       socket.emit('addTags', tags);
+	       socket.emit('addTags', tags, properties);
 	    });
 	    
 	    socket.on('updateSelf', function(s, getObjects) {

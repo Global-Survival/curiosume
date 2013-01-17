@@ -1,4 +1,60 @@
-var schema, code;
+var _ = require('underscore');
+
+exports.plugin = {
+        name: 'Schema.org',    
+		description: 'Useful schemas',
+		options: { },
+        version: '1.0',
+        author: 'http://schema.org',
+		start: function(netention) { 
+            var schemaorg = require('./schema.org.json');
+            var types = schemaorg.types;
+            var properties = schemaorg.properties;
+            
+            netention.addProperties(_.map(properties, function(prop) {
+                function propType(ranges) {
+                    if (_.contains(ranges, 'URL')) {
+                        return 'url';
+                    }
+                    else if (_.contains(ranges, 'Text')) {
+                        return 'text';
+                    }
+                    else if (_.contains(ranges, 'Number')) {
+                        return 'text';
+                    }
+                    else if (_.contains(ranges, 'Real')) {
+                        return 'text';
+                    }
+                    else if (_.contains(ranges, 'Integer')) {
+                        return 'text';
+                    }
+                    else {
+                        return ranges;
+                    }
+                    
+                }
+                
+                return {
+                    uri: prop.id,
+                    name: prop.label,
+                    description: prop.comment,
+                    type: propType(prop.ranges)
+                };
+            }));
+            netention.addTags(_.map(types, function(type) {
+                return {
+                    uri: type.id,
+                    name: type.label,
+                    description: type.comment,
+                    properties: type.properties,
+                    supertypes: type.supertypes
+                };
+            }));
+            
+        },
+		stop: function(netention) { }
+};
+/*var schema, code;
 var types = {};
 
 function getSchemaRoots() {
@@ -136,3 +192,4 @@ function loadSchema(path, whenSchemaLoaded) {
            whenSchemaLoaded();
     });            
 }
+*/

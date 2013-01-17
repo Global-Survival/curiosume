@@ -195,8 +195,9 @@ function netention(f) {
                 socket.on('notice', function(n) {
                     that.notice(n);   
                 });
-            	socket.on('addTags', function(t) {
-                    that.addTags(t);                    
+            	socket.on('addTags', function(t, p) {
+                    that.addProperties(p);
+                    that.addTags(t);                                  
             	});
                 
                 socket.emit('connectSelf', this.get('clientID'));
@@ -225,6 +226,10 @@ function netention(f) {
                     title: 'Saved.'
                 }); */
             },
+
+            addProperty : function(p) {
+                this.properties()[p.uri] = p;
+            },
             
             addTag: function(t) {
                 var ty = this.tags();
@@ -238,9 +243,6 @@ function netention(f) {
 			            p[tp] = ty[t.uri].properties[tp];
 		            }
 	            }
-                
-                //this.set('types', t);
-                //this.set('properties', p);
             },
             
             geolocate : function(ex) {
@@ -255,8 +257,14 @@ function netention(f) {
     
             },
             
+            addProperties : function(ap) {
+                for (var k in ap) {
+                	this.addProperty(ap[k]);
+            	}                
+            },
+            
             addTags: function(at) {
-                                
+
                 for (var k in at) {
             		this.addTag(at[k]);
             	}
