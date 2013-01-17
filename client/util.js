@@ -2,6 +2,99 @@
 if (typeof window != 'undefined')
 	exports = { };
 
+function _n(x) {
+    return x.toFixed(2);
+}
+    
+function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
+    var that = {
+			values: { },
+			totals: { },
+            
+            save : function() {  //provides a sorted, normalized snapshot
+                var k = [];
+                for (var i in that.values) {
+                    k.push([i, that.values[i], that.totals[i]]);
+                }
+                return k;
+            },
+            
+			remove: function(objectID) {
+				delete that.values[objectID];
+				delete that.totals[objectID];
+			},
+            //set
+            //multiply
+			add : function(i, deltaAttention) {
+				
+                if (!that.values[i]) {
+                    that.values[i] = 0;
+                    that.totals[i] = 0;
+                }
+                    
+                that.values[i] += deltaAttention;
+			},
+			update : function() {
+                
+                var spreadRate = 0.05;
+
+				//FORGET: decrease and remove lowest
+				for (var k in that.values) {
+                    that.totals[k] += that.values[k];
+					that.values[k] *= memoryMomentum;
+                    /*
+					if (that.values[k] < minAttention) {
+						that.remove(k);
+					}*/
+				}
+				
+				//SPREAD: ...
+				//	TODO follow incidence structure to determine target spread nodes				
+                if (adjacency) {
+                    //for every node
+        			for (var k in that.values) {
+                        var vv = that.values[k];
+                        
+                        var incident = adjacency.incidence(k);
+                        
+                        //for every incident node
+                        
+                        var nodesToIncrease = [];
+                        for (var i = 0; i < incident.length; i++) {
+                            var ii = incident[i];
+                            var iv = that.values[ii];
+                            
+                            if (ii == k)
+                                continue;
+                            
+                            if (iv < vv)
+                                nodesToIncrease.push(ii); 
+                        }
+
+                        if (nodesToIncrease.length > 0) {
+                            var totalSpreadAmount = vv * spreadRate;
+                            that.add(k, -totalSpreadAmount);
+                            
+                            var spreadAmount = totalSpreadAmount / parseFloat(nodesToIncrease.length);
+                            
+                            //  if the value is less than the original node,
+                            //  add a fraction of the spread rate
+                            for (var i = 0; i < nodesToIncrease.length; i++) {
+                                that.add(nodesToIncrease[i], spreadAmount);
+                            }
+                        }
+
+        			}                
+                }
+			}
+	};
+	
+	
+	return that;
+}
+var newAttentionMap = newAttentionMap;
+
+
 var createRingBuffer = function(length){
 
   var pointer = 0, buffer = [];

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Attention Demos | Netention</title>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="netention.js"></script> 
+        
+        <script>
+        
+            function newAttentionChart(a, updatePeriodMS) {
+                var x = $('<div>');
+                
+                setInterval(function() {
+                    
+                    x.html('');
+                    
+                    var s = a.save();
+                    for (var i = 0; i < s.length; i++) {
+                        var y = s[i];
+                        var uri = y[0];
+                        var value = y[1];
+                        var total = y[2];
+                        
+                        var fs = 0.5 + value*4.0;
+
+                        var ss = $('<span></span>');
+                        ss.css('font-size', (100.0 * fs) + '%');
+                        ss.css('color', 'rgb(' + parseInt(value*256.0) + ',0,0)');
+                        
+                        ss.html(uri + ' ' + _n(value) + ' ' + _n(total) + ' <br/>').appendTo(x);
+                        
+                    }
+                    
+                }, updatePeriodMS);
+                
+                return x;
+            }
+            
+            $(document).ready(function(){
+                netention(function(self) {
+                    
+                    window.self = self;
+                    var numObjs = 35;
+                    
+                    var a = newAttentionMap(0.97, 80, {
+                        incidence: function(x) {  
+                            var n = parseInt(x.split('x')[1]);
+                            if (n == 0)
+                                return [ 'x1' ];
+                            else if (n == numObjs-1) {
+                                return [ 'x' + (numObjs-2) ];
+                            }
+                            else {
+                                return [ 'x' + (n-1), 'x' + (n+1) ];
+                            }                            
+                        }
+                    });
+                    
+                    $('#Content').append(newAttentionChart(a, 400));
+                    
+
+                    var o = { };
+                    
+                    //add random
+                    for (var i = 0; i < numObjs; i++) {
+                        var u = 'x' + i;
+                        
+                        var x = {
+                            uri: u,
+                            name: i
+                        };
+                        o[u] = x;
+                        a.add(u, 0.5);
+                    }
+                    
+                    function randomObject() {
+                        return 'x' + parseInt(Math.random() * numObjs);
+                    }
+                    
+                    setInterval(function() {
+                        a.update();
+                        
+                        //random
+                        if (Math.random() < 0.1)
+                            a.add(randomObject(), 0.8);
+                    }, 100);
+                });
+            });
+        </script>
+        <style>
+            body {
+                width: 100%;
+            }
+            #Content {
+                width: 100%;
+                height: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="Header">
+        </div>
+        <div id="Content">
+        </div>
+    </body>
+</html>

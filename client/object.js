@@ -234,9 +234,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
         }        
 	}
     
-	function _n(x) {
-        return x.toFixed(2);
-	}
+	
         	
 	if (x.geolocation) {
         var lat = _n(x.geolocation[0]);
