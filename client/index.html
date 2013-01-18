@@ -312,8 +312,9 @@
                             "help":                 "help",    // #help
                             "query/:query":         "query",  // #search/kiwis
                             "object/:id":           "object",
-                            "object/:id/focus":           "focus",
+                            "object/:id/focus":     "focus",
                             "tag/:tag":             "tag",
+                            "new/with/tags/:t":     "newWithTags"
                             //"search/:query/:page":  "query"   // #search/kiwis/p7
                           },
                           
@@ -322,6 +323,16 @@
                                     uri: uuid()
                                 });
                                 //set relevancy filter to 'mine
+                          },
+                          
+                          newWithTags : function(ts) {                              
+                              //'/new/with/tags/' + ts
+                              setFocusMode('Semantic');
+                              ts = ts.split(',');
+                              commitFocus({
+                                    uri: uuid(),
+                                    tag: ts                                
+                              });
                           },
                         
                           me: function() {

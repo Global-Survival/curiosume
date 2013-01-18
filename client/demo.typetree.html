@@ -8,49 +8,6 @@
         
         <script>
         
-            function updateTypeTree(a) {
-                var self = window.self;
-                
-                a.html('');    
-                var dt = $('<div></div>');
-                var tree = $('<ul></ul>').css('display','none');
-                                
-                function subtree(root, i) {
-                    var name = i.name + ' (' + i.uri + ')';
-                    var xi = 'tagtree_' + i.uri;
-                    var n = $('<li id="' + xi + '"><!--<input type="checkbox"/>-->' + name + '</li>');
-                    root.append(n);
-                    
-                    var children = self.subtags(i.uri);
-                    
-                    if (children.length > 0) {
-                        n.addClass('folder');
-                        var nu = $('<ul></ul>');
-                        n.append(nu);
-                        _.each(children, function(c) {
-                            subtree(nu, self.tag(c));
-                        });                            
-                    }
-                }
-                
-                var roots = self.tagRoots();
-                _.each(roots, function(t) {
-                   subtree(tree, self.tag(t));
-                });
-                
-                               
-                tree.appendTo(dt);
-                dt.appendTo(a);
-                
-                dt.dynatree({
-                    checkbox: true,
-                    selectMode: 2, // 1:single, 2:multi, 3:multi-hier
-                    onActivate: function(node) {
-                        //alert("You activated " + node);
-                    }
-                });
-                
-            }
             
             $(document).ready(function(){
                 netention(function(self) {

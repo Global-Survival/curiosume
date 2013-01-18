@@ -8,8 +8,8 @@ ul.dynatree-container
 	white-space: nowrap;
 	padding: 3px;
 	margin: 0; /* issue 201 */
-	background-color: white;
-	border: 1px dotted gray;
+	background-color: rgba(255,255,255,0.5);
+/*	border: 1px dotted gray;*/
 	overflow: auto;
 	height: 100%; /* issue 263 */
 }
@@ -320,8 +320,8 @@ span.dynatree-selected a
 
 span.dynatree-active a
 {
-	background-color: #3169C6 !important;
-	color: white !important; /* @ IE6 */
+	background-color: rgba(35,35,255,0.1) !important;
+	/*color: white !important;*/ /* @ IE6 */
 }
 
 /*******************************************************************************
