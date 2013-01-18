@@ -1,8 +1,4 @@
-function renderList(s, o, v) {
-    
-    var sort = s.get('list-sort') || 'Recent';
-    var scope = s.get('list-scope') || 'Public';
-    var semantic = s.get('list-semantic') || 'Any';
+function getRelevant(sort, scope, semantic, s, o, maxItems) { 
     
     var now = Date.now();
     var location = s.myself().geolocation;
@@ -63,27 +59,36 @@ function renderList(s, o, v) {
     }
     
     var relevant = _.keys(relevance);
-	relevant.sort(function(a, b) {
+    relevant.sort(function(a, b) {
 	    return relevance[b] - relevance[a];
 	});
     
-    var MAX_DISPLAYED_LIST_ITEMS = 75;
-    if (relevant.length > MAX_DISPLAYED_LIST_ITEMS) {
-        o.prepend('<span>Too many: 1..' + MAX_DISPLAYED_LIST_ITEMS + ' of ' + relevant.length + '</span>');
+    if (relevant.length > maxItems) {
+        o.prepend('<span>Too many: 1..' + maxItems + ' of ' + relevant.length + '</span>');
     }
     else {
         
     }
-    relevant = _.first(relevant, MAX_DISPLAYED_LIST_ITEMS);
+    return [ _.first(relevant, maxItems), relevance ];
+}
+
+function renderItems(s, o, v, maxItems, perItem) {
+    var sort = s.get('list-sort') || 'Recent';
+    var scope = s.get('list-scope') || 'Public';
+    var semantic = s.get('list-semantic') || 'Any';
+    
+    var rr = getRelevant(sort, scope, semantic, s, o, maxItems);
+    var relevant = rr[0];
+    var relevance = rr[1];
     
     for (var x = 0; x < relevant.length; x++) {
         var xx = s.get('attention')[relevant[x]];                        
         var rr =  relevance[relevant[x]];
-        v.append(newObjectView( s, xx , function() { }, rr, 1 ));
+        perItem(s, v, xx, rr);
     }
     
     var semanticFilter = $('<select><option>Any</option><option>Relevant</option></select>');
-	semanticFilter.change(function() {
+    semanticFilter.change(function() {
     	var v = $(this).val();
         s.set('list-semantic', v);
 		updateView();
@@ -92,7 +97,6 @@ function renderList(s, o, v) {
 	o.append(semanticFilter);
     
     var sortSelect = $('<select><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
-	dataViewSort = 'By Relevance';
 	sortSelect.change(function() {
 		var v = $(this).val();
         s.set('list-sort', v);
@@ -124,7 +128,13 @@ function renderList(s, o, v) {
     authorFilter.val(scope);
 	o.append(authorFilter);
     
+
+}
+
+function renderList(s, o, v) {
+    renderItems(s, o, v, 75, function(s, v, x, relevancy) {
+         v.append(newObjectView(s, x, function() { }, relevancy, 1 ));
+    });
+    
     $('body').timeago('refresh');
-
-
 }

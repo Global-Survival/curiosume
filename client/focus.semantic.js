@@ -142,7 +142,6 @@ var SemanticFocus = {
             throttledUTS(t);
         });
         
-        updateTags();
         
         {
             var tt = $('#TypeSelectModalTree');

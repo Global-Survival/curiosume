@@ -61,67 +61,6 @@
                 window.self.set('focus', f );
                 window.self.trigger('change:focus');
             }
-
-            function updateTags() {
-                //THIS CURRENTLY ASSUMES THAT ALL TYPE ID's ARE IN THE FOLLOWING FORMAT:
-                //  package.type
-                //ex:
-                //  general.Human
-                
-                var tags = window.self.tags();
-                var typeMenu = { };
-                for (var k in tags) {
-                    var x = k.split('.');                        
-                    
-                    if (!typeMenu[x[0]])
-                        typeMenu[x[0]] = [ ];
-                
-                    typeMenu[x[0]].push(k);                    
-                }
-                
-                var t = $('#TypeMenu');                
-                t.html('');
-                
-                
-                for (var k in typeMenu) {
-                    var d = $('<li class="dropdown-submenu"></li>');
-                    t.append(d);
-                     
-                    var b = $('<a tabindex="-1" href="#">' + k + '</a>');
-                    d.append(b);
-                    
-                    var u = $('<ul class="dropdown-menu"></ul>');
-                    d.append(u);
-                    
-                    for (var c = 0; c < typeMenu[k].length; c++) {
-                        (function() {
-                            var id = typeMenu[k][c];
-                            var label = id.split('.')[1];
-                            var a = $('<a href="#">' +  label + '</a>');
-                            var cc = id.replace('.', '-');
-                            
-                            var b = $('<div style="float: left; margin-right: 2px;">&nbsp;</div>');                            
-                            b.addClass(cc + '-icon');
-                            a.prepend(b);
-                            
-                            a.click(function() {
-                                var f = getEditedFocus();
-                                if (!hasTag(f, id)) {
-                                    commitFocus(addTagWithRequiredProperties(window.self, f, id));
-                                }
-                            });
-                            
-                            var l = $('<li/>'); l.append(a);
-                            
-                            u.append(l);
-                        })();
-                        
-                    }
-                                  
-                    t.dropdown();
-                }
-
-            }
                                 
             function updateFocus() {
                 setFocus(window.self.focus());                
@@ -154,7 +93,6 @@
                 });
                 
                 self.on('change:tags', function() {
-                    updateTags();
                     updateFocus();
                 });
 
@@ -560,7 +498,7 @@
                 <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
                 <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
                 <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li>
-                <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li>
+                <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->
                 <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
                 <li class="dropdown-submenu">
                     <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>

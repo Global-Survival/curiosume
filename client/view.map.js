@@ -18,6 +18,8 @@ function renderMap(s, o, v) {
         displayProjection: toProjection,
         numZoomLevels: 12
     });
+    
+    
     var mapnik = new OpenLayers.Layer.OSM();
     var vector = new OpenLayers.Layer.Vector("Editable Vectors", {});
     var markers =  new OpenLayers.Layer.Markers( "Markers" );
@@ -28,16 +30,27 @@ function renderMap(s, o, v) {
     ]);
     m.addLayers([markers]);
     
+    function saveBounds() {
+        s.set('mapExtent', m.getExtent());
+    }
+    
     m.events.register("moveend", m, function() {
         //save updated bounds to self
+        saveBounds();
     });
     m.events.register("zoomend", m, function() {
         //save updated bounds to self
+        saveBounds();
     });
     
-    var hh = project(new OpenLayers.LonLat(location[1], location[0]));    
-    center(hh);        
-        
+    var exm = s.get('mapExtent');
+    if (exm)
+        m.zoomToExtent(exm, true);
+    else {
+        var hh = project(new OpenLayers.LonLat(location[1], location[0]));    
+        center(hh);        
+    }
+    
     m.targetLocation = m.getCenter();
 
     var select = new OpenLayers.Control.SelectFeature(vector, {
@@ -115,8 +128,6 @@ function renderMap(s, o, v) {
         
     }
 
-    //var tg = createMarker(0,0, 10);
-
     m.location = function() {
         return unproject(m.getCenter());  
     };
@@ -154,8 +165,8 @@ function renderMap(s, o, v) {
         }
     };
     
-    for (var k in s.objects()) {
-        var x = s.getObject(k);
+    renderItems(s, o, v, 500, function(s, v, x, relevancy) {
+        var k = x.uri;
         if (x.geolocation) {
             var fill = '#888';
             var op = 0.5;
@@ -163,7 +174,7 @@ function renderMap(s, o, v) {
             var iconURL = undefined;
             
             if (x.when) {
-            	var now = Date.now();
+                var now = Date.now();
             	op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
             }
 
@@ -171,7 +182,6 @@ function renderMap(s, o, v) {
             if (hasTag(x, 'climate.EarthQuake')) {
                 fill = '#b33';
                 rad = 100000 + (x.eqMagnitude - 5.0)*700000;
-                console.log(x, rad);
                 iconURL = '/icon/quake.png';
                 op *= 0.5;
             }
@@ -193,5 +203,6 @@ function renderMap(s, o, v) {
             }
             createMarker(k, x.geolocation[0], x.geolocation[1], rad, op, fill, iconURL);
         }
-    }
+    });
+    
 }
