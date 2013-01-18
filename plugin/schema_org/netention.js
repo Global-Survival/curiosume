@@ -47,7 +47,7 @@ exports.plugin = {
                     name: type.label,
                     description: type.comment,
                     properties: type.properties,
-                    supertypes: type.supertypes
+                    tag: type.supertypes
                 };
             }));
             
