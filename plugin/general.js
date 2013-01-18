@@ -1,6 +1,6 @@
 var generalTags = [
+        
 	{ uri: 'general.Human', name: 'Human',		
-		extends: [ 'general.Being' ],
 		properties: {
 		             'currentRole': { name: 'Current Role', type: 'text' },
 		             'biography': { name: 'Biography', type: 'textarea' },            //{ uri: 'birthdate', name: 'Birthdate', type: 'date' },
@@ -13,7 +13,8 @@ var generalTags = [
                      */
 		},
 	},
-	{ uri: 'general.Event', name: 'Event', properties: {
+	{ uri: 'general.Event', name: 'Event', 
+        properties: {
     	             'startsAt': { name: 'Starts At', type: 'text' /*datetime*/ },
                      'stopsAt': { name: 'Stops At', type: 'text' /*datetime*/ }
         
@@ -73,7 +74,11 @@ exports.plugin = {
         version: '1.0',
         author: 'http://netention.org',
 		start: function(netention) { 
-            netention.addTags(generalTags);    
+            netention.addTags([ {
+                uri: 'general', name: 'General', properties: { }
+            }]);
+
+            netention.addTags(generalTags, ['general'] );
         },
 		stop: function(netention) { }
 };

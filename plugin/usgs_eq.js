@@ -10,6 +10,7 @@ exports.plugin = {
 		options: { },
         version: '1.0',
         author: 'http://netention.org',
+        //depends on: 'climate'
         
 		start: function(netention) { 
             
@@ -19,7 +20,7 @@ exports.plugin = {
                         //extends climate.Seismic
                     }
                 }
-            ]);
+            ], ['climate']);
             
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 

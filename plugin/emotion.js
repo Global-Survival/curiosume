@@ -41,8 +41,11 @@ exports.plugin = {
 		description: 'Plutchik\'s 8 Primary Emotions',
 		options: { },
 		start: function(netention) { 
+            netention.addTags([ {
+                uri: 'emotion', name: 'Emotion'
+            }]);
             
-            netention.addTags(emotionTags);
+            netention.addTags(emotionTags, ['emotion']);
             
         },
 		stop: function(netention) {

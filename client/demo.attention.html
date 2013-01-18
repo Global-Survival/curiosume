@@ -22,14 +22,15 @@
                         var value = y[1];
                         var total = y[2];
                         
-                        var fs = 0.5 + value*4.0;
+                        var fs = 0.5 + value*5.0;
 
                         var ss = $('<span></span>');
                         ss.css('font-size', (100.0 * fs) + '%');
                         ss.css('color', 'rgb(' + parseInt(value*256.0) + ',0,0)');
                         
-                        ss.html(uri + ' ' + _n(value) + ' ' + _n(total) + ' <br/>').appendTo(x);
+                        ss.html(uri + ' ' + _n(value) + ' ' + _n(total) + ' <br/>');
                         
+                        ss.appendTo(x);
                     }
                     
                 }, updatePeriodMS);
@@ -41,9 +42,10 @@
                 netention(function(self) {
                     
                     window.self = self;
-                    var numObjs = 35;
+                    var numObjs = 50;
+                    var periodMS = 50;
                     
-                    var a = newAttentionMap(0.97, 80, {
+                    var a = newAttentionMap(0.99, 80, {
                         incidence: function(x) {  
                             var n = parseInt(x.split('x')[1]);
                             if (n == 0)
@@ -55,9 +57,9 @@
                                 return [ 'x' + (n-1), 'x' + (n+1) ];
                             }                            
                         }
-                    });
+                    }, 0.02);
                     
-                    $('#Content').append(newAttentionChart(a, 400));
+                    $('#Content').append(newAttentionChart(a, periodMS));
                     
 
                     var o = { };
@@ -81,10 +83,9 @@
                     setInterval(function() {
                         a.update();
                         
-                        //random
                         if (Math.random() < 0.1)
                             a.add(randomObject(), 0.8);
-                    }, 100);
+                    }, periodMS);
                 });
             });
         </script>

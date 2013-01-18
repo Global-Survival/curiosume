@@ -6,16 +6,23 @@ function _n(x) {
     return x.toFixed(2);
 }
     
-function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
+function newAttentionMap(memoryMomentum, maxObjects, adjacency, spreadRate) {
     var that = {
 			values: { },
 			totals: { },
             
-            save : function() {  //provides a sorted, normalized snapshot
+            save : function(sorted) {  //provides a sorted, normalized snapshot
                 var k = [];
                 for (var i in that.values) {
                     k.push([i, that.values[i], that.totals[i]]);
                 }
+                
+                if (sorted) {
+                    k = k.sort(function(a, b) {
+                        return b[1] - a[1];
+                    });
+                }
+                    
                 return k;
             },
             
@@ -23,8 +30,11 @@ function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
 				delete that.values[objectID];
 				delete that.totals[objectID];
 			},
+            
             //set
+            
             //multiply
+            
 			add : function(i, deltaAttention) {
 				
                 if (!that.values[i]) {
@@ -34,9 +44,9 @@ function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
                     
                 that.values[i] += deltaAttention;
 			},
+            
 			update : function() {
                 
-                var spreadRate = 0.05;
 
 				//FORGET: decrease and remove lowest
 				for (var k in that.values) {
@@ -48,9 +58,7 @@ function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
 					}*/
 				}
 				
-				//SPREAD: ...
-				//	TODO follow incidence structure to determine target spread nodes				
-                if (adjacency) {
+                if ((spreadRate) && (adjacency)) {
                     //for every node
         			for (var k in that.values) {
                         var vv = that.values[k];
@@ -83,8 +91,8 @@ function newAttentionMap(memoryMomentum, maxObjects, adjacency) {
                                 that.add(nodesToIncrease[i], spreadAmount);
                             }
                         }
-
-        			}                
+    
+                    }
                 }
 			}
 	};

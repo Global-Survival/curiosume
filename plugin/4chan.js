@@ -5,6 +5,10 @@ exports.plugin = {
         version: '1.0',
         author: 'http://netention.org',
 		start: function(netention) { 
+            netention.addTags([ {
+                uri: '4chan', name: '4Chan'
+            }]);
+
             function add4ChanTopics(t) {
                 var lt = [];
             	for (var i = 0; i < t.length; i++) {
@@ -15,7 +19,7 @@ exports.plugin = {
             			name: n
             		});
             	}
-            	netention.addTags(lt);
+            	netention.addTags(lt, ['4chan']);
             }
             
             add4ChanTopics([ 'Video Games',
@@ -31,7 +35,7 @@ exports.plugin = {
                             'Science and Math',
                             'International',
                             'Computers',
-             ]);            
+             ]);
         },
 		stop: function(netention) { }
 };

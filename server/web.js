@@ -191,8 +191,11 @@ exports.start = function(host, port, database, init) {
     }
     that.addProperties = addProperties;
     
-    function addTags(at) {
+    function addTags(at, defaultTag) {
         for (var i = 0; i < at.length; i++) {
+            if (defaultTag)
+                at[i].tag = defaultTag;
+                
     		tags[at[i].uri] = at[i];
     	}        
         

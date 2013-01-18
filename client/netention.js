@@ -62,6 +62,8 @@ function loadScripts(f) {
                         '/lib/timeago/timeago.js',
                         '/lib/jquery-form/jquery.form.js',
                         
+                        "/lib/dynatree/jquery.dynatree.min.js",
+
                         '/view.map.js',
                         //'/view.map.cesium.js',
                         
@@ -92,6 +94,8 @@ function loadScripts(f) {
     loadCSS('/lib/pnotify/jquery.pnotify.default.css');
     
     loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
+    
+    loadCSS('/lib/dynatree/skin/ui.dynatree.css');
 
     loadCSS('/icon.type.css');
     loadCSS('/map.css');
@@ -132,11 +136,41 @@ function netention(f) {
             
             id : function() { return this.get('clientID'); },
 
+            tag : function(t) { return this.tags()[t]; },            
             tags : function() { return this.get('tags'); },
+            
+            tagRoots: function() {
+                var that = this;
+                //this might be suboptimal
+                return _.select( _.keys(this.tags()), function(tt) {
+                    var t = that.tag(tt);
+                    if (!t.tag)
+                        return true;
+                    else return (t.tag.length == 0);                    
+                });
+            },
+            
+            subtags : function(s) {
+                //this might be suboptimal, use an index
+                var that = this;
+                return _.select( _.keys(this.tags()), function(tt) {
+                    var t = that.tags()[tt];
+                    if (!t.tag)
+                        return false;
+                    else { 
+                        return (_.contains(t.tag, s));
+                    }
+                });                
+            },
+            
             properties : function() { return this.get('properties'); },
+            //property(p)
             
             objects : function() { return this.get('attention'); },
-            getObject : function(id) { return this.objects()[id]; }, 
+            
+            getObject : function(id) { return this.objects()[id]; }, //deprecated
+            object : function(id) { return this.objects()[id]; }, 
+            
             getSelf : function(clientID) { return this.objects()['Self-' + clientID]; }, 
             
             //->getTag
@@ -234,7 +268,6 @@ function netention(f) {
             addTag: function(t) {
                 var ty = this.tags();
                 var p = this.properties();
-                
                 
                 ty[t.uri] = t;
 	

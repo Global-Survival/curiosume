@@ -11,6 +11,12 @@ exports.plugin = {
             
             netention.addTags([
                 {
+                    uri: 'climate', name: 'Climate'
+                }
+            ]);
+            
+            netention.addTags([
+                {
                     uri: 'web.KML', name: 'KML Layer', properties: {
                         'kmlDisplay': { name: 'Display', type: 'boolean' },
                         'kmlURL': { name: 'URL', type: 'text', default: 'http://' }                        
@@ -21,7 +27,7 @@ exports.plugin = {
                 { uri: 'climate.Precipitation', name: 'Precipitation' },
                 { uri: 'climate.Seismic', name: 'Seismicity' }, //earthquakes, etc.
                 ///...
-            ]);
+            ], ['climate']);
 
             //Specific KML layers, with appropriate tags (see above)
             //  TODO add tags to classify each layer
