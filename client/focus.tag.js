@@ -1,4 +1,4 @@
-function updateTypeTree(a) {
+function updateTypeTree(a, onSelectionChange) {
     var self = window.self;
     
     a.html('');    
@@ -32,17 +32,7 @@ function updateTypeTree(a) {
     tree.appendTo(dt);
     dt.appendTo(a);
     
-    function getTagViewFocus(t) {
-        var s = [];
-        for (var k = 0; k< t.length; k++)
-            s.push(1.0);
-        
-        return {
-            uri: uuid(),            
-            tag: t,
-            tagStrength: s
-        };
-    }
+    
     
     //http://wwwendt.de/tech/dynatree/doc/dynatree-doc.html
     dt.dynatree({
@@ -58,8 +48,9 @@ function updateTypeTree(a) {
             var selectedKeys = $.map(selectedNodes, function(node){
                 return node.data.key;
             });
-            self.set('focus', getTagViewFocus(selectedKeys));
-            //alert("Selected keys: " + selectedKeys.join(", "));
+                        
+            if (onSelectionChange)
+                onSelectionChange(selectedKeys);            
             
             dt.currentSelection = selectedKeys;
         }
@@ -87,10 +78,26 @@ var TagFocus = {
         var t = self.getTagCount();
         var tt;
         
+        var s = function(selectedKeys) {
+            function getTagViewFocus(t) {
+                var s = [];
+                for (var k = 0; k< t.length; k++)
+                    s.push(1.0);
+                
+                var f = self.focus();
+                f.tag = t;
+                f.tagStrength = s;
+                
+                return f;
+            }
+            
+            commitFocus(getTagViewFocus(selectedKeys));
+        }
+
         self.on('change:tags', function() {
-           tt = updateTypeTree(d); 
+           tt = updateTypeTree(d, s); 
         });
-        tt = updateTypeTree(d);
+        tt = updateTypeTree(d, s);
         
         c.click(function() {
             if (tt.currentSelection) {
@@ -102,30 +109,6 @@ var TagFocus = {
             }
         });
 
-        /*
-        for (var k in t) {
-           var v = t[k];
-           var tt = self.getTag(k);
-           
-           if (!tt)
-                continue;
-                
-           var name = tt.name;
-           
-           var ttf = $('<div></div>');
-           var percent = 100.0 * (1.0 + Math.log(v) * 0.05);
-           ttf.css('font-size', percent + '%');
-           
-           var ak = $('<a href="/#/tag/' + k + '">' + name + '</a>');
-           
-           ttf.append(ak);
-           ttf.append('(' + v + ')');
-           
-           tf.append(ttf);
-           
-           
-        }
-        */
     },
     
     stop: function(target) {

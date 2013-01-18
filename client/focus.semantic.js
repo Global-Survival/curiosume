@@ -143,6 +143,21 @@ var SemanticFocus = {
         });
         
         updateTags();
+        
+        {
+            var tt = $('#TypeSelectModalTree');
+            updateTypeTree(tt, function(s) {
+                
+                var e = getEditedFocus();
+                for (var i = 0; i < s.length; i++) {
+                    var m = s[i];
+                    if (!hasTag(e, m))
+                        e = addTag(e, m, 1.0);
+                }
+                commitFocus(e);
+
+            });
+        }
 
     },
     
@@ -193,7 +208,6 @@ var SemanticFocus = {
         
         $('#FocusUploadSection').hide();
         
-        
         if (x.tag.length == 0) {
             $('#FocusTypes').hide();
         }
@@ -202,7 +216,7 @@ var SemanticFocus = {
             for (var k = 0; k < x.tag.length; k++) {
                 var t = x.tag[k];
                 var typeWidget = $('<span class="dropdown">');
-                
+                                
                 var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + t + '</a>');
                 typeWidget.append(b);
                 
@@ -210,6 +224,7 @@ var SemanticFocus = {
                 typeWidget.append(u);
 
 
+                var that = this;
                 var tv = this.self.tags()[t];
                 if (!tv)
                     tv = { };
@@ -249,7 +264,7 @@ var SemanticFocus = {
                     var kk = k;
                     var rb = $('<a href="#">Remove</a>');
                     rb.click(function() {
-                        var f = this.self.focus();
+                        var f = that.self.focus();
                         commitFocus(removeTag(f, kk));
                     });
                     var rbi = $('<li/>'); rbi.append(rb);

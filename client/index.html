@@ -59,7 +59,7 @@
 
             function commitFocus(f) {
                 window.self.set('focus', f );
-                window.self.trigger('change:focus');                
+                window.self.trigger('change:focus');
             }
 
             function updateTags() {
@@ -137,8 +137,8 @@
             function initUI(self) {
                 $('body').timeago();
                 
-                updateView = _.throttle(_updateView, 400);
-                setFocus = _.throttle(_setFocus, 400);
+                updateView = _.throttle(_updateView, 200);
+                setFocus = _.throttle(_setFocus, 200);
 
                 self.on('change:attention', function() {
                     updateView();
@@ -474,7 +474,7 @@
                 width: 60%;
             }
             #SemanticFocus {
-                width: 100%;
+                width: 98%;
             }
             .FocusSection {
                 padding: 0.2em;
@@ -535,7 +535,15 @@
                 margin-top: 4px;
                 padding: 1px;
             }
-            
+            #TypeSelectModal {
+                width: 75%;
+                height: 75%;
+                left: auto;
+                right: auto;
+                top: auto;
+                bottom:auto;
+                margin-left: 0;
+            }
 	    </style>    
         
         
@@ -637,13 +645,23 @@
                 <div id="FocusProperties">
                     
                 </div>
+                    <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                        <h1>select type</h1>
+                        <div id="TypeSelectModalTree"></div>
+                        
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                    </div>
                     
                 <div id="SaveButtonWrapper" style="width: auto">
+                    <button type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
+                    
+                    <!--
                     <span class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
                         </ul> 
-                    </span>
+                    </span> -->
                     
                     <span class="btn-group">
                         <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
@@ -659,6 +677,7 @@
                             <li><a href="javascript:deleteFocus();">Delete</a></li>
                         </ul>
                     </span>
+                    
                 </div>
                 
             </div>
