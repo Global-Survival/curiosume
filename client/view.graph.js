@@ -152,7 +152,14 @@ function renderGraph(s, o, v, withGraph) {
 
 
 
-
+function renderGraphFocus(s, o, v) {
+    renderGraph(s, o, v, function(g) {
+        renderItems(s, o, v, 75, function(s, v, x, relevancy) {            
+            g.addNode(x.uri, x.name);
+        });
+        
+    });
+}
 
 var maxPermitedVerticalRange = { top: -10000000, bottom: 10000000 };
 
