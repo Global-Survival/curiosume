@@ -228,7 +228,7 @@ var SemanticFocus = {
                 if (!tv)
                     tv = { };
                 
-                var pr = getProperties(tv);                        
+                var pr = getProperties(tv); 
                 var propertiesAdded = 0;
                 for (var p=0; p < pr.length; p++) {
                     (function() {
