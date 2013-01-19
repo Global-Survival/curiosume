@@ -236,5 +236,6 @@ $(window).bind('resize', function () {
 
 function updateLayout() {
     //vc.css('height', (window.innerHeight - 250) + "px");
-    vc.virtualCanvas("updateViewport");
+    if (vc)
+        vc.virtualCanvas("updateViewport");
 }
