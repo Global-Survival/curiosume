@@ -83,7 +83,8 @@
 	height: 2em;
 }
 .ObjectViewHideButton {
-	float: right;
+    display:inline;
+    float:right;
 }
 .DataSubViewMenu {
 	margin-left: 2em;

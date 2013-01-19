@@ -31,7 +31,8 @@ function loadScripts(f) {
 		
 	var scripts = [     "/socket.io/socket.io.js", 
 //		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
-		                "http://cdnjs.cloudflare.com/ajax/libs/openlayers/2.11/OpenLayers.js",
+		                
+                        "http://openlayers.org/dev/OpenLayers.js",
                         
                         //NEEDED FOR CHRONOZOOM:
 		                "http://code.jquery.com/ui/jquery-ui-git.js",

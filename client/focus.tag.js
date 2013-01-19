@@ -56,6 +56,7 @@ function updateTypeTree(a, onSelectionChange) {
     dt.dynatree({
         checkbox: true,
         selectMode: 2, // 1:single, 2:multi, 3:multi-hier
+        debugLevel: 0,
         onActivate: function(node) {
             //alert("You activated " + node);
         },
