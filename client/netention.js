@@ -473,7 +473,7 @@ function netention(f) {
             	return false;
             },
             
-            getTagCount : function(s) {
+            getTagCount : function() {
                 
                 var aa = this.get('attention');
                 
@@ -491,8 +491,13 @@ function netention(f) {
                     }
                 }
                 return tagCount;
+            },
+            
+            getServerAttention : function(withResults) {
+                $.getJSON('/attention', function(attention) {
+                    withResults(attention);
+                }); 
             }
-
 
             
         });

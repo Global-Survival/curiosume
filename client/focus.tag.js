@@ -6,18 +6,25 @@ function updateTypeTree(a, onSelectionChange) {
     dt.addClass('TagTree');
     
     var tree = $('<ul></ul>').css('display','none');
+    var stc = self.getTagCount();
                     
     function subtree(root, i) {
         var name = i.name;// + ' (' + i.uri + ')';
         var xi = i.uri;
-        var n = $('<li id="' + xi + '"><!--<input type="checkbox"/>-->' + name + '</li>');
+        var label = name;
+        if (stc[xi])
+            if (stc[xi] > 0)
+                label += ' (' + stc[xi] + ')';
+                
+        var n = $('<li id="' + xi + '">' + label + '</li>');
+        
         root.append(n);
         
         var children = self.subtags(i.uri);
         
         if (children.length > 0) {
             n.addClass('folder');
-            var nu = $('<ul></ul>');
+            var nu = $('<ul></ul>');            
             n.append(nu);
             _.each(children, function(c) {
                 subtree(nu, self.tag(c));
@@ -35,6 +42,15 @@ function updateTypeTree(a, onSelectionChange) {
     dt.appendTo(a);
     
     
+
+    /*
+    //update display of type counts and other type metadata
+    function updateTypeCounts() {
+        for (var t in stc) {
+            $('a:contains("' + t + '")').append(' '+ stc[t]);
+        }    
+    }
+    */
     
     //http://wwwendt.de/tech/dynatree/doc/dynatree-doc.html
     dt.dynatree({
@@ -56,6 +72,11 @@ function updateTypeTree(a, onSelectionChange) {
             
             dt.currentSelection = selectedKeys;
         }
+        /*
+        onRender: function(dtnode, nodeSpan)
+        onExpand : function() {
+            updateTypeCounts();  
+        }*/
     });
     
     return dt;
