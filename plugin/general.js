@@ -63,7 +63,7 @@ var generalTags = [
 	{ uri: 'Media', name: 'Media'}, //params: contentType
 	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Action
 	{ uri: 'User', name: 'User'}, 
-	{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
+	//{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
     { uri: 'Message', name: 'Message'} //Netention itself, meta 
 ];
 

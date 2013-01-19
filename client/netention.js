@@ -275,7 +275,11 @@ function netention(f) {
 	
 	            if (t.properties) {
 		            for (var tp in t.properties) {
-			            p[tp] = ty[t.uri].properties[tp];
+                        var c = ty[t.uri].properties[tp];
+                        if (typeof c != "string") {                            
+    			            p[tp] = c;
+                            t.properties[tp] = c.uri;
+                        }
 		            }
 	            }
             },

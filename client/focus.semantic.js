@@ -230,14 +230,18 @@ var SemanticFocus = {
                 
                 var pr = getProperties(tv);                        
                 var propertiesAdded = 0;
-                for (var p in pr) {
+                for (var p=0; p < pr.length; p++) {
                     (function() {
-                        var pri = p;
-                        var a = $('<a href="#">' + pr[p].name + '</a>');
+                        var i = pr[p];
+                        var pri = that.self.getProperty(i);
+                        var name = i;
+                        if (pri)
+                            name = pri.name;
+                        var a = $('<a href="#">' + name + '</a>');
                         a.click(function() { 
                             var f = getEditedFocus();
-                            if (acceptsAnotherProperty(f, pri)) {
-                                commitFocus(addProperty(f, pri));
+                            if (acceptsAnotherProperty(f, i)) {
+                                commitFocus(addProperty(f, i));
                             }
                             
                         });

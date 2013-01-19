@@ -34,12 +34,14 @@ exports.plugin = {
                     
                 }
                 
-                return {
+                var p = {
                     uri: prop.id,
                     name: prop.label,
                     description: prop.comment,
                     type: propType(prop.ranges)
                 };
+                console.log(p);
+                return p;
             }));
             netention.addTags(_.map(types, function(type) {
                 return {

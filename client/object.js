@@ -38,6 +38,10 @@ function getProperties(t) {
 
 function newPopupObjectView(_x) {
     var x = window.self.getObject(_x);
+    if (!x) {
+        console.log('Unknown object: ' + _x);
+        return;
+    }
     var d = $('<div></div>');
     d.attr('title', x.name);
     d.append(newObjectView(window.self, x, null, 1.0, 4));
