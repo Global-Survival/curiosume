@@ -1,6 +1,6 @@
 var generalTags = [
         
-	{ uri: 'general.Human', name: 'Human',		
+	{ uri: 'Human', name: 'Human',		
 		properties: {
 		             'currentRole': { name: 'Current Role', type: 'text' },
 		             'biography': { name: 'Biography', type: 'textarea' },            //{ uri: 'birthdate', name: 'Birthdate', type: 'date' },
@@ -13,13 +13,13 @@ var generalTags = [
                      */
 		},
 	},
-	{ uri: 'general.Event', name: 'Event', 
+	{ uri: 'Event', name: 'Event', 
         properties: {
     	             'startsAt': { name: 'Starts At', type: 'text' /*datetime*/ },
                      'stopsAt': { name: 'Stops At', type: 'text' /*datetime*/ }
         
 	}}, //params: start, end, due by, rsvp by 
-	{ uri: 'general.Geometry', name: 'Geometry',
+	{ uri: 'Geometry', name: 'Geometry',
 		properties: {
 		             'length': { name: 'Length (m)', type: 'real' },		            
 		             'width': { name: 'Width (m)', type: 'real' },		            
@@ -27,7 +27,7 @@ var generalTags = [
 		             'mass': { name: 'Mass (kg)', type: 'real' }		            
 		}
 	},
-	{ uri: 'general.Money', name: 'Money',
+	{ uri: 'Value', name: 'Value',
 		properties: {
 					 //http://www.therichest.org/business/most-traded-currencies/
 					 'moneyBTC': { name: 'Bitcoin (BTC)', type: 'real' },		            
@@ -37,7 +37,7 @@ var generalTags = [
 		             'moneySilver': { name: 'Silver (g)', type: 'real' }	            
 		}
 	},
-	{ uri: 'general.Transaction', name: 'Transaction',
+	{ uri: 'Contract', name: 'Contract',
 		properties: {
 					 //http://www.therichest.org/business/most-traded-currencies/
 					 'transactionPaid': { name: 'Paid', type: 'boolean' },		            
@@ -55,16 +55,16 @@ var generalTags = [
 
 		}
 	},
-	{ uri: 'general.Action', name: 'Action',
+	{ uri: 'Action', name: 'Action',
 		properties: {
             'active': { name: 'Active', type: 'boolean' },		            
 		}
 	},
-	{ uri: 'general.Media', name: 'Media'}, //params: contentType
-	{ uri: 'general.Goal', name: 'Goal'}, //=Project=Program=Action
-	{ uri: 'general.User', name: 'User'}, 
-	{ uri: 'general.Netention', name: 'Netention'}, //Netention itself, meta 
-    { uri: 'general.Message', name: 'Message'} //Netention itself, meta 
+	{ uri: 'Media', name: 'Media'}, //params: contentType
+	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Action
+	{ uri: 'User', name: 'User'}, 
+	{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
+    { uri: 'Message', name: 'Message'} //Netention itself, meta 
 ];
 
 exports.plugin = {
@@ -74,11 +74,8 @@ exports.plugin = {
         version: '1.0',
         author: 'http://netention.org',
 		start: function(netention) { 
-            netention.addTags([ {
-                uri: 'general', name: 'General', properties: { }
-            }]);
 
-            netention.addTags(generalTags, ['general'] );
+            netention.addTags(generalTags );
         },
 		stop: function(netention) { }
 };

@@ -2,8 +2,21 @@ function renderMap(s, o, v) {
     var e = uuid();
     $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
     
+    
+    /*{
+        var menu = $('<div></div>');
+        menu.css('position', 'absolute');
+        menu.css('right', '1em');
+        menu.css('top', '1em');
+        
+        menu.append('<button>prev</button>');
+        menu.append('<button>next</button>');
+        menu.append('<button>NOW</button>');
+        o.append(menu);
+    }*/
+    
     var target = e;
-    var location = self.myself().geolocation;
+    var location = s.myself().geolocation;
     if (!location)
         location = [0,0];
     
@@ -191,12 +204,12 @@ function renderMap(s, o, v) {
                 op = 0.3;
                 fill = '#ff0';
             }
-            else if (hasTag(x, 'general.Human')) {
+            else if (hasTag(x, 'Human')) {
                 iconURL = '/icon/rrze/emblems/crown.png';
                 rad = 200;
                 op = 0.25;
             }
-            else if (hasTag(x, 'general.Message')) {
+            else if (hasTag(x, 'Message')) {
                 iconURL = '/icon/rrze/emblems/at.png';
                 fill = '#55f';
                 rad = 50;

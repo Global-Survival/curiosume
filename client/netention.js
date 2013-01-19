@@ -171,9 +171,11 @@ function netention(f) {
             getObject : function(id) { return this.objects()[id]; }, //deprecated
             object : function(id) { return this.objects()[id]; }, 
             
+            
+            //self
             getSelf : function(clientID) { return this.objects()['Self-' + clientID]; }, 
             
-            //->getTag
+            //->tag
             getTag : function(t) { return this.tags()[t]; },
             getProperty : function(p) { return this.properties()[p]; },
             
@@ -198,7 +200,7 @@ function netention(f) {
                     o = {
                         uri: 'Self-' + this.id(),
                         name: 'Anonymous',
-        		        tag: [ 'general.Human', 'general.User' ],
+        		        tag: [ 'Human', 'User' ],
         		        tagStrength: [ 1.0, 1.0 ],
                         properties: [ ]
                     };
@@ -235,7 +237,7 @@ function netention(f) {
             	});
                 
                 socket.emit('connectSelf', this.get('clientID'));
-                socket.emit('subscribe', 'general.User', true);    
+                socket.emit('subscribe', 'User', true);    
                 
                 this.socket = socket;
                 
@@ -449,7 +451,7 @@ function netention(f) {
             
             pub: function(message) {
                 if (message.tag.length == 0)
-                    message = addTag(message, 'general.Message');
+                    message = addTag(message, 'Message');
                 this.socket.emit('pub', message);
             },
             

@@ -3,6 +3,8 @@ function updateTypeTree(a, onSelectionChange) {
     
     a.html('');    
     var dt = $('<div></div>');
+    dt.addClass('TagTree');
+    
     var tree = $('<ul></ul>').css('display','none');
                     
     function subtree(root, i) {

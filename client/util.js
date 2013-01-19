@@ -189,8 +189,9 @@ function addTag(x, t, value) {
     
     if (!value)
         value = 1.0;
-        
+            
     x.tagStrength.push(value);
+    
     return x;
 }
 exports.addTag = addTag;

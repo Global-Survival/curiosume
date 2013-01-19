@@ -267,9 +267,14 @@
                               //'/new/with/tags/' + ts
                               setFocusMode('Semantic');
                               ts = ts.split(',');
+                              var tss = [];
+                              for (var i = 0; i < ts.length; i++)
+                                tss.push(1.0);
+                                
                               commitFocus({
                                     uri: uuid(),
-                                    tag: ts                                
+                                    tag: ts,
+                                    tagStrength: tss
                               });
                           },
                         
@@ -481,6 +486,11 @@
                 top: auto;
                 bottom:auto;
                 margin-left: 0;
+            }
+            .TagTree {
+                font-size: 160%;
+                padding-top: 0.3em;
+                padding-bottom: 0.3em;
             }
 	    </style>    
         

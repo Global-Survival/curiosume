@@ -13,6 +13,10 @@ exports.plugin = {
         
 		start: function(netention) { 
             
+            netention.addTags([{
+                uri: 'web', name: 'Web'            
+            }]);
+            
             netention.addTags([
                 {
                     uri: 'web.RSSFeed', name: 'RSS Feed', properties: {
@@ -23,7 +27,7 @@ exports.plugin = {
                         
                     }
                 }
-            ]);
+            ], [ 'web' ]);
             
             
             this.netention = netention;
@@ -144,7 +148,7 @@ var RSSFeed = function(url, perArticle) {
 			link: a['link'],
 			when: new Date(a['date']).getTime(),
 			name: a['title'],
-			tag: [ "general.Message" ],
+			tag: [ "Message" ],
             tagStrength: [ "1.0" ],
 			length: maxlen,
             text: a['description']

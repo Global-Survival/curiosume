@@ -17,7 +17,7 @@ exports.plugin = {
 		start: function(netention) { 
             
             function update() {
-                var users = netention.getObjectsByTag('general.User', function(users) {
+                var users = netention.getObjectsByTag('User', function(users) {
                     
                     _.each(users, function(u) {
                         var g = u.geolocation;
@@ -38,7 +38,7 @@ exports.plugin = {
                                             uri: 'twitter_' + t.id,
                                             geolocation: t.geo.coordinates,
                                             name: '@' + t.from_user + ': ' + t.text,
-                                            tag: [ 'general.Message', 'twitter.Tweet' ],
+                                            tag: [ 'Message', 'twitter.Tweet' ],
                                             tagStrength: [ 1.0, 1.0 ],
                                             when: Date.parse(t.created_at)
                                             

@@ -70,7 +70,8 @@ exports.start = function(host, port, database, init) {
                 Server.plugins[v].name = p.name;
                 Server.plugins[v].description = p.description;
                 
-                if (Server.plugins[v].enabled) {
+                //TODO add required plugins parameter to add others besides 'general'
+                if ((Server.plugins[v].enabled) || (v == 'general')) {
                     p.start(netention);                
                     enabled = true;
                 }

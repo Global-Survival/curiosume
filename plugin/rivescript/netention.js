@@ -42,14 +42,14 @@ exports.plugin = {
                 return;
                 
             if (x.tag)
-                if (_.contains(x.tag, 'general.Message')) {
+                if (_.contains(x.tag, 'Message')) {
                     if (!x.replyTo) {
                         var response = this.bot.reply(x.author, x.name);
                         this.netention.pub({
                            replyTo: x.uri,
                            uri: util.uuid(),
                            name: response,
-                           tag: [ 'general.Message' ],
+                           tag: [ 'Message' ],
                            tagStrength: [ 1.0 ],
                            author: 'Rivescript1'
                         });

@@ -6,6 +6,11 @@ exports.plugin = {
         author: 'http://netention.org',
 		start: function(netention) { 
             var t = [];
+            
+            netention.addTags( [{ 
+                uri: 'craigslist', name: 'Craigslist'
+            }] );
+            
             for (var k in cldata.categories) {
                 var c = cldata.categories[k];
                 t.push( {
@@ -14,7 +19,7 @@ exports.plugin = {
             	});
             }
             
-            netention.addTypes(t);
+            netention.addTags(t, ['craigslist'] );
             
         },
 		stop: function(netention) { }
@@ -71,7 +76,7 @@ var cldata = {
         "write/ed/tr8": "wet",
         "housing swap": "swp",
         "wanted": "wan",
-        "local news": "vnn",
+        "local news": "vnn",
         "lost+found": "laf",
         "motorcycles": "mca",
         "art / media / design": "med",

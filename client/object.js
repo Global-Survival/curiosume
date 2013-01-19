@@ -150,7 +150,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
                     var rr = {
                         name: text,
                         uri: uuid(), 
-                        tag: [ 'general.Message' ],
+                        tag: [ 'Message' ],
                         tagStrength: [1],
                         values: [],
                         replyTo: [ x.uri ],
@@ -273,7 +273,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
 	if (x.text) {
 		d.append('<p>' + x.text + '</p>');
 		
-		if (hasTag(x, 'general.Media')) {
+		if (hasTag(x, 'Media')) {
 			var imgURL = x.text;
 			if (imgURL.indexOf('http://')==0)
 				d.append('<img src="'+imgURL+'"/>');

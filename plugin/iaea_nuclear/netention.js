@@ -10,7 +10,8 @@ exports.plugin = {
 		start: function(netention) { 
             
             netention.addTags([ {
-                uri: 'NuclearFacility', name: 'Nuclear Facility'                            
+                uri: 'NuclearFacility', name: 'Nuclear Facility',
+                tag: [ 'climate' /* 'Pollution' */ ]
             } ]);
             
             
