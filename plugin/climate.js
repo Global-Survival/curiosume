@@ -149,7 +149,7 @@ exports.plugin = {
             };
 
             //temporary
-            {
+            /*{
                 netention.notice({
                    uri: 'WISC_MODIS_Visible',
                    tag: ['web.KML'],
@@ -161,7 +161,7 @@ exports.plugin = {
                    kmlURL: 'http://data.octo.dc.gov/feeds/itsa/itsa_current.kml',
                    when: Date.now()
                 });
-            }
+            }*/
             
 		},
             

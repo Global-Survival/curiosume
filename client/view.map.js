@@ -218,34 +218,18 @@ function renderMap(s, o, v) {
             featureselected: function(event) {
                 var feature = event.feature;
                 var area = feature.geometry.getArea();
-                var id = feature.attributes.key;
-                var desc = event.feature.attributes.description;
+                var id = feature.attributes.key;                
                 
-                console.log(feature.attributes);
                 newPopupObjectView({
                     uri: uuid(),
                     name: feature.attributes.name,
                     text: feature.attributes.description
                 });
-
-                //newPopupObjectView(feature.uri);
-                //document.getElementById("output-id").innerHTML = output;
+              //feature.geometry.getBounds().getCenterLonLat(),
+              //'<div class="markerContent">'+feature.attributes.description+'</div>',
             }
         });
         
-        /*
-        function createPopup(feature) {
-          feature.popup = new OpenLayers.Popup.FramedCloud("pop",
-              feature.geometry.getBounds().getCenterLonLat(),
-              null,
-              '<div class="markerContent">'+feature.attributes.description+'</div>',
-              null,
-              true,
-              function() { controls['selector'].unselectAll(); }
-          );
-          //feature.popup.closeOnMove = true;
-          m.addPopup(feature.popup);
-        }*/
     }
 
     renderItems(s, o, v, 500, function(s, v, x, relevancy) {
@@ -253,7 +237,6 @@ function renderMap(s, o, v) {
         
         
         if (hasTag(x, 'web.KML')) {
-            console.log('kml', x);
             addKMLLayer(x.kmlURL);
             return;    
         }
