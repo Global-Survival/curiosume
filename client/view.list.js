@@ -28,7 +28,7 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
         if (sort == 'Recent') {
             if (!x.when)
                 continue;
-            var ageSeconds = (now - x.when) / 1000.0;
+            var ageSeconds = Math.abs(now - x.when) / 1000.0;
             r = Math.exp(-ageSeconds/1000.0);
         }
         else if (sort == 'Near') {
@@ -40,8 +40,16 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
                 continue;
             }
             
-            var distance = geoDist(location, x.geolocation);
+            var distance = geoDist(location, x.geolocation); //kilometers
             r = Math.exp(-distance/10000.0);
+        }
+        else if (sort == 'Spacetime') {
+            if ((!location) || (!x.geolocation) || (!x.when)) {
+                continue;
+            }   
+            var timeDistance = Math.abs(now - x.when) / 1000.0; //seconds
+            var spaceDistance = geoDist(location, x.geolocation) * 1000.0; //meters
+            r = Math.exp(-(timeDistance + spaceDistance)/10000.0);            
         }
         
         if (semantic == 'Relevant') { 
@@ -96,7 +104,7 @@ function renderItems(s, o, v, maxItems, perItem) {
     semanticFilter.val(semantic);
 	o.append(semanticFilter);
     
-    var sortSelect = $('<select><option>Recent</option><option>Near</option></select>'); //<option>By Author</option>
+    var sortSelect = $('<select><option>Recent</option><option>Near</option><option>Spacetime</option></select>'); //<option>By Author</option>
 	sortSelect.change(function() {
 		var v = $(this).val();
         s.set('list-sort', v);

@@ -37,7 +37,12 @@ function getProperties(t) {
 }
 
 function newPopupObjectView(_x) {
-    var x = window.self.getObject(_x);
+    var x;
+    if (typeof(_x) == "string") 
+        x = window.self.getObject(_x);
+    else
+        x = _x;    
+    
     if (!x) {
         console.log('Unknown object: ' + _x);
         return;

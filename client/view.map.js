@@ -1,3 +1,31 @@
+function getProxyURL(u) {
+    return '/http/' + encodeURIComponent(u);
+}
+
+function getKMLLayer(kmlurl) {
+    //use an layer cache with explicit expiration,
+    //so that when this function gets here again, it doesn't need to re-fetch unless its past the explicit expiration
+    if (!window.kmlLayer) window.kmlLayer = { };
+    
+    var kml = window.kmlLayer[kmlurl];
+    if (!kml) {
+        kml =new OpenLayers.Protocol.HTTP({
+            url: getProxyURL(kmlurl),
+            format: new OpenLayers.Format.KML({
+                extractStyles: true,
+                extractAttributes: true
+            })            
+        });
+        
+        window.kmlLayer[kmlurl] = kml;
+    }
+    
+    return new OpenLayers.Layer.Vector("KML", {
+        strategies: [new OpenLayers.Strategy.Fixed()],
+        protocol: kml
+    });
+}
+
 function renderMap(s, o, v) {
     var e = uuid();
     $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
@@ -38,10 +66,11 @@ function renderMap(s, o, v) {
     var markers =  new OpenLayers.Layer.Markers( "Markers" );
     
     m.vector = vector;
+    
     m.addLayers([
-        mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
+        mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
-    m.addLayers([markers]);
+
     
     function saveBounds() {
         s.set('mapExtent', m.getExtent());
@@ -66,7 +95,7 @@ function renderMap(s, o, v) {
     
     m.targetLocation = m.getCenter();
 
-    var select = new OpenLayers.Control.SelectFeature(vector, {
+    var select = new OpenLayers.Control.SelectFeature([vector], {
         toggle: true,
         clickout: true
     });
@@ -177,9 +206,58 @@ function renderMap(s, o, v) {
             window.clearInterval(interval);
         }
     };
-    
+
+    function addKMLLayer(url) {
+        var kml = getKMLLayer(url);
+        m.addLayer(kml);        
+        var nl = select.layers;
+        nl.push(kml);
+        select.setLayer(nl);        
+        
+        kml.events.on({
+            featureselected: function(event) {
+                var feature = event.feature;
+                var area = feature.geometry.getArea();
+                var id = feature.attributes.key;
+                var desc = event.feature.attributes.description;
+                
+                console.log(feature.attributes);
+                newPopupObjectView({
+                    uri: uuid(),
+                    name: feature.attributes.name,
+                    text: feature.attributes.description
+                });
+
+                //newPopupObjectView(feature.uri);
+                //document.getElementById("output-id").innerHTML = output;
+            }
+        });
+        
+        /*
+        function createPopup(feature) {
+          feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+              feature.geometry.getBounds().getCenterLonLat(),
+              null,
+              '<div class="markerContent">'+feature.attributes.description+'</div>',
+              null,
+              true,
+              function() { controls['selector'].unselectAll(); }
+          );
+          //feature.popup.closeOnMove = true;
+          m.addPopup(feature.popup);
+        }*/
+    }
+
     renderItems(s, o, v, 500, function(s, v, x, relevancy) {
         var k = x.uri;
+        
+        
+        if (hasTag(x, 'web.KML')) {
+            console.log('kml', x);
+            addKMLLayer(x.kmlURL);
+            return;    
+        }
+        
         if (x.geolocation) {
             var fill = '#888';
             var op = 0.5;
@@ -188,7 +266,7 @@ function renderMap(s, o, v) {
             
             if (x.when) {
                 var now = Date.now();
-            	op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
+                op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
             }
 
             

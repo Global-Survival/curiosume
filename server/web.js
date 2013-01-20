@@ -12,6 +12,7 @@ var http = require('http')
   , nodestatic = require('node-static')
   , server;
 var mongo = require("mongojs");
+var request = require('request');
 
 
 exports.start = function(host, port, database, init) {
@@ -461,6 +462,12 @@ exports.start = function(host, port, database, init) {
 	// -------------------------------------------------------------- PASSPORT 
 	
 	
+    express.all('*', function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        next();
+    });
 	express.use("/", expressm.static('./client'));
     
     express.post('/upload', function(req, res) {
@@ -487,6 +494,24 @@ exports.start = function(host, port, database, init) {
     
     express.get('/#', function(req,res) {
        res.sendfile('./client/index.html');
+    });
+    express.get('/http/:url', function (req, res) {
+        if (Server.permissions['authenticate_to_proxy_http']!=false) {
+        	if (!isAuthenticated(req.session)) {
+	    		res.send('Authentication required');
+	    	}
+        }
+        
+    	var uri = decodeURIComponent(req.params.url);
+        request(uri, function (error, response, body) {
+            res.setHeader('Content-type', 'text/plain');
+            if (!error)  {
+                res.send(response.body);
+            }
+            else {
+                res.send(error);
+            }
+        });    
     });
     
 	express.get('/log', function (req, res) {

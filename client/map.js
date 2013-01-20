@@ -156,6 +156,7 @@ function initLocationChooserMap(target, location) {
 
 var gp1 = { }, gp2 = { };
 
+//distance, in kilometers
 function geoDist(p1, p2) {
     gp1.lat = p1[0];
     gp1.lon = p1[1];
