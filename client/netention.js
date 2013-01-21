@@ -280,7 +280,7 @@ function netention(f) {
                 var xx = t.properties;
 	            if (xx) {
                     var propertyIDs = [];
-                    if (xx.length) {
+                    if (_.isArray(xx)) {
                         //array
                         for (var tp in xx) {
                             var c = ty[t.uri].properties[tp];
