@@ -279,21 +279,17 @@ function netention(f) {
 	
                 var xx = t.properties;
 	            if (xx) {
-                    var propertyIDs = [];
-                    if (_.isArray(xx)) {
-                        //array
+                    var propertyIDs = xx;
+                    if (!_.isArray(xx)) {
+                        //hash-array mode
+                        propertyIDs = [];
                         for (var tp in xx) {
                             var c = ty[t.uri].properties[tp];
     			            p[tp] = c;
-                            propertyIDs.push(c);
+                            propertyIDs.push(tp);
     		            }
                     }
-                    else {
-                        //object
-                        for (var tp in xx) {
-                            propertyIDs.push(tp);
-                        }
-                    }
+                    
                     t.properties = propertyIDs;
 	            }
             },
