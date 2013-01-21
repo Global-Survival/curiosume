@@ -14,6 +14,7 @@ exports.plugin = {
 		options: { },
         version: '1.0',
         author: 'http://twitter.com',
+        
 		start: function(netention) { 
             
             function update() {
@@ -58,7 +59,7 @@ exports.plugin = {
                 
             }
             
-            setInterval(update, 1000 * 60);
+            setInterval(update, 1000 * 60 * 25 /* minutes  */);
             update();
         },
 		stop: function(netention) { }

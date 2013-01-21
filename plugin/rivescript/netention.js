@@ -40,7 +40,15 @@ exports.plugin = {
             //TODO instead of faling here, just queue up requests
             if (!this.bot.ready)
                 return;
-                
+                        
+            var thisAuthor = 'Rivescript1';
+            
+            if (!x.author)
+                return;
+            
+            if (x.author == thisAuthor)
+                return;
+            
             if (x.tag)
                 if (_.contains(x.tag, 'Message')) {
                     if (!x.replyTo) {
@@ -51,7 +59,7 @@ exports.plugin = {
                            name: response,
                            tag: [ 'Message' ],
                            tagStrength: [ 1.0 ],
-                           author: 'Rivescript1'
+                           author: thisAuthor
                         });
                     }
                 }

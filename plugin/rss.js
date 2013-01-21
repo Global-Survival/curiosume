@@ -143,10 +143,16 @@ var RSSFeed = function(url, perArticle) {
 		if (a['description']!=undefined)
 			maxlen = Math.max(maxlen, a['description'].length);
 		
+        var w;
+        if (a['date'])
+            w = new Date(a['date']).getTime();
+        else
+            w = Date.now();
+        
 		var x = {
 			uri: util.MD5(a['guid']),
 			link: a['link'],
-			when: new Date(a['date']).getTime(),
+			when: w,
 			name: a['title'],
 			tag: [ "Message" ],
             tagStrength: [ "1.0" ],
