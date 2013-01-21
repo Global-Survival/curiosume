@@ -15,6 +15,7 @@
             
             function setFocusMode(v) {
                 
+                //this whole thing needs cleaned up so we don't have to use static tags in the html.. just make them overwrite the same div
                 if ($('#FocusModeSelect').val()!=v)
                     $('#FocusModeSelect').val(v);
                 
@@ -23,7 +24,8 @@
                     'Tag': TagFocus,
                     'Needs': NeedsFocus,
                     'Human': HumanbodyFocus,
-                    'Emotion': EmotionFocus
+                    'Emotion': EmotionFocus,
+                    'Environment': EnvironmentFocus
 	            };
                 
                 var f = focusModeMap[v];
@@ -566,6 +568,7 @@
                     <option>Team</option>
                     <option>Human</option>
                     <option>Emotion</option>
+                    <option>Environment</option>
                 </select>
             </span>
         </div>
@@ -651,6 +654,7 @@
             </div>
             <div id="EmotionFocus" style="display:none"></div>
             <div id="TagFocus" style="display:none"></div>
+            <div id="EnvironmentFocus" style="display:none"></div>
         </div>
         
 	    <div id="DataTarget" class="DataTargetNormal">

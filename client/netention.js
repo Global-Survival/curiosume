@@ -77,8 +77,8 @@ function loadScripts(f) {
                         '/focus.tag.js',
                         '/focus.humanbody.js',
                         '/focus.emotion.js',
-                        '/focus.needs.js'
-                        
+                        '/focus.needs.js',
+                        '/focus.environment.js'
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -190,7 +190,10 @@ function netention(f) {
             focus : function() { 
                 var f = this.get('focus'); 
                 if (!f) {
-                    return { uri: uuid(), values: [ ], tag: [ ], tagStrength: [ ] };
+                    return { 
+                        uri: uuid(), values: [ ], tag: [ ], tagStrength: [ ],
+                        uris: null //if !=null, then array containing uri's, ex: those which it references
+                    };
                 }
                 return f;
             },
