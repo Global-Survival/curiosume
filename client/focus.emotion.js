@@ -53,7 +53,7 @@ var EmotionFocus = {
     
     start: function(self, target) {
         $('#EmotionFocus').html('');
-        $('#EmotionFocus').append('<img src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
+        $('#EmotionFocus').append('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
     
         var t = { };
         $('#EmotionFocus').append(newTagSliders(

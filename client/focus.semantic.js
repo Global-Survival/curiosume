@@ -90,12 +90,20 @@ var SemanticFocus = {
             if (x.length < 2) return false;
             if (x == 'and') return false;
             if (x == 'or') return false;
+            if (x == 'to') return false;
+            if (x == 'the') return false;
+            if (x == 'if') return false;
+            if (x == 'with') return false;
+            if (x == 'which') return false;
+            if (x == 'an') return false;
+            //...
             return true;
         }
         
         function getKeywords(s) {
-            return s.toLowerCase().replace(',',' ').replace('\.',' ').
-                    replace('\/',' ').split(' ');
+            return s.toLowerCase().replace(',',' ').replace('\.',' ')
+                    .replace('\:',' ')
+                    .replace('\/',' ').split(' ');
         }
         
         function updateTagSuggestions(t) {
@@ -150,9 +158,9 @@ var SemanticFocus = {
         var throttledUTS = _.throttle(updateTagSuggestions, 700);
         
         $('#FocusName').keyup(function() {
-            var t = $('#FocusName').val();
-            throttledUTS(t);
-        });
+            //var t = $('#FocusName').val();
+            throttledUTS($('#FocusName').val());
+        });        
         
         
         {
@@ -178,20 +186,29 @@ var SemanticFocus = {
             x = { };
         }
         
-        if (!x.uri)
+        if (!x.uri) {
             x.uri = uuid();
-        
-        if (!x.values)
-            x.values  = [];
+        }
         
         if (!x.tag) {
             x.tag = [];
             x.tagStrength = [];
         }
+
+        if (!x.name) {
+            x.name = '';
+        }
+
+        if (!x.values) {
+            x.values = [];
+        }
                         
                         
         $('#FocusTypes').html('');
+        
         $('#FocusName').val(x.name);
+        $('#FocusName').keyup();
+        
         $('#MatchedTypes').html('');
 
         

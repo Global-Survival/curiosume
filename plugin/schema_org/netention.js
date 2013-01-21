@@ -40,7 +40,6 @@ exports.plugin = {
                     description: prop.comment,
                     type: propType(prop.ranges)
                 };
-                console.log(p);
                 return p;
             }));
             netention.addTags(_.map(types, function(type) {

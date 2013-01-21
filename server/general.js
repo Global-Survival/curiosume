@@ -64,7 +64,28 @@ var generalTags = [
 	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Action
 	{ uri: 'User', name: 'User'}, 
 	//{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
-    { uri: 'Message', name: 'Message'} //Netention itself, meta 
+    { uri: 'Message', name: 'Message'}, 
+    
+    { uri: 'Decision', name: 'Decision'}, 
+    
+        //from LOOMIO:
+        { uri: 'Decision.Agree', name: 'Agree', tag: ['Decision'] ,
+            description: 'You are happy with the proposal.'
+        },
+        { uri: 'Decision.Abstain', name: 'Abstain', tag: ['Decision'] ,
+            description: 'You are unsure, or you’re happy for the group to decide without you.'
+        },
+        { uri: 'Decision.Disagree', name: 'Disagree', tag: ['Decision'] ,
+            description: 'You think there might be a better alternative, but you’re willing to go with the group.'
+        },
+        { uri: 'Decision.Block', name: 'Block', tag: ['Decision'],
+            description: 'You have serious objections and you’ll be extremely unhappy if this proposal goes ahead.'
+        },
+    
+    //http://www.pledgebank.com , Pledge = Promise
+    { uri: 'Promise', name: 'Promise'}
+    
+        
 ];
 
 exports.plugin = {

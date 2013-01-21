@@ -531,9 +531,6 @@ exports.start = function(host, port, database, init) {
 	express.get('/state', function (req, res) {
 		sendJSON(res, Server);
 	});
-	express.get('/map/czml', function (req, res) {
-		//return known map data as czml list
-	});
 	express.get('/attention', function (req, res) {
 		getTagCounts(function(x) {
 			sendJSON(res, x, false);
@@ -621,7 +618,6 @@ exports.start = function(host, port, database, init) {
 	} 
 	
 	sessionSockets.on('connection', function (err, socket, session) {
-	//io.sockets.on('connection', function(socket) {
 		
 		//https://github.com/LearnBoost/socket.io/wiki/Rooms
 		socket.on('subscribe', function(channel, sendAll) { 
@@ -792,7 +788,7 @@ exports.start = function(host, port, database, init) {
 		
 		var addends = { };
 	
-		for (k in state.interests) {
+		for (var k in state.interests) {
 			var v = state.interests[k];
 			
 			if (prevState.interests==undefined)
@@ -818,7 +814,7 @@ exports.start = function(host, port, database, init) {
 				 addends[k] = (now - prevState.when)/1000.0 * averageInterest ;
 			}
 		}
-		for (k in prevState.interests) {
+		for (var k in prevState.interests) {
 			var v = state.interests[k];
 			var pv = prevState.interests[k];
 			if (v==undefined) {
@@ -860,10 +856,10 @@ exports.start = function(host, port, database, init) {
 	
 	
 	
-	setInterval(attention.update, Server.memoryUpdatePeriodMS);
-	
-	nlog('Ready');
-	
+	//setInterval(attention.update, Server.memoryUpdatePeriodMS);
+		
+    require('./general.js').plugin.start(that);
+    
     function loadPlugins() {
     	fs.readdirSync("./plugin").forEach(function(file) {
     		if (file.indexOf('.js')==-1) {//avoid directories
@@ -875,6 +871,8 @@ exports.start = function(host, port, database, init) {
     }
 	
     that.permissions = Server.permissions;
+
+    nlog('Ready');
     
     init(that);
 	

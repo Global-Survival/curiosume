@@ -10,7 +10,7 @@ var NeedsFocus = {
         var nf = $('#NeedsFocus');
         nf.show();
         
-        nf.html('<h1>Needs</h1>');
+        nf.html('');
 
         var t = { };
         

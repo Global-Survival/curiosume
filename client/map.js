@@ -68,7 +68,6 @@ function initLocationChooserMap(target, location) {
     m.events.register("click", m, function(e) {
         //var opx = m.getLayerPxFromViewPortPx(e.xy) ;
         var oll = m.getLonLatFromViewPortPx(e.xy);
-        console.log('eoll', oll);
         center(oll);
     });
     
