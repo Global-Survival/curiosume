@@ -478,7 +478,7 @@ exports.start = function(host, port, database, init) {
         console.log(req.files.uploadfile.name);*/
 
         var temp_path = req.files.uploadfile.path;
-        var save_path = './upload/' + req.files.uploadfile.name;
+        var save_path = './upload/' + req.files.uploadfile.name + '_' + util.uuid();
 
         fs.rename(temp_path, save_path, function(error) {
             if (error) throw error;

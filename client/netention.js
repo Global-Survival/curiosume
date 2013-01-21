@@ -122,6 +122,7 @@ function netention(f) {
                 attention: { },
                 deleted: { },
                 replies: { }, //reply index
+                DefaultGeolocation: [ 40.7142, -74.0064 ],
                 focus: null
             },
             
@@ -197,10 +198,12 @@ function netention(f) {
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 
+                var dl = this.get('DefaultGeolocation') || [0.0];
                 if (!o) {
                     o = {
                         uri: 'Self-' + this.id(),
                         name: 'Anonymous',
+                        geolocation: dl,
         		        tag: [ 'Human', 'User' ],
         		        tagStrength: [ 1.0, 1.0 ],
                         properties: [ ]

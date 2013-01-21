@@ -58,6 +58,18 @@ var SemanticFocus = {
                 complete: function(xhr) {
                     var url = xhr.responseText;
                     status.html($('<a>File uploaded</a>').attr('href', url));
+                    var ab = $('<button>Add Image To Description</button>');
+                    var absURL = url.substring(1);
+                    ab.click(function() {
+                        var f = getEditedFocus();
+                        if (!f.text)
+                            f.text = '';
+                        f.text = f.text + '<a href="'+absURL +'"><img src="' + absURL + '"></img></a>';
+                        console.log(f.text);
+                        commitFocus(f);                         
+                    });
+                    status.append('<br/>');
+                    status.append(ab);                    
                 }
             });
         }
@@ -186,7 +198,7 @@ var SemanticFocus = {
         if (x.text) {
             $('#FocusDescriptionSection').show();
             
-            initDescriptionRichText();
+            //initDescriptionRichText();
             $('#FocusDescription').val(x.text);
         }
         else {

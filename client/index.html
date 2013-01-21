@@ -76,8 +76,8 @@
             function initUI(self) {
                 $('body').timeago();
                 
-                updateView = _.throttle(_updateView, 200);
-                setFocus = _.throttle(_setFocus, 200);
+                updateView = _.throttle(_updateView, 150);
+                setFocus = _.throttle(_setFocus, 150);
 
                 self.on('change:attention', function() {
                     updateView();
@@ -435,7 +435,7 @@
             #SaveButtonWrapper {
                 //text-align: right;
                 float: right;
-                margin-top: 2em;
+                margin-top: 1em;
             }
             #View {
                 clear: both;
@@ -456,6 +456,10 @@
                 
                 
             }
+            #FocusMapSection, #FocusUploadSection {
+                margin-top: 1.0em;
+            }
+            
             
             #MenuWrapper {
                 margin-bottom: 1.5em;
