@@ -451,13 +451,13 @@ exports.start = function(host, port, database, init) {
 	// Finish the authentication process by verifying the assertion.  If valid,
 	// the user will be logged in.  Otherwise, authentication has failed.
 	express.get('/auth/openid/return', 
-	  passport.authenticate('openid', { successRedirect: '/#/',
+	  passport.authenticate('openid', { successRedirect: '/#/reconnect',
 	                                    failureRedirect: '/login.html' }));
 	
 	
 	express.get('/auth/google', passport.authenticate('google'));
 	express.get('/auth/google/return', 
-	  passport.authenticate('google', { successRedirect: '/#/',
+	  passport.authenticate('google', { successRedirect: '/#/reconnect',
 	                                    failureRedirect: '/login.html' }));
 	// -------------------------------------------------------------- PASSPORT 
 	
@@ -475,10 +475,6 @@ exports.start = function(host, port, database, init) {
     express.post('/upload', function(req, res) {
         //TODO validate permission to upload
         
-        /*console.log(JSON.stringify(req.files));
-        console.log(req.files.uploadfile);
-        console.log(req.files.uploadfile.name);*/
-
         var temp_path = req.files.uploadfile.path;
         var save_path = './upload/' + util.uuid() + '_' + req.files.uploadfile.name;
 
@@ -684,6 +680,11 @@ exports.start = function(host, port, database, init) {
 	   				if (session.passport.user) {
 	   					key = session.passport.user.id;
 	   					email = session.passport.user.email;
+                        /*if (session.passport.user.clientID)
+                            cid = session.passport.user.clientID;
+                        else {
+                            session.passport.user.clientID
+                        }*/
 	   				}
 	   					
 	       if (!cid) {

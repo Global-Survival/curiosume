@@ -348,14 +348,15 @@
                         var w = new Workspace();
                         Backbone.history.start();
                         
+                                                
+                        $('#LoadingSplash').fadeOut();
+                        $('#ContentArea').fadeIn();
                         
                         if (!self.get('currentView'))
                             self.set('currentView', 'grid');
-                        else
-                            self.trigger('currentView');
-                        
-                        $('#LoadingSplash').fadeOut();
-                        
+                        else {
+                            updateView();
+                        }
                     });
                                         
                     
@@ -372,174 +373,175 @@
     </head>
     
     <body>
-        
-        <div id="MenuWrapper">
-            <span id="MainMenu" class="dropdown">
-              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <!--<li><a href="/#/new">New</a></li>
-                <br/>-->
-                <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
-                <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
-                <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li>
-                <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->
-                <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:setTheme('bright')">Bright</a></li>
-                        <li><a href="javascript:setTheme('dark')">Dark</a></li>
-                        <li><a href="javascript:setTheme('space')">Space</a></li>
-                        <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
-                        <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
-                        <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#"><img src="/icon/rrze/actions/manage.png"/>Options</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Listen to all Channels</a></li>
-                        <li><a href="#">Silence</a></li>
-                        <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
-                    </ul>
-                </li>
-                <br/>
-                <li><a href="/login.html">Login</a></li>
-                <li><a href="/logout">Logout</a></li>
-                <br/>
-                <li><a href="/#/help">Help</a></li>
-                
-              </ul>
-              <!-- <a class="btn" href="#">Location</a> -->
-            </span>            
-                                
-            <button id="FocusToggleButton"><i class="icon-resize-full"></i></button>
-            
-            <span id="FocusMainMenu">
-                <button id="ClearButton"><i class="icon-remove"></i></button>
-                <select id="FocusModeSelect">
-                    <option><i class="icon-search"></i>Semantic</option>
-                    <option>Needs</option>
-                    <option>Where / When</option>
-                    <option>Search</option>
-                    <option>Tag</option>
-                    <option>Team</option>
-                    <option>Human</option>
-                    <option>Emotion</option>
-                    <option>Environment</option>
-                </select>
-            </span>
-        </div>
-        <div id="SelfTarget" refactorToID="FocusEdit">
-                
-            
-            <div id="SemanticFocus" style="display:none">
-
-                <div>
-                    <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
-                </div>
-                <div id="MatchedTypes"></div>
-                
-                <div id="FocusTypes"></div>
-                
-                <div id="FocusDescriptionSection">
-                    <textarea id="FocusDescription"></textarea>
-                </div>
-                <div id="FocusMapSection">
-                    <div id="focusMap" class="map" style="height: 200px; width: 100%">
-                    </div>
-                </div>
-                <div id="FocusUploadSection">
-                    <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
-                        <p>File:
-                            <input type="file" name="uploadfile" />
-                        </p>
-                        <p>
-                            <input type="submit" value="Upload" />
-                        </p>
-                    </form>
-                    <div class="FocusUploadProgress">
-                        <div class="FocusUploadBar"></div>
-                        <div class="FocusUploadPercent">0%</div>
-                    </div>
-                    <div id="FocusUploadStatus"></div>        
-                </div>
-                
-                <div id="FocusProperties">
-                    
-                </div>
-                    <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-                        <h2>Select Tags</h2>
-                        <div id="TypeSelectModalTree"></div>
-                        
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
-                    </div>
-                    
-                <div id="SaveButtonWrapper" style="width: auto">
-                    <button type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
-                    
-                    <!--
-                    <span class="dropdown">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
-                        </ul> 
-                    </span> -->
-                    
-                    <span class="btn-group">
-                        <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
-                        <button id="ToggleLocationButton"><i class="icon-globe"></i></button>
-                        <button id="ToggleUploadButton"><i class="icon-file"></i></button>                
-                        <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
+        <div id="ContentArea" style="display:none">
+            <div id="MenuWrapper">
+                <span id="MainMenu" class="dropdown">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <!--<li><a href="/#/new">New</a></li>
+                    <br/>-->
+                    <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
+                    <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
+                    <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li>
+                    <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->
+                    <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:showEditedFocus();">Export...</a></li>
-                            <li><a href="javascript:cloneFocus();">Clone...</a></li>
-                            <li><a href="javascript:deleteFocus();">Delete</a></li>
+                            <li><a href="javascript:setTheme('bright')">Bright</a></li>
+                            <li><a href="javascript:setTheme('dark')">Dark</a></li>
+                            <li><a href="javascript:setTheme('space')">Space</a></li>
+                            <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
+                            <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
+                            <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
                         </ul>
-                    </span>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/actions/manage.png"/>Options</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Listen to all Channels</a></li>
+                            <li><a href="#">Silence</a></li>
+                            <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
+                        </ul>
+                    </li>
+                    <br/>
+                    <li><a href="/login.html">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <br/>
+                    <li><a href="/#/help">Help</a></li>
+                    
+                  </ul>
+                  <!-- <a class="btn" href="#">Location</a> -->
+                </span>            
+                                    
+                <button id="FocusToggleButton"><i class="icon-resize-full"></i></button>
+                
+                <span id="FocusMainMenu">
+                    <button id="ClearButton"><i class="icon-remove"></i></button>
+                    <select id="FocusModeSelect">
+                        <option><i class="icon-search"></i>Semantic</option>
+                        <option>Needs</option>
+                        <option>Where / When</option>
+                        <option>Search</option>
+                        <option>Tag</option>
+                        <option>Team</option>
+                        <option>Human</option>
+                        <option>Emotion</option>
+                        <option>Environment</option>
+                    </select>
+                </span>
+            </div>
+            <div id="SelfTarget" refactorToID="FocusEdit">
+                    
+                
+                <div id="SemanticFocus" style="display:none">
+    
+                    <div>
+                        <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
+                    </div>
+                    <div id="MatchedTypes"></div>
+                    
+                    <div id="FocusTypes"></div>
+                    
+                    <div id="FocusDescriptionSection">
+                        <textarea id="FocusDescription"></textarea>
+                    </div>
+                    <div id="FocusMapSection">
+                        <div id="focusMap" class="map" style="height: 200px; width: 100%">
+                        </div>
+                    </div>
+                    <div id="FocusUploadSection">
+                        <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                            <p>File:
+                                <input type="file" name="uploadfile" />
+                            </p>
+                            <p>
+                                <input type="submit" value="Upload" />
+                            </p>
+                        </form>
+                        <div class="FocusUploadProgress">
+                            <div class="FocusUploadBar"></div>
+                            <div class="FocusUploadPercent">0%</div>
+                        </div>
+                        <div id="FocusUploadStatus"></div>        
+                    </div>
+                    
+                    <div id="FocusProperties">
+                        
+                    </div>
+                        <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+                            <h2>Select Tags</h2>
+                            <div id="TypeSelectModalTree"></div>
+                            
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                        </div>
+                        
+                    <div id="SaveButtonWrapper" style="width: auto">
+                        <button type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
+                        
+                        <!--
+                        <span class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
+                            </ul> 
+                        </span> -->
+                        
+                        <span class="btn-group">
+                            <button id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
+                            <button id="ToggleLocationButton"><i class="icon-globe"></i></button>
+                            <button id="ToggleUploadButton"><i class="icon-file"></i></button>                
+                            <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:showEditedFocus();">Export...</a></li>
+                                <li><a href="javascript:cloneFocus();">Clone...</a></li>
+                                <li><a href="javascript:deleteFocus();">Delete</a></li>
+                            </ul>
+                        </span>
+                        
+                    </div>
                     
                 </div>
-                
+                <div id="NeedsFocus" style="display:none">
+                    <h1>NEEDS</h1>
+                </div>
+                <div id="HumanbodyFocus" style="display:none">
+                    <img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
+                </div>
+                <div id="EmotionFocus" style="display:none"></div>
+                <div id="TagFocus" style="display:none"></div>
+                <div id="EnvironmentFocus" style="display:none"></div>
             </div>
-            <div id="NeedsFocus" style="display:none">
-                <h1>NEEDS</h1>
-            </div>
-            <div id="HumanbodyFocus" style="display:none">
-                <img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
-            </div>
-            <div id="EmotionFocus" style="display:none"></div>
-            <div id="TagFocus" style="display:none"></div>
-            <div id="EnvironmentFocus" style="display:none"></div>
+            
+    	    <div id="DataTarget" class="DataTargetNormal">
+                <div>
+                    <span id="ViewSelect" class="ViewSelectNormal">
+                        
+                      <button id='grid' title="Grid"><i class="icon-th"></i></button>
+                      <button id='list' title="List"><i class="icon-th-list"></i></button>
+                      <button id='map' title="Map"</a><i class="icon-globe"></i></button>
+                      <button id='time' title="Time"><i class="icon-time"></i></button>
+                      <button id='slides'  title="Slides"><i class="icon-play"></i></button>
+                      <button id='graph'  title="Graph"><i class="icon-random"></i></button>
+                      <button id='trends'  title="Trends"><i class="icon-signal"></i></button>
+                        
+                    </span>
+                    <span id="ViewOptions">
+                        
+                    </span>
+                </div>
+                <div id="View">
+                    
+                </div>
+             
+    	    </div>
         </div>
-        
-	    <div id="DataTarget" class="DataTargetNormal">
-            <div>
-                <span id="ViewSelect" class="ViewSelectNormal">
-                    
-                  <button id='grid' title="Grid"><i class="icon-th"></i></button>
-                  <button id='list' title="List"><i class="icon-th-list"></i></button>
-                  <button id='map' title="Map"</a><i class="icon-globe"></i></button>
-                  <button id='time' title="Time"><i class="icon-time"></i></button>
-                  <button id='slides'  title="Slides"><i class="icon-play"></i></button>
-                  <button id='graph'  title="Graph"><i class="icon-random"></i></button>
-                  <button id='trends'  title="Trends"><i class="icon-signal"></i></button>
-                    
-                </span>
-                <span id="ViewOptions">
-                    
-                </span>
-            </div>
-            <div id="View">
-                
-            </div>
-         
-	    </div>
-    
+
         <div id="LoadingSplash">        
-            <h1>Loading...</h1>
+            <p style="font-size: 500%; text-align: center; margin-top: 3em;">&#8987;</p>
         </div>
     
     </body>
