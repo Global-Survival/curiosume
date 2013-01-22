@@ -82,20 +82,28 @@
                 setFocus = _.throttle(_setFocus, 150);
 
                 self.on('change:attention', function() {
-                    updateView();
+                    later(function() {
+                        updateView();
+                    });
                 }); 
                 
                 self.on('change:focus', function() {
-                    updateFocus();
-                    updateView();
+                    later(function() {
+                        updateFocus();
+                        updateView();
+                    });
                 }); 
                 
                 self.on('change:currentView', function() {
-                    updateView();
+                    later(function() {
+                        updateView();
+                    });
                 });
                 
                 self.on('change:tags', function() {
-                    updateFocus();
+                    later(function() {
+                        updateFocus();
+                    });
                 });
 
                 $('#FocusToggleButton').click(function() {
@@ -128,22 +136,30 @@
                     setFocusMode(v);
 	            });
     
+    
+    
+    
+                //TODO move this to focus.semantic.js when dynamically generating the focus UI
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
-                    self.notice(p);
-                    self.pub(p);
-                    $.pnotify({
-                        title: 'Saved',
-                        text: p.uri                        
-                    });         
+                    later(function() {
+                        self.notice(p);
+                        self.pub(p);
+                        $.pnotify({
+                            title: 'Saved',
+                            text: p.uri                        
+                        });                             
+                    });
                 });
                 $('#ClearButton').click(function() {
-                    var u = uuid();
-                    Backbone.history.navigate('/object/' + u);
-                    self.set('list-semantic', 'Any');
-                    commitFocus({
-                        uri: u
-                    }); 
+                    later(function() {
+                        var u = uuid();
+                        Backbone.history.navigate('/object/' + u);
+                        self.set('list-semantic', 'Any');
+                        commitFocus({
+                            uri: u
+                        }); 
+                    });
                 });
 
                 updateFocus();
@@ -508,9 +524,7 @@
                 <div id="NeedsFocus" style="display:none">
                     <h1>NEEDS</h1>
                 </div>
-                <div id="HumanbodyFocus" style="display:none">
-                    <img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>
-                </div>
+                <div id="HumanbodyFocus" style="display:none"></div>
                 <div id="EmotionFocus" style="display:none"></div>
                 <div id="TagFocus" style="display:none"></div>
                 <div id="EnvironmentFocus" style="display:none"></div>

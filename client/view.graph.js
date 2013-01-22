@@ -1,4 +1,4 @@
-var graphUpdatePeriod = 50; //in ms
+var graphUpdatePeriod = 150; //in ms
 var layoutFPS = 20;
 
 function renderGraph(s, o, v, withGraph) {
@@ -45,7 +45,7 @@ function renderGraph(s, o, v, withGraph) {
                 //var circle = addCircle(shape, "layer2", id  + 'c', 0, 0, 23, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,240,40)' }, true);
 
                 var fontSize = 6;
-                var text = addText(shape, "layer1", id + '_t', 0, 0, y, fontSize, name, { fillStyle: 'black', fontName: 'Arial' }, undefined, true);
+                var text = addText(shape, "layer1", id + '_t', 0, 0, y, fontSize, _.string.truncate(name, 16), { fillStyle: 'black', fontName: 'Arial' }, undefined, true);
                 
                 text.offX = -25;
                 
@@ -174,7 +174,7 @@ function renderGraphFocus(s, o, v) {
                     if (!exists) {
                         var ttj = s.tag(tj);
                         if (ttj) {                            
-                            g.addNode(tj, s.tag(tj).name);                        
+                            g.addNode(tj, s.tag(tj).name, getTagIcon(tj));
                             tags[tj] = true;
                         }
                     }
@@ -190,7 +190,7 @@ var maxPermitedVerticalRange = { top: -10000000, bottom: 10000000 };
 
 
 function initCZ(f) {
-    $.getScript('/lib/lazyload.js', function() {
+    //$.getScript('/lib/lazyload.js', function() {
 		
 		var scripts = [ 
 		               "/lib/chronozoom/Scripts/rx.js",
@@ -213,7 +213,7 @@ function initCZ(f) {
 		];
 		
 		LazyLoad.js(scripts, f);
-	});
+	//});
     
     loadCSS('/lib/chronozoom/Styles/cz.css');
 	

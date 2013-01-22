@@ -12,6 +12,7 @@ function loadCSS(url) {
         })
     );                
 }
+
 function loadJS(url) {
     $(document.head).append(
         $("<script/>")
@@ -22,7 +23,9 @@ function loadJS(url) {
     );                
 }
 
-
+function later(f) {
+    setTimeout(f, 0);
+}
 
 
 function loadScripts(f) {
@@ -59,7 +62,7 @@ function loadScripts(f) {
                         
 //		                "/lib/jquery-tmpl/jquery.tmpl.js",
                         
-		                "/lib/jstorage/jstorage.js",
+//		                "/lib/jstorage/jstorage.js",
 		                "/lib/jQuery-URL-Parser/purl.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.3/underscore-min.js',
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
@@ -218,9 +221,25 @@ function netention(f) {
             },
             
             connect: function() {
-                var socket = io.connect('/');
+                var socket = io.connect('/', {
+                    transports: [ 'websocket', 'htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling' ],
+                    reconnect: true,
+                    'try multiple transports': true                    
+                });
                     
                 var that = this;
+
+                function init() {
+                    socket.emit('connectSelf', that.get('clientID'));
+                    socket.emit('subscribe', 'User', true);                    
+                }
+                
+                socket.on('reconnect', function() {
+                     /*$.pnotify({
+                        title: 'Reconnected'
+                     }); */
+                     init();
+                });                
                 
                 socket.on('setClientID', function (cid, key) {
                      that.set('clientID', cid);
@@ -244,8 +263,8 @@ function netention(f) {
                     that.addTags(t);                                  
             	});
                 
-                socket.emit('connectSelf', this.get('clientID'));
-                socket.emit('subscribe', 'User', true);    
+                
+                init();
                 
                 this.socket = socket;
                 
@@ -253,22 +272,18 @@ function netention(f) {
             },
             
             loadLocal: function() {
-                this.localStore = $.jStorage;		 	
-                	
-                this.set(this.localStore.get('self'));
-                            
-            	console.log('Self loaded');
-                /*$.pnotify({
-                    title: 'Loaded.',
-                    text: JSON.stringify(this.myself(), null, 4)
-                });*/
+                if (localStorage.self) {
+                    this.set(JSON.parse(localStorage.self));                            
+            	    console.log('Self loaded');
+                    /*$.pnotify({
+                        title: 'Loaded.',
+                        text: JSON.stringify(this.myself(), null, 4)
+                    });*/
+                }
             },
             
             saveLocal: function() {
-                this.localStore.set("self", this.attributes);
-                /*$.pnotify({
-                    title: 'Saved.'
-                }); */
+                localStorage.self = JSON.stringify(this.attributes);
             },
 
             addProperty : function(p) {

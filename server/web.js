@@ -409,7 +409,7 @@ exports.start = function(host, port, database, init) {
 	  express.use(expressm.session({store:sessionStore}));
 	  express.use(passport.initialize());
 	  express.use(passport.session());
-	  express.use(express.router);
+	  express.use(express.router);      
 	});                        
 	
 	

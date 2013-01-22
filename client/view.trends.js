@@ -28,7 +28,7 @@ function renderTrends(s, o, v) {
             
         var url = '#/tag/' + k;
         
-        var fs = 1.0 + Math.log(1+tagCount[k])*0.2;
+        var fs = 3.0 + Math.log(1+tagCount[k])*0.2;
         
         var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
         ab.click(function() {

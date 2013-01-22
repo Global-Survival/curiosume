@@ -1,3 +1,33 @@
+//t is either a tag ID, or an object with zero or more tags
+function getTagIcon(t) {
+    var ti = { 
+        'environment.EarthQuake': '/icon/quake.png',
+        'NuclearFacility': '/icon/nuclear.png',
+        'Human': '/icon/rrze/emblems/crown.png',
+        'Message': '/icon/rrze/emblems/at.png',
+        'Decision.Agree': '/icon/loomio/agree.png',
+        'Decision.Disagree': '/icon/loomio/disagree.png',
+        'Decision.Block': '/icon/loomio/block.png',
+        'Decision.Abstain': '/icon/loomio/abstain.png',
+    };
+    if (t.uri) {
+        //try all the tags, return the first
+        if (t.tag) {
+            for (var x = 0; x < t.tag.length; x++) {
+                var r = getTagIcon(t.tag[x]);
+                if (r)
+                    return r;
+            }
+        }
+        return null;
+    }
+    else {
+        return ti[t];
+    }
+}
+    
+
+
 function hasTag(o, t) {    
 	if (!o.tag)
 		return false;

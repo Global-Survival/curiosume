@@ -251,26 +251,23 @@ function renderMap(s, o, v) {
                 op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
             }
 
+            iconURL = getTagIcon(x);
             
             if (hasTag(x, 'environment.EarthQuake')) {
                 fill = '#b33';
                 rad = 100000 + (x.eqMagnitude - 5.0)*700000;
-                iconURL = '/icon/quake.png';
                 op *= 0.5;
             }
             else if (hasTag(x, 'NuclearFacility')) {
-                iconURL = '/icon/nuclear.png';
                 rad = 7000;
                 op = 0.3;
                 fill = '#ff0';
             }
             else if (hasTag(x, 'Human')) {
-                iconURL = '/icon/rrze/emblems/crown.png';
                 rad = 200;
                 op = 0.25;
             }
             else if (hasTag(x, 'Message')) {
-                iconURL = '/icon/rrze/emblems/at.png';
                 fill = '#55f';
                 rad = 50;
             }

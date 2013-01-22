@@ -53,7 +53,6 @@ var SemanticFocus = {
                     var percentVal = percentComplete + '%';
                     bar.width(percentVal)
                     percent.html(percentVal);
-                    //console.log(percentVal, position, total);
                 },
                 complete: function(xhr) {
                     var url = xhr.responseText;
@@ -65,7 +64,6 @@ var SemanticFocus = {
                         if (!f.text)
                             f.text = '';
                         f.text = f.text + '<a href="'+absURL +'"><img src="' + absURL + '"></img></a>';
-                        console.log(f.text);
                         commitFocus(f);                         
                     });
                     status.append('<br/>');
