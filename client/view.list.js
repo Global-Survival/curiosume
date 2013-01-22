@@ -83,7 +83,7 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
     return [ _.first(relevant, maxItems), relevance ];
 }
 
-function renderItems(s, o, v, maxItems, perItem) {
+function renderItems(s, o, v, maxItems, perItems) {
     var sort = s.get('list-sort') || 'Recent';
     var scope = s.get('list-scope') || 'Public';
     var semantic = s.get('list-semantic') || 'Any';
@@ -91,12 +91,14 @@ function renderItems(s, o, v, maxItems, perItem) {
     var rr = getRelevant(sort, scope, semantic, s, o, maxItems);
     var relevant = rr[0];
     var relevance = rr[1];
-    
+
+    var xxrr = [];
     for (var x = 0; x < relevant.length; x++) {
         var xx = s.get('attention')[relevant[x]];                        
         var rr =  relevance[relevant[x]];
-        perItem(s, v, xx, rr);
+        xxrr.push([xx,rr]);
     }
+    perItems(s, v, xxrr);
     
     var semanticFilter = $('<select><option>Any</option><option>Relevant</option></select>');
     semanticFilter.change(function() {
@@ -143,8 +145,12 @@ function renderItems(s, o, v, maxItems, perItem) {
 }
 
 function renderList(s, o, v) {
-    renderItems(s, o, v, 75, function(s, v, x, relevancy) {
-         v.append(newObjectView(s, x, function() { }, relevancy, 1 ));
+    renderItems(s, o, v, 75, function(s, v, xxrr) {
+        for (var i = 0; i < xxrr.length; i++) {
+            var x = xxrr[i][0];
+            var r = xxrr[i][1];
+            v.append(newObjectView(s, x, function() { }, r, 1 ));
+        }
     });
     
     $('body').timeago('refresh');

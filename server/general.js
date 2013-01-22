@@ -1,3 +1,5 @@
+//A PLUGIN WHICH IS AUTOMATICALLY LOADED BY THE WEBSERVER
+
 var generalTags = [
         
 	{ uri: 'Human', name: 'Human',		
@@ -82,7 +84,8 @@ var generalTags = [
             description: 'You have serious objections and you’ll be extremely unhappy if this proposal goes ahead.'
         },
     
-    //http://www.pledgebank.com , Pledge = Promise
+    //Pledge = Promise
+    //  "I’ll do it, but only if you’ll help" --PledgeBank.com
     { uri: 'Promise', name: 'Promise'}
     
         

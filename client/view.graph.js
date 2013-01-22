@@ -40,11 +40,14 @@ function renderGraph(s, o, v, withGraph) {
                 var x = Math.random() * 400.0 - 200.0;  
                 var y = Math.random() * 400.0 - 200.0; 
                 
-                var shape = addRectangle(root, "layer1", id, x, y, 50, 50, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(140,140,140,0.5)' });
+                var shape = addRectangle(root, "layer1", id, x, y, 50, 30.9, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgba(210,210,210,0.85)' });
                 
                 //var circle = addCircle(shape, "layer2", id  + 'c', 0, 0, 23, { strokeStyle: 'white', lineWidth: 2, fillStyle: 'rgb(20,240,40)' }, true);
 
-                var text = addText(shape, "layer1", id + '_t', -20, -20, y, 8, name, { fillStyle: 'white', fontName: 'Arial' }, undefined, true);
+                var fontSize = 6;
+                var text = addText(shape, "layer1", id + '_t', 0, 0, y, fontSize, name, { fillStyle: 'black', fontName: 'Arial' }, undefined, true);
+                
+                text.offX = -25;
                 
             /*var rect = addRectangle(root, "layer1", "r", -100, -50, 200, 100, { strokeStyle: 'rgb(240,240,240)', lineWidth: 2, fillStyle: 'rgb(140,140,140)' });
             rect.reactsOnMouse = true;
@@ -73,9 +76,9 @@ function renderGraph(s, o, v, withGraph) {
                     
                 var x = Math.random() * 400.0 - 200.0;  
                 var y = Math.random() * 400.0 - 200.0; 
+                var edgeWidth = 0.3;
                 
-                
-                var line = addRectangle(root, "layer2", edgeID, x, y, 1, 15, { fillStyle: 'rgba(240,240,240,0.8)', angle: 0});
+                var line = addRectangle(root, "layer2", edgeID, x, y, edgeWidth, 15, { fillStyle: 'rgba(180,180,180,0.8)', angle: 0});
                 line.from = a;
                 line.to = b;
                 
@@ -98,14 +101,18 @@ function renderGraph(s, o, v, withGraph) {
                 }
                 
                 for (var c = 0; c < s.children.length; c++) {
-                    moveShape(s.children[c], x, y, angle);
+                    var sc = s.children[c];
+                    var ox = sc.offX || 0;
+                    var oy = sc.offY || 0;
+                    moveShape(sc, x+ox, y+oy, angle);
                 }
             }
             
-            var offsetX = width/2.0;
+            var offsetX = width;
             var offsetY = height/2.0;
             
             var updater = setInterval(function() {
+                
                 if (!$('#' + ee).is(':visible')) { 
                     //STOP
                     clearInterval(updater);
@@ -141,7 +148,7 @@ function renderGraph(s, o, v, withGraph) {
                 root.vc.invalidate();
             }, graphUpdatePeriod);
  
-            that.visibleRegion = new VisibleRegion2d(-width/2.0, 0, 50.0 / 356.0);
+            that.visibleRegion = new VisibleRegion2d(-width/2.0, 0, 122.0 / 356.0);
             
             return that;
             
@@ -154,10 +161,25 @@ function renderGraph(s, o, v, withGraph) {
 
 function renderGraphFocus(s, o, v) {
     renderGraph(s, o, v, function(g) {
-        renderItems(s, o, v, 75, function(s, v, x, relevancy) {            
-            g.addNode(x.uri, x.name);
-        });
-        
+        renderItems(s, o, v, 75, function(s, v, xxrr) {
+            var tags = { };
+            for (var i = 0; i < xxrr.length; i++) {
+                var x = xxrr[i][0];
+                var r = xxrr[i][1];
+                g.addNode(x.uri, x.name);
+                
+                for (var j = 0; j < x.tag.length; j++) {
+                    var tj = x.tag[j];
+                    var exists = tags[tj];
+                    if (!exists) {
+                        g.addNode(tj, s.tag(tj).name);                        
+                        tags[tj] = true;
+                    }
+                    g.addEdge(x.uri+'_' + j, x.uri, tj);
+                }
+            }
+            
+        });        
     });
 }
 
@@ -223,6 +245,10 @@ function graphCZ(canvasElement, init, withGraph) {
                     getGesturesStream(vc));
 
     vc.virtualCanvas("setVisible", graph.visibleRegion);
+    /*if (graph.viewPort)
+        vc.virtualCanvas("setViewport", graph.viewPort);    */
+    
+
     updateLayout();
     
     if (withGraph)

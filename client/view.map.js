@@ -231,10 +231,9 @@ function renderMap(s, o, v) {
         });
         
     }
-
-    renderItems(s, o, v, 500, function(s, v, x, relevancy) {
+    
+    function renderMapFeature(x, r) {
         var k = x.uri;
-        
         
         if (hasTag(x, 'web.KML')) {
             addKMLLayer(x.kmlURL);
@@ -276,7 +275,16 @@ function renderMap(s, o, v) {
                 rad = 50;
             }
             createMarker(k, x.geolocation[0], x.geolocation[1], rad, op, fill, iconURL);
+        }        
+    }
+    
+    renderItems(s, o, v, 500, function(s, v, xxrr) {
+        for (var i = 0; i < xxrr.length; i++) {
+            var x = xxrr[i][0];
+            var r = xxrr[i][1];
+            renderMapFeature(x, r);
         }
     });
+
     
 }
