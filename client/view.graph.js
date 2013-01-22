@@ -172,8 +172,11 @@ function renderGraphFocus(s, o, v) {
                     var tj = x.tag[j];
                     var exists = tags[tj];
                     if (!exists) {
-                        g.addNode(tj, s.tag(tj).name);                        
-                        tags[tj] = true;
+                        var ttj = s.tag(tj);
+                        if (ttj) {                            
+                            g.addNode(tj, s.tag(tj).name);                        
+                            tags[tj] = true;
+                        }
                     }
                     g.addEdge(x.uri+'_' + j, x.uri, tj);
                 }
