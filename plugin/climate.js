@@ -2,11 +2,11 @@
 var util = require('./../client/util.js');
 
 exports.plugin = {
-        name: 'Climate',    
-		description: 'Climate and environment datasets provided by http://ClimateViewer.com',
+        name: 'Environment',    
+		description: 'Environment and climate datasets provided by http://ClimateViewer.com',
 		options: { },
         version: '1.0',
-        author: 'http://ClimateViewer.com',
+        author: 'http://ClimateViewer.com and P2P-Foundation NORA',
         
 		start: function(netention) { 
             

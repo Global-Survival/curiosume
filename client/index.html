@@ -485,15 +485,25 @@
                 margin-top: 4px;
                 padding: 1px;
             }
+            
+            
             #TypeSelectModal {
                 width: 75%;
                 height: 75%;
                 left: auto;
-                right: auto;
                 top: auto;
-                bottom:auto;
-                margin-left: 0;
+                padding: 1em;
+                margin-left: auto;
             }
+                        
+            #TypeSelectModalTree {
+                max-height: 80%;
+                overflow: auto;
+            }
+            #TypeSelectModalTree button {
+                margin: 1em;
+            }
+            
             .TagTree {
                 font-size: 160%;
                 padding-top: 0.3em;
@@ -560,7 +570,7 @@
             <span id="FocusMainMenu">
                 <button id="ClearButton"><i class="icon-remove"></i></button>
                 <select id="FocusModeSelect">
-                    <option>Semantic</option>
+                    <option><i class="icon-search"></i>Semantic</option>
                     <option>Needs</option>
                     <option>Where / When</option>
                     <option>Search</option>
@@ -612,7 +622,7 @@
                 </div>
                     <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-                        <h1>select type</h1>
+                        <h2>Select Tags</h2>
                         <div id="TypeSelectModalTree"></div>
                         
                         <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>

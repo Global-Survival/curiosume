@@ -4,7 +4,7 @@ var layoutFPS = 20;
 function renderGraph(s, o, v, withGraph) {
     
     var ee = uuid();
-    var r = $('<div style="width: 98%; height: 98%; overflow: hidden; background-image:url(/lib/chronozoom/Images/Blueprint_Paper.jpg);"/>').attr('id', ee);
+    var r = $('<div style="width: 100%; height: 98%; overflow: hidden; background-color: transparent; border: none;);"/>').attr('id', ee);
     r.appendTo(v);
     
     var l2 = $('<div id="layer2"></div>');

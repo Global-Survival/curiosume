@@ -253,7 +253,7 @@ function renderMap(s, o, v) {
             }
 
             
-            if (hasTag(x, 'climate.EarthQuake')) {
+            if (hasTag(x, 'environment.EarthQuake')) {
                 fill = '#b33';
                 rad = 100000 + (x.eqMagnitude - 5.0)*700000;
                 iconURL = '/icon/quake.png';

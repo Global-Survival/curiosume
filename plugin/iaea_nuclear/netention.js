@@ -11,7 +11,7 @@ exports.plugin = {
             
             netention.addTags([ {
                 uri: 'NuclearFacility', name: 'Nuclear Facility',
-                tag: [ 'climate' /* 'Pollution' */ ]
+                tag: [ 'environment' /* 'Pollution' */ ]
             } ]);
             
             
@@ -46,7 +46,7 @@ exports.plugin = {
                      tagStrength: [1],
                     'name': name + ' Nuclear Facility',                    
                     'geolocation': [lat, lon],
-                    when: Date.now(),
+                    when: 1316995200, //hardcoded from modified-time of the CSV file.  TODO retreive this from fs module dynamically
                     'reactors': reactors        //TODO as property
                 };
                 

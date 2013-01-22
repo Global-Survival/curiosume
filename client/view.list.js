@@ -29,7 +29,8 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
             if (!x.when)
                 continue;
             var ageSeconds = Math.abs(now - x.when) / 1000.0;
-            r = Math.exp(-ageSeconds/1000.0);
+            //r = Math.exp(-ageSeconds/10000.0);
+            r = 1.0 / (1.0 + ageSeconds / 60.0);
         }
         else if (sort == 'Near') {
             
@@ -41,7 +42,8 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
             }
             
             var distance = geoDist(location, x.geolocation); //kilometers
-            r = Math.exp(-distance/10000.0);
+            //r = Math.exp(-distance/10000.0);
+            r = 1.0 / (1.0 + distance);
         }
         else if (sort == 'Spacetime') {
             if ((!location) || (!x.geolocation) || (!x.when)) {
@@ -49,7 +51,8 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
             }   
             var timeDistance = Math.abs(now - x.when) / 1000.0; //seconds
             var spaceDistance = geoDist(location, x.geolocation) * 1000.0; //meters
-            r = Math.exp(-(timeDistance + spaceDistance)/10000.0);            
+            //r = Math.exp(-(timeDistance + spaceDistance)/10000.0);            
+            r = 1.0 / (1.0 + ((timeDistance/60.0) + spaceDistance));
         }
         
         if (semantic == 'Relevant') { 
