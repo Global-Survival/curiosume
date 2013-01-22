@@ -86,6 +86,13 @@ var NeedsFocus = {
         nf.append('<h3>Money</h3>');
         nf.append('<h3>Entertainment</h3>');
         nf.append('<h3>Law and Freedom</h3>');
+        /*
+        Amartya Sen's “The Five Freedoms”:
+            (1) political freedoms,
+            (2) economic facilities,
+            (3) social opportunities,
+            (4) transparency guarantees
+            (5) protective security */
 
         nf.show();    
     
