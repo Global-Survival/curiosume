@@ -468,7 +468,9 @@ exports.start = function(host, port, database, init) {
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         next();
     });
-	express.use("/", expressm.static('./client'));
+    
+    var oneYear = 31557600000;
+    express.use("/", expressm.static('./client', { maxAge: oneYear }));
     
     express.post('/upload', function(req, res) {
         //TODO validate permission to upload

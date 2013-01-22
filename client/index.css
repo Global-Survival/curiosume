@@ -1,0 +1,165 @@
+//much of this needs moved to their own .css files.  until then, this
+// is a very diverse collection of styles
+
+#LoadingSplash {
+    position: fixed;
+    width: 95%;
+    height: 90%;
+    left: auto;
+    top: auto;
+    background-color: white;
+}
+#LoadingSplash h1 {
+    text-align: center;
+}
+
+.DataTargetNormal {
+    width: 66%;
+	right:0.5em;			
+}
+
+.DataTargetFull {
+    width: 100%;
+    right: 1%;
+}
+
+#SelfTarget, #DataTarget {
+	position: fixed;			
+	height: 94%;
+}
+
+
+#DataTarget {
+    z-index: -5000;
+    right: 0.5em;
+}
+
+#SelfTarget {
+    overflow-y: auto;
+	width: 32%;
+	left: 0.5em;			
+    margin-top: 3.0em;
+}
+
+#Menu {
+	display: none;
+}
+
+#ViewSelect {
+    width: 34%;
+}
+.ViewSelectNormal {
+}
+.ViewSelectIndented {
+    padding-left: 6%;
+}
+
+#ViewSelect {
+    float: left;
+}
+#ViewOptions {
+    text-align: right;
+    float: right;
+    padding-top: 0.5em;
+    width: 60%;
+}
+#SemanticFocus {
+    width: 98%;
+}
+.FocusSection {
+    padding: 0.2em;
+    border-right: 5px solid rgba(125,25,0,0.5);
+
+	-webkit-transition:background-color 0.618s ease-in;  
+   -moz-transition:background-color 0.618s ease-in;  
+   -o-transition:background-color 0.618s ease-in;  
+
+}
+
+#focusName, #focusDescription {
+    width: 100%;
+}
+#SaveButtonWrapper {
+    //text-align: right;
+    float: right;
+    margin-top: 1em;
+}
+#View {
+    clear: both;
+    width: 100%;
+    height: 98%;
+    overflow: auto;
+}
+
+.map {
+    width: 100%;
+    height: 200px;
+}
+
+#FocusName, #FocusDescription {
+    width: 97%;
+}
+#FocusDescriptionSection, #FocusMapSection {
+    
+    
+}
+#FocusMapSection, #FocusUploadSection, .FocusSection {
+    margin-top: 1.0em;
+}
+
+
+#MenuWrapper {
+    margin-bottom: 1.5em;
+    z-index: 500;
+}
+#MenuWrapper img {
+    padding-right: 1.0em;
+}
+#ViewOptions select {
+    width: auto;
+}
+.PropertyRemoveButton {
+    float: right;
+}
+#MenuWrapper {
+    position: fixed;
+}
+
+#FocusModeSelect {
+    width: auto;
+    margin-top: 4px;
+    padding: 1px;
+}
+
+
+#TypeSelectModal {
+    width: 75%;
+    height: 75%;
+    left: auto;
+    top: auto;
+    padding: 1em;
+    margin-left: auto;
+}
+            
+#TypeSelectModalTree {
+    max-height: 80%;
+    overflow: auto;
+}
+#TypeSelectModalTree button {
+    margin: 1em;
+}
+
+.TagTree {
+    font-size: 160%;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+#MatchedTypes {
+    margin: 1em;
+}
+#MatchedTypes button {
+    margin: 0.2em;
+    opacity: 0.5;
+    font-size: 80%;
+    font-variant: italic;
+}

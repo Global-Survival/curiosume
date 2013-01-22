@@ -26,7 +26,27 @@ function loadJS(url) {
 
 
 function loadScripts(f) {
-	//https://github.com/rgrove/lazyload/
+    loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
+    loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
+
+	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
+	    
+	
+    loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
+            
+    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
+    
+    //loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
+    
+    loadCSS('/lib/dynatree/skin/ui.dynatree.css');
+
+    loadCSS('/icon.type.css');
+    loadCSS('/map.css');
+    loadCSS('/object.css');
+    
+    loadCSS('/index.css');
+
+    //https://github.com/rgrove/lazyload/
 	$.getScript('/lib/lazyload.js', function() {
 		
 	var scripts = [     "/socket.io/socket.io.js", 
@@ -53,13 +73,9 @@ function loadScripts(f) {
 
 		                "/util.js", "./map.js", "./object.js",
                         
-                        "/lib/jqplot/jquery.jqplot.min.js",
-                        "/lib/jqplot/plugins/jqplot.barRenderer.min.js",
-                        "/lib/jqplot/plugins/jqplot.categoryAxisRenderer.min.js",
-                        "/lib/jqplot/plugins/jqplot.pointLabels.min.js",
+//                        "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
+                        //"/lib/wysihtml5/bootstrap-wysihtml5.js",
                         
-                        "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
-                        "/lib/wysihtml5/bootstrap-wysihtml5.js",
                         '/lib/timeago/timeago.js',
                         '/lib/jquery-form/jquery.form.js',
                         
@@ -68,6 +84,7 @@ function loadScripts(f) {
                         '/view.map.js',
                         //'/view.map.cesium.js',
                         
+                        '/view.grid.js',
                         '/view.list.js',
                         '/view.trends.js',
                         '/view.slides.js',
@@ -79,28 +96,12 @@ function loadScripts(f) {
                         '/focus.emotion.js',
                         '/focus.needs.js',
                         '/focus.environment.js'
+                        
 		                ];
 		
 		LazyLoad.js(scripts, f);
 	});
-	
-	loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
-    loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
 
-	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
-	    
-	
-    loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
-            
-    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
-    
-    loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
-    
-    loadCSS('/lib/dynatree/skin/ui.dynatree.css');
-
-    loadCSS('/icon.type.css');
-    loadCSS('/map.css');
-    loadCSS('/object.css');
     
  
 }
@@ -113,7 +114,7 @@ function netention(f) {
 	console.log('Loading scripts...');
 	
 	loadScripts(function(data, textStatus) {
-		
+        		
         Self = Backbone.Model.extend({
             
             defaults: {

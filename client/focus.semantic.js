@@ -361,9 +361,11 @@ var SemanticFocus = {
         x.values = [];
         
         var pe = this.propertyEdits;
-        for (var p = 0; p < pe.length; p++) {
-            var px = pe[p];
-            x.values.push( { uri: px.data('property'), value: px.data('value')() } );
+        if (pe) {
+            for (var p = 0; p < pe.length; p++) {
+                var px = pe[p];
+                x.values.push( { uri: px.data('property'), value: px.data('value')() } );
+            }
         }
         
         if (this.focusMap) {

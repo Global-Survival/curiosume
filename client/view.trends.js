@@ -6,9 +6,6 @@ function renderTrends(s, o, v) {
     
     v.append('<br/><br/>');
     
-    //tag distribution (bar chart)
-    v.append('Tag Distribution: log(tag count)<br/>');
-    
     var xu = uuid();
     var xx = $('<div></div>').attr('id', xu);
     v.append(xx);
@@ -17,21 +14,30 @@ function renderTrends(s, o, v) {
     
     var labels = [];
 	var values = [];
-	for (k in tagCount) {
-		labels.push(k + '(' + tagCount[k] + ')');
-		values.push(Math.log(tagCount[k]));
+    var table = [ ['Tag', 'log(Count)'] ];
+    
+	for (var k in tagCount) {
+		//labels.push(k + '(' + tagCount[k] + ')');
+		//values.push(Math.log(tagCount[k]));
+        var t = s.tag(k);
+        var name = k;
+        if (t) 
+            name = t.name;
+            
+        name = name + ' ' + tagCount[k];
+            
+        var url = '#/tag/' + k;
+        
+        var fs = 1.0 + Math.log(1+tagCount[k])*0.2;
+        
+        var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
+        ab.click(function() {
+            s.set('currentView', 'list');
+            Backbone.history.navigate(url, true);  
+        });
+        v.append(ab);
+        v.append('<br/>');
+        
 	}
-	
-	var plot2 = $.jqplot(xu, 						
-       [values], {
-       seriesDefaults: {renderer: $.jqplot.BarRenderer},
-       series:[
-        {pointLabels:{
-           show: true,
-           labels:labels
-         }}],
-       axes: {
-         xaxis:{renderer:$.jqplot.CategoryAxisRenderer},
-         yaxis:{padMax:1.3}}
-    });                    
+       
 }
