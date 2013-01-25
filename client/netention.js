@@ -246,7 +246,7 @@ function netention(f) {
                      $.pnotify({
                         title: 'Connected',
                         text: cid + '@' + (key ? key : '?') + ', ' + that.myself().name
-                     }); 
+                     });
                 });
                 
                 /*socket.on('reconnect', function () {

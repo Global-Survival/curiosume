@@ -694,7 +694,7 @@ exports.start = function(host, port, database, init) {
         
         
 	    socket.on('connectSelf', function(cid) {
-	       var key = '', email = null;
+	       var key = null, email = null;
 	   	   if (session)
 	   			if (session.passport)
 	   				if (session.passport.user) {
@@ -706,10 +706,13 @@ exports.start = function(host, port, database, init) {
                             session.passport.user.clientID
                         }*/
 	   				}
-	   					
-	       if (!cid) {
+                       
+            if (key)
+               cid = util.MD5(key);
+            else if (!cid) {
 	       	   cid = util.uuid();
-	       } 
+	        }
+            
 	       nlog('connect: ' + cid + ', ' + key);
 	       socket.set('clientID', cid);
 	       socket.emit('setClientID', cid, key);
