@@ -73,34 +73,39 @@ exports.plugin = {
                 var p = getPropertySimilarity(a, b, s.common);
                 var auth = this.author;
                 
-                var explanation = 'Common tags: ' + (s.common) + ' | ';
-                explanation += 'Common properties: ' + (p.common) + ' | ';
-                explanation += s.score + ',' + p.score;
+                var explanation = 'Common tags: ' + (s.common) + ' ' + s.score + '| ';
+                if (p) {
+                    explanation += 'Common properties: ' + (p.common) + ' ' + p.score + '| ';
+                }
                 
                 var tags = [ 'Similar' ];
                 var tagStrengths = [ 1.0 ];
                 
-                var ab = {
-                    uri: util.uuid(),
-                    tag: tags, tagStrength: tagStrengths,
-                    //author: auth,
-                    when: Date.now(),
-                    name: ('Similar: <a href="/object/' + b.uri + '">' + b.name + '</a>'),
-                    text: explanation,
-                    replyTo: a.uri
-                };
-                var ba = {
-                    uri: util.uuid(),
-                    tag: tags, tagStrength: tagStrengths,
-                    //author: auth,
-                    when: Date.now(),
-                    name: ('Similar: <a href="/object/' + a.uri + '">' + a.name + '</a>'),
-                    text: explanation,
-                    replyTo: b.uri
-                };
+                if (a.author) {
+                    var ab = {
+                        uri: util.uuid(),
+                        tag: tags, tagStrength: tagStrengths,
+                        //author: auth,
+                        when: Date.now(),
+                        name: ('Similar: <a href="/object/' + b.uri + '">' + b.name + '</a>'),
+                        text: explanation,
+                        replyTo: a.uri
+                    };
+                    this.netention.pub(ab);
+                }
+                if (b.author) {
+                    var ba = {
+                        uri: util.uuid(),
+                        tag: tags, tagStrength: tagStrengths,
+                        //author: auth,
+                        when: Date.now(),
+                        name: ('Similar: <a href="/object/' + a.uri + '">' + a.name + '</a>'),
+                        text: explanation,
+                        replyTo: b.uri
+                    };
+                    this.netention.pub(ba);
+                }
                 
-                this.netention.pub(ab);
-                this.netention.pub(ba);
             }
         },
                 

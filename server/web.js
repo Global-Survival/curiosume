@@ -145,15 +145,19 @@ exports.start = function(host, port, database, init) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.remove({ uri: objectID }, function(err, docs) {
 			db.close();
+            
             if (err) {
                 nlog('deleteObject: ' + err);
                 if (whenFinished)
                     whenFinished(err);    
             }
             else {
-            	nlog('deleted ' + objectID);
-                if (whenFinished)
-			        whenFinished();
+                //remove replies                
+                db.obj.remove({ replyTo: objectID }, function(err, docs) {
+                    nlog('deleted ' + objectID);
+                    if (whenFinished)
+    			        whenFinished();
+                });                
             }
 		});    
 	}
