@@ -65,6 +65,14 @@ exports.plugin = {
 		start: function(netention) {             
             this.netention = netention;
             this.author = 'SemanticPropertyMatcher1';            
+            
+            netention.addTags([
+                {
+                    uri: 'Similar', name: 'Similar',                     
+                    properties: {       }
+                }
+            ]);
+            
         },
         
         matches : function(a, b) {
@@ -73,9 +81,9 @@ exports.plugin = {
                 var p = getPropertySimilarity(a, b, s.common);
                 var auth = this.author;
                 
-                var explanation = 'Common tags: ' + (s.common) + ' ' + s.score + '| ';
+                var explanation = 'Common tags: ' + (s.common) + ' ' + (s.score*100.0) + '%';
                 if (p) {
-                    explanation += 'Common properties: ' + (p.common) + ' ' + p.score + '| ';
+                    explanation += ' | Common properties: ' + (p.common) + ' ' + p.score + '| ';
                 }
                 
                 var tags = [ 'Similar' ];
@@ -87,7 +95,7 @@ exports.plugin = {
                         tag: tags, tagStrength: tagStrengths,
                         //author: auth,
                         when: Date.now(),
-                        name: ('Similar: <a href="/object/' + b.uri + '">' + b.name + '</a>'),
+                        name: ('Similar: <a href="/#/object/' + b.uri + '">' + b.name + '</a>'),
                         text: explanation,
                         replyTo: a.uri
                     };
@@ -99,7 +107,7 @@ exports.plugin = {
                         tag: tags, tagStrength: tagStrengths,
                         //author: auth,
                         when: Date.now(),
-                        name: ('Similar: <a href="/object/' + a.uri + '">' + a.name + '</a>'),
+                        name: ('Similar: <a href="/#/object/' + a.uri + '">' + a.name + '</a>'),
                         text: explanation,
                         replyTo: b.uri
                     };

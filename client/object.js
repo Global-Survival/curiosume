@@ -1,16 +1,20 @@
+var ti = { 
+    'environment.EarthQuake': '/icon/quake.png',
+    'NuclearFacility': '/icon/nuclear.png',
+    'Human': '/icon/rrze/emblems/crown.png',
+    'Message': '/icon/rrze/emblems/at.png',
+    'Decision.Agree': '/icon/loomio/agree.png',
+    'Decision.Disagree': '/icon/loomio/disagree.png',
+    'Decision.Block': '/icon/loomio/block.png',
+    'Decision.Abstain': '/icon/loomio/abstain.png',
+    'Event': '/icon/rrze/actions/dial-in.png',
+    'Similar': '/icon/approx_equal.png'
+};
+    
 //t is either a tag ID, or an object with zero or more tags
 function getTagIcon(t) {
-    var ti = { 
-        'environment.EarthQuake': '/icon/quake.png',
-        'NuclearFacility': '/icon/nuclear.png',
-        'Human': '/icon/rrze/emblems/crown.png',
-        'Message': '/icon/rrze/emblems/at.png',
-        'Decision.Agree': '/icon/loomio/agree.png',
-        'Decision.Disagree': '/icon/loomio/disagree.png',
-        'Decision.Block': '/icon/loomio/block.png',
-        'Decision.Abstain': '/icon/loomio/abstain.png',
-        'Event': '/icon/rrze/actions/dial-in.png'
-    };
+
+    
     if (t.uri) {
         //try all the tags, return the first
         if (t.tag) {
@@ -98,7 +102,7 @@ function newTagButton(t) {
     if (ti!=null)
         i = '<img src="' + ti + '"/>';
 
-    var b = $('<a href="#">' + (i) + t.name + '</a>');
+    var b = $('<a href="/property/' + t.uri + '">' + (i) + t.name + '</a>');
     return b;
 }
 
