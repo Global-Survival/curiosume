@@ -81,6 +81,11 @@ exports.plugin = {
                 var p = getPropertySimilarity(a, b, s.common);
                 var auth = this.author;
                 
+                //ignore matches that have no properties in common
+                //TODO make this a parameter
+                if (!p)
+                    return;
+                    
                 var explanation = 'Common tags: ' + (s.common) + ' ' + (s.score*100.0) + '%';
                 if (p) {
                     explanation += ' | Common properties: ' + (p.common) + ' ' + p.score + '| ';

@@ -16,7 +16,7 @@ var SemanticFocus = {
         });
         var that = this;
         $('#ToggleLocationButton').click(function() {
-            //var x = self.focus();
+            //TODO only need to call 'getEditedFocus' once
             var x = getEditedFocus();
             if (x.geolocation) {
                 if (confirm('Remove geolocation?')) {
