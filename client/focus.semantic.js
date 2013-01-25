@@ -243,7 +243,13 @@ var SemanticFocus = {
                 var t = x.tag[k];
                 var typeWidget = $('<span class="dropdown">');
                                 
-                var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + t + '</a>');
+                var iiu = getTagIcon(t);
+                var ii = '';
+                if (iiu) {
+                    ii = '<img src="' + iiu + '"/>';
+                }
+                
+                var b = $('<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">' + (ii) + t + '</a>');
                 typeWidget.append(b);
                 
                 var u = $('<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">');
@@ -280,7 +286,8 @@ var SemanticFocus = {
                 
                 if (propertiesAdded)
                     u.append('<br/>');
-                    
+
+		/*
                 {
                     var si = $('<ul></ul>');
                     si.append('<button title="25%" style="background-color: rgba(100, 100, 100, 0.5)">&nbsp;</button>');
@@ -288,7 +295,7 @@ var SemanticFocus = {
                     si.append('<button title="75%"style="background-color: rgba(200, 200, 200, 0.5)">&nbsp;</button>');
                     si.append('<button title="100%"style="background-color: rgba(250, 250, 250, 0.5)">&nbsp;</button>');
                     u.append(si);
-                }
+                }*/
                 
                 (function() {
                     var kk = k;

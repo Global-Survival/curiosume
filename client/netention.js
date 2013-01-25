@@ -34,8 +34,7 @@ function loadScripts(f) {
 
 	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
 	    
-	
-    loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
+	loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
             
     loadCSS('/lib/pnotify/jquery.pnotify.default.css');
     
@@ -43,7 +42,6 @@ function loadScripts(f) {
     
     loadCSS('/lib/dynatree/skin/ui.dynatree.css');
 
-    loadCSS('/icon.type.css');
     loadCSS('/map.css');
     loadCSS('/object.css');
     

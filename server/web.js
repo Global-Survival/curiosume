@@ -238,11 +238,27 @@ exports.start = function(host, port, database, init) {
             else {
                 nlog('getObjectsByTag: ' + err);
             }
-		});
-		
+		});		
 	}
     that.getObjectsByTag = getObjectsByTag;
+
+    function getObjectsByTags(tags, withObjects) {
+		var db = mongo.connect(databaseUrl, collections);
+		db.obj.find({ tag: { $in: tags } }, function(err, docs) {
 	
+			db.close();
+			
+			if (!err) {						
+				withObjects(docs);
+			}		
+            else {
+                nlog('getObjectsByTags: ' + err);
+            }
+		});		
+	}
+    that.getObjectsByTags = getObjectsByTags;
+
+
 	function getTagCounts(whenFinished) {
 		//this can probably be optimized very much
 		

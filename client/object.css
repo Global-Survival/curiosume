@@ -23,7 +23,8 @@
 .objectView h1 {
 	font-size: 125%;
 	font-weight: bold;
-    line-height: 1.2em;
+    line-height: 1.0em;
+    margin-bottom: 2px;
 }
 .objectView h2 {
 	font-size: 115%;
@@ -38,7 +39,22 @@
 	margin: 0;
     line-height: 1.2em;
 }
-.objectView h3, .objectView ul, .objectView p, .objectView time {
+
+.objectView ul {
+    list-style-type: none;    
+    margin-bottom: 0.2em;
+    padding-left: 0;
+    margin-left: 0;
+}
+.objectView ul li {
+    padding: 0.3em;
+    font-size: 110%;
+    font-weight: bold;
+    
+}
+
+
+.objectView h3, .objectView p, .objectView time {
     padding-left: 10px;
     padding-top: 5px;
 }
@@ -56,7 +72,8 @@
 
 .ObjectReply {
     margin-left: 2em;
-    margin-top: 2em;
+    margin-top: 0.2em;
+    font-size: 80%;
 }
 
 .TypePropertyButtons {
@@ -270,10 +287,18 @@ div.olMapViewport {
 }
 
 .MetadataLine {
-    margin-left: 1em;
     color: gray;
+    clear: both;
+}
+.MetadataLine img {
+    height: 1em;
+    padding-left: 0.2em;
 }
 
+#FocusTypes img {
+    height: 1em;
+    margin-right: 0.2em;
+}
 
 .tagSlider {
     float: right;

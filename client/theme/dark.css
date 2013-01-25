@@ -19,3 +19,7 @@ h1, .objectView h1, h3, .objectView h3 {
 h1 a {
     color: white;
 }
+
+a {
+    color: #f60;
+}

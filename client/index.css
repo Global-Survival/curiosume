@@ -111,6 +111,7 @@
 #MenuWrapper {
     margin-bottom: 1.5em;
     z-index: 500;
+    width: 32%;
 }
 #MenuWrapper img {
     padding-right: 1.0em;
@@ -129,6 +130,7 @@
     width: auto;
     margin-top: 4px;
     padding: 1px;
+    float: right;
 }
 
 

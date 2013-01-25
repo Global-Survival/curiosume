@@ -9,6 +9,7 @@ function getTagIcon(t) {
         'Decision.Disagree': '/icon/loomio/disagree.png',
         'Decision.Block': '/icon/loomio/block.png',
         'Decision.Abstain': '/icon/loomio/abstain.png',
+        'Event': '/icon/rrze/actions/dial-in.png'
     };
     if (t.uri) {
         //try all the tags, return the first
@@ -92,7 +93,12 @@ function getAvatar(s) {
 }
 
 function newTagButton(t) {
-    var b = $('<a href="#">' + t.name + '</a>');
+    var ti = getTagIcon(t.uri);
+    var i = '';
+    if (ti!=null)
+        i = '<img src="' + ti + '"/>';
+
+    var b = $('<a href="#">' + (i) + t.name + '</a>');
     return b;
 }
 
@@ -221,9 +227,15 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
     
 	var deleteButton = $('<button title="Delete"><i class="icon-remove"></i></button>');
 	deleteButton.click(function() {
-		if (confirm('Permanently delete? ' + x.uri)) {
-			self.deleteObject(x);			
-		}
+        if (!x.author) {
+            //don't confirm delete if no author is specified
+            self.deleteObject(x);
+        }
+        else {
+    		if (confirm('Permanently delete? ' + x.uri)) {
+    			self.deleteObject(x);			
+    		}
+        }
 	});
 	hb.append(focusButton);
 	hb.append(deleteButton);
@@ -256,12 +268,12 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
 		d.append(haxn);
 	}
 	
-    var mdline = $('<span></span>');
+    var mdline = $('<div></div>');
     mdline.addClass('MetadataLine');
     
 	if (x.tag) {
         for (var i = 0; i < x.tag.length; i++) {
-            var t = x.tag[i];            
+            var t = x.tag[i];   
             var tt = self.getTag(t);
             if (tt) {
                 mdline.append(newTagButton(tt));
