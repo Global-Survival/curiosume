@@ -14,8 +14,10 @@ var SemanticFocus = {
                 initDescriptionRichText();
             }
         });
+        var that = this;
         $('#ToggleLocationButton').click(function() {
-            var x = self.focus();
+            //var x = self.focus();
+            var x = getEditedFocus();
             if (x.geolocation) {
                 if (confirm('Remove geolocation?')) {
                     var f = getEditedFocus();
