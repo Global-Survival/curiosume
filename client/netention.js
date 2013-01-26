@@ -340,7 +340,7 @@ function netention(f) {
                 
             },
             
-            deleteObject: function(x) {
+            deleteObject: function(x, localOnly) {
                 
                 var id = x.uri;
             	
@@ -358,29 +358,36 @@ function netention(f) {
                 for (var k in this.get('replies')) {
                     this.get('replies')[k] = _.without(this.get('replies')[k], id);
                 }
+                //remove its replies
+                var replies = this.get('replies')[id];
+                if (replies)
+                    for (var k = 0; k < replies.length; k++)
+                        this.deleteObject(k, true);
                 
-                var that = this;
-            	this.socket.emit('delete', id, function(err) {
-                    if (!err) {
-                		that.saveLocal();
-                		
-                        that.trigger('change:deleted');
-                        that.trigger('change:attention');
-                        
-                        $.pnotify({
-                            title: 'Deleted',
-                            text: id,                        
-                            addclass: "stack-bottomleft",
-                            stack: stack_bottomleft
-                        });   
-                    }
-                    else {
-                        $.pnotify({
-                            title: 'Unable to delete: ' + err,
-                            text: id                        
-                        });                           
-                    }
-            	});
+                if (!localOnly) {
+                    var that = this;
+                	this.socket.emit('delete', id, function(err) {
+                        if (!err) {
+                    		that.saveLocal();
+                    		
+                            that.trigger('change:deleted');
+                            that.trigger('change:attention');
+                            
+                            $.pnotify({
+                                title: 'Deleted',
+                                text: id,                        
+                                addclass: "stack-bottomleft",
+                                stack: stack_bottomleft
+                            });   
+                        }
+                        else {
+                            $.pnotify({
+                                title: 'Unable to delete: ' + err,
+                                text: id                        
+                            });                           
+                        }
+                	});
+                }
             	
             },
             
@@ -431,11 +438,17 @@ function netention(f) {
                 
                 var attention = this.objects();
                 var replies = this.get('replies');
-            
+                
+                var that = this;
+                
             	function n(y) {
             		if (!y)
             			return;
             		
+                    if (y.removed) {
+                        that.deleteObject(y, true);
+                        return;
+                    }
             		/*if (y.type) {
             			//y.type = getTypeArray(y.type);
                         

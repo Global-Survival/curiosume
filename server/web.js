@@ -13,7 +13,7 @@ var http = require('http')
   , server;
 var mongo = require("mongojs");
 var request = require('request');
-
+var _ = require('underscore');
 
 exports.start = function(host, port, database, init) {
 
@@ -139,7 +139,13 @@ exports.start = function(host, port, database, init) {
 	function deleteObject(objectID, whenFinished) {
 		attention.remove(objectID);
 		
-		
+		function objectRemoved(uri) {
+    	    return {
+                'uri': uri,
+                'removed': true
+    	    };
+		}
+        
 		//TODO move to 'removed' db collection
 		
 		var db = mongo.connect(databaseUrl, collections);
@@ -152,11 +158,23 @@ exports.start = function(host, port, database, init) {
                     whenFinished(err);    
             }
             else {
+                //broadcast removal of objectID
+                pub(objectRemoved(objectID));
+                
                 //remove replies                
                 db.obj.remove({ replyTo: objectID }, function(err, docs) {
+                    
                     nlog('deleted ' + objectID);
-                    if (whenFinished)
-    			        whenFinished();
+                    
+                    if (!err) {
+                        if (whenFinished)
+            		        whenFinished();                        
+                    }
+                    else {
+                        nlog('deleteObject [replies]: ' + err);
+                        if (whenFinished)
+                            whenFinished(err);                        
+                    }
                 });                
             }
 		});    
