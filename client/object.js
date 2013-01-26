@@ -1,7 +1,9 @@
+//all hardcoded stuff here is temporary until icons are specified by ontology
 var ti = { 
     'environment.EarthQuake': '/icon/quake.png',
     'NuclearFacility': '/icon/nuclear.png',
     'Human': '/icon/rrze/emblems/crown.png',
+    'User': '/icon/rrze/emblems/ID-clip.png',
     'Message': '/icon/rrze/emblems/at.png',
     'Decision.Agree': '/icon/loomio/agree.png',
     'Decision.Disagree': '/icon/loomio/disagree.png',

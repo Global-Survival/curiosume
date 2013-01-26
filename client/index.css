@@ -9,10 +9,19 @@
     top: auto;
     background-color: white;
 }
+
 #LoadingSplash h1 {
     text-align: center;
 }
 
+
+.ui-pnotify.stack-bottomleft {
+    		bottom: 25px;
+			left: 25px;
+			top: auto;
+			right: auto;
+		}
+        
 .DataTargetNormal {
     width: 66%;
 	right:0.5em;			

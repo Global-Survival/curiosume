@@ -132,6 +132,7 @@ exports.plugin = {
             
             var that = this;
             if (x.tag) {
+                //TODO add 'defined(author)=true' to query somehow to optimize result size
                 this.netention.getObjectsByTags(x.tag, function(objs) {
                     for (var i = 0; i < objs.length; i++) {
                         that.matches(x, objs[i]);

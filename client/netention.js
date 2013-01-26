@@ -107,6 +107,8 @@ function loadScripts(f) {
  
 }
 
+var stack_bottomleft = {"dir1": "right", "dir2": "up", "push": "top"};
+
 
 var Self;
 
@@ -367,7 +369,9 @@ function netention(f) {
                         
                         $.pnotify({
                             title: 'Deleted',
-                            text: id                        
+                            text: id,                        
+                            addclass: "stack-bottomleft",
+                            stack: stack_bottomleft
                         });   
                     }
                     else {

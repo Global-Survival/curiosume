@@ -294,6 +294,10 @@ div.olMapViewport {
     height: 1em;
     padding-right: 0.2em;
 }
+/*
+.MetadataLine img:hover {
+    height: 2em;
+}*/
 
 #FocusTypes img {
     height: 1em;
