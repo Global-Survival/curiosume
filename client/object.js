@@ -415,17 +415,39 @@ function newPropertyEdit(p, v) {
 		x.data('value', function(target) {
 			return t.attr('checked') == 'checked' ? true : false;
 		});
-	}
-	else /* if (type == 'text') */ {
-		if (!value)
-			value = '';
+	}    
+    else if (type == 'real') {
+    	if (!value) value = '';
 
-		var t = $('<input type="text" value="' + value + '">');
+        //http://stackoverflow.com/questions/8808590/html5-number-input-type-that-takes-only-integers
+		var t = $('<input type="text" value="' + value + '">');    
+		x.append(t);		
+		x.data('value', function(target) {
+			return parseFloat(t.val());
+		});        
+    }
+    else if (type == 'integer') {
+        if (!value) value = '';
+
+		////http://stackoverflow.com/questions/8808590/html5-number-input-type-that-takes-only-integers
+        var t = $('<input type="number" value="' + value + '">');    
+		x.append(t);		
+		x.data('value', function(target) {
+			return parseInt(t.val());
+		});                
+    }
+	else /*if (type == 'text')*/ {
+		if (!value) value = '';
+
+		var t = $('<input type="text" value="' + value + '">');    
 		x.append(t);		
 		x.data('value', function(target) {
 			return t.val();			
 		});
-	}
+	}/*
+    else {
+        console.log('unknown property type: ' + type);
+    }*/
 	
     x.append(removeButton);
 	

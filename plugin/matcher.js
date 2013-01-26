@@ -76,6 +76,9 @@ exports.plugin = {
         },
         
         matches : function(a, b) {
+            if (a.uri == b.uri) 
+                return;
+                
             var s = getTagSimilarity(a, b);
             if (s.score > 0) {
                 var p = getPropertySimilarity(a, b, s.common);

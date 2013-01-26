@@ -20,13 +20,13 @@ exports.plugin = {
                         return 'text';
                     }
                     else if (_.contains(ranges, 'Number')) {
-                        return 'text';
+                        return 'real';
                     }
                     else if (_.contains(ranges, 'Real')) {
-                        return 'text';
+                        return 'real';
                     }
                     else if (_.contains(ranges, 'Integer')) {
-                        return 'text';
+                        return 'integer';
                     }
                     else {
                         return ranges;
