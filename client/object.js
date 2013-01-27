@@ -402,6 +402,7 @@ function newPropertyEdit(p, v) {
         var tt = $('<span></span>');
         var t = $('<input></input>');
         
+        //TODO set initial value
         
         //http://jqueryui.com/autocomplete/#default
         //http://jqueryui.com/autocomplete/#categories
@@ -414,7 +415,19 @@ function newPropertyEdit(p, v) {
             });
         }
         t.autocomplete({
-            source: data
+            source: data,
+            select: function( event, ui ) {
+                t.result = ui.item.value;
+                
+                /*
+                $( "#project" ).val( ui.item.label );
+                $( "#project-id" ).val( ui.item.value );
+                $( "#project-description" ).html( ui.item.desc );
+                $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+                */
+         
+                return false;
+            }
         });
         
         //TODO handle specific tag restriction
@@ -433,7 +446,7 @@ function newPropertyEdit(p, v) {
         x.append(tt);
         
         x.data('value', function(target) {
-           return ''; //uri 
+           return t.result; //uri 
         });
     }
 	else /*if (type == 'text')*/ {
