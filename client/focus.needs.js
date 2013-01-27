@@ -64,7 +64,7 @@ var NeedsFocus = {
         nf.append('<h3>Supplies and Tools</h3>');
         nf.append(newTagSliders(
             self,
-            [ '3DPrinter' ]
+            [ '3DPrinter', 'SCENAR' ]
         , t, setFocusWithTagSliderResult));
         nf.append('<h3>Health</h3>');
         nf.append('<h3>Weather and Climate</h3>');
