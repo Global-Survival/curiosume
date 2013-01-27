@@ -371,17 +371,15 @@ var SemanticFocus = {
         if (pe) {
             for (var p = 0; p < pe.length; p++) {
                 var px = pe[p];
-                if (px)
+                if (px) {
                     if (px.data) {
                         var v = px.data('value');
                         if (v) {
                             v = v();
                             x.values.push( { uri: px.data('property'), value: v } );
                         }
-                        else
-                            v = undefined;
-                    
                     }
+                }
             }
         }
         

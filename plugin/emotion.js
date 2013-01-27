@@ -1,4 +1,7 @@
 var emotionTags = [
+    { uri: 'emotion.calm', name: 'Calm' }, //neutral
+    
+    //
 	{ uri: 'emotion.happy', name: 'Happy' },
 	{ uri: 'emotion.trusting', name:'Trusting'},
 	{ uri: 'emotion.anticipating', name: 'Anticipating'},
@@ -32,8 +35,11 @@ var emotionTags = [
     
 	{ uri: 'emotion.afraid', name: 'Afraid'},
 	{ uri: 'emotion.angry', name: 'Angry'},
-	{ uri: 'emotion.disgusted', name: 'Disgusted'}
-	
+	{ uri: 'emotion.disgusted', name: 'Disgusted'},
+
+    { uri: 'emotion.tired', name: 'Tired' },
+    { uri: 'emotion.energized', name: 'Energized' }
+
 ];
 
 exports.plugin = {

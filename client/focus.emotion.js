@@ -58,8 +58,8 @@ var EmotionFocus = {
         var t = { };
         $('#EmotionFocus').append(newTagSliders(
             self,
-            [ 'emotion.happy', 'emotion.sad', 'emotion.trusting', 'emotion.anticipating', 
-            'emotion.surprised', 'emotion.afraid', 'emotion.angry', 'emotion.disgusted' ],
+            [ 'emotion.calm', 'emotion.happy', 'emotion.sad', 'emotion.trusting', 'emotion.anticipating', 
+            'emotion.surprised', 'emotion.afraid', 'emotion.angry', 'emotion.disgusted', 'emotion.tired', 'emotion.energized' ],
         t, setFocusWithTagSliderResult));
         
         $('#EmotionFocus').show();    
