@@ -34,43 +34,6 @@ function getTagIcon(t) {
     
 
 
-function hasTag(o, t) {    
-	if (!o.tag)
-		return false;
-        
-	var ot = o.tag;
-
-    //TODO use an underscore function instead of this loop
-	for (var i = 0; i < ot.length; i++) {
-		if (ot[i] == t)
-			return true;
-	}
-	return false;
-}
-
-function getTagMatch(x,y) {
-    var xt = x.tag;
-    var yt = y.tag;
-
-    if ((!xt) || (!yt))
-		return 0;
-
-    var match = 0;
-    for (var i = 0; i < xt.length; i++) {
-        if (_.indexOf(yt, xt[i])!=-1) {
-            match++;
-        }
-    }
-    return match;
-    
-}
-
-function getProperties(t) {
-    //TODO add 'extends' supertag inheritance
-    if (t.properties)
-        return t.properties;
-    return [];
-}
 
 function newPopupObjectView(_x) {
     var x;
@@ -436,15 +399,38 @@ function newPropertyEdit(p, v) {
 		});                
     }
     else if (type == 'object') {
-        var t = $('<span></span>');
-        t.append('<input type="text"></input>');
+        var tt = $('<span></span>');
+        var t = $('<input></input>');
+        
+        
+        //http://jqueryui.com/autocomplete/#default
+        //http://jqueryui.com/autocomplete/#categories
+        var data = [ ];
+        for (var k in window.self.objects()) {
+            var v = window.self.object(k);
+            data.push({
+               value: k,
+               label: v.name
+            });
+        }
+        t.autocomplete({
+            source: data
+        });
+        
+        //TODO handle specific tag restriction
+        /*window.self.objectsWithTag(t) {
+            
+        }*/
         
         var mb = $('<button title="Find Object">...</button>');
         mb.click(function() {
            //TODO popup object browser 
         });
-        t.append(mb);
-        x.append(t);
+        
+        tt.append(t);
+        tt.append(mb);
+        
+        x.append(tt);
         
         x.data('value', function(target) {
            return ''; //uri 

@@ -174,6 +174,17 @@ function netention(f) {
             
             objects : function() { return this.get('attention'); },
             
+            objectURIsWithTag : function(t) {
+                //TODO support subtags
+                var r = [];
+                for (var k in this.objects()) {
+                    var v = this.objects()[k];
+                    if (hasTag(v, t))
+                        r.push(k);
+                }
+                return r;
+            },
+            
             getObject : function(id) { return this.objects()[id]; }, //deprecated
             object : function(id) { return this.objects()[id]; }, 
             

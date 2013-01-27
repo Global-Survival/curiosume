@@ -5,6 +5,49 @@ if (typeof window != 'undefined')
 function _n(x) {
     return x.toFixed(2);
 }
+exports._n = _n;
+    
+    
+function hasTag(o, t) {    
+    if (!o.tag)
+		return false;
+        
+	var ot = o.tag;
+
+    //TODO use an underscore function instead of this loop
+	for (var i = 0; i < ot.length; i++) {
+		if (ot[i] == t)
+			return true;
+	}
+	return false;
+}
+exports.hasTag = hasTag;
+
+function getTagMatch(x,y) {
+    var xt = x.tag;
+    var yt = y.tag;
+
+    if ((!xt) || (!yt))
+		return 0;
+
+    var match = 0;
+    for (var i = 0; i < xt.length; i++) {
+        if (_.indexOf(yt, xt[i])!=-1) {
+            match++;
+        }
+    }
+    return match;
+    
+}
+
+function getProperties(t) {
+    //TODO add 'extends' supertag inheritance
+    if (t.properties)
+        return t.properties;
+    return [];
+}
+    
+    
     
 function newAttentionMap(memoryMomentum, maxObjects, adjacency, spreadRate) {
     var that = {
