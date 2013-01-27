@@ -1,15 +1,25 @@
-//A PLUGIN WHICH IS AUTOMATICALLY LOADED BY THE WEBSERVER
+//GENERAL.JS is a PLUGIN WHICH IS AUTOMATICALLY LOADED BY THE WEBSERVER
 
 var generalTags = [
         
+    //Being superclass of Human..
 	{ uri: 'Human', name: 'Human',		
 		properties: {
 		             'currentRole': { name: 'Current Role', type: 'text' },
-		             'biography': { name: 'Biography', type: 'textarea' },            //{ uri: 'birthdate', name: 'Birthdate', type: 'date' },
-		             'age': { name: 'Age', type: 'real' },
+		             'biography': { name: 'Biography', type: 'textarea' },
+                     
+		             'birthdate': { name: 'Birthdate', type: 'time' },
+                     
+                     //age: { name: 'Age', type: 'function', value: function(x) { return = now - getProperty(x, 'birthdate').val() ... } }
+                     
 		             'male': { name: 'Male', type: 'boolean' },
 		             'female': { name: 'Female', type: 'boolean' },
-		             'email': { name: 'E-Mail', type: 'text' }
+		             'email': { name: 'E-Mail', type: 'text' },
+                     
+                     'friend': {name: 'Friend', type: 'object' },
+                     
+                     'parent': {name: 'Parent', type: 'object', tag: ['Human'] }
+                     
                      /*
                      <select name="ext_sel[]" id="ext_sel2">  <option value="" selected="selected">select 3rd filter...</option>  <option value="languages">Spoken languages</option>  <option value="body">Body type</option>  <option value="height">Height</option>  <option value="weight">Weight</option>  <option value="hair">Hair color</option>  <option value="eyes">Eye color</option>  <option value="sexuality">Sexuality</option>  <option value="relationship">Status</option>  <option value="children">Children</option>  <option value="education">Education</option>  <option value="star_sign">Star sign</option>  <option value="drinking">Drinking</option>  <option value="smoking">Smoking</option>  </select>
                      */
@@ -83,8 +93,10 @@ var generalTags = [
         },
     
     //Pledge = Promise
-    //  "I’ll do it, but only if you’ll help" --PledgeBank.com
-    { uri: 'Promise', name: 'Promise'}
+    //  
+    { uri: 'Promise', name: 'Promise',
+            description: "I’ll do it, but only if you’ll help." //PledgeBank.com
+    }
     
         
 ];

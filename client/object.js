@@ -15,7 +15,6 @@ var ti = {
     
 //t is either a tag ID, or an object with zero or more tags
 function getTagIcon(t) {
-
     
     if (t.uri) {
         //try all the tags, return the first
@@ -435,6 +434,21 @@ function newPropertyEdit(p, v) {
 		x.data('value', function(target) {
 			return parseInt(t.val());
 		});                
+    }
+    else if (type == 'object') {
+        var t = $('<span></span>');
+        t.append('<input type="text"></input>');
+        
+        var mb = $('<button title="Find Object">...</button>');
+        mb.click(function() {
+           //TODO popup object browser 
+        });
+        t.append(mb);
+        x.append(t);
+        
+        x.data('value', function(target) {
+           return ''; //uri 
+        });
     }
 	else /*if (type == 'text')*/ {
 		if (!value) value = '';
