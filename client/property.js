@@ -86,6 +86,7 @@ function newPropertyEdit(p, v) {
         var tt = $('<span></span>');
         var t = $('<input></input>');
         
+        
         //TODO set initial value
         
         //http://jqueryui.com/autocomplete/#default
@@ -93,6 +94,11 @@ function newPropertyEdit(p, v) {
         var data = [ ];
         for (var k in window.self.objects()) {
             var v = window.self.object(k);
+            if (value == k) {
+                t.val(v.name);
+                t.result = value;
+            }
+
             data.push({
                value: k,
                label: v.name
@@ -102,7 +108,7 @@ function newPropertyEdit(p, v) {
             source: data,
             select: function( event, ui ) {
                 t.result = ui.item.value;
-                
+                t.val(ui.item.label);
                 /*
                 $( "#project" ).val( ui.item.label );
                 $( "#project-id" ).val( ui.item.value );
