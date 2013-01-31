@@ -98,7 +98,7 @@ var EnvironmentFocus = {
     },
     
     stop: function(target) {
-        $('#ClimateFocus').hide();
+        $('#EnvironmentFocus').hide();
     },
     
     clear: function() {
