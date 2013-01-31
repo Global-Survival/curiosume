@@ -96,7 +96,8 @@ function loadScripts(f) {
                         '/focus.humanbody.js',
                         '/focus.emotion.js',
                         '/focus.needs.js',
-                        '/focus.environment.js'
+                        '/focus.environment.js',
+                        '/focus.team.js'
                         
 		                ];
 		

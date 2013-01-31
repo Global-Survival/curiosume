@@ -25,7 +25,8 @@
                     'Needs': NeedsFocus,
                     'Human': HumanbodyFocus,
                     'Emotion': EmotionFocus,
-                    'Environment': EnvironmentFocus
+                    'Environment': EnvironmentFocus,
+                    'Team': TeamFocus
 	            };
                 
                 var f = focusModeMap[v];
@@ -527,7 +528,11 @@
                 <div id="HumanbodyFocus" style="display:none"></div>
                 <div id="EmotionFocus" style="display:none"></div>
                 <div id="TagFocus" style="display:none"></div>
-                <div id="EnvironmentFocus" style="display:none"></div>
+                <div id="EnvironmentFocus" style="display:none">
+                    <div id="EnvironmentFocusMap"></div>
+                    <div id="EnvironmentFocusContent"></div>                    
+                </div>
+                <div id="TeamFocus" style="display:none"></div>
             </div>
             
     	    <div id="DataTarget" class="DataTargetNormal">

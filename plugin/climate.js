@@ -163,6 +163,64 @@ exports.plugin = {
                 });
             }*/
             
+/*
+FROM http://fetchclimate.cloudapp.net/?view=datasources ::
+
+Data source	Supported climate parameter	 Description
+NCEP/NCAR Reanalysis 1
+
+Near surface air temperature
+Precipitation rate
+The NCEP/NCAR Reanalysis 1 project is using a state-of-the-art analysis/forecast system to perform data assimilation using past data from 1948 to the present
+
+Reanalysis data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their Web site at
+http://www.esrl.noaa.gov/psd/
+
+CRU CL 2.0
+
+Near surface air temperature
+Precipitation rate
+Near surface air humidity
+Diurnal temperature range
+Near surface wind speed
+Percent of maximum possible sunshine
+Forst days frequency
+Wet days frequesncy
+High-resolution grid of the average climate in the recent past.
+
+Produced by Climatic Research Unit (University of East Anglia). http://www.cru.uea.ac.uk
+
+GHCN v2.0
+
+Near surface air temperature
+Precipitation rate
+The Global Historical Climatology Network (GHCN-Monthly) data base contains historical temperature, precipitation, and pressure data for thousands of land stations worldwide.
+
+http://www.ncdc.noaa.gov/ghcnm/v2.php
+
+CPC Soil Moisture
+
+Soil moisture
+The monthly data set consists of a file containing monthly averaged soil moisture water height equivalents. Note that data is model-calculated and not measured directly. The dataset is now V2. There are some differences with the previous version, particularly over Africa. The V2 version also has the landmask applied to the datavalues.
+
+Soil Moisture data provided by the NOAA/OAR/ESRL PSD, Boulder, Colorado, USA, from their Web site at http://www.esrl.noaa.gov/psd/
+
+GTOPO30
+
+Land elevation above sea level
+GTOPO30 is a global digital elevation model (DEM) with a horizontal grid spacing of 30 arc seconds (approximately 1 kilometer). GTOPO30, completed in late 1996, was developed over a three year period through a collaborative effort led by staff at the U.S. Geological Survey's Center for Earth Resources Observation and Science (EROS).
+
+http://eros.usgs.gov/#/Find_Data/Products_and_Data_Available/gtopo30_info
+
+ETOPO1
+
+Land elevation above sea level
+Bathymetry
+ETOPO1 is a 1 arc-minute global relief model of Earth's surface that integrates land topography and ocean bathymetry. It was built from numerous global and regional data sets. The service uses the version depicting the top of the Antarctic and Greenland ice sheets.
+
+Amante, C. and B. W. Eakins, ETOPO1 1 Arc-Minute Global Relief Model: Procedures, Data Sources and Analysis. NOAA Technical Memorandum NESDIS NGDC-24, 19 pp, March 2009.
+http://www.ngdc.noaa.gov/mgg/global/global.html
+*/
 		},
             
 

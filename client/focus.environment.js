@@ -8,35 +8,43 @@
 var EnvironmentFocus = {
     
     start: function(self, target) {
-        var nf = $('#EnvironmentFocus');
-        nf.show();
+        var ef = $('#EnvironmentFocus');
+        ef.show();
+        var nf = $('#EnvironmentFocusContent');
         
         nf.html('');
 
+        {
+            //initLocationChooserMap('EnvironmentFocusMap', self.geolocation);
+
+        }
 
         var t = { };
         
+        function h(t) { nf.append('<h3>' + t + '</h3>'); }
+        function l(t) { nf.append(t + '<br/>'); }
+        
+        h('Air and Atmosphere');
+            l('air quality near the Earth’s surface');
+            l('air quality affecting the ozone layer');
+            l('gaseous composition of the atmosphere, including greenhouse gases');
+        
+        h('Water');
+            l('fresh water (surface, groundwater)');
+            l('brackish and estuarine water');
+            l('marine water');
+            l('ice (glaciers, ice caps, permafrost)');
+        
+        
+        h('Land');
+            l('land for agriculture and forestry (annual crops, horticulture, gardens, orchards, grazing and range land, forest plantations, freshwater aquaculture etc.)');
+            l('land for nature preservation');
+            l('land used for mining');
+            l('land used for industrial manufacturing and energy generation');
+            l('urban (residential and commercial) land');
+            l('land used for waste disposal');
         /*
-        Air and Atmosphere
-            air quality near the Earth’s surface
-            air quality affecting the ozone layer
-            gaseous composition of the atmosphere, including greenhouse gases
-        
-        Water
-            fresh water (surface, groundwater)
-            brackish and estuarine water
-            marine water
-            ice (glaciers, ice caps, permafrost)
-        
-        Land
-            land for agriculture and forestry (annual crops, horticulture, gardens, orchards, grazing and range land, forest plantations, freshwater aquaculture etc.)
-            land for nature preservation
-            land used for mining
-            land used for industrial manufacturing and energy generation
-            urban (residential and commercial) land
-            land used for waste disposal
-        
-        Energy
+        h('Energy');
             fossil fuels
             solar (photovoltaic, solar thermal, building design)
             wind energy (used for wind power, sailing ships)
@@ -53,14 +61,14 @@ var EnvironmentFocus = {
             clay
             gems
         
-        Living things (plants, animals, fungi, micro-organisms)
+        h('Living things (plants, animals, fungi, micro-organisms)');
             crop plants (genetic diversity and resilience)
             domesticated animals (genetic diversity and resilience)
             plant species (as well as larger taxonomic groups or vegetation types)
             animal species (as well as larger taxonomic groups)
             habitats and ecosystems
         
-        Physical, human-made assets
+        h('Physical, human-made assets');
             buildings and the spaces around them
             transportation infrastructure
             communications and information infrastructure
