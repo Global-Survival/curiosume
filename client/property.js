@@ -1,5 +1,8 @@
 function newPropertyView(self, vv) {
     var p = self.getProperty(vv.uri);
+    if (!p)
+        return ('<li>' + vv.uri + ': ' + vv.value + '</li>');
+        
     if (p.type == 'object') {
         var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
         

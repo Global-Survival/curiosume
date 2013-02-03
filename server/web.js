@@ -15,6 +15,9 @@ var mongo = require("mongojs");
 var request = require('request');
 var _ = require('underscore');
 
+/**
+ * init - callback function that is invoked after the server is created but before it runs
+ */
 exports.start = function(host, port, database, init) {
 
 	console.log('Starting');
