@@ -221,6 +221,14 @@ ETOPO1 is a 1 arc-minute global relief model of Earth's surface that integrates 
 Amante, C. and B. W. Eakins, ETOPO1 1 Arc-Minute Global Relief Model: Procedures, Data Sources and Analysis. NOAA Technical Memorandum NESDIS NGDC-24, 19 pp, March 2009.
 http://www.ngdc.noaa.gov/mgg/global/global.html
 */
+
+/*
+From IOBY.org
+	Addressing:
+		Clean Air, Clean Water, Climate Change, Open Space & Greening, Compost, Recycling
+	Taking place at/in:
+		Community Centers, Streets & Sidewalks, Schools & Playgrounds, Parks, Gardens, Urban Farms, Beaches, Waterways & Lakes
+*/
 		},
             
 

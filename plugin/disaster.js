@@ -1,0 +1,2 @@
+/* hisz.rsoe.hu/alertmap */
+
