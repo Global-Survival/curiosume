@@ -27,6 +27,24 @@ var generalTags = [
 	//TODO synthesis of CouchSurfing + BeWelcome.org user profile fields
 	},    
 
+	/*
+	Adapted from: http://keimform.de/2010/commons-in-a-taxonomy-of-goods/ by Von Stefan Meretz
+	Note: Renaming "Good" to "Resource"
+	TODO: Add descriptions from explanations on that page
+
+	Resource
+		Origin: Natural | Produced
+		Constitution: Material | Non-Material
+
+		SocialOwnership: Commodity | Subsistence | Commons
+		LegalOwnership: Private Property | Collective Property | Free Good
+
+		Exclusivity and Rivalry?
+
+	*/
+
+
+
     { uri: 'Action', name: 'Action', //combined Event into this one..
 		properties: {
 		    'active': { name: 'Active', type: 'boolean' },		            
