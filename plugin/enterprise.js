@@ -1,6 +1,9 @@
 /*
-	ERP/CRM functionality
-		--Accounting http://en.wikipedia.org/wiki/Accountancy http://en.wikipedia.org/wiki/Bookkeeping
+	Enterprise Resource Management (ERM)
+		http://en.wikipedia.org/wiki/Enterprise_relationship_management
+		http://en.wikipedia.org/wiki/Enterprise_planning_systems
+
+		Accounting http://en.wikipedia.org/wiki/Accountancy http://en.wikipedia.org/wiki/Bookkeeping
 			Account
 				User owner+
 				currency type
@@ -12,26 +15,60 @@
 			Disbursement (cash paid)
 				Account fromAccount
 				paid?
+
+	Human Resource Management (HRM) 
+		http://en.wikipedia.org/wiki/Human_resource_management_system
+		http://www.orangehrmlive.com/feature-tour.shtml			
+
+		Payroll
+		Time and attendance
+			Time Sheets
+			Reports
+		Performance appraisal
+		Benefits administration
+			Healthcare
+			Payroll
+		HR management information system
+		Recruiting/Learning management
+			Job Vacancies
+			Applicants
+			Interviews
+		Performance record
+			Performance Indicators
+			Performance Review
+		Employee self-service
+		Scheduling
+		Absence management
+		Policies
+
+		Employment
+			Compensation
+		  		Position: Full-time, Part-time, Independent Contractor
+		  		Cash Salary
+		  		Equity Salary
+		  		Deferred Cash + Equity Salary
+
+		 	Experience Level:
+				2 - 5 years 
+				6-10 years 
+				11 or more years 
+				Entry Level 
+				Internship/Co-op
+
+
+	Customer Relations Management (CRM)
+
+
+	Supply Chain Management
+		http://en.wikipedia.org/wiki/Supply_chain_management
+
+		Inventory
 */
 
 //FROM: http://equitylancer.com/search
 //	http://blog.automenta.com/2012/11/building-instant-enterprises-with.html
 // 	http://www.freelancer.com/
 
-/*
-	Compensation
-  		Position: Full-time, Part-time, Independent Contractor
-  		Cash Salary
-  		Equity Salary
-  		Deferred Cash + Equity Salary
-
- 	Experience Level:
-		2 - 5 years 
-		6-10 years 
-		11 or more years 
-		Entry Level 
-		Internship/Co-op
-*/
 /*
 CATEGORIES
 ----------
