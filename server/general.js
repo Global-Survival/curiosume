@@ -94,9 +94,17 @@ var generalTags = [
 		}
 	},
 	{ uri: 'Media', name: 'Media'}, //params: contentType
-	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Action
+
+	{ uri: 'Report', name: 'Report'}, //Report=Incident
+		//NewsSourceLink (url)
+		//see: Ushahidi.com
+
+	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Plan=Opportunity
+		//state = considered|desired|active|completed
+
 	{ uri: 'User', name: 'User'}, 
 	//{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
+
     { uri: 'Message', name: 'Message'}, 
     
     { uri: 'Decision', name: 'Decision'}, 

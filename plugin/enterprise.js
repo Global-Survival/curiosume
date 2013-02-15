@@ -1,3 +1,19 @@
+/*
+	ERP/CRM functionality
+		--Accounting http://en.wikipedia.org/wiki/Accountancy http://en.wikipedia.org/wiki/Bookkeeping
+			Account
+				User owner+
+				currency type
+				banking institution / account #
+			Payment (cash received)
+				Account toAccount
+				received?
+				refunded? 
+			Disbursement (cash paid)
+				Account fromAccount
+				paid?
+*/
+
 //FROM: http://equitylancer.com/search
 //	http://blog.automenta.com/2012/11/building-instant-enterprises-with.html
 // 	http://www.freelancer.com/
