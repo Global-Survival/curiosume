@@ -106,9 +106,16 @@ var generalTags = [
 	//{ uri: 'Netention', name: 'Netention'}, //Netention itself, meta 
 
     { uri: 'Message', name: 'Message'}, 
+        /*
+        At the first gate, ask yourself, ‘Is it true?
+        At the second ask, ‘Is it necessary?
+        At the third gate ask ‘Is it kind?
+            - Sufi saying -
+        */
     
     { uri: 'Decision', name: 'Decision'}, 
-    
+        //http://en.wikipedia.org/wiki/List_of_biases_in_judgment_and_decision_making
+        
         //from LOOMIO:
         { uri: 'Decision.Agree', name: 'Agree', tag: ['Decision'] ,
             description: 'You are happy with the proposal.'
