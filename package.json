@@ -22,7 +22,8 @@
 	"passport-twitter":"",
 	"session.socket.io":"",
 	"connect":"",
-	"underscore":""
+	"underscore":"",
+	"irc":""
     },
     "engines": {
 	"node": "0.8.x", 
