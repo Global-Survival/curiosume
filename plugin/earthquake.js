@@ -2,6 +2,9 @@
 
 //Past 7 Days - M 5+ earthquakes 
 //http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml
+
+//http://www.emsc-csem.org/#2
+
 var rss = require('./rss.js');
 
 exports.plugin = {
