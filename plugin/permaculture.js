@@ -1,5 +1,7 @@
 /*
-the forums @ http://www.permies.com/forums provide a decent index of permaculture technology
+identifies symbiotic and avoids anti-symbiotic plant, geographic, and wildlife features
+
+the forums @ http://www.permies.com/forums provide a comprehensive index of permaculture technology
 
 growies
 	 hugelkultur
