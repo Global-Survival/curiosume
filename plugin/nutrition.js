@@ -39,7 +39,7 @@ http://en.wikipedia.org/wiki/Allergy
 			plant biostimulants
 
 		nutrient density
-			species (for animals, pets)
+			for target species (for humans, animals/pets, plants/fungi)
 			blood type
 			age
 			gender
