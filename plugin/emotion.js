@@ -40,6 +40,21 @@ var emotionTags = [
     { uri: 'emotion.tired', name: 'Tired' },
     { uri: 'emotion.energized', name: 'Energized' }
 
+	/*CBT thought record: 
+		http://www.psychologytools.org/assets/files/Worksheets/CBT_Thought_Record.pdf
+
+		Where were you (geolocation)
+		Emotion (above tags)
+		Negative automatic thought
+		Evidence that supports the thought
+		Evidence that does not support the thought
+		Alternative Thought
+		Desired emotion or feeling
+	*/
+	/*
+	Other CBT worksheets:
+		http://www.psychologytools.org/cbt.html
+	*/
 ];
 
 exports.plugin = {
