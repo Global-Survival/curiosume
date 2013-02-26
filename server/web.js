@@ -909,6 +909,9 @@ exports.start = function(host, port, database, init) {
     
     function loadPlugins() {
     	fs.readdirSync("./plugin").forEach(function(file) {
+            if (file === 'README')
+                return;
+                
     		if (file.indexOf('.js')==-1) {//avoid directories
     			file = file + '/netention.js';
     		}

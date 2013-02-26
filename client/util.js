@@ -228,6 +228,11 @@ function acceptsAnotherProperty(x, p) {
 exports.acceptsAnotherProperty = acceptsAnotherProperty;
 
 function addTag(x, t, value) {
+    if (!x.tag) {
+        x.tag = [];
+        x.tagStrength = [];
+    }
+        
     x.tag.push(t);
     
     if (!value)

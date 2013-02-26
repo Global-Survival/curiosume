@@ -306,9 +306,13 @@ function netention(f) {
                 var ty = this.tags();
                 var p = this.properties();
                 
-                ty[t.uri] = t;
-	
+                var tt = t;
                 var xx = t.properties;
+                /*if (ty[t.uri]!=undefined) {
+                    tt = _.extend(ty[t.uri], t);
+                }*/
+                ty[t.uri] = tt;
+	
 	            if (xx) {
                     var propertyIDs = xx;
                     if (!_.isArray(xx)) {
