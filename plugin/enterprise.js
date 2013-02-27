@@ -1,4 +1,18 @@
 /*
+
+http://pittsburghpa.gov/controller/about (adapted from)
+	A city controller is the fiscal watchdog for the citizens of a city. 
+	It is the job of the Controller to protect city tax dollars from waste, fraud and abuse. 
+	The Controller does this by conducting audits of all city departments and city authorities
+    
+	Through audits of city departments and authorities, the Controller makes recommendations on how to make those departments more effective, efficient and how to better spend city tax dollars.
+
+	In addition to auditing city departments, the City Controller reviews and approves city contracts and is also charged with reporting to the citizens the state of the city’s fiscal condition. Periodically the controller issues the Comprehensive Annual Financial Report (CAFR). 
+The CAFR provides detailed information on short-term and long-term financial outlook.
+
+
+
+
 	Enterprise Resource Management (ERM)
 		http://en.wikipedia.org/wiki/Enterprise_relationship_management
 		http://en.wikipedia.org/wiki/Enterprise_planning_systems
@@ -142,3 +156,4 @@ Transportation
 Warehouse 
 Web Development
 */
+
