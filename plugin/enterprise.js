@@ -1,6 +1,11 @@
 /*
 
-http://pittsburghpa.gov/controller/about (adapted from)
+
+http://pittsburghpa.gov/controller/about
+http://www.sfcontroller.org/
+http://www.comptroller.nyc.gov/comptroller/index.shtm
+
+
 	A city controller is the fiscal watchdog for the citizens of a city. 
 	It is the job of the Controller to protect city tax dollars from waste, fraud and abuse. 
 	The Controller does this by conducting audits of all city departments and city authorities
@@ -10,7 +15,9 @@ http://pittsburghpa.gov/controller/about (adapted from)
 	In addition to auditing city departments, the City Controller reviews and approves city contracts and is also charged with reporting to the citizens the state of the city’s fiscal condition. Periodically the controller issues the Comprehensive Annual Financial Report (CAFR). 
 The CAFR provides detailed information on short-term and long-term financial outlook.
 
+	The Controller is responsible for financial systems, procedures, internal controls and reports on the City's fiscal condition. The Controller conducts financial and performance audits of departments, agencies, concessions and contracts. In addition, the Controller provides a variety of support services that include processing the City budget, maintaining the City financial accounting information system and preparing paychecks for all employees.
 
+	The City Comptroller, an independently elected official, is the Chief Financial Officer of the City. The mission of the office is to ensure the financial health condition of the City. The Comptroller also makes recommendations on City programs and operations, fiscal policies, and financial transactions. In addition, the Comptroller manages assets of Pension Funds, performs budgetary analysis, audits city agencies, registers proposed contracts, etc.  The employees include accountants, attorneys, computer analysts, economists, engineers, budget, financial and investment analysts, claim specialists and researchers in addition to clerical and administrative support staff.
 
 
 	Enterprise Resource Management (ERM)
