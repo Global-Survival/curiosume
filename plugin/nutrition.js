@@ -22,6 +22,7 @@ http://en.wikipedia.org/wiki/Allergy
 				food coloring
 				preservatives
 				aspartame
+				endocrine disruptors http://en.wikipedia.org/wiki/Endocrine_disruptor
 				...
 			organic?
 			GMO?
