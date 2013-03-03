@@ -23,7 +23,8 @@
 	"session.socket.io":"",
 	"connect":"",
 	"underscore":"",
-	"irc":""
+	"irc":"",
+    "get-telehash":""
     },
     "engines": {
 	"node": "0.8.x", 

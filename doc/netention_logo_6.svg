@@ -15,9 +15,9 @@
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="netention_logo_6.svg"
-   inkscape:export-filename="/home/me/jen's_netention_logo_5.png"
-   inkscape:export-xdpi="151.88"
-   inkscape:export-ydpi="151.88">
+   inkscape:export-filename="/home/me/netjs2/doc/netention_logo_6.png"
+   inkscape:export-xdpi="289.66714"
+   inkscape:export-ydpi="289.66714">
   <defs
      id="defs4">
     <filter
@@ -55,7 +55,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
