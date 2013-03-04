@@ -418,6 +418,17 @@ function netention(f) {
                 this.socket.emit('setPlugin', pid, enabled, callback);                    
             },
             
+            getLatestObjects : function(num, onFinished) {
+                var that = this;
+                $.getJSON('/object/latest/' + num + '/json', function(objs) {
+                	for (var k in objs) {
+            			var x = objs[k];
+            			that.notice(x);
+            		}
+            		onFinished();                    
+                });  
+            },
+            
             getObjects: function(query, onObject, onFinished) {
                 var that = this;
             	this.socket.emit('getObjects', query, function(objs) {

@@ -56,6 +56,7 @@ exports.start = function(host, port, database, init) {
 	
     function plugin(netention, v) {
         var p = require('../plugin/' + v).plugin;
+        var filename = v;
         v = v.split('.js')[0];
         v = v.split('/netention')[0];
         if (p) {
@@ -72,7 +73,8 @@ exports.start = function(host, port, database, init) {
                 }
                 
                 Server.plugins[v].name = p.name;
-                Server.plugins[v].description = p.description;
+                Server.plugins[v].description = p.description;                
+                Server.plugins[v].filename = filename;
                 
                 //TODO add required plugins parameter to add others besides 'general'
                 if ((Server.plugins[v].enabled) || (v == 'general')) {
@@ -93,6 +95,7 @@ exports.start = function(host, port, database, init) {
         Server.plugins[v] = { };
         Server.plugins[v].name = v;
         Server.plugins[v].valid = false;
+        Server.plugins[v].filename = filename;
         
         
     	//TODO remove unused Server.plugins entries
@@ -512,6 +515,7 @@ exports.start = function(host, port, database, init) {
     
     var oneYear = 31557600000;
     express.use("/", expressm.static('./client', { maxAge: oneYear }));
+    express.use("/plugin", expressm.static('./plugin', { maxAge: oneYear }));
     
     express.post('/upload', function(req, res) {
         //TODO validate permission to upload
@@ -556,6 +560,14 @@ exports.start = function(host, port, database, init) {
 	express.get('/log', function (req, res) {
 		sendJSON(res, logMemory.buffer);		
 	});
+    express.get('/object/latest/:num/json', function(req, res) {
+        var n = parseInt(req.params.num);
+		var db = mongo.connect(databaseUrl, collections);
+       	db.obj.find().limit(n).sort({when:-1}, function(err, objs) {
+               sendJSON(res, objs);
+               db.close();
+       	}); 
+    });
 	express.get('/object/:uri', function (req, res) {
 		var uri = req.params.uri;
 		res.redirect('/object.html?uri=' + uri);

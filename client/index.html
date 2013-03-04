@@ -10,6 +10,7 @@
         
         <script>
         
+            var MAX_INITIAL_OBJECTS = 1024;
             
             var focusMode;
             
@@ -260,7 +261,8 @@
                     
                     window.self = self;        
                     
-                    self.getObjects('', function(obj) { }, function() { 
+                    self.clear();
+                    self.getLatestObjects(MAX_INITIAL_OBJECTS, function() { 
                         
                         self.listenAll(true);
                         
