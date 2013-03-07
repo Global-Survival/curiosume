@@ -1,0 +1,612 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Netention</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/icon/gss.ico" type="image/x-icon" sizes="16x16">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="netention.js"></script> 
+        
+        
+        <script>
+        
+            var MAX_INITIAL_OBJECTS = 1024;
+            
+            var exampleObject = {
+                id: '38274983f38hf83f',
+                name: 'Object Name',
+                createdAt: 38483478478,
+                modifiedAt: 8384848783,
+                author: '388439f983f983hf',
+                scope: 'public',
+                tag: [
+                    { id: 'description', text: 'object\'s description'  },
+                	{ id: 'location', lat: -3, lon: -3, altitude: 20, planet: 'Earth', name: '3284 Main Street, New York City', 'circle': 384.2 /* meters */ },
+                	{ id: 'time', at: 384848833, timezone: 'EST' },
+                	{ id: 'timeRange', startsAt: 384848833, endsAt: 83484848, timezone: 'EST' },
+                	{ id: 'select_emotion' },
+                	{ id: 'Happy', strength: 0.75 },
+                	{ id: 'Surprised', strength: 0.25, values: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
+                	{ id: 'file_attachment', url: '/dkjfsdfkjs' },
+                	{ id: 'Earthquake', strength: 0.5, values: [ { id: 'magnitude', value: 5.2}, { id: 'depth', value: 205 } ] }
+                ]
+            };
+            
+            function objName(x) { return x.name || x.id || 'Unknown';    }
+
+            function renderObject(x, editable) {
+                var d = $('<div/>');
+                
+                if (editable) {
+                    var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
+                    nameInput.val(objName(x));
+                    d.append(nameInput);
+                }
+                else {
+                    d.append('<h1>' + objName(x) + '</h1>');
+                }
+                d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
+                
+                if (x.tag) {
+                    for (var i = 0; i < x.tag.length; i++) {
+                        var t = x.tag[i];
+                        var tt = renderTagSection(x, i, t, editable);
+                        d.append(tt); 
+                    }
+                }
+                return d;                
+            }
+            
+            
+            function renderTagSection(x, index, t, editable) {
+                var tag = t.id;
+                var strength = t.strength;
+                var values = t.values;
+                
+                //-> jQuery element representing the section to be displayed
+                var d = $('<div/>');
+                d.append(tag);
+
+                if (!strength) strength = 1.0;
+                
+                if (strength > 0.25) {
+                    var weakenButton = $('&nbsp;<a href="#">-</a>&nbsp;');
+                    d.append(weakenButton);
+                }
+                if (strength < 1.0) {
+                    var strengthButton = $('&nbsp;<a href="#">+</a>&nbsp;');
+                    d.append(strengthButton);
+                }
+                
+                var removeButton = $('&nbsp;<a href="#">X</a>&nbsp;');
+                removeButton.click(function() {
+                   alert('removing index ' + index); 
+                });
+                d.append(removeButton);
+                
+                //-----------------
+                d.append('<br/>');
+                
+                if (tag == 'description') {
+                    if (editable) {
+                        var dd = $('<textarea/>');
+                        dd.val(t.text);
+                        d.append(dd);
+                    }
+                    else {
+                        var dd = $('<div/>');
+                        dd.html(t.text);
+                        d.append(dd);
+                    }
+                }
+                else if (tag == 'location') {
+                    
+                }
+                else if (tag == 'time') {
+                    
+                }
+                else if (tag == 'timeRange') {
+                    
+                }
+                else if (tag == 'file_attachment') {
+                    
+                }
+                else if (tag == 'select_emotion') {
+                    
+                }
+                else {
+                    if (t.values) {
+                        for (var v = 0; v < t.values.length; v++) {
+                            var vv = t.values[v];
+                            d.append(JSON.stringify(vv));
+                        }
+                    }
+                }
+                
+                return d;
+            }
+            
+            function updateFocus() {
+                $('#Focus').html( renderObject(window.self.get('focus'), true) );
+            }
+
+            function commitFocus(f) {
+                window.self.set('focus', f );
+                window.self.trigger('change:focus');
+            }
+                                
+            
+            function initDescriptionRichText() {
+                $('#FocusDescriptionSection').html('<textarea id="FocusDescription"></textarea>');
+                $('#FocusDescription').wysihtml5();                                           
+            }
+            
+            var updateView;
+            
+            function initUI(self) {
+                $('body').timeago();
+                
+                updateView = _.throttle(_updateView, 150);
+
+                self.on('change:attention', function() {
+                    later(function() {
+                        updateView();
+                    });
+                }); 
+                
+                
+                self.on('change:currentView', function() {
+                    later(function() {
+                        updateView();
+                    });
+                });
+                
+                self.on('change:tags', function() {
+                    /*later(function() {
+                    });*/
+                });
+
+                $('#FocusToggleButton').click(function() {
+                    var focusShown = $('#SelfTarget').is(':visible');
+                    if (focusShown) {
+                        //hide it
+                        $('#SelfTarget').hide();
+                        $('#DataTarget').addClass('DataTargetFull');
+                        $('#ViewSelect').addClass('ViewSelectIndented');
+                        $('#FocusMainMenu').hide();
+                    }
+                    else {
+                        //show it
+                        $('#DataTarget').removeClass('DataTargetFull');
+                        $('#ViewSelect').removeClass('ViewSelectIndented');
+                        $('#SelfTarget').show();
+                        $('#FocusMainMenu').show();
+                    }
+                    updateView();
+                });
+                
+                $('#ViewSelect button').click(function(x) {
+                    var b = $(this);
+                    var v = b.attr('id');
+                    self.set('currentView', v);
+                });
+                
+    
+    
+    
+                //TODO move this to focus.semantic.js when dynamically generating the focus UI
+                $('#SaveButton').click(function() {
+                    var p = getEditedFocus();
+                    later(function() {
+                        self.notice(p);
+                        self.pub(p);
+                        $.pnotify({
+                            title: 'Saved',
+                            text: p.uri                        
+                        });                             
+                    });
+                });
+                $('#ClearButton').click(function() {
+                    later(function() {
+                        var u = uuid();
+                        Backbone.history.navigate('/object/' + u);
+                        self.set('list-semantic', 'Any');
+                        commitFocus({
+                            uri: u
+                        }); 
+                    });
+                });
+
+                
+            }
+                        
+            function _updateView() {
+                var s = window.self;
+
+                s.saveLocal();
+                
+                var view = s.get('currentView');
+                
+
+                var o = $('#ViewOptions');
+                var v = $('#View');
+                
+                v.html('');
+                o.html('');
+                
+                if (view === 'list') {
+                    renderList(s, o, v);                
+                }
+                else if (view === 'map') {
+                    renderMap(s, o, v);
+                }
+                else if (view === 'trends') {
+                    renderTrends(s, o, v);                    
+                }
+                else if (view == 'graph') {
+                    renderGraphFocus(s, o, v);
+                }
+                else if (view == 'slides') {
+                    renderSlides(s, o, v);
+                }
+                else if (view == 'grid') {
+                    renderGrid(s, o, v);
+                }
+                else {
+                    v.html('Unknown view: ' + view);                    
+                }
+                
+            }
+            
+            function showEditedFocus() {
+                $.pnotify({
+                    title: 'Current Focus (JSON)',
+                    text: (JSON.stringify(getEditedFocus(), null, 4))
+                });                
+            }
+            
+            function cloneFocus() {
+                var y = getEditedFocus();
+                var oldURI = y.uri;
+                y.uri = uuid();
+                commitFocus(y);
+                $.pnotify({
+                    title: 'Cloning...',
+                    text: oldURI + ' -> ' + y.uri
+                });                
+                return y;
+            }
+            
+            function deleteFocus() {
+                var f = window.self.focus();
+                
+                $.pnotify({
+                    title: 'Delete coming soon',
+                    text: f.uri
+                });                
+                    
+            }
+            
+            function setTheme(t) {
+                if (!t)
+                    t = 'bright';
+                    
+                var oldTheme = window.self.get('theme');
+                if (oldTheme !== t) {
+                    window.self.set('theme', t);
+                    window.self.saveLocal();
+                }                
+                
+                $('#themecss').remove();                
+                $('head').append('<link id="themecss" href="/theme/' + t + '.css" type="text/css" rel="stylesheet"/>');
+            }
+            
+            function confirmClear() {
+                if (confirm('Clear local memory?'))
+                    window.self.clear();
+            }
+            
+            
+            $(document).ready(function(){
+            
+			    netention(function(self) {
+                    
+                    window.self = self;        
+                    
+                    self.clear();
+                    self.getLatestObjects(MAX_INITIAL_OBJECTS, function() { 
+                        
+                        self.listenAll(true);
+                        
+                        //SETUP ROUTER
+                        var Workspace = Backbone.Router.extend({
+    
+                          routes: {
+                            "new":                  "new",
+                            "me":                   "me",    // #help
+                            "help":                 "help",    // #help
+                            "query/:query":         "query",  // #search/kiwis
+                            "object/:id":           "object",
+                            "object/:id/focus":     "focus",
+                            "tag/:tag":             "tag",
+                            "new/with/tags/:t":     "newWithTags"
+                            //"search/:query/:page":  "query"   // #search/kiwis/p7
+                          },
+                          
+                          'new': function() {
+                                commitFocus({ 
+                                    uri: uuid()
+                                });
+                                //set relevancy filter to 'mine
+                          },
+                          
+                          newWithTags : function(ts) {                              
+                              //'/new/with/tags/' + ts
+                              ts = ts.split(',');
+                              var tss = [];
+                              for (var i = 0; i < ts.length; i++)
+                                tss.push(1.0);
+                                
+                              commitFocus({
+                                    uri: uuid(),
+                                    tag: ts,
+                                    tagStrength: tss
+                              });
+                          },
+                        
+                          me: function() {
+                                commitFocus( self.myself() );
+                          },
+                            
+                          help: function() {
+                                commitFocus({
+                                   uri: uuid(),
+                                   tag: [ 'help '], tagStrength: [ 1.0 ]
+                                });
+                          },
+                          
+                          tag: function(tag) {
+                                self.set('list-semantic', 'Relevant');
+                                commitFocus({
+                                   uri: uuid(),
+                                   tag: [ tag ], tagStrength: [ 1.0 ]
+                                });
+                          },
+                                                                            
+                          query: function(query) {
+                                commitFocus({
+                                   uri: uuid(),
+                                   name: query
+                                });
+                          },
+                          
+                          object: function(id) {
+                              var x = self.getObject(id);
+                              if (x) {
+                                  newPopupObjectView(x);
+                              }
+                              else {
+                                  $.pnotify({
+                                    title: 'Unknown object',
+                                    text: id
+                                  });       
+                              }
+                          },
+                          
+                          focus: function(id) {
+                              self.set('list-semantic', 'Relevant');
+                              commitFocus(self.getObject(id));
+                              updateView();
+                              
+                          }
+                        
+                        });
+                        
+                        commitFocus({ 
+                            uri: uuid()
+                        });
+                        
+                        setTheme(self.get('theme'));
+                                                
+                        
+                        initUI(self);                        
+
+                        var w = new Workspace();
+                        Backbone.history.start();
+                        
+                                                
+                        $('#LoadingSplash').fadeOut();
+                        $('#ContentArea').fadeIn();
+                        
+                        if (!self.get('currentView'))
+                            self.set('currentView', 'grid');
+                        else {
+                            updateView();
+                        }
+                        
+                        //DEBUG
+                        commitFocus(exampleObject);
+                        updateFocus();
+                        //
+                    });
+                                        
+                    
+			    });
+                
+            });
+   
+        </script>
+        
+        <style>
+	    </style>    
+        
+        
+    </head>
+    
+    <body>
+        <div id="ContentArea" style="display:none">
+            <div id="MenuWrapper">
+                <span id="MainMenu" class="dropdown">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <!--<li><a href="/#/new">New</a></li>
+                    <br/>-->
+                    <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
+                    <!-- <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
+                    <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li> -->
+                    <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->
+                    <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:setTheme('bright')">Bright</a></li>
+                            <li><a href="javascript:setTheme('dark')">Dark</a></li>
+                            <li><a href="javascript:setTheme('space')">Space</a></li>
+                            <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
+                            <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
+                            <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/actions/manage.png"/>Options</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Listen to all Channels</a></li>
+                            <li><a href="#">Silence</a></li>
+                            <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
+                        </ul>
+                    </li>
+                    <br/>
+                    <li><a href="/login.html">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <br/>
+                    <li><a href="/#/help">Help</a></li>
+                    
+                  </ul>
+                  <!-- <a class="btn" href="#">Location</a> -->
+                </span>            
+                                    
+                <button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button>
+                
+                <span id="FocusMainMenu">
+                    <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
+                </span>
+            </div>
+            <div id="SelfTarget" refactorToID="FocusEdit">
+                    
+                <div id="Focus">
+                    <div id="MatchedTypes"></div>
+                    <span class="btn-group">
+                        <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
+                        <button title="Add Description" id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
+                        <button title="Add Location"id="ToggleLocationButton"><i class="icon-globe"></i></button>
+                        <button title="Upload"id="ToggleUploadButton"><i class="icon-file"></i></button>                
+                        <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:showEditedFocus();">Export...</a></li>
+                            <li><a href="javascript:cloneFocus();">Clone...</a></li>
+                            <li><a href="javascript:deleteFocus();">Delete</a></li>
+                        </ul>
+                    </span>
+                </div>
+                
+                <div id="SemanticFocus" style="display:none">
+                    
+                    
+                    <div id="FocusTypes"></div>
+                    
+                    <div id="FocusDescriptionSection">
+                        <textarea id="FocusDescription"></textarea>
+                    </div>
+                    <div id="FocusMapSection">
+                        <div id="focusMap" class="map" style="height: 200px; width: 100%">
+                        </div>
+                    </div>
+                    <div id="FocusUploadSection">
+                        <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                            <p>File:
+                                <input type="file" name="uploadfile" />
+                            </p>
+                            <p>
+                                <input type="submit" value="Upload" />
+                            </p>
+                        </form>
+                        <div class="FocusUploadProgress">
+                            <div class="FocusUploadBar"></div>
+                            <div class="FocusUploadPercent">0%</div>
+                        </div>
+                        <div id="FocusUploadStatus"></div>        
+                    </div>
+                    
+                    <div id="FocusProperties">
+                        
+                    </div>
+                        <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+                            <h2>Select Tags</h2>
+                            <div id="TypeSelectModalTree"></div>
+                            
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                        </div>
+                        
+                    <div id="SaveButtonWrapper" style="width: auto">
+                        
+                        <!--
+                        <span class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
+                            </ul> 
+                        </span> -->
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div id="NeedsFocus" style="display:none">
+                    <h1>NEEDS</h1>
+                </div>
+                <div id="HumanbodyFocus" style="display:none"></div>
+                <div id="EmotionFocus" style="display:none"></div>
+                <div id="TagFocus" style="display:none"></div>
+                <div id="EnvironmentFocus" style="display:none">
+                    <div id="EnvironmentFocusMap"></div>
+                    <div id="EnvironmentFocusContent"></div>                    
+                </div>
+                <div id="TeamFocus" style="display:none"></div>
+            </div>
+            
+    	    <div id="DataTarget" class="DataTargetNormal">
+                <div>
+                    <span id="ViewSelect" class="ViewSelectNormal">
+                        
+                      <button id='grid' title="Grid"><i class="icon-th"></i></button>
+                      <button id='list' title="List"><i class="icon-th-list"></i></button>
+                      <button id='map' title="Map"</a><i class="icon-globe"></i></button>
+                      <button id='time' title="Time"><i class="icon-time"></i></button>
+                      <button id='slides'  title="Slides"><i class="icon-play"></i></button>
+                      <button id='graph'  title="Graph"><i class="icon-random"></i></button>
+                      <button id='trends'  title="Trends"><i class="icon-signal"></i></button>
+                        
+                    </span>
+                    <span id="ViewOptions">
+                        
+                    </span>
+                </div>
+                <div id="View">
+                    
+                </div>
+             
+    	    </div>
+        </div>
+
+        <div id="LoadingSplash">        
+            <p style="font-size: 500%; text-align: center; margin-top: 3em;">&#8987;</p>
+        </div>
+    
+    </body>
+</html>

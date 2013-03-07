@@ -11,7 +11,6 @@
 	"socket.io": "",
 	"node-static":"",
 	"always":"",
-	"apricot":"",
 	"mongojs":"",
 	"ya-csv":"",
 	"feedparser":"",

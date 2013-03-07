@@ -1,5 +1,6 @@
 /*
 "Good Death" for humans, animals, and all natural & artificial beings
+if we can ensure a good death we can ensure a good life by calculating in reverse
 
 http://en.wikipedia.org/wiki/Euthanasia 
 http://en.wikipedia.org/wiki/Animal_euthanasia

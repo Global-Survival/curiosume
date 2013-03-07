@@ -1,6 +1,6 @@
 var memory = require('./memory.js');
 var util = require('../client/util.js');
-var cortexit = require('./cortexit.js');
+//var cortexit = require('./cortexit.js');
 var expressm = require('express');
 var express = expressm();
 var connect = require('connect');

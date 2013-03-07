@@ -2,13 +2,14 @@
 //<select class="ucw_selector" id="ucw_cs"><option value="Temperature">Temperature</option><option value="Length">Length</option><option value="Mass">Mass</option><option value="Speed">Speed</option><option value="Volume">Volume</option><option value="Area">Area</option><option value="Fuel consumption">Fuel consumption</option><option value="Time">Time</option><option value="Digital Storage">Digital Storage</option></select>
 
 
-function loadCSS(url) {
+function loadCSS(url, med) {
     $(document.head).append(
         $("<link/>")
         .attr({
           rel:  "stylesheet",
           type: "text/css",
-          href: url
+          href: url,
+    	  media: (med !== undefined)? med : ""
         })
     );                
 }
@@ -45,8 +46,8 @@ function loadScripts(f) {
     loadCSS('/map.css');
     loadCSS('/object.css');
     
-    loadCSS('/index.css');
-
+    loadCSS('/index.css', 'only screen and (min-device-width: 641px)');
+ 
     //https://github.com/rgrove/lazyload/
 	$.getScript('/lib/lazyload.js', function() {
 		
