@@ -31,7 +31,7 @@
                 	{ id: 'emotion.Happy', strength: 0.75 },
                 	{ id: 'emotion.Surprised', strength: 0.25, values: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
                 	{ id: 'FileAttachment', url: '/dkjfsdfkjs' },
-                	{ id: 'environment.EarthQuake', strength: 0.5, values: [ { id: 'magnitude', value: 5.2}, { id: 'depth', value: 205 } ] },
+                	{ id: 'environment.EarthQuake', strength: 0.5, values: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
                     { id: 'HumanBodySelect' },
                 ]
             };
@@ -247,7 +247,10 @@
                     if (t.values) {
                         for (var v = 0; v < t.values.length; v++) {
                             var vv = t.values[v];
-                            d.append(JSON.stringify(vv));
+                            var pv = window.self.getProperty(vv.id);
+                            var pe = newPropertyEdit(vv, pv);
+                            //this.propertyEdits.push(pe);
+                            d.append(pe);
                         }
                     }
                 }
@@ -640,38 +643,6 @@
                 <div id="Focus">
                 </div>
                 
-                <div id="SemanticFocus" style="display:none">
-                    
-                    
-                    
-                    <div id="FocusProperties">
-                        
-                    </div>
-                        
-                    <div id="SaveButtonWrapper" style="width: auto">
-                        
-                        <!--
-                        <span class="dropdown">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
-                            </ul> 
-                        </span> -->
-                        
-                        
-                    </div>
-                    
-                </div>
-                <div id="NeedsFocus" style="display:none">
-                    <h1>NEEDS</h1>
-                </div>
-                <div id="HumanbodyFocus" style="display:none"></div>
-                <div id="EmotionFocus" style="display:none"></div>
-                <div id="TagFocus" style="display:none"></div>
-                <div id="EnvironmentFocus" style="display:none">
-                    <div id="EnvironmentFocusMap"></div>
-                    <div id="EnvironmentFocusContent"></div>                    
-                </div>
-                <div id="TeamFocus" style="display:none"></div>
             </div>
             
     	    <div id="DataTarget" class="DataTargetNormal">
