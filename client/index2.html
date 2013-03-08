@@ -36,6 +36,35 @@
             };
             
             function objName(x) { return x.name || x.id || 'Unknown';    }
+            /*
+              objDescription(x) -> concatenates all 'description' tag values
+            
+              objLocation(x) -> gets the center point of the first location tag
+              objRadius(x) -> gets the radius of the first location tag
+            
+              objWhen(x) -> returns time associated with the object, using values in the priority:
+                timeRange (avg time of start and stop)
+                timePoint
+                modifiedAt
+                createdAt
+            
+              objTagIDs(x) -> array of tags involved, only the tag ID's as strings
+              objTags(x) -> array of tags involved, can exclude the built-in ones like 'file_attachment' and 'description'
+              objTagStrengths(x) -> normalized array of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
+              objStrongestTag(x) -> the strongest tag, or if equal to another, the first listed
+            
+              objTriples(x) -> the RDF triples associated with an object
+            
+              objDistanceSpace(x, y) -> meters between two objects, assuming both have locations. otherwise null
+              objDistanceTime(x, y) -> time difference between two objects, assuming both have times, otherwise null
+              objDistanceSpaceTime(x, y, speed) - speed in meters/sec
+            
+              objTagRelevance(x, y) - dot product vector of the common tags and their strengths
+            
+              objRemoveTag(x, n) -> y , removes the nth tag of an object
+              objAddTag(x, t, values)
+            */
+
 
             function renderObject(x, editable) {
                 var d = $('<div/>');
@@ -103,7 +132,42 @@
                     }
                 }
                 else if (tag == 'location') {
+                    var ee = $('<div/>');
                     
+                    var dd = $('<div/>');
+                    var de = uuid();
+                    dd.attr('id', de);
+                    dd = dd.addClass('focusMap');
+
+                    ee.append(dd);
+                    
+                    if (editable) {
+                        var lr = $('<input type="text" placeholder="Where" />');                    
+                        lr.css('width', 'auto');
+                        ee.append(lr);
+                        
+                        var cr = $('<select/>');
+                        cr.css('width', 'auto');
+                        cr.append('<option value="earth" selected>Earth</option>');
+                        cr.append('<option value="moon">Moon</option>');
+                        cr.append('<option value="mars">Mars</option>');
+                        cr.append('<option value="venus">Venus</option>');
+                        cr.change(function() {
+                            alert('Currently only Earth is supported.');
+                            cr.val('earth');
+                        });
+                        ee.append(cr);
+                        
+                        var ar = $('<input type="text" placeholder="Altitude" />');
+                        ar.css('width', '15%');
+                        ee.append(ar);
+                    }
+                    
+                    d.append(ee);
+                    later(function() {
+                        var m = initLocationChooserMap(de, [0,0]);
+                        
+                    });
                 }
                 else if (tag == 'time') {
                     

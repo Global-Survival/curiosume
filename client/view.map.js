@@ -275,6 +275,7 @@ function renderMap(s, o, v) {
         }        
     }
     
+    
     renderItems(s, o, v, 500, function(s, v, xxrr) {
         for (var i = 0; i < xxrr.length; i++) {
             var x = xxrr[i][0];
