@@ -292,6 +292,30 @@ div.olMapViewport {
     height: 5em;
 }
 
+.tagSection {
+    width: 100%;
+    margin-bottom: 1.5em;
+}
+
+.tagDescription {
+    width: 98%;
+}
+
+.tagLabel {
+    float: left;
+    font-weight: bold;
+    font-size: 125%;
+}
+.tagLabel img {
+    height: 1em;
+    margin-right: 0.25em;
+}
+
+.tagButton {
+    float: right;
+    font-weight: bold;
+}
+
 .MetadataLine {
     color: gray;
     clear: both;
