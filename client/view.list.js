@@ -149,7 +149,7 @@ function renderList(s, o, v) {
         for (var i = 0; i < xxrr.length; i++) {
             var x = xxrr[i][0];
             var r = xxrr[i][1];
-            v.append(newObjectView(s, x, function() { }, r, 1 ));
+            v.append(renderObjectSummary(s, x, function() { }, r, 1 ));
         }
     });
     

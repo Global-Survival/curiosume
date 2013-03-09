@@ -235,7 +235,7 @@ function renderMap(s, o, v) {
     function renderMapFeature(x, r) {
         var k = x.uri;
         
-        if (hasTag(x, 'web.KML')) {
+        if (objHasTag(x, 'web.KML')) {
             addKMLLayer(x.kmlURL);
             return;    
         }
@@ -253,21 +253,21 @@ function renderMap(s, o, v) {
 
             iconURL = getTagIcon(x);
             
-            if (hasTag(x, 'environment.EarthQuake')) {
+            if (objHasTag(x, 'environment.EarthQuake')) {
                 fill = '#b33';
                 rad = 100000 + (x.eqMagnitude - 5.0)*700000;
                 op *= 0.5;
             }
-            else if (hasTag(x, 'NuclearFacility')) {
+            else if (objHasTag(x, 'NuclearFacility')) {
                 rad = 7000;
                 op = 0.3;
                 fill = '#ff0';
             }
-            else if (hasTag(x, 'Human')) {
+            else if (objHasTag(x, 'Human')) {
                 rad = 200;
                 op = 0.25;
             }
-            else if (hasTag(x, 'Message')) {
+            else if (objHasTag(x, 'Message')) {
                 fill = '#55f';
                 rad = 50;
             }

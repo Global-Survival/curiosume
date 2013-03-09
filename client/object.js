@@ -52,7 +52,7 @@ function newPopupObjectView(_x) {
     }
     var d = $('<div></div>');
     d.attr('title', x.name);
-    d.append(newObjectView(window.self, x, null, 1.0, 4));
+    d.append(renderObjectSummary(window.self, x, null, 1.0, 4));
     $('body').append(d);
     d.dialog();
 }
@@ -110,7 +110,363 @@ function newReplyWidget(onReply, onCancel) {
     return w;
 }
 
-function newObjectView(self, x, onRemoved, r, depthRemaining) {
+
+function renderObject(x, editable) {
+    var d = $('<div/>');
+    
+    if (editable) {
+        var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
+        nameInput.val(objName(x));
+        d.append(nameInput);
+    }
+    else {
+        d.append('<h1>' + objName(x) + '</h1>');
+    }
+    d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
+
+    if (editable) {
+        d.append('<div id="MatchedTypes"/>');
+    }
+
+    if (x.values) {
+        for (var i = 0; i < x.values.length; i++) {
+            var t = x.values[i];
+            var tt = renderTagSection(x, i, t, editable);
+            d.append(tt); 
+        }
+    }
+    return d;                
+}
+
+
+function renderTagSection(x, index, t, editable) {
+    var tag = t.id;
+    var strength = t.strength;
+    var values = t.values;
+    
+    var d = $('<div/>').addClass('tagSection');
+    
+    var tagLabel = $('<div>' + tag + '</div>').addClass('tagLabel');                
+    d.append(tagLabel);
+
+    if (!strength) strength = 1.0;
+    
+    var tagButtons = $('<div/>').addClass('tagButton');
+
+    if (strength > 0.25) {
+        var weakenButton = $('&nbsp;<a href="#">-</a>&nbsp;');
+        tagButtons.append(weakenButton);
+    }
+    if (strength < 1.0) {
+        var strengthButton = $('&nbsp;<a href="#">+</a>&nbsp;');
+        tagButtons.append(strengthButton);
+    }
+    
+    var removeButton = $('&nbsp;<a href="#">X</a>&nbsp;');
+    removeButton.click(function() {
+       alert('removing index ' + index); 
+    });
+    tagButtons.append(removeButton);
+    
+    d.append(tagButtons);
+    
+    //-----------------
+    d.append('<br/>');
+    
+    if (tag == 'Description') {
+        tagLabel.hide();
+        
+        if (editable) {
+            var dd = $('<textarea/>').addClass('tagDescription');
+            dd.val(t.text);
+            d.append(dd);
+        }
+        else {
+            var dd = $('<div/>');
+            dd.html(t.text);
+            d.append(dd);
+        }
+    }
+    else if (tag == 'Location') {
+        var ee = $('<div/>');
+        
+        var dd = $('<div/>');
+        var de = uuid();
+        dd.attr('id', de);
+        dd = dd.addClass('focusMap');
+
+        ee.append(dd);
+        
+        if (editable) {
+            var lr = $('<input type="text" placeholder="Where" />');                    
+            lr.css('width', 'auto');
+            ee.append(lr);
+            
+            var cr = $('<select/>');
+            cr.css('width', 'auto');
+            cr.append('<option value="earth" selected>Earth</option>');
+            cr.append('<option value="moon">Moon</option>');
+            cr.append('<option value="mars">Mars</option>');
+            cr.append('<option value="venus">Venus</option>');
+            cr.change(function() {
+                alert('Currently only Earth is supported.');
+                cr.val('earth');
+            });
+            ee.append(cr);
+            
+            var ar = $('<input type="text" placeholder="Altitude" />');
+            ar.css('width', '15%');
+            ee.append(ar);
+        }
+        
+        d.append(ee);
+        later(function() {
+            var m = initLocationChooserMap(de, [0,0]);
+            
+        });
+    }
+    else if (tag == 'TimePoint') {
+        if (editable) {
+            var lr = $('<input type="text" placeholder="Time" />');
+            lr.val(new Date(t.at));
+            d.append(lr);
+            var lb = $('<button style="margin-top: -0.5em"><i class="icon-calendar"/></button>');
+            
+            d.append(lb);
+        }
+        else {
+            d.append(new Date(t.at));
+        }                    
+    }
+    else if (tag == 'TimeRange') {
+        if (editable) {
+            var lr = $('<input type="text" placeholder="Time Start" />');
+            lr.val(new Date(t.startsAt));
+            d.append('Start: ');
+            d.append(lr);
+            d.append('<br/>');
+            var ls = $('<input type="text" placeholder="Time End" />');
+            ls.val(new Date(t.endsAt));
+            d.append('Stop: ');
+            d.append(ls);
+        }
+        else {
+            d.append(new Date(t.startsAt) + ' ' + new Date(t.endsAt));
+        }
+        
+    }
+    else if (tag == 'FileAttachment') {
+        d.append(
+        '<div id="FocusUploadSection">' +
+            '<form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">' +
+                '<p>File: <input type="file" name="uploadfile" /> </p>' +
+                '<p><input type="submit" value="Upload" /></p>' +
+            '</form>' +
+            '<div class="FocusUploadProgress">' +
+                '<div class="FocusUploadBar"></div>' +
+                '<div class="FocusUploadPercent">0%</div>' +
+            '</div>' +
+            '<div id="FocusUploadStatus"></div>' +
+        '</div>');                    
+    }
+    else if (tag == 'EmotionSelect') {
+        var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
+        es.click(function() {
+           alert('Emotion select not functional yet.');
+        });
+        d.append(es);
+    }
+    else if (tag == 'HumanBodySelect') {
+        var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>');
+        es.click(function() {
+           alert('Human body part select not functional yet.');
+        });
+        d.append(es);
+    }
+    else {
+        var ti = getTagIcon(t.id);
+        if (ti) {
+            tagLabel.prepend('<img src="' + ti + '"/>');
+        }
+        if (t.values) {
+            for (var v = 0; v < t.values.length; v++) {
+                var vv = t.values[v];
+                var pv = window.self.getProperty(vv.id);
+                var pe = newPropertyEdit(vv, pv);
+                //this.propertyEdits.push(pe);
+                d.append(pe);
+            }
+        }
+    }
+    
+    return d;
+}
+
+function newPropertyView(self, vv) {
+    var p = self.getProperty(vv.uri);
+    if (!p)
+        return ('<li>' + vv.uri + ': ' + vv.value + '</li>');
+        
+    if (p.type == 'object') {
+        var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
+        
+        return ('<li>' + vv.uri + ': <a href="#">' + o.name + '</a></li>');
+    }
+    else {
+        return ('<li>' + vv.uri + ': ' + vv.value + '</li>');    
+    }
+}
+
+function newPropertyEdit(p, v) {
+    var propertyID = p.uri;
+    
+    var name = p.uri;
+    if (v)
+        name = v.name;
+        
+    var value = p.value;
+    	
+	if (!p || !v) {
+		return $('<div>Unknown property: ' + propertyID + '</div>');
+	}
+    
+    var type = v.type;
+		
+	var x = $('<div>').addClass('FocusSection');
+	x.append(name + ':&nbsp;');
+	
+	var removeButton = $('<button class="PropertyRemoveButton"><i class="icon-remove"></i></button>');
+	removeButton.click(function() {
+		x.remove();
+	});
+	(function() {
+        x.hover(function(){ removeButton.fadeIn(200);}, function() { removeButton.fadeOut(200);});	    
+    })();
+    removeButton.hide();
+    
+	x.data('property', propertyID);
+	
+	if (type == 'textarea') {
+		if (!value)
+			value = '';
+		
+		x.append('<br/>');
+		var t = $('<textarea rows="3">' + value + '</textarea>');
+		x.append(t);
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}
+	else if (type == 'boolean') {
+		var t = $('<input type="checkbox">');
+		
+		if (!value)
+			value = true;
+		
+		t.attr('checked', value ? 'on' : undefined);
+		x.append(t);
+		x.data('value', function(target) {
+			return t.attr('checked') == 'checked' ? true : false;
+		});
+	}    
+    else if (type == 'real') {
+    	if (!value) value = '';
+
+        //http://stackoverflow.com/questions/8808590/html5-number-input-type-that-takes-only-integers
+		var t = $('<input type="text" value="' + value + '">');    
+		x.append(t);		
+		x.data('value', function(target) {
+			return parseFloat(t.val());
+		});        
+    }
+    else if (type == 'integer') {
+        if (!value) value = '';
+
+		////http://stackoverflow.com/questions/8808590/html5-number-input-type-that-takes-only-integers
+        var t = $('<input type="number" value="' + value + '">');    
+		x.append(t);		
+		x.data('value', function(target) {
+			return parseInt(t.val());
+		});                
+    }
+    else if (type == 'object') {
+        var tt = $('<span></span>');
+        var t = $('<input></input>');
+        
+        
+        //TODO set initial value
+        
+        //http://jqueryui.com/autocomplete/#default
+        //http://jqueryui.com/autocomplete/#categories
+        var data = [ ];
+        for (var k in window.self.objects()) {
+            var v = window.self.object(k);
+            if (value == k) {
+                t.val(v.name);
+                t.result = value;
+            }
+
+            data.push({
+               value: k,
+               label: v.name
+            });
+        }
+        t.autocomplete({
+            source: data,
+            select: function( event, ui ) {
+                t.result = ui.item.value;
+                t.val(ui.item.label);
+                /*
+                $( "#project" ).val( ui.item.label );
+                $( "#project-id" ).val( ui.item.value );
+                $( "#project-description" ).html( ui.item.desc );
+                $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+                */
+         
+                return false;
+            }
+        });
+        
+        //TODO handle specific tag restriction
+        /*window.self.objectsWithTag(t) {
+            
+        }*/
+        
+        var mb = $('<button title="Find Object">...</button>');
+        mb.click(function() {
+           //TODO popup object browser 
+        });
+        
+        tt.append(t);
+        tt.append(mb);
+        
+        x.append(tt);
+        
+        x.data('value', function(target) {
+           return t.result; //uri 
+        });
+    }
+	else /*if (type == 'text')*/ {
+		if (!value) value = '';
+
+		var t = $('<input type="text" value="' + value + '">');    
+		x.append(t);		
+		x.data('value', function(target) {
+			return t.val();			
+		});
+	}/*
+    else {
+        console.log('unknown property type: ' + type);
+    }*/
+	
+    x.append(removeButton);
+	
+	return x;
+}
+
+
+
+function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 
     var mini = (depthRemaining == 0);
     
@@ -139,7 +495,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
             //TODO sort the replies by age, oldest first
             for (var i = 0; i < r.length; i++) {
                 var p = r[i];
-                replies.append(newObjectView(self, self.getObject(p), null, r*0.618, depthRemaining-1));
+                replies.append(renderObjectSummary(self, self.getObject(p), null, r*0.618, depthRemaining-1));
             }
         }
         else {
@@ -294,14 +650,7 @@ function newObjectView(self, x, onRemoved, r, depthRemaining) {
 	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
 	if (x.text) {
-		d.append('<p>' + x.text + '</p>');
-		
-//		if (hasTag(x, 'Media')) {
-//			var imgURL = x.text;
-//			if (imgURL.indexOf('http://')==0)
-//				d.append('<img src="'+imgURL+'"/>');
-//			//TODO handle videos, etc
-//		}
+		d.append('<p>' + x.text + '</p>');		
 	}
 	
     if (x.values) {

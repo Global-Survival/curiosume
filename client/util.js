@@ -1,14 +1,41 @@
-//functions used by both client and server
-if (typeof window != 'undefined')
-	exports = { };
+if (typeof window != 'undefined')	exports = { };  //functions used by both client and server
 
-function _n(x) {
-    return x.toFixed(2);
-}
+function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 decimal places
 exports._n = _n;
     
-    
-function hasTag(o, t) {    
+
+function objName(x) { return x.name || x.id || 'Unknown';    }
+/*
+  objDescription(x) -> concatenates all 'description' tag values
+
+  objLocation(x) -> gets the center point of the first location tag
+  objRadius(x) -> gets the radius of the first location tag
+
+  objWhen(x) -> returns time associated with the object, using values in the priority:
+    timeRange (avg time of start and stop)
+    timePoint
+    modifiedAt
+    createdAt
+
+  objTagIDs(x) -> array of tags involved, only the tag ID's as strings
+  objTags(x) -> array of tags involved, can exclude the built-in ones like 'file_attachment' and 'description'
+  objTagStrengths(x) -> normalized array of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
+  objStrongestTag(x) -> the strongest tag, or if equal to another, the first listed
+
+  objTriples(x) -> the RDF triples associated with an object
+
+  objDistanceSpace(x, y) -> meters between two objects, assuming both have locations. otherwise null
+  objDistanceTime(x, y) -> time difference between two objects, assuming both have times, otherwise null
+  objDistanceSpaceTime(x, y, speed) - speed in meters/sec
+
+  objTagRelevance(x, y) - dot product vector of the common tags and their strengths
+
+  objRemoveTag(x, n) -> y , removes the nth tag of an object
+  objAddTag(x, t, values)
+*/
+
+
+function objHasTag(o, t) {    
     if (!o.tag)
 		return false;
         
@@ -21,7 +48,7 @@ function hasTag(o, t) {
 	}
 	return false;
 }
-exports.hasTag = hasTag;
+exports.objHasTag = objHasTag;
 
 function getTagMatch(x,y) {
     var xt = x.tag;
@@ -49,159 +76,6 @@ function getProperties(t) {
     
     
     
-function newAttentionMap(memoryMomentum, maxObjects, adjacency, spreadRate) {
-    var that = {
-			values: { },
-			totals: { },
-            
-            save : function(sorted) {  //provides a sorted, normalized snapshot
-                var k = [];
-                for (var i in that.values) {
-                    k.push([i, that.values[i], that.totals[i]]);
-                }
-                
-                if (sorted) {
-                    k = k.sort(function(a, b) {
-                        return b[1] - a[1];
-                    });
-                }
-                    
-                return k;
-            },
-            
-			remove: function(objectID) {
-				delete that.values[objectID];
-				delete that.totals[objectID];
-			},
-            
-            //set
-            
-            //multiply
-            
-			add : function(i, deltaAttention) {
-				
-                if (!that.values[i]) {
-                    that.values[i] = 0;
-                    that.totals[i] = 0;
-                }
-                    
-                that.values[i] += deltaAttention;
-			},
-            
-			update : function() {
-                
-
-				//FORGET: decrease and remove lowest
-				for (var k in that.values) {
-                    that.totals[k] += that.values[k];
-					that.values[k] *= memoryMomentum;
-                    /*
-					if (that.values[k] < minAttention) {
-						that.remove(k);
-					}*/
-				}
-				
-                if ((spreadRate) && (adjacency)) {
-                    //for every node
-        			for (var k in that.values) {
-                        var vv = that.values[k];
-                        
-                        var incident = adjacency.incidence(k);
-                        
-                        //for every incident node
-                        
-                        var nodesToIncrease = [];
-                        for (var i = 0; i < incident.length; i++) {
-                            var ii = incident[i];
-                            var iv = that.values[ii];
-                            
-                            if (ii == k)
-                                continue;
-                            
-                            if (iv < vv)
-                                nodesToIncrease.push(ii); 
-                        }
-
-                        if (nodesToIncrease.length > 0) {
-                            var totalSpreadAmount = vv * spreadRate;
-                            that.add(k, -totalSpreadAmount);
-                            
-                            var spreadAmount = totalSpreadAmount / parseFloat(nodesToIncrease.length);
-                            
-                            //  if the value is less than the original node,
-                            //  add a fraction of the spread rate
-                            for (var i = 0; i < nodesToIncrease.length; i++) {
-                                that.add(nodesToIncrease[i], spreadAmount);
-                            }
-                        }
-    
-                    }
-                }
-			}
-	};
-	
-	
-	return that;
-}
-var newAttentionMap = newAttentionMap;
-
-
-var createRingBuffer = function(length){
-
-  var pointer = 0, buffer = [];
-  
-  var that = {
-    get  : function(key){return buffer[key];},
-    push : function(item){
-      buffer[pointer] = item;
-      pointer = (length + pointer +1) % length;
-    }
-  };
-  
-  that.pointer = pointer;
-  that.buffer = buffer;
-  
-  return that;
-  
-};
-
-exports.createRingBuffer = createRingBuffer;
-
-function RecurringProcess(interval, runnable) {
-	var that = {	};
-	that.start = function() {
-		that.interval = setInterval(function() {
-			runnable();
-		}, interval);
-		runnable(); //run first
-	};
-	that.stop = function() {
-		clearInterval(that.interval);
-	};
-	return that;
-}
-exports.RecurringProcess = RecurringProcess;
-
-function OutputBuffer(interval, write /* limit */) {
-	var that = RecurringProcess(interval, function() {
-		var o = that.buffer.pop();
-		if (o) {
-			write(o);
-		}	
-	});
-	that.buffer = [];
-	that.write = write;
-	that.push = function(o) {
-		that.buffer.push(o);
-	};
-	/*that.pushAll = function(a) {
-		for (i = 0; i < a.length; i++)
-			push(a[i]);
-	};*/
-	
-	return that;
-}
-exports.OutputBuffer = OutputBuffer;
 
 function uuid() {
     return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -210,6 +84,54 @@ function uuid() {
     });
 }
 exports.uuid = uuid;
+
+
+function removeTag(x, index) {
+    x.tag.splice(index, 1);    
+    x.tagStrength.splice(index, 1);    
+    return x;
+}
+exports.removeTag = removeTag;
+
+function getProperty(object, propertyID, defaultValue) {
+    if (object.values) {
+        for (var k = 0; k < object.values.length; k++) {
+    		if (object.values[k].uri == propertyID)
+				return object.values[k].value;
+		}
+	}
+	return defaultValue;
+}
+exports.getProperty = getProperty;
+
+function getPropertyValues(object, propertyID) {
+    var v = [];
+    if (object.values) {
+        for (var k = 0; k < object.values.length; k++) {
+			if (object.values[k].uri == propertyID)
+				v.push( object.values[k].value );
+		}
+	}
+	return v;
+}
+exports.getPropertyValues = getPropertyValues;
+
+
+/** sets the only instance of the property, or creates if doesn't exist */
+function setTheProperty(object, propertyID, newValue) {
+    for (var k = 0; k < object.values.length; k++) {
+		if (object.values[k].uri == propertyID) {
+			object.values[k].value = newValue;
+            return object;
+		}
+	}
+    object.values.push( {uri: propertyID, value: newValue } );
+	return object;
+}
+exports.setTheProperty = setTheProperty;
+
+function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
+exports.isSelfObject = isSelfObject;
 
 function addProperty(x, p, value) {
     if (!value)
@@ -267,49 +189,6 @@ function addTagWithRequiredProperties(self, x, t, value) {
     return y;
 }
 
-function removeTag(x, index) {
-    x.tag.splice(index, 1);    
-    x.tagStrength.splice(index, 1);    
-    return x;
-}
-exports.removeTag = removeTag;
-
-function getProperty(object, propertyID, defaultValue) {
-    if (object.values) {
-    	for (var k = 0; k < object.values.length; k++) {
-			if (object.values[k].uri == propertyID)
-				return object.values[k].value;
-		}
-	}
-	return defaultValue;
-}
-exports.getProperty = getProperty;
-
-function getPropertyValues(object, propertyID) {
-    var v = [];
-    if (object.values) {
-        for (var k = 0; k < object.values.length; k++) {
-			if (object.values[k].uri == propertyID)
-				v.push( object.values[k].value );
-		}
-	}
-	return v;
-}
-exports.getPropertyValues = getPropertyValues;
-
-
-/** sets the only instance of the property, or creates if doesn't exist */
-function setTheProperty(object, propertyID, newValue) {
-    for (var k = 0; k < object.values.length; k++) {
-		if (object.values[k].uri == propertyID) {
-			object.values[k].value = newValue;
-            return object;
-		}
-	}
-    object.values.push( {uri: propertyID, value: newValue } );
-	return object;
-}
-exports.setTheProperty = setTheProperty;
 
 
 //Chris Coyier's MD5 Library
@@ -517,6 +396,158 @@ for (k=0;k<x.length;k+=16) {
 
 exports.MD5 = MD5;
 
-function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
 
-exports.isSelfObject = isSelfObject;
+
+function newAttentionMap(memoryMomentum, maxObjects, adjacency, spreadRate) {
+    var that = {
+    		values: { },
+			totals: { },
+            
+            save : function(sorted) {  //provides a sorted, normalized snapshot
+                var k = [];
+                for (var i in that.values) {
+                    k.push([i, that.values[i], that.totals[i]]);
+                }
+                
+                if (sorted) {
+                    k = k.sort(function(a, b) {
+                        return b[1] - a[1];
+                    });
+                }
+                    
+                return k;
+            },
+            
+			remove: function(objectID) {
+				delete that.values[objectID];
+				delete that.totals[objectID];
+			},
+            
+            //set
+            
+            //multiply
+            
+			add : function(i, deltaAttention) {
+				
+                if (!that.values[i]) {
+                    that.values[i] = 0;
+                    that.totals[i] = 0;
+                }
+                    
+                that.values[i] += deltaAttention;
+			},
+            
+			update : function() {
+                
+
+				//FORGET: decrease and remove lowest
+				for (var k in that.values) {
+                    that.totals[k] += that.values[k];
+					that.values[k] *= memoryMomentum;
+                    /*
+					if (that.values[k] < minAttention) {
+						that.remove(k);
+					}*/
+				}
+				
+                if ((spreadRate) && (adjacency)) {
+                    //for every node
+        			for (var k in that.values) {
+                        var vv = that.values[k];
+                        
+                        var incident = adjacency.incidence(k);
+                        
+                        //for every incident node
+                        
+                        var nodesToIncrease = [];
+                        for (var i = 0; i < incident.length; i++) {
+                            var ii = incident[i];
+                            var iv = that.values[ii];
+                            
+                            if (ii == k)
+                                continue;
+                            
+                            if (iv < vv)
+                                nodesToIncrease.push(ii); 
+                        }
+
+                        if (nodesToIncrease.length > 0) {
+                            var totalSpreadAmount = vv * spreadRate;
+                            that.add(k, -totalSpreadAmount);
+                            
+                            var spreadAmount = totalSpreadAmount / parseFloat(nodesToIncrease.length);
+                            
+                            //  if the value is less than the original node,
+                            //  add a fraction of the spread rate
+                            for (var i = 0; i < nodesToIncrease.length; i++) {
+                                that.add(nodesToIncrease[i], spreadAmount);
+                            }
+                        }
+    
+                    }
+                }
+			}
+	};
+	
+	
+	return that;
+}
+var newAttentionMap = newAttentionMap;
+
+
+var createRingBuffer = function(length){
+
+  var pointer = 0, buffer = [];
+  
+  var that = {
+    get  : function(key){return buffer[key];},
+    push : function(item){
+      buffer[pointer] = item;
+      pointer = (length + pointer +1) % length;
+    }
+  };
+  
+  that.pointer = pointer;
+  that.buffer = buffer;
+  
+  return that;
+  
+};
+
+exports.createRingBuffer = createRingBuffer;
+
+function RecurringProcess(interval, runnable) {
+	var that = {	};
+	that.start = function() {
+		that.interval = setInterval(function() {
+			runnable();
+		}, interval);
+		runnable(); //run first
+	};
+	that.stop = function() {
+		clearInterval(that.interval);
+	};
+	return that;
+}
+exports.RecurringProcess = RecurringProcess;
+
+function OutputBuffer(interval, write /* limit */) {
+	var that = RecurringProcess(interval, function() {
+		var o = that.buffer.pop();
+		if (o) {
+			write(o);
+		}	
+	});
+	that.buffer = [];
+	that.write = write;
+	that.push = function(o) {
+		that.buffer.push(o);
+	};
+	/*that.pushAll = function(a) {
+		for (i = 0; i < a.length; i++)
+			push(a[i]);
+	};*/
+	
+	return that;
+}
+exports.OutputBuffer = OutputBuffer;

@@ -181,7 +181,7 @@ function netention(f) {
                 var r = [];
                 for (var k in this.objects()) {
                     var v = this.objects()[k];
-                    if (hasTag(v, t))
+                    if (objHasTag(v, t))
                         r.push(k);
                 }
                 return r;

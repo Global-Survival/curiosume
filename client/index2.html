@@ -16,19 +16,20 @@
             var MAX_INITIAL_OBJECTS = 1024;
             
             var exampleObject = {
-                id: '38274983f38hf83f',
+                id: 'CompleteExample',
                 name: 'Object Name',
                 createdAt: 38483478478,
                 modifiedAt: 8384848783,
                 author: '388439f983f983hf',
                 scope: 'public',
-                tag: [
+                values: [
                     { id: 'Description', text: 'Object\'s Description'  },
                     { id: 'Location', lat: -3, lon: -3, altitude: 20, planet: 'Earth', name: '3284 Main Street, New York City', 'circle': 384.2 /* meters */ },
-                	{ id: 'TimePoint', at: 384848833, timezone: 'EST' },
+                    { id: 'TimePoint', at: 384848833, timezone: 'EST' },
                 	{ id: 'TimeRange', startsAt: 384848833, endsAt: 83484848, timezone: 'EST' },
                 	{ id: 'EmotionSelect' },
                 	{ id: 'emotion.Happy', strength: 0.75 },
+                    { id: 'emotion.Sad', strength: 0.25 },
                 	{ id: 'emotion.Surprised', strength: 0.25, values: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
                 	{ id: 'FileAttachment', url: '/dkjfsdfkjs' },
                 	{ id: 'environment.EarthQuake', strength: 0.5, values: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
@@ -36,227 +37,7 @@
                 ]
             };
             
-            function objName(x) { return x.name || x.id || 'Unknown';    }
-            /*
-              objDescription(x) -> concatenates all 'description' tag values
-            
-              objLocation(x) -> gets the center point of the first location tag
-              objRadius(x) -> gets the radius of the first location tag
-            
-              objWhen(x) -> returns time associated with the object, using values in the priority:
-                timeRange (avg time of start and stop)
-                timePoint
-                modifiedAt
-                createdAt
-            
-              objTagIDs(x) -> array of tags involved, only the tag ID's as strings
-              objTags(x) -> array of tags involved, can exclude the built-in ones like 'file_attachment' and 'description'
-              objTagStrengths(x) -> normalized array of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
-              objStrongestTag(x) -> the strongest tag, or if equal to another, the first listed
-            
-              objTriples(x) -> the RDF triples associated with an object
-            
-              objDistanceSpace(x, y) -> meters between two objects, assuming both have locations. otherwise null
-              objDistanceTime(x, y) -> time difference between two objects, assuming both have times, otherwise null
-              objDistanceSpaceTime(x, y, speed) - speed in meters/sec
-            
-              objTagRelevance(x, y) - dot product vector of the common tags and their strengths
-            
-              objRemoveTag(x, n) -> y , removes the nth tag of an object
-              objAddTag(x, t, values)
-            */
 
-
-            function renderObject(x, editable) {
-                var d = $('<div/>');
-                
-                if (editable) {
-                    var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
-                    nameInput.val(objName(x));
-                    d.append(nameInput);
-                }
-                else {
-                    d.append('<h1>' + objName(x) + '</h1>');
-                }
-                d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
-
-                if (editable) {
-                    d.append('<div id="MatchedTypes"/>');
-                }
-
-                if (x.tag) {
-                    for (var i = 0; i < x.tag.length; i++) {
-                        var t = x.tag[i];
-                        var tt = renderTagSection(x, i, t, editable);
-                        d.append(tt); 
-                    }
-                }
-                return d;                
-            }
-            
-            
-            function renderTagSection(x, index, t, editable) {
-                var tag = t.id;
-                var strength = t.strength;
-                var values = t.values;
-                
-                var d = $('<div/>').addClass('tagSection');
-                
-                var tagLabel = $('<div>' + tag + '</div>').addClass('tagLabel');                
-                d.append(tagLabel);
-
-                if (!strength) strength = 1.0;
-                
-                var tagButtons = $('<div/>').addClass('tagButton');
-
-                if (strength > 0.25) {
-                    var weakenButton = $('&nbsp;<a href="#">-</a>&nbsp;');
-                    tagButtons.append(weakenButton);
-                }
-                if (strength < 1.0) {
-                    var strengthButton = $('&nbsp;<a href="#">+</a>&nbsp;');
-                    tagButtons.append(strengthButton);
-                }
-                
-                var removeButton = $('&nbsp;<a href="#">X</a>&nbsp;');
-                removeButton.click(function() {
-                   alert('removing index ' + index); 
-                });
-                tagButtons.append(removeButton);
-                
-                d.append(tagButtons);
-                
-                //-----------------
-                d.append('<br/>');
-                
-                if (tag == 'Description') {
-                    tagLabel.hide();
-                    
-                    if (editable) {
-                        var dd = $('<textarea/>').addClass('tagDescription');
-                        dd.val(t.text);
-                        d.append(dd);
-                    }
-                    else {
-                        var dd = $('<div/>');
-                        dd.html(t.text);
-                        d.append(dd);
-                    }
-                }
-                else if (tag == 'Location') {
-                    var ee = $('<div/>');
-                    
-                    var dd = $('<div/>');
-                    var de = uuid();
-                    dd.attr('id', de);
-                    dd = dd.addClass('focusMap');
-
-                    ee.append(dd);
-                    
-                    if (editable) {
-                        var lr = $('<input type="text" placeholder="Where" />');                    
-                        lr.css('width', 'auto');
-                        ee.append(lr);
-                        
-                        var cr = $('<select/>');
-                        cr.css('width', 'auto');
-                        cr.append('<option value="earth" selected>Earth</option>');
-                        cr.append('<option value="moon">Moon</option>');
-                        cr.append('<option value="mars">Mars</option>');
-                        cr.append('<option value="venus">Venus</option>');
-                        cr.change(function() {
-                            alert('Currently only Earth is supported.');
-                            cr.val('earth');
-                        });
-                        ee.append(cr);
-                        
-                        var ar = $('<input type="text" placeholder="Altitude" />');
-                        ar.css('width', '15%');
-                        ee.append(ar);
-                    }
-                    
-                    d.append(ee);
-                    later(function() {
-                        var m = initLocationChooserMap(de, [0,0]);
-                        
-                    });
-                }
-                else if (tag == 'TimePoint') {
-                    if (editable) {
-                        var lr = $('<input type="text" placeholder="Time" />');
-                        lr.val(new Date(t.at));
-                        d.append(lr);
-                        var lb = $('<button style="margin-top: -0.5em"><i class="icon-calendar"/></button>');
-                        
-                        d.append(lb);
-                    }
-                    else {
-                        d.append(new Date(t.at));
-                    }                    
-                }
-                else if (tag == 'TimeRange') {
-                    if (editable) {
-                        var lr = $('<input type="text" placeholder="Time Start" />');
-                        lr.val(new Date(t.startsAt));
-                        d.append('Start: ');
-                        d.append(lr);
-                        d.append('<br/>');
-                        var ls = $('<input type="text" placeholder="Time End" />');
-                        ls.val(new Date(t.endsAt));
-                        d.append('Stop: ');
-                        d.append(ls);
-                    }
-                    else {
-                        d.append(new Date(t.startsAt) + ' ' + new Date(t.endsAt));
-                    }
-                    
-                }
-                else if (tag == 'FileAttachment') {
-                    d.append(
-                    '<div id="FocusUploadSection">' +
-                        '<form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">' +
-                            '<p>File: <input type="file" name="uploadfile" /> </p>' +
-                            '<p><input type="submit" value="Upload" /></p>' +
-                        '</form>' +
-                        '<div class="FocusUploadProgress">' +
-                            '<div class="FocusUploadBar"></div>' +
-                            '<div class="FocusUploadPercent">0%</div>' +
-                        '</div>' +
-                        '<div id="FocusUploadStatus"></div>' +
-                    '</div>');                    
-                }
-                else if (tag == 'EmotionSelect') {
-                    var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
-                    es.click(function() {
-                       alert('Emotion select not functional yet.');
-                    });
-                    d.append(es);
-                }
-                else if (tag == 'HumanBodySelect') {
-                    var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>');
-                    es.click(function() {
-                       alert('Human body part select not functional yet.');
-                    });
-                    d.append(es);
-                }
-                else {
-                    var ti = getTagIcon(t.id);
-                    if (ti) {
-                        tagLabel.prepend('<img src="' + ti + '"/>');
-                    }
-                    if (t.values) {
-                        for (var v = 0; v < t.values.length; v++) {
-                            var vv = t.values[v];
-                            var pv = window.self.getProperty(vv.id);
-                            var pe = newPropertyEdit(vv, pv);
-                            //this.propertyEdits.push(pe);
-                            d.append(pe);
-                        }
-                    }
-                }
-                
-                return d;
-            }
             
             function updateFocus() {
                 $('#Focus').html( renderObject(window.self.get('focus'), true) );
