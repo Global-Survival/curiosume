@@ -22,22 +22,30 @@
                 modifiedAt: 8384848783,
                 author: '388439f983f983hf',
                 scope: 'public',
-                values: [
-                    { id: 'Description', text: 'Object\'s Description'  },
-                    { id: 'Location', lat: -3, lon: -3, altitude: 20, planet: 'Earth', name: '3284 Main Street, New York City', 'circle': 384.2 /* meters */ },
-                    { id: 'TimePoint', at: 384848833, timezone: 'EST' },
-                	{ id: 'TimeRange', startsAt: 384848833, endsAt: 83484848, timezone: 'EST' },
-                	{ id: 'EmotionSelect' },
+                value: [
+                    
+                    { id: 'integer', value: 7  },
+                    { id: 'real', value: 3.14  },
+                    { id: 'boolean', value: true  },
+                    { id: 'object', value: null  },
+                    { id: 'text', value: 'Object\'s Description'  },
+                    { id: 'textarea', value: 'Object\'s Description'  },
+                    { id: 'cortexit', value: 'Sentence 1. Sentence 2. Sentence 3.'  },
+                    { id: 'spacepoint', value: { lat: -3, lon: -3, altitude: 20, planet: 'Earth', name: '3284 Main Street, New York City', 'circle': 384.2 /* meters */ } },
+                    { id: 'timepoint', value: { at: 384848833, timezone: 'EST' } },
+                	{ id: 'timerange', value: { startsAt: 384848833, endsAt: 83484848, timezone: 'EST' } },
+                    { id: 'fileattachment', url: '/dkjfsdfkjs' },
+                    
                 	{ id: 'emotion.Happy', strength: 0.75 },
                     { id: 'emotion.Sad', strength: 0.25 },
-                	{ id: 'emotion.Surprised', strength: 0.25, values: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
-                	{ id: 'FileAttachment', url: '/dkjfsdfkjs' },
-                	{ id: 'environment.EarthQuake', strength: 0.5, values: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
+                	{ id: 'emotion.Surprised', strength: 0.25, 
+                        value: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
+                	{ id: 'environment.EarthQuake', strength: 0.5,
+                        value: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
                     { id: 'HumanBodySelect' },
+                    { id: 'EmotionSelect' }
                 ]
             };
-            
-
             
             function updateFocus() {
                 $('#Focus').html( renderObject(window.self.get('focus'), true) );

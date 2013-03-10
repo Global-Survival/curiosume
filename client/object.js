@@ -22,9 +22,9 @@ function getTagIcon(t) {
     
     if (t.uri) {
         //try all the tags, return the first
-        if (t.tag) {
-            for (var x = 0; x < t.tag.length; x++) {
-                var r = getTagIcon(t.tag[x]);
+        if (t.value) {
+            for (var x = 0; x < t.value.length; x++) {
+                var r = getTagIcon(t.value[x]);
                 if (r)
                     return r;
             }
@@ -128,9 +128,9 @@ function renderObject(x, editable) {
         d.append('<div id="MatchedTypes"/>');
     }
 
-    if (x.values) {
-        for (var i = 0; i < x.values.length; i++) {
-            var t = x.values[i];
+    if (x.value) {
+        for (var i = 0; i < x.value.length; i++) {
+            var t = x.value[i];
             var tt = renderTagSection(x, i, t, editable);
             d.append(tt); 
         }
@@ -173,21 +173,55 @@ function renderTagSection(x, index, t, editable) {
     //-----------------
     d.append('<br/>');
     
-    if (tag == 'Description') {
-        tagLabel.hide();
+    if (tag == 'textarea') {
+        //tagLabel.hide();
         
         if (editable) {
             var dd = $('<textarea/>').addClass('tagDescription');
-            dd.val(t.text);
+            if (t.value)
+                dd.val(t.value);
             d.append(dd);
         }
         else {
             var dd = $('<div/>');
-            dd.html(t.text);
+            if (t.value)
+                dd.html(t.value);
             d.append(dd);
         }
     }
-    else if (tag == 'Location') {
+    else if (tag == 'cortexit') {
+        //...
+    }
+    else if (tag == 'text') {
+        
+        if (editable) {
+            var dd = $('<input type="text"/>').addClass('tagDescription');
+            if (t.value)
+                dd.val(t.value);
+            d.append(dd);
+        }
+        else {
+            var dd = $('<div/>');
+            if (t.value)
+                dd.html(t.value);
+            d.append(dd);
+        }
+        
+    }
+    else if (tag == 'boolean') {
+		var t = $('<input type="checkbox">');
+		
+        var value = t.value;
+		if (!value)
+			value = true;
+		
+		t.attr('checked', value ? 'on' : undefined);
+		d.append(t);
+		/*x.data('value', function(target) {
+			return t.attr('checked') == 'checked' ? true : false;
+		});*/
+	}    
+    else if (tag == 'spacepoint') {
         var ee = $('<div/>');
         
         var dd = $('<div/>');
@@ -225,7 +259,7 @@ function renderTagSection(x, index, t, editable) {
             
         });
     }
-    else if (tag == 'TimePoint') {
+    else if (tag == 'timepoint') {
         if (editable) {
             var lr = $('<input type="text" placeholder="Time" />');
             lr.val(new Date(t.at));
@@ -238,7 +272,7 @@ function renderTagSection(x, index, t, editable) {
             d.append(new Date(t.at));
         }                    
     }
-    else if (tag == 'TimeRange') {
+    else if (tag == 'timerange') {
         if (editable) {
             var lr = $('<input type="text" placeholder="Time Start" />');
             lr.val(new Date(t.startsAt));
@@ -255,7 +289,7 @@ function renderTagSection(x, index, t, editable) {
         }
         
     }
-    else if (tag == 'FileAttachment') {
+    else if (tag == 'fileattachment') {
         d.append(
         '<div id="FocusUploadSection">' +
             '<form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">' +
@@ -283,16 +317,18 @@ function renderTagSection(x, index, t, editable) {
         });
         d.append(es);
     }
-    else {
-        var ti = getTagIcon(t.id);
+    else if (tag) {        
+        var ti = getTagIcon(tag);
         if (ti) {
             tagLabel.prepend('<img src="' + ti + '"/>');
         }
-        if (t.values) {
-            for (var v = 0; v < t.values.length; v++) {
-                var vv = t.values[v];
+        if (t.value) {
+            for (var v = 0; v < t.value.length; v++) {
+                var vv = t.value[v];
+                console.log(t, v, vv);
                 var pv = window.self.getProperty(vv.id);
-                var pe = newPropertyEdit(vv, pv);
+                //var pe = newPropertyEdit(vv, pv);
+                var pe = renderTagSection(t, v, vv, editable);
                 //this.propertyEdits.push(pe);
                 d.append(pe);
             }
