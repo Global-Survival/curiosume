@@ -325,7 +325,6 @@ function renderTagSection(x, index, t, editable) {
         if (t.value) {
             for (var v = 0; v < t.value.length; v++) {
                 var vv = t.value[v];
-                console.log(t, v, vv);
                 var pv = window.self.getProperty(vv.id);
                 //var pe = newPropertyEdit(vv, pv);
                 var pe = renderTagSection(t, v, vv, editable);

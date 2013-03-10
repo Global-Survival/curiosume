@@ -4,9 +4,6 @@
     <head>
         <title>Netention</title>
         
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="icon" href="/icon/gss.ico" type="image/x-icon" sizes="16x16">
-
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script src="netention.js"></script> 
         
@@ -15,40 +12,53 @@
         
             var MAX_INITIAL_OBJECTS = 1024;
             
-            var exampleObject = {
-                id: 'CompleteExample',
-                name: 'Object Name',
-                createdAt: 38483478478,
-                modifiedAt: 8384848783,
-                author: '388439f983f983hf',
-                scope: 'public',
-                value: [
-                    
-                    { id: 'integer', value: 7  },
-                    { id: 'real', value: 3.14  },
-                    { id: 'boolean', value: true  },
-                    { id: 'object', value: null  },
-                    { id: 'text', value: 'Object\'s Description'  },
-                    { id: 'textarea', value: 'Object\'s Description'  },
-                    { id: 'cortexit', value: 'Sentence 1. Sentence 2. Sentence 3.'  },
-                    { id: 'spacepoint', value: { lat: -3, lon: -3, altitude: 20, planet: 'Earth', name: '3284 Main Street, New York City', 'circle': 384.2 /* meters */ } },
-                    { id: 'timepoint', value: { at: 384848833, timezone: 'EST' } },
-                	{ id: 'timerange', value: { startsAt: 384848833, endsAt: 83484848, timezone: 'EST' } },
-                    { id: 'fileattachment', url: '/dkjfsdfkjs' },
-                    
-                	{ id: 'emotion.Happy', strength: 0.75 },
-                    { id: 'emotion.Sad', strength: 0.25 },
-                	{ id: 'emotion.Surprised', strength: 0.25, 
-                        value: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
-                	{ id: 'environment.EarthQuake', strength: 0.5,
-                        value: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
-                    { id: 'HumanBodySelect' },
-                    { id: 'EmotionSelect' }
-                ]
-            };
+            var focusMode;
             
-            function updateFocus() {
-                $('#Focus').html( renderObject(window.self.get('focus'), true) );
+            function setFocusMode(v) {
+                
+                //this whole thing needs cleaned up so we don't have to use static tags in the html.. just make them overwrite the same div
+                if ($('#FocusModeSelect').val()!=v)
+                    $('#FocusModeSelect').val(v);
+                
+	            var focusModeMap = {
+	                'Semantic': SemanticFocus,
+                    'Tag': TagFocus,
+                    'Needs': NeedsFocus,
+                    'Human': HumanbodyFocus,
+                    'Emotion': EmotionFocus,
+                    'Environment': EnvironmentFocus,
+                    'Team': TeamFocus
+	            };
+                
+                var f = focusModeMap[v];
+                if (f) {
+                    if (focusMode == f)
+                        return;
+                        
+                    window.self.set('focusmode', v);
+                    window.self.saveLocal();
+                        
+                    var existingMode = focusMode;
+                    if (existingMode)
+                        existingMode.stop();
+                        
+                    focusMode = f;
+                    
+                    f.start(window.self, $('#SelfTarget'));
+                }
+                else {
+                    console.dir('Unknown Focus Mode: ' + v);
+                }
+                    
+            }
+            
+            function getEditedFocus() {
+                return focusMode.get();
+            }
+                        
+            function _setFocus(x) {
+                if (focusMode)
+                    focusMode.set(x);                
             }
 
             function commitFocus(f) {
@@ -56,18 +66,22 @@
                 window.self.trigger('change:focus');
             }
                                 
+            function updateFocus() {
+                setFocus(window.self.focus());                
+            }
             
             function initDescriptionRichText() {
                 $('#FocusDescriptionSection').html('<textarea id="FocusDescription"></textarea>');
                 $('#FocusDescription').wysihtml5();                                           
             }
             
-            var updateView;
+            var updateView, setFocus;
             
             function initUI(self) {
                 $('body').timeago();
                 
                 updateView = _.throttle(_updateView, 150);
+                setFocus = _.throttle(_setFocus, 150);
 
                 self.on('change:attention', function() {
                     later(function() {
@@ -75,6 +89,12 @@
                     });
                 }); 
                 
+                self.on('change:focus', function() {
+                    later(function() {
+                        updateFocus();
+                        updateView();
+                    });
+                }); 
                 
                 self.on('change:currentView', function() {
                     later(function() {
@@ -83,8 +103,9 @@
                 });
                 
                 self.on('change:tags', function() {
-                    /*later(function() {
-                    });*/
+                    later(function() {
+                        updateFocus();
+                    });
                 });
 
                 $('#FocusToggleButton').click(function() {
@@ -112,6 +133,11 @@
                     self.set('currentView', v);
                 });
                 
+                $('#FocusModeSelect').change(function() {
+                    var v = $(this).val();                    
+                    setFocusMode(v);
+	            });
+    
     
     
     
@@ -138,6 +164,7 @@
                     });
                 });
 
+                updateFocus();
                 
             }
                         
@@ -263,6 +290,7 @@
                           
                           newWithTags : function(ts) {                              
                               //'/new/with/tags/' + ts
+                              setFocusMode('Semantic');
                               ts = ts.split(',');
                               var tss = [];
                               for (var i = 0; i < ts.length; i++)
@@ -276,6 +304,8 @@
                           },
                         
                           me: function() {
+                                setFocusMode('Semantic');
+                                updateFocus();
                                 commitFocus( self.myself() );
                           },
                             
@@ -329,6 +359,8 @@
                         
                         setTheme(self.get('theme'));
                                                 
+                        setFocusMode(self.get('focusmode') || 'Semantic');
+                        $('#FocusModeSelect').val(self.get('focusmode'));
                         
                         initUI(self);                        
 
@@ -344,11 +376,6 @@
                         else {
                             updateView();
                         }
-                        
-                        //DEBUG
-                        commitFocus(exampleObject);
-                        updateFocus();
-                        //
                     });
                                         
                     
@@ -410,28 +437,104 @@
                 
                 <span id="FocusMainMenu">
                     <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
-                    <span class="btn-group">
-                        <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
-                        <button title="Add Description" id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
-                        <button title="Add Location"id="ToggleLocationButton"><i class="icon-globe"></i></button>
-                        <button title="Upload"id="ToggleUploadButton"><i class="icon-file"></i></button>                
-                        <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:showEditedFocus();">Export...</a></li>
-                            <li><a href="javascript:cloneFocus();">Clone...</a></li>
-                            <li><a href="javascript:deleteFocus();">Delete</a></li>
-                        </ul>
-                    </span>
+                    <select id="FocusModeSelect">
+                        <option><i class="icon-search"></i>Semantic</option>
+                        <option>Needs</option>
+                        <option>Where / When</option>
+                        <option>Search</option>
+                        <option>Tag</option>
+                        <option>Team</option>
+                        <option>Human</option>
+                        <option>Emotion</option>
+                        <option>Environment</option>
+                    </select>
                 </span>
             </div>
             <div id="SelfTarget" refactorToID="FocusEdit">
                     
-                <div id="Focus">
-                </div>
                 
+                <div id="SemanticFocus" style="display:none">
+    
+                    <div>
+                        <input id="FocusName" type="text" x-webkit-speech="x-webkit-speech"/>
+                    </div>
+                    <div id="MatchedTypes"></div>
+                    
+                    <div id="FocusTypes"></div>
+                    
+                    <div id="FocusDescriptionSection">
+                        <textarea id="FocusDescription"></textarea>
+                    </div>
+                    <div id="FocusMapSection">
+                        <div id="focusMap" class="map" style="height: 200px; width: 100%">
+                        </div>
+                    </div>
+                    <div id="FocusUploadSection">
+                        <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                            <p>File:
+                                <input type="file" name="uploadfile" />
+                            </p>
+                            <p>
+                                <input type="submit" value="Upload" />
+                            </p>
+                        </form>
+                        <div class="FocusUploadProgress">
+                            <div class="FocusUploadBar"></div>
+                            <div class="FocusUploadPercent">0%</div>
+                        </div>
+                        <div id="FocusUploadStatus"></div>        
+                    </div>
+                    
+                    <div id="FocusProperties">
+                        
+                    </div>
+                        <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+                            <h2>Select Tags</h2>
+                            <div id="TypeSelectModalTree"></div>
+                            
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                        </div>
+                        
+                    <div id="SaveButtonWrapper" style="width: auto">
+                        
+                        <!--
+                        <span class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Tag"><i class="icon-tag"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" id="TypeMenu">
+                            </ul> 
+                        </span> -->
+                        
+                        <span class="btn-group">
+                            <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
+                            <button title="Add Description" id="ToggleDescriptionButton"><i class="icon-pencil"></i></button>                
+                            <button title="Add Location"id="ToggleLocationButton"><i class="icon-globe"></i></button>
+                            <button title="Upload"id="ToggleUploadButton"><i class="icon-file"></i></button>                
+                            <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:showEditedFocus();">Export...</a></li>
+                                <li><a href="javascript:cloneFocus();">Clone...</a></li>
+                                <li><a href="javascript:deleteFocus();">Delete</a></li>
+                            </ul>
+                        </span>
+                        
+                    </div>
+                    
+                </div>
+                <div id="NeedsFocus" style="display:none">
+                    <h1>NEEDS</h1>
+                </div>
+                <div id="HumanbodyFocus" style="display:none"></div>
+                <div id="EmotionFocus" style="display:none"></div>
+                <div id="TagFocus" style="display:none"></div>
+                <div id="EnvironmentFocus" style="display:none">
+                    <div id="EnvironmentFocusMap"></div>
+                    <div id="EnvironmentFocusContent"></div>                    
+                </div>
+                <div id="TeamFocus" style="display:none"></div>
             </div>
             
     	    <div id="DataTarget" class="DataTargetNormal">
@@ -460,14 +563,6 @@
 
         <div id="LoadingSplash">        
             <p style="font-size: 500%; text-align: center; margin-top: 3em;">&#8987;</p>
-        </div>
-        
-        <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
-
-            <h2>Select Tags</h2>
-            <div id="TypeSelectModalTree"></div>
-            
-            <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
     
     </body>

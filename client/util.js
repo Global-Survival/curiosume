@@ -4,7 +4,7 @@ function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 de
 exports._n = _n;
     
 
-function objName(x) { return x.name || x.id || 'Unknown';    }
+function objName(x) { return x.name || '';    }
 /*
   objDescription(x) -> concatenates all 'description' tag values
 

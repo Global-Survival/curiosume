@@ -205,16 +205,8 @@ function netention(f) {
             },
             
             focus : function() { 
-                var f = this.get('focus'); 
-                if (!f) {
-                    return { 
-                        uri: uuid(), values: [ ], tag: [ ], tagStrength: [ ],
-                        uris: null //if !=null, then array containing uri's, ex: those which it references
-                    };
-                }
-                return f;
-            },
-            
+                return this.get('focus');
+            },            
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 
