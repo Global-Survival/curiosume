@@ -16,10 +16,73 @@ function objNew(id) {
 }
 exports.objNew = objNew;
 
+function objAddValue(x, v) {
+    if (!x.value)
+        x.value = [];
+        
+    x.value.push(v);
+    x.modifiedAt = Date.now();
+    return x;
+}
+exports.objAddValue = objAddValue;
 
-function objName(x) { return x.name || '';    }
+
+function objRemoveValue(x, i) {
+    if (x.value) {
+        if (i < x.value.length) {
+            x.value.splice(i, 1);
+            x.modifiedAt = Date.now();
+            return x;
+        }
+    }
+    return x;
+}
+exports.objRemoveValue = objRemoveValue;
+
+function objName(x, newName) { 
+    /*  if newName is undefined, gets the name
+        otherwise, sets the name to newName */
+    
+    if (!newName) {
+        return x.name || '';    
+    }
+    else {
+        x.name = newName;
+        x.modifiedAt = Date.now();
+        return x;
+    }
+}
+
+function valueType(v) {
+    if (v == 'textarea')
+        return v;
+    //check for other primitives
+    
+    //if hasn't returned by now, search ontology and resolve type
+    if (window.self) {
+        
+    }    
+    return v;
+}
+
+function objAddDescription(x, desc) {
+    return objAddValue(x, { id: 'textarea', value: desc } );
+}
+function objDescription(x) {
+    /* concatenates all 'description' tag values */
+    var c = '';
+    if (x.value) {
+        for (var i = 0; i < x.value.length; i++) {
+            var ii = x.value[i];
+            if (valueType(ii.id) == 'textarea') {
+                c = c + ii.value + ' ';
+            }
+        }
+    }
+    return c.trim();
+}
+
 /*
-  objDescription(x) -> concatenates all 'description' tag values
 
   objLocation(x) -> gets the center point of the first location tag
   objRadius(x) -> gets the radius of the first location tag
