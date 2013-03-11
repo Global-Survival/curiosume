@@ -42,6 +42,10 @@ Water (H2O) - patterns of abundance and scarcity of clean water
             
             space (comets, meteors, asteroids, moons)
         
+            transpiration / transpiration bags
+                http://beforeitsnews.com/self-sufficiency/2013/03/how-to-extract-water-from-thin-air-2454224.html
+                http://www.survivalresources.com/Articles/Transpiration_Bags.html
+            
         applications
         
             drinking

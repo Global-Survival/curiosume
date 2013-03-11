@@ -4,6 +4,19 @@ function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 de
 exports._n = _n;
     
 
+function objNew(id) {
+    if (!id)
+        id = uuid();
+        
+    return {
+        'id': id,
+        createdAt: Date.now(),
+        scope: 'public'
+    };
+}
+exports.objNew = objNew;
+
+
 function objName(x) { return x.name || '';    }
 /*
   objDescription(x) -> concatenates all 'description' tag values
@@ -19,7 +32,7 @@ function objName(x) { return x.name || '';    }
 
   objTagIDs(x) -> array of tags involved, only the tag ID's as strings
   objTags(x) -> array of tags involved, can exclude the built-in ones like 'file_attachment' and 'description'
-  objTagStrengths(x) -> normalized array of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
+  objTagStrengths(x, normalized) -> table of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
   objStrongestTag(x) -> the strongest tag, or if equal to another, the first listed
 
   objTriples(x) -> the RDF triples associated with an object
