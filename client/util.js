@@ -170,7 +170,6 @@ exports.objTagRelevance = objTagRelevance;
   objDistanceTime(x, y) -> time difference between two objects, assuming both have times, otherwise null
   objDistanceSpaceTime(x, y, speed) - speed in meters/sec
 
-  objTagRelevance(x, y) - dot product vector of the common tags and their strengths
 
   
   

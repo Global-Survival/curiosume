@@ -154,15 +154,15 @@ function renderTagSection(x, index, t, editable) {
     var tagButtons = $('<div/>').addClass('tagButton');
 
     if (strength > 0.25) {
-        var weakenButton = $('&nbsp;<a href="#">-</a>&nbsp;');
+        var weakenButton = $('<a href="#">-</a>');
         tagButtons.append(weakenButton);
     }
     if (strength < 1.0) {
-        var strengthButton = $('&nbsp;<a href="#">+</a>&nbsp;');
+        var strengthButton = $('<a href="#">+</a>');
         tagButtons.append(strengthButton);
     }
     
-    var removeButton = $('&nbsp;<a href="#">X</a>&nbsp;');
+    var removeButton = $('<a href="#">X</a>');
     removeButton.click(function() {
        alert('removing index ' + index); 
     });
@@ -192,7 +192,7 @@ function renderTagSection(x, index, t, editable) {
     else if (tag == 'cortexit') {
         //...
     }
-    else if (tag == 'text') {
+    else if ((tag == 'text') || (tag == 'url')) {
         
         if (editable) {
             var dd = $('<input type="text"/>').addClass('tagDescription');

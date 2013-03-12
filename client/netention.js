@@ -66,7 +66,7 @@ function loadScripts(f) {
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js',
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
                         
-                        "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/bootstrap.min.js",
+                        "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js',
 
                         '/lib/pnotify/jquery.pnotify.min.js',
