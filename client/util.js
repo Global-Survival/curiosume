@@ -52,35 +52,102 @@ function objName(x, newName) {
         return x;
     }
 }
+exports.objName = objName;
 
-function valueType(v) {
-    if (v == 'textarea')
-        return v;
-    //check for other primitives
-    
-    //if hasn't returned by now, search ontology and resolve type
-    if (window.self) {
-        
-    }    
-    return v;
+function isPrimitive(t) {
+    if (t == 'boolean') return true;
+    if (t == 'text') return true;
+    if (t == 'textarea') return true;
+    if (t == 'integer') return true;
+    if (t == 'real') return true;
+    if (t == 'url') return true;
+    if (t == 'object') return true;
+    if (t == 'fileattachment') return true;
+    if (t == 'spacepoint') return true;
+    if (t == 'timepoint') return true;
+    if (t == 'timerange') return true;
+    return false;    
 }
+exports.isPrimitive = isPrimitive;
 
 function objAddDescription(x, desc) {
-    return objAddValue(x, { id: 'textarea', value: desc } );
+    return objAddValue(x, { id: 'textarea', value: desc } );    
 }
+exports.objAddDescription = objAddDescription;
+
 function objDescription(x) {
     /* concatenates all 'description' tag values */
     var c = '';
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var ii = x.value[i];
-            if (valueType(ii.id) == 'textarea') {
+            if (ii.id == 'textarea') {
                 c = c + ii.value + ' ';
             }
         }
     }
     return c.trim();
 }
+exports.objDescription = objDescription;
+
+function objTags(x) {
+  // objTags(x) -> array of tags involved
+    return _.uniq( _.filter( _.pluck(x.value, 'id'), function(t) { return !isPrimitive(t) } ) );
+}
+exports.objTags = objTags;
+
+function objTagStrength(x) {
+  // objTags(x) -> array of tags involved
+  var t = { };  
+  if (!x.value)
+    return t;
+    
+  for (var i = 0; i < x.value.length; i++) {
+    var vv = x.value[i];
+    var ii = vv.id;
+    if (isPrimitive(ii))
+        continue;
+    var s = vv.strength || 1.0;
+    if (!t[ii])
+        t[ii] = s;
+    else
+        t[ii] = Math.max(s, t[ii]);
+  }
+  var total = 0.0;
+  for (var k in t) {
+      total += t[k];
+  }
+  
+  if (total > 0) {
+    for (var k in t) {
+        t[k] /= total;
+    }    
+  }
+  
+  return t;
+}
+exports.objTagStrength = objTagStrength;
+
+function objTagRelevance(x,y) {
+    /* dot product of the normalized tag vectors */
+    
+    var xx = objTagStrength(x);
+    var yy = objTagStrength(y);
+    var common = _.intersection( _.keys(xx), _.keys(yy) );
+    if (common) {
+        if (common.length > 0) {
+            var total = 0.0;
+            for (var i = 0; i < common.length; i++) {
+                var c = common[i];
+                total += xx[c] * yy[c]; //dot product
+            }
+            return total / common.length;
+        }
+    }
+    return 0;
+    
+}
+exports.objTagRelevance = objTagRelevance;
 
 /*
 
@@ -94,7 +161,6 @@ function objDescription(x) {
     createdAt
 
   objTagIDs(x) -> array of tags involved, only the tag ID's as strings
-  objTags(x) -> array of tags involved, can exclude the built-in ones like 'file_attachment' and 'description'
   objTagStrengths(x, normalized) -> table of the strengths of tags involved. if a tag doesnt specify a strength, assume 1.  the values will be normalized against others at the end so they dont need to add up to 1
   objStrongestTag(x) -> the strongest tag, or if equal to another, the first listed
 
@@ -106,8 +172,8 @@ function objDescription(x) {
 
   objTagRelevance(x, y) - dot product vector of the common tags and their strengths
 
-  objRemoveTag(x, n) -> y , removes the nth tag of an object
-  objAddTag(x, t, values)
+  
+  
 */
 
 
