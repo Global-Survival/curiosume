@@ -212,14 +212,10 @@ function netention(f) {
                 var o = this.getSelf(this.id()); 
                 var dl = this.get('DefaultGeolocation') || [0.0];
                 if (!o) {
-                    o = {
-                        uri: 'Self-' + this.id(),
-                        name: 'Anonymous',
-                        geolocation: dl,
-        		        tag: [ 'Human', 'User' ],
-        		        tagStrength: [ 1.0, 1.0 ],
-                        properties: [ ]
-                    };
+                    o = objNew('Self-' + this.id(), 'Anonymous');
+                    objAddTag(o, 'Human');
+                    objAddTag(o, 'User');
+                    
                     this.setObject(o);
                 }
                 return o;
@@ -414,7 +410,7 @@ function netention(f) {
             getLatestObjects : function(num, onFinished) {
                 var that = this;
                 $.getJSON('/object/latest/' + num + '/json', function(objs) {
-                	for (var k in objs) {
+                	for (var k = 0; k < objs.length; k++) {
             			var x = objs[k];
             			that.notice(x);
             		}
@@ -469,18 +465,6 @@ function netention(f) {
                         that.deleteObject(y, true);
                         return;
                     }
-            		/*if (y.type) {
-            			//y.type = getTypeArray(y.type);
-                        
-            			for (var ti = 0; ti < y.type.length; ti++) {
-            				var t = types[y.type[ti]];
-            				if (!t) {
-            					//add tag for type if not excists
-            					
-            					types[y.type] = { uri: y.type, name: y.type };
-            				}
-            			}
-            		}*/   
             		
                     if (y.replyTo) {
                         var p = replies[y.replyTo];
@@ -493,8 +477,8 @@ function netention(f) {
                         }
                     }
                     
-            		if (y.uri) {
-            			attention[y.uri] = y;
+            		if (y.id) {
+            			attention[y.id] = y;
             		}
             		
             	}
@@ -542,8 +526,7 @@ function netention(f) {
                 var tagCount = { };
                 
                 for (var ai in aa) {
-                    var t = aa[ai].tag;
-                    if (!t)                 continue;
+                    var t = objTags(aa[ai]);
                     
                     for (var i = 0; i < t.length; i++) {
                         var tt = t[i];

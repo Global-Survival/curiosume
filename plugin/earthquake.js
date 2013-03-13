@@ -6,6 +6,7 @@
 //http://www.emsc-csem.org/#2
 
 var rss = require('./rss.js');
+var util = require('../client/util.js');
 
 exports.plugin = {
     	name: 'USGS Earthquakes',	
@@ -30,11 +31,13 @@ exports.plugin = {
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
 
                 eq.name = eq.name + ' Earthquake';
-                eq.eqMagnitude = parseFloat( eq.name.substring(1, eq.name.indexOf(',')));
-		        eq.tag = [ 'environment.EarthQuake' ];
+                
+                util.objAddTag(eq, 'environment.EarthQuake');
+                util.objAddValue(eq, 'eqMagnitude', parseFloat( eq.name.substring(1, eq.name.indexOf(','))) );
+                
+                //util.objAddValue(eq, 'eqDepth', 0);
                 
                 netention.notice(eq);
-
 
                 return eq;
 	        });

@@ -147,7 +147,7 @@ exports.start = function(host, port, database, init) {
 		
 		function objectRemoved(uri) {
     	    return {
-                'uri': uri,
+                'id': uri,
                 'removed': true
     	    };
 		}
@@ -155,7 +155,7 @@ exports.start = function(host, port, database, init) {
 		//TODO move to 'removed' db collection
 		
 		var db = mongo.connect(databaseUrl, collections);
-		db.obj.remove({ uri: objectID }, function(err, docs) {
+		db.obj.remove({ id: objectID }, function(err, docs) {
 			db.close();
             
             if (err) {
@@ -188,16 +188,19 @@ exports.start = function(host, port, database, init) {
     that.deleteObject = deleteObject;
 			
 	function notice(o, whenFinished) {
-		if (!o.uri)
+		if (!o.id)
 			return;
 		
 		if (o._id)
 			delete o._id;
+            
+        if (o.modifiedAt == undefined)
+            o.modifiedAt = o.createdAt;
 				
 		attention.notice(o, 0.1);
 		
 		var db = mongo.connect(databaseUrl, collections);
-		db.obj.update({ uri: o.uri }, o, {upsert: true}, function(err) {
+		db.obj.update({ id: o.id }, o, {upsert: true}, function(err) {
 			if (err) {
 				nlog('notice: ' + err);
 			}
@@ -240,7 +243,7 @@ exports.start = function(host, port, database, init) {
 		}
 		else {
 			var db = mongo.connect(databaseUrl, collections);
-			db.obj.find({ 'uri': uri }, function(err, docs) {
+			db.obj.find({ 'id': uri }, function(err, docs) {
     			db.close();
 				if (err) {
                     nlog('getObjectSnapshot: ' + err);
@@ -254,6 +257,7 @@ exports.start = function(host, port, database, init) {
 		
 	}
 	
+    
 	function getObjectsByTag(t, withObjects) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find({ tag: { $in: [ t ] } }, function(err, docs) {
@@ -270,6 +274,7 @@ exports.start = function(host, port, database, init) {
 	}
     that.getObjectsByTag = getObjectsByTag;
 
+    /*
     function getObjectsByTags(tags, withObjects) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find({ tag: { $in: tags } }, function(err, docs) {
@@ -285,8 +290,9 @@ exports.start = function(host, port, database, init) {
 		});		
 	}
     that.getObjectsByTags = getObjectsByTags;
+    */
 
-
+    /*
 	function getTagCounts(whenFinished) {
 		//this can probably be optimized very much
 		
@@ -327,6 +333,7 @@ exports.start = function(host, port, database, init) {
 			whenFinished(totals);
 		});
 	}
+    */
 	
 	function saveState(onSaved, onError) {
 		var t = Date.now()
@@ -563,14 +570,14 @@ exports.start = function(host, port, database, init) {
     express.get('/object/latest/:num/json', function(req, res) {
         var n = parseInt(req.params.num);
 		var db = mongo.connect(databaseUrl, collections);
-       	db.obj.find().limit(n).sort({when:-1}, function(err, objs) {
+       	db.obj.find().limit(n).sort({modifiedAt:-1}, function(err, objs) {
                sendJSON(res, objs);
                db.close();
        	}); 
     });
 	express.get('/object/:uri', function (req, res) {
 		var uri = req.params.uri;
-		res.redirect('/object.html?uri=' + uri);
+		res.redirect('/object.html?id=' + uri);
 	});
 	express.get('/object/:uri/json', function (req, res) {
 		var uri = req.params.uri;
@@ -615,30 +622,29 @@ exports.start = function(host, port, database, init) {
 	function broadcast(socket, message) {
 		notice(message);
 	
-		if (message.tag) {
 			
-            if (socket)
-			    nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+        if (socket)
+		    nlog(socket.clientID + ' broadcast: ' + JSON.stringify(message, null, 4));
+		
+		var targets = { };
+		
+        var ot = util.objTags();
+		for (var t = 0; t < ot.length; t++) {
+			var chan = ot[t];
 			
-			var targets = { };
-			
-			for (var t = 0; t < message.tag.length; t++) {
-				var chan = message.tag[t];
-				
-				var cc = io.sockets.clients(chan);
-				for (var cck in cc) {
-					var i = cc[cck].id;
-                    if (socket)
-    					if (i!=socket.id)
-	    					targets[i] = '';
-				}						
-			}
-			
-			for (var t in targets) {
-				io.sockets.socket(t).emit('notice', message);
-			}
-			
+			var cc = io.sockets.clients(chan);
+			for (var cck in cc) {
+				var i = cc[cck].id;
+                if (socket)
+					if (i!=socket.id)
+    					targets[i] = '';
+			}						
 		}
+		
+		for (var t in targets) {
+			io.sockets.socket(t).emit('notice', message);
+		}
+		
         
         io.sockets.in('*').emit('notice', message);
         

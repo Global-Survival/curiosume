@@ -148,22 +148,17 @@ var RSSFeed = function(url, perArticle) {
             w = new Date(a['date']).getTime();
         else
             w = Date.now();
+            
+        var x = util.objNew( util.MD5(a['guid']), a['title'] );
+        x.createdAt = w;
         
-		var x = {
-			uri: util.MD5(a['guid']),
-			link: a['link'],
-			when: w,
-			name: a['title'],
-			tag: [ "Message" ],
-            tagStrength: [ "1.0" ],
-			length: maxlen,
-            text: a['description']
-		};
+        util.objDescription(x, a['description']);        
+        
 		if (a['georss:point']) {
-			x.geolocation = a['georss:point'];
+            util.objAddGeoLocation(x, a['georss:point'][0], a['georss:point'][1] );
 		}
 		if (a['geo:lat']) {
-			x.geolocation = [ parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) ];
+            util.objAddGeoLocation(x, parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) );
 		}
 
 		perArticle(x);
@@ -171,8 +166,7 @@ var RSSFeed = function(url, perArticle) {
 	}	
 
     try {
-    	feedparser.parseUrl(url)
-      		.on('article', onArticle);
+    	feedparser.parseUrl(url).on('article', onArticle);
     }
     catch (e) {
         console.error(e);

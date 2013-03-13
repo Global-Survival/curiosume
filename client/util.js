@@ -4,17 +4,28 @@ function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 de
 exports._n = _n;
     
 
-function objNew(id) {
+function objNew(id, name) {
     if (!id)
         id = uuid();
         
-    return {
+    var x = {
         'id': id,
         createdAt: Date.now(),
         scope: 'public'
     };
+    
+    if (name)
+        x.name = name;
+        
+    return x;
 }
 exports.objNew = objNew;
+
+
+function objAddTag(x, t) {
+    return objAddValue(x, { id: t });    
+}
+exports.objAddTag = objAddTag;
 
 /*
     objAddValue(x, { id: i, value: v } )
@@ -161,7 +172,6 @@ exports.objTagRelevance = objTagRelevance;
 
 /*
 
-  objLocation(x) -> gets the center point of the first location tag
   objRadius(x) -> gets the radius of the first location tag
 
   objWhen(x) -> returns time associated with the object, using values in the priority:
@@ -185,6 +195,15 @@ exports.objTagRelevance = objTagRelevance;
   
 */
 
+function objSpacePoint(x) {
+    return objFirstValue(x, 'spacepoint', null);    
+}
+exports.objSpacePoint = objSpacePoint;
+
+function objAddGeoLocation(x, lat, lon) {
+    return objAddValue(x, { id: 'spacepoint', lat: lat, lon: lon, planet: 'Earth'});
+}
+exports.objAddGeoLocation = objAddGeoLocation;
 
 function objHasTag(x, t) {    
     return _.contains(objTags(x), t);
@@ -192,7 +211,7 @@ function objHasTag(x, t) {
 exports.objHasTag = objHasTag;
 
 
-function objGetFirstValue(object, id, defaultValue) {
+function objFirstValue(object, id, defaultValue) {
     if (object.values) {
         for (var k = 0; k < object.value.length; k++) {
         	if (object.value[k].id == id)
@@ -201,9 +220,9 @@ function objGetFirstValue(object, id, defaultValue) {
 	}
 	return defaultValue;
 }
-exports.objGetFirstValue = objGetFirstValue;
+exports.objFirstValue = objFirstValue;
 
-function objGetValues(object, id) {
+function objValues(object, id) {
     var v = [];
     if (object.values) {
         for (var k = 0; k < object.value.length; k++) {
@@ -213,7 +232,7 @@ function objGetValues(object, id) {
 	}
 	return v;
 }
-exports.objGetValues = objGetValues;
+exports.objValues = objValues;
 
 
 function uuid() {

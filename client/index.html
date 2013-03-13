@@ -12,7 +12,8 @@
         
         
         <script>
-        
+            "use strict";
+            
             var MAX_INITIAL_OBJECTS = 1024;
             
             var exampleObject = {
@@ -320,12 +321,13 @@
                                 commitFocus( exampleObject );  
                           },
                             
+                        /*
                           help: function() {
                                 commitFocus({
                                    uri: uuid(),
                                    tag: [ 'help '], tagStrength: [ 1.0 ]
                                 });
-                          },
+                          },*/
                           
                           tag: function(tag) {
                                 self.set('list-semantic', 'Relevant');
