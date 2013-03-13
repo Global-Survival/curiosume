@@ -182,14 +182,15 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         tagLabel.hide();    
         type = tag;
     }
-    else if (window.self.properties()[type]!=undefined) {
-        type = window.self.properties()[type].type;
+    else if (window.self.properties()[tag]!=undefined) {
+        var prop = window.self.properties()[tag];
+        type = prop.type;
+        tagLabel.html( prop.name );
     }
     
     
     
-    if (type == 'textarea') {
-        
+    if (type == 'textarea') {        
         
         if (editable) {
             var dd = $('<textarea/>').addClass('tagDescription');
@@ -211,13 +212,23 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
     else if (type == 'cortexit') {
         //...
     }
-    else if ((type == 'text') || (type == 'url')) {
+    else if ((type == 'text') || (type == 'url') || (type=='integer') || (type=='real')) {
         
         if (editable) {
             var dd = $('<input type="text"/>').addClass('tagDescription');
             if (t.value)
                 dd.val(t.value);
             d.append(dd);
+            
+            whenSaved.push(function(y) {
+                if ((type == 'text') || (type=='url'))
+                    objAddValue(y, tag, dd.val());
+                else if (type == 'real')
+                    objAddValue(y, tag, parseFloat(dd.val()));
+                else if (type == 'integer')
+                    objAddValue(y, tag, parseInt(dd.val()));
+            });
+
         }
         else {
             var dd = $('<div/>');
@@ -352,21 +363,52 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         d.append(es);
     }
     else if (tag) {        
-        var ti = getTagIcon(tag);
-        if (ti) {
-            tagLabel.prepend('<img src="' + ti + '"/>');
+        var TAG = window.self.tags()[tag];
+        if (!TAG) {
+            d.append('Unknown tag: ' + tag);            
         }
-        /*
-        if (t.value) {
-            for (var v = 0; v < t.value.length; v++) {
-                var vv = t.value[v];
-                var pv = window.self.getProperty(vv.id);
-                //var pe = newPropertyEdit(vv, pv);
-                var pe = renderTagSection(t, v, vv, editable);
-                //this.propertyEdits.push(pe);
-                d.append(pe);
+        else {
+            var ti = getTagIcon(tag);
+            if (window.self.tags()[tag]!=undefined) {
+                tagLabel.html( TAG.name );        
             }
-        }*/
+            if (ti) {
+                tagLabel.prepend('<img src="' + ti + '"/>');
+            }
+            if (editable) {
+                whenSaved.push(function(y) {
+                   objAddTag(y, tag);
+                });
+                /*var pb = $('<button>...</button>');
+                tagLabel.append(pb);*/
+                
+                function getTagProperties(t) {
+                    var TT = window.self.tags()[t];
+                    return TT.properties;
+                }
+                
+                var pd = $('<div/>');
+                var pp = getTagProperties(tag);
+                for (var i = 0; i < pp.length; i++) {
+                    var ppv = pp[i];
+                    pd.append(ppv);
+                }
+                
+                d.append(pd);
+            }
+    
+            /*
+            if (t.value) {
+                for (var v = 0; v < t.value.length; v++) {
+                    var vv = t.value[v];
+                    var pv = window.self.getProperty(vv.id);
+                    //var pe = newPropertyEdit(vv, pv);
+                    var pe = renderTagSection(t, v, vv, editable);
+                    //this.propertyEdits.push(pe);
+                    d.append(pe);
+                }
+            }*/
+        }
     }
     
     return d;
