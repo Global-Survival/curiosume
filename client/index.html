@@ -55,14 +55,34 @@
                     var u = uuid();
                     Backbone.history.navigate('/object/' + u);
                     self.set('list-semantic', 'Any');
-                    commitFocus({
-                        id: u
-                    }); 
+                    commitFocus(objNew(u)); 
                 });                
             }
             
+            var whenSaved = [];
+            
+            function getEditedFocus() {
+                var f = focus();
+                var x = objNew( f.id );
+                x.createdAt = f.createdAt;
+                x.author = f.author;
+                for (var i = 0; i < whenSaved.length; i++) {
+                    var w = whenSaved[i];
+                    w(x);
+                }
+                return x;
+            }
+            
+            function focus() { return window.self.focus(); }
+            
             function updateFocus() {
-                $('#Focus').html( renderObject(window.self.focus(), true) );
+                whenSaved = [];
+                
+                var onRemove = function(i) {                    
+                    commitFocus( objRemoveValue( getEditedFocus(), i) );
+                };
+                
+                $('#Focus').html( renderObject(focus(), true, whenSaved, onRemove) );
             }
 
             function commitFocus(f) {
@@ -144,6 +164,16 @@
                 });
                 $('#ClearButton').click(function() {
                     clear();
+                });
+                
+                $('#AddDescriptionButton').click(function() {
+                    commitFocus( objAddValue(getEditedFocus(), 'textarea', '') );
+                });
+                $('#AddFileAttachmentButton').click(function() {
+                    commitFocus( objAddValue(getEditedFocus(), 'fileattachment', '') );
+                });
+                $('#AddLocationButton').click(function() {
+                    commitFocus( objAddValue(getEditedFocus(), 'spacepoint', '') );
                 });
 
                 

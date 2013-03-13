@@ -518,8 +518,6 @@ function netention(f) {
             },
             
             pub: function(message) {
-                if (message.tag.length == 0)
-                    message = addTag(message, 'Message');
                 this.socket.emit('pub', message);
             },
             

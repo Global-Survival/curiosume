@@ -1,4 +1,4 @@
-if (typeof window != 'undefined')	exports = { };  //functions used by both client and server
+if (typeof window != 'undefined')    exports = { };  //functions used by both client and server
 
 function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 decimal places
 exports._n = _n;
@@ -16,7 +16,17 @@ function objNew(id) {
 }
 exports.objNew = objNew;
 
-function objAddValue(x, v) {
+/*
+    objAddValue(x, { id: i, value: v } )
+    objAddValue(x, i, v)
+*/
+function objAddValue(x, a, b) {
+    var v;
+    if (b == undefined)
+        v = a;
+    else
+        v = { id: a, value: b };
+    
     if (!x.value)
         x.value = [];
         
@@ -176,47 +186,35 @@ exports.objTagRelevance = objTagRelevance;
 */
 
 
-function objHasTag(o, t) {    
-    if (!o.tag)
-		return false;
-        
-	var ot = o.tag;
-
-    //TODO use an underscore function instead of this loop
-	for (var i = 0; i < ot.length; i++) {
-		if (ot[i] == t)
-			return true;
-	}
-	return false;
+function objHasTag(x, t) {    
+    return _.contains(objTags(x), t);
 }
 exports.objHasTag = objHasTag;
 
-function getTagMatch(x,y) {
-    var xt = x.tag;
-    var yt = y.tag;
 
-    if ((!xt) || (!yt))
-		return 0;
-
-    var match = 0;
-    for (var i = 0; i < xt.length; i++) {
-        if (_.indexOf(yt, xt[i])!=-1) {
-            match++;
-        }
-    }
-    return match;
-    
+function objGetFirstValue(object, id, defaultValue) {
+    if (object.values) {
+        for (var k = 0; k < object.value.length; k++) {
+        	if (object.value[k].id == id)
+				return object.value[k].value;
+		}
+	}
+	return defaultValue;
 }
+exports.objGetFirstValue = objGetFirstValue;
 
-function getProperties(t) {
-    //TODO add 'extends' supertag inheritance
-    if (t.properties)
-        return t.properties;
-    return [];
+function objGetValues(object, id) {
+    var v = [];
+    if (object.values) {
+        for (var k = 0; k < object.value.length; k++) {
+    		if (object.value[k].uri == id)
+				v.push( object.value[k].value );
+		}
+	}
+	return v;
 }
-    
-    
-    
+exports.objGetValues = objGetValues;
+
 
 function uuid() {
     return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -227,39 +225,13 @@ function uuid() {
 exports.uuid = uuid;
 
 
-function removeTag(x, index) {
-    x.tag.splice(index, 1);    
-    x.tagStrength.splice(index, 1);    
-    return x;
-}
-exports.removeTag = removeTag;
 
-function getProperty(object, propertyID, defaultValue) {
-    if (object.values) {
-        for (var k = 0; k < object.values.length; k++) {
-    		if (object.values[k].uri == propertyID)
-				return object.values[k].value;
-		}
-	}
-	return defaultValue;
-}
-exports.getProperty = getProperty;
 
-function getPropertyValues(object, propertyID) {
-    var v = [];
-    if (object.values) {
-        for (var k = 0; k < object.values.length; k++) {
-			if (object.values[k].uri == propertyID)
-				v.push( object.values[k].value );
-		}
-	}
-	return v;
-}
-exports.getPropertyValues = getPropertyValues;
+
 
 
 /** sets the only instance of the property, or creates if doesn't exist */
-function setTheProperty(object, propertyID, newValue) {
+/*function setTheProperty(object, propertyID, newValue) {
     for (var k = 0; k < object.values.length; k++) {
 		if (object.values[k].uri == propertyID) {
 			object.values[k].value = newValue;
@@ -269,11 +241,12 @@ function setTheProperty(object, propertyID, newValue) {
     object.values.push( {uri: propertyID, value: newValue } );
 	return object;
 }
-exports.setTheProperty = setTheProperty;
+exports.setTheProperty = setTheProperty;*/
 
 function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
 exports.isSelfObject = isSelfObject;
 
+/*
 function addProperty(x, p, value) {
     if (!value)
         value = "";
@@ -282,7 +255,7 @@ function addProperty(x, p, value) {
     return x;
 }
 exports.addProperty = addProperty;
-
+*/
 
 function acceptsAnotherProperty(x, p) {
     //TODO determine this by Property arity constraints
@@ -290,23 +263,7 @@ function acceptsAnotherProperty(x, p) {
 }
 exports.acceptsAnotherProperty = acceptsAnotherProperty;
 
-function addTag(x, t, value) {
-    if (!x.tag) {
-        x.tag = [];
-        x.tagStrength = [];
-    }
-        
-    x.tag.push(t);
-    
-    if (!value)
-        value = 1.0;
-            
-    x.tagStrength.push(value);
-    
-    return x;
-}
-exports.addTag = addTag;
-
+/*
 function addTagWithRequiredProperties(self, x, t, value) {
     var y = addTag(x, t, value);
     
@@ -329,6 +286,7 @@ function addTagWithRequiredProperties(self, x, t, value) {
     
     return y;
 }
+*/
 
 
 

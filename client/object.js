@@ -111,13 +111,17 @@ function newReplyWidget(onReply, onCancel) {
 }
 
 
-function renderObject(x, editable) {
+function renderObject(x, editable, whenSaved, onRemove) {
     var d = $('<div/>');
     
     if (editable) {
         var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
         nameInput.val(objName(x));
         d.append(nameInput);
+        
+        whenSaved.push(function(y) {
+           objName(y, nameInput.val());
+        });
     }
     else {
         d.append('<h1>' + objName(x) + '</h1>');
@@ -131,7 +135,7 @@ function renderObject(x, editable) {
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var t = x.value[i];
-            var tt = renderTagSection(x, i, t, editable);
+            var tt = renderTagSection(x, i, t, editable, whenSaved, onRemove);
             d.append(tt); 
         }
     }
@@ -139,7 +143,7 @@ function renderObject(x, editable) {
 }
 
 
-function renderTagSection(x, index, t, editable) {
+function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
     var tag = t.id;
     var strength = t.strength;
     var values = t.values;
@@ -150,30 +154,34 @@ function renderTagSection(x, index, t, editable) {
     d.append(tagLabel);
 
     if (!strength) strength = 1.0;
-    
-    var tagButtons = $('<div/>').addClass('tagButton');
-
-    if (strength > 0.25) {
-        var weakenButton = $('<a href="#">-</a>');
-        tagButtons.append(weakenButton);
+        
+    if (editable) {
+        var tagButtons = $('<div/>').addClass('tagButton');
+        if (strength > 0.25) {
+            var weakenButton = $('<a href="#">-</a>');
+            tagButtons.append(weakenButton);
+        }
+        if (strength < 1.0) {
+            var strengthButton = $('<a href="#">+</a>');
+            tagButtons.append(strengthButton);
+        }
+        var removeButton = $('<a href="#">X</a>');
+        removeButton.click(function() {
+           if (confirm("Remove " + tag + "?"))
+                onRemove(index);
+        });
+        tagButtons.append(removeButton);
+        d.append(tagButtons);
     }
-    if (strength < 1.0) {
-        var strengthButton = $('<a href="#">+</a>');
-        tagButtons.append(strengthButton);
-    }
     
-    var removeButton = $('<a href="#">X</a>');
-    removeButton.click(function() {
-       alert('removing index ' + index); 
-    });
-    tagButtons.append(removeButton);
-    
-    d.append(tagButtons);
     
     //-----------------
     d.append('<br/>');
     
-    if (tag == 'textarea') {
+    var type = tag;
+    //TODO check isPrimitive
+    
+    if (type == 'textarea') {
         //tagLabel.hide();
         
         if (editable) {
@@ -181,6 +189,10 @@ function renderTagSection(x, index, t, editable) {
             if (t.value)
                 dd.val(t.value);
             d.append(dd);
+            
+            whenSaved.push(function(y) {
+               objAddValue(y, tag, dd.val());
+            });
         }
         else {
             var dd = $('<div/>');
@@ -221,7 +233,7 @@ function renderTagSection(x, index, t, editable) {
 			return t.attr('checked') == 'checked' ? true : false;
 		});*/
 	}    
-    else if (tag == 'spacepoint') {
+    else if (type) {
         var ee = $('<div/>');
         
         var dd = $('<div/>');
@@ -251,6 +263,11 @@ function renderTagSection(x, index, t, editable) {
             var ar = $('<input type="text" placeholder="Altitude" />');
             ar.css('width', '15%');
             ee.append(ar);
+            
+            whenSaved.push(function(y) {
+               objAddValue(y, tag, '');
+            });
+
         }
         
         d.append(ee);
@@ -302,6 +319,12 @@ function renderTagSection(x, index, t, editable) {
             '</div>' +
             '<div id="FocusUploadStatus"></div>' +
         '</div>');                    
+        
+        if (editable) {
+            whenSaved.push(function(y) {
+               objAddValue(y, tag, '');
+            });            
+        }
     }
     else if (tag == 'EmotionSelect') {
         var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
