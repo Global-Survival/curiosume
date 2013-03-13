@@ -232,30 +232,35 @@ function renderMap(s, o, v) {
         
     }
     
+    var now = Date.now();
+    
     function renderMapFeature(x, r) {
-        var k = x.uri;
+        var k = x.id;
         
         if (objHasTag(x, 'web.KML')) {
             addKMLLayer(x.kmlURL);
             return;    
         }
         
-        if (x.geolocation) {
+        var s = objSpacePoint(x);
+        if (s) {
             var fill = '#888';
             var op = 0.5;
             var rad = 50;
             var iconURL = undefined;
             
-            if (x.when) {
-                var now = Date.now();
-                op = 0.25 + 0.5 * Math.exp( -((now - x.when) / 1000.0 / 48.0 / 60.0 / 60.0) );
+            var ww = x.modifiedAt || x.createdAt || null;
+            if (ww) {
+                op = 0.25 + 0.5 * Math.exp( -((now - ww) / 1000.0 / 48.0 / 60.0 / 60.0) );
             }
 
             iconURL = getTagIcon(x);
             
             if (objHasTag(x, 'environment.EarthQuake')) {
                 fill = '#b33';
-                rad = 100000 + (x.eqMagnitude - 5.0)*700000;
+                var mag = objFirstValue(x,'eqMagnitude',1);
+                rad = 100000 + (mag - 5.0)*700000;
+                
                 op *= 0.5;
             }
             else if (objHasTag(x, 'NuclearFacility')) {
@@ -271,7 +276,7 @@ function renderMap(s, o, v) {
                 fill = '#55f';
                 rad = 50;
             }
-            createMarker(k, x.geolocation[0], x.geolocation[1], rad, op, fill, iconURL);
+            createMarker(k, s.lat, s.lon, rad, op, fill, iconURL);
         }        
     }
     

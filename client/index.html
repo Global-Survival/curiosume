@@ -155,6 +155,7 @@
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
                     later(function() {
+                        p.author = self.id();
                         objTouch(p);
                         self.notice(p);
                         self.pub(p);
@@ -416,7 +417,8 @@
                     <!--<li><a href="/#/new">New</a></li>
                     <br/>-->
                     <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
-                    <li><a href="/#/example"><img src="/icon/rrze/emblems/workflow.png"/>Example Object</a></li>
+                    <li><a href="/#/example"><img src="/icon/rrze/emblems/chipcard-active.png"/>Example Object</a></li>
+                    <li><a href="/tests.html"><img src="/icon/rrze/emblems/vote.png"/>System Tests</a></li>
                     <!-- <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
                     <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li> -->
                     <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->

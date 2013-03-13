@@ -24,7 +24,7 @@ function getTagIcon(t) {
         //try all the tags, return the first
         if (t.value) {
             for (var x = 0; x < t.value.length; x++) {
-                var r = getTagIcon(t.value[x]);
+                var r = getTagIcon(t.value[x].id);
                 if (r)
                     return r;
             }
@@ -59,7 +59,7 @@ function newPopupObjectView(_x) {
 
 
 function getAvatar(s) {
-    var emailHash = getProperty(s, 'email', 'unknown@unknown.com');
+    var emailHash = objFirstValue(s, 'email', 'unknown@unknown.com');
     emailHash = MD5(emailHash);
 	return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
