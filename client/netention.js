@@ -171,6 +171,8 @@ function netention(f) {
                 });                
             },
             
+            isProperty : function(p) { return this.properties()[p]!=undefined; },
+            
             properties : function() { return this.get('properties'); },
             //property(p)
             

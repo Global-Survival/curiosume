@@ -29,7 +29,7 @@ exports.objNew = objNew;
 
 
 function objAddTag(x, t) {
-    return objAddValue(x, { id: t });    
+    return objAddValue(x, { id: t }, undefined);    
 }
 exports.objAddTag = objAddTag;
 
@@ -48,17 +48,21 @@ function objAddValue(x, a, b) {
         x.value = [];
         
     x.value.push(v);
-    x.modifiedAt = Date.now();
+    
+        
     return x;
 }
 exports.objAddValue = objAddValue;
 
+function objTouch(x) {
+    x.modifiedAt = Date.now();    
+}
+exports.objTouch = objTouch;
 
 function objRemoveValue(x, i) {
     if (x.value) {
         if (i < x.value.length) {
             x.value.splice(i, 1);
-            x.modifiedAt = Date.now();
             return x;
         }
     }
@@ -75,7 +79,6 @@ function objName(x, newName) {
     }
     else {
         x.name = newName;
-        x.modifiedAt = Date.now();
         return x;
     }
 }
@@ -208,7 +211,7 @@ function objSpacePoint(x) {
 exports.objSpacePoint = objSpacePoint;
 
 function objAddGeoLocation(x, lat, lon) {
-    return objAddValue(x, { id: 'spacepoint', lat: lat, lon: lon, planet: 'Earth'});
+    return objAddValue(x, 'spacepoint', {lat: lat, lon: lon, planet: 'Earth'});
 }
 exports.objAddGeoLocation = objAddGeoLocation;
 
@@ -219,7 +222,7 @@ exports.objHasTag = objHasTag;
 
 
 function objFirstValue(object, id, defaultValue) {
-    if (object.values) {
+    if (object.value) {
         for (var k = 0; k < object.value.length; k++) {
         	if (object.value[k].id == id)
 				return object.value[k].value;

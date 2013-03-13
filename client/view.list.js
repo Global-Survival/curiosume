@@ -57,7 +57,7 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
         
         if (semantic == 'Relevant') { 
             if (focus) {
-                var m = getTagMatch(s.focus(), x);
+                var m = objTagRelevance(s.focus(), x);
                 r *= m;
             }
             else

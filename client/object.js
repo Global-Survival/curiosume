@@ -146,7 +146,6 @@ function renderObject(x, editable, whenSaved, onRemove) {
 function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
     var tag = t.id;
     var strength = t.strength;
-    var values = t.values;
     
     var d = $('<div/>').addClass('tagSection');
     
@@ -178,11 +177,19 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
     //-----------------
     d.append('<br/>');
     
-    var type = tag;
-    //TODO check isPrimitive
+    var type;
+    if (isPrimitive(tag)) {
+        tagLabel.hide();    
+        type = tag;
+    }
+    else if (window.self.properties()[type]!=undefined) {
+        type = window.self.properties()[type].type;
+    }
+    
+    
     
     if (type == 'textarea') {
-        //tagLabel.hide();
+        
         
         if (editable) {
             var dd = $('<textarea/>').addClass('tagDescription');
@@ -201,10 +208,10 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
             d.append(dd);
         }
     }
-    else if (tag == 'cortexit') {
+    else if (type == 'cortexit') {
         //...
     }
-    else if ((tag == 'text') || (tag == 'url')) {
+    else if ((type == 'text') || (type == 'url')) {
         
         if (editable) {
             var dd = $('<input type="text"/>').addClass('tagDescription');
@@ -220,7 +227,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         }
         
     }
-    else if (tag == 'boolean') {
+    else if (type == 'boolean') {
 		var t = $('<input type="checkbox">');
 		
         var value = t.value;
@@ -233,7 +240,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
 			return t.attr('checked') == 'checked' ? true : false;
 		});*/
 	}    
-    else if (type) {
+    else if (type == 'spacepoint') {
         var ee = $('<div/>');
         
         var dd = $('<div/>');
@@ -271,12 +278,16 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         }
         
         d.append(ee);
+        
+        
         later(function() {
-            var m = initLocationChooserMap(de, [0,0]);
+            var lat = t.value.lat || 0;
+            var lon = t.value.lon || 0;
+            var m = initLocationChooserMap(de, [lat,lon]);
             
         });
     }
-    else if (tag == 'timepoint') {
+    else if (type == 'timepoint') {
         if (editable) {
             var lr = $('<input type="text" placeholder="Time" />');
             lr.val(new Date(t.at));
@@ -289,7 +300,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
             d.append(new Date(t.at));
         }                    
     }
-    else if (tag == 'timerange') {
+    else if (type == 'timerange') {
         if (editable) {
             var lr = $('<input type="text" placeholder="Time Start" />');
             lr.val(new Date(t.startsAt));
@@ -306,7 +317,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         }
         
     }
-    else if (tag == 'fileattachment') {
+    else if (type == 'fileattachment') {
         d.append(
         '<div id="FocusUploadSection">' +
             '<form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">' +
@@ -326,14 +337,14 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
             });            
         }
     }
-    else if (tag == 'EmotionSelect') {
+    else if (type == 'EmotionSelect') {
         var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
         es.click(function() {
            alert('Emotion select not functional yet.');
         });
         d.append(es);
     }
-    else if (tag == 'HumanBodySelect') {
+    else if (type == 'HumanBodySelect') {
         var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/6/68/Human_body_features.png"/>');
         es.click(function() {
            alert('Human body part select not functional yet.');
@@ -345,6 +356,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
         if (ti) {
             tagLabel.prepend('<img src="' + ti + '"/>');
         }
+        /*
         if (t.value) {
             for (var v = 0; v < t.value.length; v++) {
                 var vv = t.value[v];
@@ -354,27 +366,28 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
                 //this.propertyEdits.push(pe);
                 d.append(pe);
             }
-        }
+        }*/
     }
     
     return d;
 }
 
 function newPropertyView(self, vv) {
-    var p = self.getProperty(vv.uri);
+    var p = self.getProperty(vv.id);
     if (!p)
-        return ('<li>' + vv.uri + ': ' + vv.value + '</li>');
+        return ('<li>' + vv.id + ': ' + vv.value + '</li>');
         
     if (p.type == 'object') {
         var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
         
-        return ('<li>' + vv.uri + ': <a href="#">' + o.name + '</a></li>');
+        return ('<li>' + vv.id + ': <a href="#">' + o.name + '</a></li>');
     }
     else {
-        return ('<li>' + vv.uri + ': ' + vv.value + '</li>');    
+        return ('<li>' + vv.id + ': ' + vv.value + '</li>');    
     }
 }
 
+//DEPRECATED
 function newPropertyEdit(p, v) {
     var propertyID = p.uri;
     
@@ -526,6 +539,10 @@ function newPropertyEdit(p, v) {
 
 function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 
+    if (!x) {
+        return $('<div>Object missing</div>');
+    }
+    
     var mini = (depthRemaining == 0);
     
 	var fs = (1.0 + r/2.0)*100.0 + '%';
@@ -604,7 +621,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         
         var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
     	focusButton.click(function() {
-            var oid = x.uri;
+            var oid = x.id;
             Backbone.history.navigate('/object/' + oid + '/focus', {trigger: true});
     	});
     }
@@ -659,6 +676,9 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
     for (var i = 0; i < ot.length; i++) {
         var t = ot[i];   
+        if (self.isProperty(t))
+            continue;
+            
         var tt = self.getTag(t);
         if (tt) {
             mdline.append(newTagButton(tt));
@@ -669,8 +689,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         mdline.append('&nbsp;');
     }        
     
-	var spacepoint = objSpacePoint(x);
-        	
+	var spacepoint = objSpacePoint(x);        
 	if (spacepoint) {
         var lat = _n(spacepoint.lat);
         var lon = _n(spacepoint.lon);
@@ -685,7 +704,9 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         	mdline.append('&nbsp;<span>[' + lat + ',' + lon + ']</span>');        
         }
 	}
-    if (x.when) {
+    
+    var ww = x.modifiedAt || x.createdAt || null;null
+    if (ww) {
         var tt = $('<time class="timeago"/>');
         function ISODateString(d){
             function pad(n){return n<10 ? '0'+n : n}
@@ -696,7 +717,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
               + pad(d.getUTCMinutes())+':'
               + pad(d.getUTCSeconds())+'Z'}
         
-        tt.attr('datetime', ISODateString(new Date(x.when)));
+        tt.attr('datetime', ISODateString(new Date(ww)));
         
         mdline.append(tt);
     }
@@ -705,16 +726,18 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
 	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
-	if (x.text) {
-		d.append('<p>' + x.text + '</p>');		
+    var desc = objDescription(x);
+    if (desc) {
+		d.append('<p>' + desc + '</p>');		
 	}
 	
-    if (x.values) {
+    if (x.value) {
 		var ud = $('<ul>');
 		d.append(ud);
-		for (var vi = 0; vi < x.values.length; vi++) {
-			var vv = x.values[vi];
-            ud.append(newPropertyView(self, vv));
+		for (var vi = 0; vi < x.value.length; vi++) {
+			var vv = x.value[vi];
+            if (self.isProperty(vv.id))
+                ud.append(newPropertyView(self, vv));
 		}
 	}
     
