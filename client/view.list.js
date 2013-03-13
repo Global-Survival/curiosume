@@ -26,7 +26,7 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
         //sort
         var r = 1.0;                        
         if (sort == 'Recent') {
-            var w = x.modifiedAt | x.createdAt | null;
+            var w = x.modifiedAt || x.createdAt || null;
             if (w == null) continue;
             var ageSeconds = Math.abs(now - w) / 1000.0;
             //r = Math.exp(-ageSeconds/10000.0);

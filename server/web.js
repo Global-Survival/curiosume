@@ -628,7 +628,7 @@ exports.start = function(host, port, database, init) {
 		
 		var targets = { };
 		
-        var ot = util.objTags();
+        var ot = util.objTags(message);
 		for (var t = 0; t < ot.length; t++) {
 			var chan = ot[t];
 			

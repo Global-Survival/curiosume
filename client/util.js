@@ -1,4 +1,10 @@
-if (typeof window != 'undefined')    exports = { };  //functions used by both client and server
+
+if (typeof window != 'undefined')  {
+    exports = { };  //functions used by both client and server
+}
+else {
+    _ = require('underscore');    
+}
 
 function _n(x) {    return x.toFixed(2);  }  //formats numbers to string w/ 2 decimal places
 exports._n = _n;
@@ -113,7 +119,8 @@ exports.objDescription = objDescription;
 
 function objTags(x) {
   // objTags(x) -> array of tags involved
-    return _.uniq( _.filter( _.pluck(x.value, 'id'), function(t) { return !isPrimitive(t) } ) );
+  if (!x.value) return [];
+  return _.uniq( _.filter( _.pluck(x.value, 'id'), function(t) { return !isPrimitive(t) } ) );
 }
 exports.objTags = objTags;
 
