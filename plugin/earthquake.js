@@ -28,14 +28,18 @@ exports.plugin = {
                 }
             ], ['environment']);
             
-            rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq) {
+            rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq, a) {
 
                 eq.name = eq.name + ' Earthquake';
                 
                 util.objAddTag(eq, 'environment.EarthQuake');
                 util.objAddValue(eq, 'eqMagnitude', parseFloat( eq.name.substring(1, eq.name.indexOf(','))) );
                 
-                //util.objAddValue(eq, 'eqDepth', 0);
+                var depth = a['dc:subject'][2]['#'];
+                depth = parseFloat(depth.substring(0, depth.indexOf(' ')).trim())*1000.0;
+                util.objAddValue(eq, 'eqDepth', depth );
+                
+                
                 
                 netention.notice(eq);
 

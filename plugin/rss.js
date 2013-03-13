@@ -161,7 +161,7 @@ var RSSFeed = function(url, perArticle) {
             util.objAddGeoLocation(x, parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) );
 		}
 
-		perArticle(x);
+		perArticle(x, a);
 		
 	}	
 

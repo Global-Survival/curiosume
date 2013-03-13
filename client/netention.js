@@ -349,7 +349,7 @@ function netention(f) {
             
             deleteObject: function(x, localOnly) {
                 
-                var id = x.uri;
+                var id = x.id;
             	
                 /*
             	if (isSelfObject(id)) {
@@ -471,11 +471,11 @@ function netention(f) {
                     if (y.replyTo) {
                         var p = replies[y.replyTo];
                         if (p) {
-                            if (!_.contains(p, y.uri))
-                                p.push(y.uri);
+                            if (!_.contains(p, y.id))
+                                p.push(y.id);
                         }
                         else {
-                            replies[y.replyTo] = [ y. uri ];
+                            replies[y.replyTo] = [ y.id ];
                         }
                     }
                     
