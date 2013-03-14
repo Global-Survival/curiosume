@@ -1,6 +1,10 @@
 /*
 http://en.wikipedia.org/wiki/Belbin_Team_Inventory
 http://www.teamopoly.com/sk_summ.htm
+http://www.w3.org/TR/vocab-org/
+http://vocab.org/participation/schema
+
+"Some people should just start ideas and other ones should carry them out." -Jimi Hendrix
 
 Plant
 Plants are creative, unorthodox and generators of ideas. If an innovative solution to a problem is needed, a Plant is a good person to ask. A good Plant will be bright and free-thinking. Plants can tend to ignore incidentals and refrain from getting bogged down in detail. The Plant bears a strong resemblance to the popular caricature of the absent-minded professor/inventor, and often has a hard time communicating ideas to others. Multiple Plants in a team can lead to misunderstandings, as many ideas are generated without sufficient discernment or the impetus to follow the ideas through to action.

@@ -79,11 +79,14 @@
             function updateFocus() {
                 whenSaved = [];
                 
+                var onAdd = function(tag, value) {
+                    commitFocus( objAddValue(getEditedFocus(), tag, value));
+                };
                 var onRemove = function(i) {                    
                     commitFocus( objRemoveValue( getEditedFocus(), i) );
                 };
                 
-                $('#Focus').html( renderObject(focus(), true, whenSaved, onRemove) );
+                $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove) );
             }
 
             function commitFocus(f) {
@@ -92,6 +95,21 @@
                 updateFocus();
             }
                                 
+            function updateTagTree() {
+                var tt = $('#TypeSelectModalTree');
+                
+                updateTypeTree(tt, function(s) {
+                    
+                    var e = getEditedFocus();
+                    for (var i = 0; i < s.length; i++) {
+                        var m = s[i];
+                        if (!objHasTag(e, m))
+                            e = objAddTag(e, m);
+                    }
+                    commitFocus(e);
+    
+                });
+            }
             
             function initDescriptionRichText() {
                 $('#FocusDescriptionSection').html('<textarea id="FocusDescription"></textarea>');
@@ -119,8 +137,10 @@
                 });
                 
                 self.on('change:tags', function() {
-                    /*later(function() {
-                    });*/
+                    
+                    later(function() {
+                        updateTagTree();
+                    });
                 });
 
                 $('#FocusToggleButton').click(function() {
@@ -179,7 +199,7 @@
                     commitFocus( objAddValue(getEditedFocus(), 'spacepoint', '') );
                 });
 
-                
+                updateTagTree();
             }
                         
             function _updateView() {

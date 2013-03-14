@@ -1,22 +1,4 @@
-//all hardcoded stuff here is temporary until icons are specified by ontology
-var ti = { 
-    'environment.EarthQuake': '/icon/quake.png',
-    'NuclearFacility': '/icon/nuclear.png',
-    'Human': '/icon/rrze/emblems/crown.png',
-    'User': '/icon/rrze/emblems/ID-clip.png',
-    'Message': '/icon/rrze/emblems/at.png',
-    'Decision.Agree': '/icon/loomio/agree.png',
-    'Decision.Disagree': '/icon/loomio/disagree.png',
-    'Decision.Block': '/icon/loomio/block.png',
-    'Decision.Abstain': '/icon/loomio/abstain.png',
-    'Event': '/icon/rrze/actions/dial-in.png',
-    'Similar': '/icon/approx_equal.png',
-    'emotion.Happy': '/icon/emoticon/happy.svg',
-    'emotion.Sad': '/icon/emoticon/sad.svg',
-    'emotion.Angry': '/icon/emoticon/angry.svg',
-    'emotion.Surprised': '/icon/emoticon/surprised.svg'
-};
-    
+
 //t is either a tag ID, or an object with zero or more tags
 function getTagIcon(t) {
     
@@ -111,7 +93,7 @@ function newReplyWidget(onReply, onCancel) {
 }
 
 
-function renderObject(x, editable, whenSaved, onRemove) {
+function renderObject(x, editable, whenSaved, onAdd, onRemove) {
     var d = $('<div/>');
     
     if (editable) {
@@ -135,7 +117,7 @@ function renderObject(x, editable, whenSaved, onRemove) {
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var t = x.value[i];
-            var tt = renderTagSection(x, i, t, editable, whenSaved, onRemove);
+            var tt = renderTagSection(x, i, t, editable, whenSaved, onAdd, onRemove);
             d.append(tt); 
         }
     }
@@ -143,7 +125,7 @@ function renderObject(x, editable, whenSaved, onRemove) {
 }
 
 
-function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
+function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
     var tag = t.id;
     var strength = t.strength;
     
@@ -384,14 +366,26 @@ function renderTagSection(x, index, t, editable, whenSaved, onRemove) {
                 
                 function getTagProperties(t) {
                     var TT = window.self.tags()[t];
+                    if (!TT) return [];
+                    if (!TT.properties) return [];
                     return TT.properties;
                 }
                 
-                var pd = $('<div/>');
+                var pd = $('<ul/>');
                 var pp = getTagProperties(tag);
                 for (var i = 0; i < pp.length; i++) {
-                    var ppv = pp[i];
-                    pd.append(ppv);
+                    (function() {
+                        var ppv = pp[i];
+                        var PP = window.self.getProperty(ppv);
+                        var appv = $('<a href="#" title="' + PP.type +'">' + PP.name + '</a>');
+                        var defaultValue = '';
+                        appv.click(function() {
+                            onAdd(ppv, defaultValue);
+                        });
+                        pd.append('+');
+                        pd.append(appv);
+                        pd.append('&nbsp;');
+                    })();
                 }
                 
                 d.append(pd);
