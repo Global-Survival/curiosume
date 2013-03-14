@@ -153,6 +153,10 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         });
         tagButtons.append(removeButton);
         d.append(tagButtons);
+
+    
+        d.hover(function(){ tagButtons.fadeIn(200);}, function() { tagButtons.fadeOut(200);});                
+        tagButtons.hide();
     }
     
     
@@ -229,9 +233,15 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
 		
 		t.attr('checked', value ? 'on' : undefined);
 		d.append(t);
-		/*x.data('value', function(target) {
-			return t.attr('checked') == 'checked' ? true : false;
-		});*/
+        
+        if (editable) {
+            whenSaved.push(function(y) {
+                objAddValue(y, tag, t.attr('checked') == 'checked' ? true : false);
+            });
+        }
+        else {
+            t.attr("disabled", "disabled");
+        }
 	}    
     else if (type == 'spacepoint') {
         var ee = $('<div/>');
