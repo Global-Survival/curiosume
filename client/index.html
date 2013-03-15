@@ -76,6 +76,8 @@
             
             function focus() { return window.self.focus(); }
             
+            var ontoSearcher;
+            
             function updateFocus() {
                 whenSaved = [];
                 
@@ -87,6 +89,18 @@
                 };
                 
                 $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove) );
+            
+                var lastValue = null;
+                function search() {                    
+                    var v = $('.nameInput').val();
+                    if (lastValue!=v) {
+                        updateTagSuggestions(v, $('.tagSuggestions'), onAdd);
+                    }
+                    
+                    lastValue = v;
+                }
+                
+                ontoSearcher = setInterval(search, 500);
             }
 
             function commitFocus(f) {
@@ -198,7 +212,19 @@
                 $('#AddLocationButton').click(function() {
                     commitFocus( objAddValue(getEditedFocus(), 'spacepoint', '') );
                 });
+                
+                
+                var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
+        		function updatePrompt() {
+    				var l = msgs[parseInt(Math.random() * msgs.length)];
+    				$('.nameInput').attr('placeholder', l + '...');					
+    			} 
 
+                {         			                                
+        			setInterval(updatePrompt, 7000);
+        			updatePrompt();
+                }
+        
                 updateTagTree();
             }
                         

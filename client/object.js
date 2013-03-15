@@ -110,9 +110,6 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove) {
     }
     d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
 
-    if (editable) {
-        d.append('<div id="MatchedTypes"/>');
-    }
 
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
@@ -121,6 +118,9 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove) {
             d.append(tt); 
         }
     }
+    
+    d.append( $('<ul/>').addClass('tagSuggestions') );
+    
     return d;                
 }
 
@@ -298,6 +298,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             var lb = $('<button style="margin-top: -0.5em"><i class="icon-calendar"/></button>');
             
             d.append(lb);
+            
+            //TODO add save function
         }
         else {
             d.append(new Date(t.at));
@@ -314,6 +316,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             ls.val(new Date(t.endsAt));
             d.append('Stop: ');
             d.append(ls);
+            
+            //TODO add save function
         }
         else {
             d.append(new Date(t.startsAt) + ' ' + new Date(t.endsAt));
@@ -382,6 +386,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
                 }
                 
                 var pd = $('<ul/>');
+                //pd.addClass('tagSuggestions');
                 var pp = getTagProperties(tag);
                 for (var i = 0; i < pp.length; i++) {
                     (function() {
