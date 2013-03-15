@@ -11,21 +11,94 @@
 /* Communication
  *      Wifi Hotspot
  *      Wifi Mesh Node
+        Zigbee Mesh
  *      Ethernet
+        Bluetooth
  *      Powerline Internet
  *      Landline Telephone
  *      Mobile Phone
  *      Mailbox
  *      Pneumatic tube
- *      Smoke Signaler
+ *      Smoke Signal
+        Laser (line-of-sight)
+        Satellite uplink
+        Packet / HAM Radio
+        Human/animal correur or telegram
+        Telegraph
+        Bulletin board
+        Newspaper
+        Billboard
+        Message on clothing, vehicle, wall, etc        
+        Graffiti
+            Stickers
+            Paint / Spraypaint
  */
 
 /* Electricity
- *      Power Outlet
- *      Solar Cells
- *      Wind Turbine
- *      Bicycle Generator
- *      Battery(V, A*h, ...)
+ 
+       Generator
+           Output voltage?
+           AC?
+           DC?
+           Noise
+            
+           Mains
+                Power Outlet
+                Telephone line power
+           
+           Solar Cell
+     
+           Wind Turbine
+           
+           Hydroelectric
+           
+           Geothermal
+           
+           Natural gas
+           
+           Combustion generator
+                Petroleum
+                Ethanol
+                Biodiesel                
+     
+           Bicycle Generator
+           
+           
+ 
+       Battery(V, A*h, ...)
+            Rechargable?
+            Disposable?
+                Disposal instructions
+            Ultracapacitor
+            Mobile for Vehicle: car, boat, airplane, robot
+            
+        Transformer / Power Adapter
+        
+            Voltages in
+                International power plug adapters
+            Voltages out
+            AC in?
+            AC out?
+            DC in?
+            DC out?
+            Power regulation?
+            
+        Electricity transmission
+            Type:
+                Conductive (ex: power line)
+                Electromagnetic (ex: wireless charger)
+            
+            Distance
+            Max Distance
+            
+            Voltage
+            
+            AC?
+            DC?
+            
+            Power loss
+            Operating Temperature
+            
  * 
  */
 

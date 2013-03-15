@@ -20,7 +20,6 @@ test("Object editing", function() {
     var y = { id: 'tag'  };
     
     objAddValue(x, y );   
-    ok( x.modifiedAt, "modifiedAt updates on object change" );
     ok( x.value.length == 1, "value object added to object");
     
     {
