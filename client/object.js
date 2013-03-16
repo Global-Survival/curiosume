@@ -323,24 +323,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         
     }
     else if (type == 'fileattachment') {
-        d.append(
-        '<div id="FocusUploadSection">' +
-            '<form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">' +
-                '<p>File: <input type="file" name="uploadfile" /> </p>' +
-                '<p><input type="submit" value="Upload" /></p>' +
-            '</form>' +
-            '<div class="FocusUploadProgress">' +
-                '<div class="FocusUploadBar"></div>' +
-                '<div class="FocusUploadPercent">0%</div>' +
-            '</div>' +
-            '<div id="FocusUploadStatus"></div>' +
-        '</div>');                    
-        
-        if (editable) {
-            whenSaved.push(function(y) {
-               objAddValue(y, tag, '');
-            });            
-        }
+        //...
     }
     else if (type == 'EmotionSelect') {
         var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
