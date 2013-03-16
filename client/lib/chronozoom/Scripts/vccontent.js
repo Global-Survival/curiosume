@@ -983,12 +983,12 @@ This behaviour minimizes text shaking in chrome.
 */
 function drawText(text, ctx, x, y, fontSize, fontName) {
     var br = $.browser;
-    var isIe9 = br.msie && parseInt(br.version, 10) >= 9;
+    //var isIe9 = br.msie && parseInt(br.version, 10) >= 9;
 
-    if (isIe9) {
+    /*if (isIe9) {
         ctx.font = fontSize + "pt " + fontName;
         ctx.fillText(text, x, y);
-    } else {
+    } else {*/
         var baseFontSize = 12;
         var targetFontSize = fontSize;
         var s = targetFontSize / baseFontSize;
@@ -997,7 +997,7 @@ function drawText(text, ctx, x, y, fontSize, fontName) {
         ctx.font = baseFontSize + "pt " + fontName;
         ctx.fillText(text, x / s, y / s);
         ctx.scale(1 / s, 1 / s);
-    }
+    //}
 }
 
 /*  A text element on a virtual canvas.
