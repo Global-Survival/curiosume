@@ -1,4 +1,6 @@
 var csv = require('ya-csv');
+var util = require('../../client/util.js');
+
 
 exports.plugin = {
         name: 'Nuclear Facilities',    
@@ -11,7 +13,10 @@ exports.plugin = {
             
             netention.addTags([ {
                 uri: 'NuclearFacility', name: 'Nuclear Facility',
-                tag: [ 'environment' /* 'Pollution' */ ]
+                tag: [ 'environment' /* 'Pollution' */ ],
+                properties: {
+            			 'numReactors': { name: '# Reactors', type: 'integer' },		            
+                }
             } ]);
             
             
@@ -40,15 +45,15 @@ exports.plugin = {
                                 parseFloat(x[5]),
                                 parseFloat(x[6]) ];
     
-                var y = {
-                    'uri': 'NuclearFacility_' + name.replace(/\s+/g, '_'),
-                     tag: ['NuclearFacility'],
-                     tagStrength: [1],
-                    'name': name + ' Nuclear Facility',                    
-                    'geolocation': [lat, lon],
-                    when: 1316995200, //hardcoded from modified-time of the CSV file.  TODO retreive this from fs module dynamically
-                    'reactors': reactors        //TODO as property
-                };
+                var y = util.objNew(
+                    'NuclearFacility_' + name.replace(/\s+/g, '_'), 
+                    name + ' Nuclear Facility'
+                );
+                y.createdAt = 1316995200;
+                util.objAddTag(y, 'NuclearFacility');
+                util.objAddGeoLocation(y, lat, lon);
+                util.objAddValue(y, 'numReactors', reactors);
+                
                 
                 f.push(y);
                 
