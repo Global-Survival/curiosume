@@ -173,9 +173,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         type = prop.type;
         tagLabel.html( prop.name );
     }
-    
-    
-    
+        
     if (type == 'textarea') {        
         
         if (editable) {
@@ -358,6 +356,67 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         });
         d.append(es);
     }
+    else if (type == 'object') {
+        if (editable) {
+            var tt = $('<span></span>');
+            var ts = $('<input></input>');
+            
+            var value = t.value;
+            
+            
+            //TODO set initial value
+            
+            //http://jqueryui.com/autocomplete/#default
+            //http://jqueryui.com/autocomplete/#categories
+            var data = [ ];
+            for (var k in window.self.objects()) {
+                var v = window.self.object(k);
+                if (value == k) {
+                    ts.val(v.name);
+                    ts.result = value;
+                }
+    
+                data.push({
+                   value: k,
+                   label: v.name
+                });
+            }
+            ts.autocomplete({
+                source: data,
+                select: function( event, ui ) {
+                    ts.result = ui.item.value;
+                    ts.val(ui.item.label);
+                    /*
+                    $( "#project" ).val( ui.item.label );
+                    $( "#project-id" ).val( ui.item.value );
+                    $( "#project-description" ).html( ui.item.desc );
+                    $( "#project-icon" ).attr( "src", "images/" + ui.item.icon );
+                    */
+             
+                    return false;
+                }
+            });
+            
+            //TODO handle specific tag restriction
+            /*window.self.objectsWithTag(t) {
+                
+            }*/
+            
+            var mb = $('<button title="Find Object">...</button>');
+            mb.click(function() {
+               //TODO popup object browser 
+            });
+            
+            tt.append(ts);
+            tt.append(mb);
+            
+            d.append(tt);
+            
+            whenSaved.push(function(y) {
+               objAddValue(y, tag, ts.result || '');
+            });            
+        }
+    }    
     else if (tag) {        
         var TAG = window.self.tags()[tag];
         if (!TAG) {

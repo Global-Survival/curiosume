@@ -51,7 +51,7 @@
                 ]
             };
             
-            function clear() {
+            function clearFocus() {
                 later(function() {
                     var u = uuid();
                     Backbone.history.navigate('/object/' + u);
@@ -200,7 +200,7 @@
                     });
                 });
                 $('#ClearButton').click(function() {
-                    clear();
+                    clearFocus();
                 });
                 
                 $('#AddDescriptionButton').click(function() {
@@ -343,7 +343,7 @@
                           },
                           
                           'new': function() {
-                              clear();
+                              clearFocus();
                           },
                           
                           /*
@@ -436,7 +436,7 @@
                         
                         //updateFocus();
                         if (!self.focus())
-                            clear();
+                            clearFocus();
                         else
                             updateFocus();
                     });
