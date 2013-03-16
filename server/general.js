@@ -17,6 +17,7 @@ var generalTags = [
 		             'email': { name: 'E-Mail', type: 'text' },
                      
                      'friend': {name: 'Friend', type: 'object' },
+                     'trusts': {name: 'Trusts', type: 'object' },
                      
                      'parent': {name: 'Parent', type: 'object', tag: ['Human'] }
                      
