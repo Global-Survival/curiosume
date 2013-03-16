@@ -251,6 +251,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
 
         ee.append(dd);
         
+        var m;
+        
         if (editable) {
             var lr = $('<input type="text" placeholder="Where" />');                    
             lr.css('width', 'auto');
@@ -273,7 +275,13 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             ee.append(ar);
             
             whenSaved.push(function(y) {
-               objAddValue(y, tag, '');
+                var l = m.location();
+                objAddValue(y, tag, {
+                   lat: l.lat,
+                   lon: l.lon,
+                   zoom: m.zoom,
+                   planet: 'Earth'
+                });
             });
 
         }
@@ -284,7 +292,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         later(function() {
             var lat = t.value.lat || 0;
             var lon = t.value.lon || 0;
-            var m = initLocationChooserMap(de, [lat,lon]);
+            var zoom = t.value.zoom;
+            m = initLocationChooserMap(de, [lat,lon], zoom);
             
         });
     }
@@ -345,9 +354,6 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             var ts = $('<input></input>');
             
             var value = t.value;
-            
-            
-            //TODO set initial value
             
             //http://jqueryui.com/autocomplete/#default
             //http://jqueryui.com/autocomplete/#categories
@@ -719,3 +725,88 @@ function withObject(uri, success, failure) {
 	});
 }
 
+function updateTypeTree(a, onSelectionChange) {
+    var self = window.self;
+    
+    a.html('');    
+    var dt = $('<div></div>');
+    dt.addClass('TagTree');
+    
+    var tree = $('<ul></ul>').css('display','none');
+    var stc = self.getTagCount();
+                    
+    function subtree(root, i) {
+        var name = i.name;// + ' (' + i.uri + ')';
+        var xi = i.uri;
+        var label = name;
+        if (stc[xi])
+            if (stc[xi] > 0)
+                label += ' (' + stc[xi] + ')';
+                
+        var n = $('<li id="' + xi + '">' + label + '</li>');
+        
+        root.append(n);
+        
+        var children = self.subtags(i.uri);
+        
+        if (children.length > 0) {
+            n.addClass('folder');
+            var nu = $('<ul></ul>');            
+            n.append(nu);
+            _.each(children, function(c) {
+                subtree(nu, self.tag(c));
+            });                            
+        }
+    }
+    
+    var roots = self.tagRoots();
+    _.each(roots, function(t) {
+       subtree(tree, self.tag(t));
+    });
+    
+                   
+    tree.appendTo(dt);
+    dt.appendTo(a);
+    
+    
+
+    /*
+    //update display of type counts and other type metadata
+    function updateTypeCounts() {
+        for (var t in stc) {
+            $('a:contains("' + t + '")').append(' '+ stc[t]);
+        }    
+    }
+    */
+    
+    //http://wwwendt.de/tech/dynatree/doc/dynatree-doc.html
+    dt.dynatree({
+        checkbox: true,
+        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
+        debugLevel: 0,
+        onActivate: function(node) {
+            //alert("You activated " + node);
+        },
+        onSelect: function(flag, node) {
+            /*if( ! flag )
+                alert("You deselected node with title " + node.data.title);*/
+            var selectedNodes = node.tree.getSelectedNodes();
+            var selectedKeys = $.map(selectedNodes, function(node){
+                return node.data.key;
+            });
+                        
+            if (onSelectionChange)
+                onSelectionChange(selectedKeys);            
+            
+            dt.currentSelection = selectedKeys;
+        }
+        /*
+        onRender: function(dtnode, nodeSpan)
+        onExpand : function() {
+            updateTypeCounts();  
+        }*/
+    });
+    
+    return dt;
+    
+}

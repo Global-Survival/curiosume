@@ -92,14 +92,6 @@ function loadScripts(f) {
                         '/view.slides.js',
                         '/view.graph.js',
                         
-                        '/focus.semantic.js',
-                        '/focus.tag.js',
-                        '/focus.humanbody.js',
-                        '/focus.emotion.js',
-                        '/focus.needs.js',
-                        '/focus.environment.js',
-                        '/focus.team.js'
-                        
 		                ];
 		
 		LazyLoad.js(scripts, f);

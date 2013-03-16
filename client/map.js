@@ -23,8 +23,9 @@ function setGeolocatedLocation(map, onUpdated) {
 }
 
 
-function initLocationChooserMap(target, location) {
-    var defaultZoomLevel = 9;
+function initLocationChooserMap(target, location, zoom) {
+    var defaultZoomLevel = zoom || 7;
+    
     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
     var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
@@ -43,7 +44,6 @@ function initLocationChooserMap(target, location) {
     mapnik, vector //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
     
-        
     m.setCenter(new OpenLayers.LonLat(0,0), defaultZoomLevel);
     m.targetLocation = m.getCenter();
 
@@ -51,6 +51,8 @@ function initLocationChooserMap(target, location) {
     m.addControl(df);
     df.activate();
 
+    m.zoomTo(defaultZoomLevel);
+    
     function center(oll) {
         //m.targetLocation.move(oll);
         m.setCenter(oll);        
