@@ -15,7 +15,9 @@ exports.plugin = {
                 uri: 'NuclearFacility', name: 'Nuclear Facility',
                 tag: [ 'environment' /* 'Pollution' */ ],
                 properties: {
-            			 'numReactors': { name: '# Reactors', type: 'integer' },		            
+            			 'reactorsActive': { name: 'Active Reactors', type: 'integer' },
+                         'reactorsUnderConstruction': { name: 'Reactors Under Construction', type: 'integer' },
+                         'reactorsShutDown': { name: 'Shut Down Reactors', type: 'integer' },
                 }
             } ]);
             
@@ -52,7 +54,12 @@ exports.plugin = {
                 y.createdAt = 1316995200;
                 util.objAddTag(y, 'NuclearFacility');
                 util.objAddGeoLocation(y, lat, lon);
-                util.objAddValue(y, 'numReactors', reactors);
+                if (reactors[1] > 0)
+                    util.objAddValue(y, 'reactorsActive', reactors[1]);
+                if (reactors[2] > 0)
+                    util.objAddValue(y, 'reactorsUnderConstruction', reactors[2]);
+                if (reactors[3] > 0)
+                    util.objAddValue(y, 'reactorsShutDown', reactors[3]);
                 
                 
                 f.push(y);
