@@ -6,7 +6,6 @@
 //http://www.emsc-csem.org/#2
 
 var rss = require('./rss.js');
-var util = require('../client/util.js');
 
 exports.plugin = {
     	name: 'USGS Earthquakes',	
@@ -16,7 +15,7 @@ exports.plugin = {
         author: 'http://netention.org',
         //depends on: 'climate'
         
-		start: function(netention) { 
+		start: function(netention, util) { 
             
             netention.addTags([
                 {

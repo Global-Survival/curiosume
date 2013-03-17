@@ -10,6 +10,7 @@ var ti = {
     'Decision.Block': '/icon/loomio/block.png',
     'Decision.Abstain': '/icon/loomio/abstain.png',
     'Event': '/icon/rrze/actions/dial-in.png',
+    'Report': '/icon/rrze/actions/add.png',
     'Similar': '/icon/approx_equal.png',
     'emotion.Happy': '/icon/emoticon/happy.svg',
     'emotion.Sad': '/icon/emoticon/sad.svg',

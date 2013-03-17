@@ -78,7 +78,7 @@ exports.start = function(host, port, database, init) {
                 
                 //TODO add required plugins parameter to add others besides 'general'
                 if ((Server.plugins[v].enabled) || (v == 'general')) {
-                    p.start(netention);                
+                    p.start(netention, util);                
                     enabled = true;
                 }
                 
@@ -187,6 +187,18 @@ exports.start = function(host, port, database, init) {
 	}
     that.deleteObject = deleteObject;
 			
+    function noticeAll(l) {
+        var i = 0;
+        
+        function remaining() {
+            if (i < l.length) {
+                notice(l[i++], remaining);
+            }
+        }
+        remaining();
+    }
+    that.noticeAll = noticeAll;
+    
 	function notice(o, whenFinished) {
 		if (!o.id)
 			return;
@@ -545,6 +557,8 @@ exports.start = function(host, port, database, init) {
     express.get('/#', function(req,res) {
        res.sendfile('./client/index.html');
     });
+    
+    /*
     express.get('/http/:url', function (req, res) {
         if (Server.permissions['authenticate_to_proxy_http']!=false) {
         	if (!isAuthenticated(req.session)) {
@@ -563,6 +577,7 @@ exports.start = function(host, port, database, init) {
             }
         });    
     });
+    */
     
 	express.get('/log', function (req, res) {
 		sendJSON(res, logMemory.buffer);		
@@ -708,7 +723,7 @@ exports.start = function(host, port, database, init) {
                     if (currentState!=enabled) {
                         if (enabled) {
                             Server.plugins[pid].enabled = true;
-                            pm.start(that);
+                            pm.start(that, util);
                             nlog('Plugin ' +  pid + ' enabled');
                         }
                         else {
@@ -782,9 +797,11 @@ exports.start = function(host, port, database, init) {
 	        });
 	    });
 	    
+        /*
 	    socket.on('getSentencized', function(urlOrText, withResult) {
 	    	cortexit.getSentencized(urlOrText, withResult);
 	    });
+        */
 	    
 	    socket.on('getObjects', function(query, withObjects) {
 			var db = mongo.connect(databaseUrl, collections);

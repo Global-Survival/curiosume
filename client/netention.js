@@ -392,6 +392,7 @@ function netention(f) {
             getPlugins: function() {
                 var that = this;
                 this.socket.emit('getPlugins', function(p) {
+                    that.unset('plugins');
                     that.set('plugins', p);
             	});            
             },

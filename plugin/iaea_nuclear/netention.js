@@ -1,6 +1,4 @@
 var csv = require('ya-csv');
-var util = require('../../client/util.js');
-
 
 exports.plugin = {
         name: 'Nuclear Facilities',    
@@ -9,7 +7,7 @@ exports.plugin = {
         version: '1.0',
         author: 'http://enformable.com',
         
-		start: function(netention) { 
+		start: function(netention, util) { 
             
             netention.addTags([ {
                 uri: 'NuclearFacility', name: 'Nuclear Facility',
