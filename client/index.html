@@ -411,10 +411,7 @@
                           
                           tag: function(tag) {
                                 self.set('list-semantic', 'Relevant');
-                                commitFocus({
-                                   id: uuid(),
-                                   tag: [ tag ], tagStrength: [ 1.0 ]
-                                });
+                                commitFocus(objAddTag(objNew(), tag));
                           },
                                                                             
                           query: function(query) {
