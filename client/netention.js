@@ -513,20 +513,25 @@ function netention(f) {
             	return false;
             },
             
-            getTagCount : function() {
-                
-                var aa = this.get('attention');
-                
+            getTagCount : function(onlySelf) {
+                                
                 var tagCount = { };
+                var aa = this.get('attention');                
+                var myID = this.id();
                 
                 for (var ai in aa) {
-                    var t = objTags(aa[ai]);
+                    var oi = aa[ai];
                     
-                    for (var i = 0; i < t.length; i++) {
-                        var tt = t[i];
-                        if (!tagCount[tt])
-                            tagCount[tt] = 0;
-                        tagCount[tt] = tagCount[tt] + 1.0; //TODO add the normalized tag strength
+                    if (onlySelf)
+                        if (oi.author!=myID)
+                            continue;
+                    
+                    //var t = objTags(oi);
+                    var ts = objTagStrength(oi);
+                    for (var i in ts) {
+                        if (!tagCount[i])
+                            tagCount[i] = 0;
+                        tagCount[i] = tagCount[i] + ts[i]; //TODO add the normalized tag strength
                     }
                 }
                 return tagCount;

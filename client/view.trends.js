@@ -10,34 +10,62 @@ function renderTrends(s, o, v) {
     var xx = $('<div></div>').attr('id', xu);
     v.append(xx);
         
-    var tagCount = s.getTagCount();
+    var serverTagCount = { };
+    var localTagCount = s.getTagCount();
+    var selfTagCount = s.getTagCount(true);
     
     var labels = [];
 	var values = [];
-    var table = [ ['Tag', 'log(Count)'] ];
     
-	for (var k in tagCount) {
-		//labels.push(k + '(' + tagCount[k] + ')');
-		//values.push(Math.log(tagCount[k]));
-        var t = s.tag(k);
-        var name = k;
-        if (t) 
-            name = t.name;
+    function display() {
+        var tags = _.union(_.keys(serverTagCount), _.keys(localTagCount), _.keys(selfTagCount));
+        
+        for (var k = 0; k < tags.length; k++) {
+            var ti = tags[k];
             
-        name = name + ' ' + tagCount[k];
+            var name = ti;
+            var t = s.tag(ti);
             
-        var url = '#/tag/' + k;
+            if (t!=undefined)
+                name = t.name;
+            else
+                name = ti;                
+            
+            var d = $('<div/>');
+            var url = '#/tag/' + ti;            
+            //var fs = 3.0 + Math.log(1+tagCount[k])*0.2;            
+            //var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
+            var ab = $('<a href="' + url + '">' + name + '</a>');
+            ab.click(function() {
+                s.set('currentView', 'list');
+                Backbone.history.navigate(url, true);  
+            });
+            
+            d.append(ab);
+            d.addClass('trendTagLabel');
+            v.append(d);
+            
+            var f = $('<div>' + _n(selfTagCount[ti]) + '</div>' );
+            f.addClass('trendTagCount');
+            v.append(f);
+
+            var e = $('<div>' + _n(localTagCount[ti]) + '</div>' );
+            e.addClass('trendTagCount');
+            v.append(e);            
+            
+            var g = $('<div>' + _n(serverTagCount[ti]) + '</div>' );
+            g.addClass('trendTagCount');
+            v.append(g);
+            
+            v.append('<br/>');
+            
+    	}
         
-        var fs = 3.0 + Math.log(1+tagCount[k])*0.2;
-        
-        var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
-        ab.click(function() {
-            s.set('currentView', 'list');
-            Backbone.history.navigate(url, true);  
-        });
-        v.append(ab);
-        v.append('<br/>');
-        
-	}
+    }
+    
+    s.getServerAttention(function(r) {
+        serverTagCount = r;
+        display();
+    });
        
 }

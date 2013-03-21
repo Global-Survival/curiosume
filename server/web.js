@@ -49,8 +49,6 @@ exports.start = function(host, port, database, init) {
 	Server.interestTime = { };	//accumualted time per interest, indexed by tag URI
 	Server.clientState = { };	//current state of all clients, indexed by their clientID DEPRECATED
 	
-	var file = new(nodestatic.Server)('./client');
-	
 	var databaseUrl = Server.database || process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
 	var collections = [ "obj" ];
 	
@@ -269,7 +267,7 @@ exports.start = function(host, port, database, init) {
 		
 	}
 	
-    
+    //TODO fix this to use the new tag data model
 	function getObjectsByTag(t, withObjects) {
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find({ tag: { $in: [ t ] } }, function(err, docs) {
@@ -304,48 +302,32 @@ exports.start = function(host, port, database, init) {
     that.getObjectsByTags = getObjectsByTags;
     */
 
-    /*
-	function getTagCounts(whenFinished) {
-		//this can probably be optimized very much
+    
+	function getTagCounts(whenFinished) {	
 		
 		var db = mongo.connect(databaseUrl, collections);
 		db.obj.find(function(err, docs) {
 			if (err) {
-				nlog('getTagCounts: ' + err);
+				nlog('getTagCounts: ' + err);            
 			}
-			db.close();
-			
-			var totals = { };
-			for (var k in docs) {
-				var d = docs[k];
-				if (d.tag) {					
-					for (var i = 0; i < d.tag.length; i++) {
-						var dtype = d.tag[i];
-						if (totals[dtype])
-							totals[dtype][0]++;
-						else
-							totals[dtype] = [ 1, 0];
-						//totals[dtype][1] = attention.totals[dtype] || 0;
-						totals[dtype][1] = Server.interestTime[dtype] || 0;
-					}
-				}
-				
-				if (d.uri) {
-					var a = attention.values[d.uri];
-					
-					if (a) {
-						totals[d.uri] = [ 0, a ];
-						if (d.name)
-							totals[d.uri].push(d.name);
-					}
-				}
-				
-			}
+            else {
+            	var totals = { };
+                
+                docs.forEach( function(d) {                
+                    var ts = util.objTagStrength(d);
+                    for (var dt in ts) {
+                        if (totals[dt] == undefined) totals[dt] = 0;
+                        totals[dt] += ts[dt];                        
+                    }
+                });
+            }			
+            
+    		db.close();
 			
 			whenFinished(totals);
 		});
 	}
-    */
+    
 	
 	function saveState(onSaved, onError) {
 		var t = Date.now()
