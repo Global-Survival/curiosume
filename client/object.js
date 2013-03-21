@@ -93,7 +93,7 @@ function newReplyWidget(onReply, onCancel) {
 }
 
 
-function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange) {
+function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange) {
     var d = $('<div/>');
     
     if (editable) {
@@ -114,7 +114,7 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange)
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var t = x.value[i];
-            var tt = renderTagSection(x, i, t, editable, whenSaved, onAdd, onRemove, onStrengthChange);
+            var tt = renderTagSection(x, i, t, editable, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange);
             d.append(tt); 
         }
     }
@@ -125,7 +125,7 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange)
 }
 
 
-function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onStrengthChange) {
+function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange) {
     var tag = t.id;
     var strength = t.strength;
     
@@ -145,6 +145,15 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
         
     if (editable) {
         var tagButtons = $('<div/>').addClass('tagButton');
+        
+        if (index > 0) {
+            var upButton = $('<a href="#">^</a>');
+            upButton.click(function() {
+                onOrderChange(index, index-1);            
+            });
+            tagButtons.append(upButton);
+        }
+        
         if (strength > 0.25) {
             var weakenButton = $('<a href="#">-</a>');
             weakenButton.click(function() {
