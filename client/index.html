@@ -87,8 +87,13 @@
                 var onRemove = function(i) {                    
                     commitFocus( objRemoveValue( getEditedFocus(), i) );
                 };
+                var onStrengthChange = function(i, newStrength) {
+                    var e = getEditedFocus();
+                    e.value[i].strength = newStrength;
+                    commitFocus(e);
+                };
                 
-                $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove) );
+                $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove, onStrengthChange) );
             
                 var lastValue = null;
                 function search() {                    

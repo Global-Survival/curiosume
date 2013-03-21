@@ -28,8 +28,11 @@ function objNew(id, name) {
 exports.objNew = objNew;
 
 
-function objAddTag(x, t) {
-    return objAddValue(x, { id: t }, undefined);    
+function objAddTag(x, t, strength) {
+    var v = { id: t };
+    if (strength!=undefined)
+        v.strength = strength;
+    return objAddValue(x, v, undefined);    
 }
 exports.objAddTag = objAddTag;
 
@@ -37,12 +40,15 @@ exports.objAddTag = objAddTag;
     objAddValue(x, { id: i, value: v } )
     objAddValue(x, i, v)
 */
-function objAddValue(x, a, b) {
+function objAddValue(x, a, b, strength) {
     var v;
     if (b == undefined)
         v = a;
-    else
+    else {
         v = { id: a, value: b };
+        if (strength!=undefined)
+            v.strength = strength;
+    }
     
     if (!x.value)
         x.value = [];

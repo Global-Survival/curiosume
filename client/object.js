@@ -93,7 +93,7 @@ function newReplyWidget(onReply, onCancel) {
 }
 
 
-function renderObject(x, editable, whenSaved, onAdd, onRemove) {
+function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange) {
     var d = $('<div/>');
     
     if (editable) {
@@ -114,7 +114,7 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove) {
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var t = x.value[i];
-            var tt = renderTagSection(x, i, t, editable, whenSaved, onAdd, onRemove);
+            var tt = renderTagSection(x, i, t, editable, whenSaved, onAdd, onRemove, onStrengthChange);
             d.append(tt); 
         }
     }
@@ -125,25 +125,38 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove) {
 }
 
 
-function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
+function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onStrengthChange) {
     var tag = t.id;
     var strength = t.strength;
     
     var d = $('<div/>').addClass('tagSection');
     
-    var tagLabel = $('<div>' + tag + '</div>').addClass('tagLabel');                
+    if (!strength) strength = 1.0;
+    
+    var tagLabel = $('<div>' + tag + '</div>').addClass('tagLabel');
+    
+    if (strength <= 0.25)       d.addClass('tag25');
+    else if (strength <= 0.50)  d.addClass('tag50');
+    else if (strength <= 0.75)  d.addClass('tag75');
+    else                        d.addClass('tag100');
+    
     d.append(tagLabel);
 
-    if (!strength) strength = 1.0;
         
     if (editable) {
         var tagButtons = $('<div/>').addClass('tagButton');
         if (strength > 0.25) {
             var weakenButton = $('<a href="#">-</a>');
+            weakenButton.click(function() {
+                onStrengthChange(index, strength - 0.25);            
+            });
             tagButtons.append(weakenButton);
         }
         if (strength < 1.0) {
             var strengthButton = $('<a href="#">+</a>');
+            strengthButton.click(function() {
+                onStrengthChange(index, strength + 0.25);
+            });
             tagButtons.append(strengthButton);
         }
         var removeButton = $('<a href="#">X</a>');
@@ -155,7 +168,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         d.append(tagButtons);
 
     
-        d.hover(function(){ tagButtons.fadeIn(200);}, function() { tagButtons.fadeOut(200);});                
+        //d.hover(function(){ tagButtons.fadeIn(200);}, function() { tagButtons.fadeOut(200);});
+        d.hover(function(){ tagButtons.show();}, function() { tagButtons.hide();});                
         tagButtons.hide();
     }
     
@@ -183,7 +197,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             d.append(dd);
             
             whenSaved.push(function(y) {
-               objAddValue(y, tag, dd.val());
+               objAddValue(y, tag, dd.val(), strength);
             });
         }
         else {
@@ -206,11 +220,11 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             
             whenSaved.push(function(y) {
                 if ((type == 'text') || (type=='url'))
-                    objAddValue(y, tag, dd.val());
+                    objAddValue(y, tag, dd.val(), strength);
                 else if (type == 'real')
-                    objAddValue(y, tag, parseFloat(dd.val()));
+                    objAddValue(y, tag, parseFloat(dd.val()), strength);
                 else if (type == 'integer')
-                    objAddValue(y, tag, parseInt(dd.val()));
+                    objAddValue(y, tag, parseInt(dd.val()), strength);
             });
 
         }
@@ -234,7 +248,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
         
         if (editable) {
             whenSaved.push(function(y) {
-                objAddValue(y, tag, t.attr('checked') == 'checked' ? true : false);
+                objAddValue(y, tag, t.attr('checked') == 'checked' ? true : false, strength);
             });
         }
         else {
@@ -281,7 +295,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
                    lon: l.lon,
                    zoom: m.zoom,
                    planet: 'Earth'
-                });
+                }, strength);
             });
 
         }
@@ -402,7 +416,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             d.append(tt);
             
             whenSaved.push(function(y) {
-               objAddValue(y, tag, ts.result || '');
+               objAddValue(y, tag, ts.result || '', strength);
             });            
         }
     }    
@@ -421,7 +435,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove) {
             }
             if (editable) {
                 whenSaved.push(function(y) {
-                   objAddTag(y, tag);
+                   objAddTag(y, tag, strength);
                 });
                 /*var pb = $('<button>...</button>');
                 tagLabel.append(pb);*/

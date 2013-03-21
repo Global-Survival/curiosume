@@ -311,6 +311,11 @@ div.olMapViewport {
     margin-right: 0.25em;
 }
 
+.tag25 { opacity: 0.7; font-size: 85%  }
+.tag50 { opacity: 0.8; font-size: 90%  }
+.tag75 { opacity: 0.9; font-size: 95%  }
+.tag100 { opacity: 1.0; font-size: 100%  }
+
 .tagButton {
     float: right;
     font-weight: bold;

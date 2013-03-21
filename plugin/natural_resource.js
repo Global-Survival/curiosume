@@ -77,8 +77,23 @@ Water (H2O) - patterns of abundance and scarcity of clean water
             hydrofracking
             fluoridation
             ...
-    
 
+http://sustainabledevelopment.un.org/content/documents/338brief11.pdf
+
+    Improvement in water supply through a GIS‐based
+    monitoring and control system for water loss reduction
+    In Ouagadougou,Burkina Faso,a GIS‐based monitoring and
+    control system has enabled significant reductions in water
+    losses within the distribution of a municipal utility. The
+    technical components include leak detection devices,
+    pressure and flow control sensors with real‐time and online
+    data transmission, automated pressure valves, and an
+    intelligent GIS‐based computerized system to steer the
+    whole process. Local jobs were created through the
+    investment reduction programme. The programme also improved
+    water efficiency, water supply and customer awareness of
+    the importance of protecting water resources and caring
+    for public water supply property.
 
 
 */
