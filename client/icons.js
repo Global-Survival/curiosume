@@ -1,5 +1,6 @@
 //all hardcoded stuff here is temporary until icons are specified by ontology
-var ti = { 
+var defaultIcons = { 
+    'default': '/icon/rrze/status/true.png',
     'environment.EarthQuake': '/icon/quake.png',
     'NuclearFacility': '/icon/nuclear.png',
     'Human': '/icon/rrze/emblems/crown.png',
@@ -12,8 +13,8 @@ var ti = {
     'Event': '/icon/rrze/actions/dial-in.png',
     'Report': '/icon/rrze/actions/add.png',
     'Similar': '/icon/approx_equal.png',
-    'emotion.Happy': '/icon/emoticon/happy.svg',
-    'emotion.Sad': '/icon/emoticon/sad.svg',
-    'emotion.Angry': '/icon/emoticon/angry.svg',
-    'emotion.Surprised': '/icon/emoticon/surprised.svg'
+    'emotion.happy': '/icon/emoticon/happy.svg',
+    'emotion.sad': '/icon/emoticon/sad.svg',
+    'emotion.angry': '/icon/emoticon/angry.svg',
+    'emotion.surprised': '/icon/emoticon/surprised.svg'
 };

@@ -4,6 +4,8 @@ http://en.wikipedia.org/wiki/Nutrition
 http://en.wikipedia.org/wiki/Nutrient_density
 http://en.wikipedia.org/wiki/Allergy
 
+http://openfoodweb.org/
+
 	Nutrient objects (the various macronutrients, vitamins, minerals, adaptogens, nootropics)
 
 	Various methods for calculating nutrient density in foods

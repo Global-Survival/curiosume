@@ -14,7 +14,7 @@ function getTagIcon(t) {
         return null;
     }
     else {
-        return ti[t];
+        return defaultIcons[t] || defaultIcons['default'];
     }
 }
     
@@ -108,7 +108,7 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange,
     else {
         d.append('<h1>' + objName(x) + '</h1>');
     }
-    d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
+    //d.append($('<span>' + x.id + '</span>').addClass('idLabel'));
 
 
     if (x.value) {
