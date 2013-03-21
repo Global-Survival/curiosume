@@ -133,11 +133,14 @@ function objTags(x) {
 }
 exports.objTags = objTags;
 
-function objTagStrength(x) {
+function objTagStrength(x, normalize) {
   // objTags(x) -> array of tags involved
   var t = { };  
   if (!x.value)
     return t;
+    
+  if (normalize == undefined)
+        normalize = true;
     
   for (var i = 0; i < x.value.length; i++) {
     var vv = x.value[i];
@@ -150,15 +153,18 @@ function objTagStrength(x) {
     else
         t[ii] = Math.max(s, t[ii]);
   }
-  var total = 0.0;
-  for (var k in t) {
-      total += t[k];
-  }
   
-  if (total > 0) {
-    for (var k in t) {
-        t[k] /= total;
-    }    
+  if (normalize) {
+      var total = 0.0;
+      for (var k in t) {
+          total += t[k];
+      }
+      
+      if (total > 0) {
+        for (var k in t) {
+            t[k] /= total;
+        }    
+      }
   }
   
   return t;
