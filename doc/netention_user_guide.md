@@ -251,21 +251,21 @@ THE FOLLOWING REMAINS TO BE EDITED:
 
 # 
 
-# Verification System
+# Trust System
 
-(note : another term than verification would be great)
+Self-organising moderation system that can scale to any number of users without the need of a centralised authority. It aims at constantly improve the quality of the ontology and the good behaviour within the system. It can also expand to a reputation economy.
 
-Verified users
+Trusted users
 
 A verified user has been tagged positively by at least three verified users. This kind of tag can be also used as a kind of reputation currency to build a trusted network.
 
-Verified taggers
+Trusted taggers
 
-Have created at least three basic tags that have been upgraded to verified tags
+Have created at least three basic tags that have been upgraded to trusted tags
 
-Verified tags
+Trusted tags
 
-Have been reviewed by at least three verified taggers. Unique objects that corresponds to the "good practices of creating a tag"(these practices will obviously be crucial).
+Have been reviewed by at least three trusted taggers. Unique objects that corresponds to the "good practices of creating a tag".
 
 Each created object gives or removes a certain amount of points. Each type of action provides then specific points that allows one to progressively access more potential within netention.
 
@@ -279,21 +279,17 @@ Express that you'd like to meet this person (which can appear as a contract : ne
 
 - Practical tags 
 
-Verifyiable tag or object
+Verifiable tag or object
 
-A non-verified user can ask to verified user to check up his tag or object by adding this tag. All verified taggers will have access to verifyable tags and can filter by speciality, subject, etc. With a search object defined for this purpose, a verfied user can for exemple receive notifications for all the new verifyable tags in chemistry...
+A non-trusted user can ask to trusted user to check up his tag or object by adding this tag. All verified taggers will have access to verifiable tags and can filter by speciality, subject, etc. With a search object defined for this purpose, a trusted user can for exemple receive notifications for all the new verifiable tags in chemistry...
 
 Report tag
 
 Report offensive content, bad tags, bad practices...
 
-Anyone can report, but only verified reporters can delete a user or an object or tag. You become verified reporter when you have reported at least three objects that have been later verified by verified reporters. Or maybe it could be calcualted with a kind of % of relevancy of the report tags submitted.
+Anyone can report, but only trusted reporters can delete a user or an object or tag. You become trusted reporter when you have reported at least three objects that have been later verified by trusted reporters. Or maybe it could be calculated with a kind of % of relevancy of the report tags submitted.
 
 These tags may need to be more integrated to the ui than other tags as they are useful in any circumstance.
-
-Finally, this system could be seen as a self-organising moderation system that can scale to any number of users without the need of a centralised authority...
-
-It could help constantly improve the quality of the ontology and the good behaviour within the system.
 
 Reference objects
 
@@ -301,15 +297,182 @@ Verified objects that can be used as templates, for exemple, a reference object 
 
 Another exemple, for events, various templates can be classified as to allow a quick creation of an object already tagged. Only contextual informations will be needed.
 
-[\[a\]][12]Helene Finidori:
+# Netention in Space
+
+Netention is a software tool designed to facilitate a group of individuals in deeply integrating each other's physical, mental, and emotional states toward the formation of a powerful, resilient "group mind" (2nd-order cybernetic organism).  This provides many benefits such as enhancing the health of a team of individuals and being able to coordinate the performance of complex tasks in order to clarify and achieve agreed-upon goals.
+
+5\. Project Description  
+This is where you describe in detail (1000 word limit please) what you plan on doing; the work that needs to be accomplished to deliver a product, service, or result with the specified features and functions. Explain how your project fits into the realm of human endeavors and comparisons to similar projects. Also tell us what sets you and your project apart from other projects. Attach engineering drawings, software/user experience design sketches (as appropriate), to support your concept.
+
+Netention collects a community of peoples' stories, and interlinks them with automatically discovered opportunities that are mutually inter-satisfying - essentially suggesting to its participants how they could realize the desired futures they have described.  
+  
+Netention is a tool for describing one's current life situation ("is"), and potential future situations ("will be")  -- as linked data objects. A semantic description of a human life can be considered to consist of a set of declarations representing aspects about which one is concerned or interested.  Link the current and desired states of real and imaginary concepts - including people, environments, objects, processes, knowledge, or time.  
+  
+Netention realizes one's goals based on their desires and translates them into tangible outcomes in one's own network.  
+  
+Netention aims to solve, in general, all resource management and planning issues that occur among communities of participants.  A complete system could conceivably eliminate the balkanization of various separate online services that presently serve relatively narrow subsets of the more general problem.  
+  
+The term Netention is a portmanteau of the words Network, and Attention or Intention.  It refers to a community's collective abilities.  
+  
+Don't "search" - describe what you want. Edit it at any time to adjust or improve the description.  
+  
+Netention works at the basic thought level, to elicit descriptions of "something" that you're thinking about.  Whether it describes a dream (something that you would like to happen), an object, or hypothetical object - it can be fully described and re-described.    
+  
+A hypothetical (desired) object can become an actual object, or an abstract concept can become an actual future event, etc.  Fluid and flexible.  The system can then connect your descriptions to others - these are analogous to hyperlinks.  Links are useful because they suggest ways to achieve the implied desired state of something - whether you want to sell something, whether you want to participate in something, whether you want others to participate in something, whether you want someone to donate something to you for free, etc...    
+  
+Netention is a system for describing objects, thoughts, places, concepts, times, etc... Create descriptions of reality that consist of data about the state in which something presently "is", AND statements about your desired or anticipated state in which it "will be" - how you would like it to become - usually involving ranges of acceptable indeterminate values.  
+  
+Using these two kinds of statements, the system can link any set of objects according to a presence of mutually satisfying statements, like a lock-and-key, or receptor site on a cell.  It can then suggest links (representing possibilities such as transactions or assignments), ranked according to the strength of their correlation.  
+  
+A general-purpose semantic-network computer system simulates "described experience" and discovers "possible experiences" to function as a tool for analyzing and optimizing certain qualities of one's existence.  
+  
+A semantic concept represents each agent (ex: a human) participating in interaction processes that constitute awareness of and potential to operate upon arbitrary subsets of simulation content. Choice and configuration of interaction modalities may be customized according to a particular situation or adjusted to compensate for sensory, kinesthetic, or cognitive disabilities.  
+  
+A Network is a community-managed web service to which clients connect.  Servers communicate with other servers in a P2P network.
+
+Netention helps one elucidate their cloudy thoughts into clarified expressions that more effectively achieve some goal - whether that involves communication or invoking an automatic procedure.
+
+6\. Methods and Implementation Plan  
+This is the portion of the proposal where you'll clarify objectives, assign tasks with deadlines, and chart your progress in reaching goals and milestones.
+
+  
+a. Objectives
+
+1.  Create a legal structure to support further development of the software and processes actually under development.
+1.  Find locations and establish laboratory research facilities that can support software development and simulate, for at least some developers, the conditions of life in extreme situations and environments that may occur on or in Earth, space, and other planets.
+1.  Develop and experience maximum sustainability/survival plans.
+
+  
+b. Tasks
+
+1.  Estimate costs of the "civilisation starter kit" using open source hardware and developing a "recipe tool".
+1.  Create the legal structure to allow donations and ethical revenue-generating opportunities and further funding as well as possible commercial activities in the form of services and development of software.
+
+4\. Relevance to Humanity's Mission  
+Here you justify your projects relevance to humanity's mission (promoting community spaces working for humanity's long term survivability and expansion into space). Themes are maker education, near space economy, habitats and human environments. Immediate application to space is not required, but it should move humanity in that direction.
+
+One of the most difficult environments that a society and its individuals can experience is traveling through and colonizing space.  In the harsh environments of outer space or under the oceans, mental health, social harmony, and clarity of communication becomes essential for survival.
+
+The most important factor in the survival of a group, the quality of their lives and what they can accomplish are interpersonal interactions. In order to accomplish any task it is usually not possible for a single individual to achieve the level of complexity of what a group of interacting people can do.
+
+Netention enables the creation and optimization of a collective mind and also enhances individual ones. It also provides many useful tools such as:
+
+1.  CortexIt reading system that supports an individual's ability to absorb information through a user-interface that provides an adjustable focus on text and multimedia (audio and visual) content.
+1.  Semantic software agents that simulate conversations among individuals. The simulation results can be used to prevent people from saying things that might be harmful to others.
+1.  Interactive 4D relativistic simulation and visualization of cosmic bodies (galaxies, stars, planets, moons, artificial satellites, asteroids, comets, etc...) including mapping of their surfaces and 3D interior environments (underground caverns and geological features) to indicate hostile and beneficial environments to known human, animal, and plant species, and the navigable paths through them.  An initial subset of these features will be developed first in order to aid humans in both local (neighborhood) and global (continental) activities on the surface of planet Earth by avoiding threats (such as pollution) and finding benefits (such as food and energy supplies).
+1.  Comprehensive physical sciences ontologies, even supporting conflicting models until their theories are proven.  These are useful for education, AI reasoning about the universe, automated design and manufacturing of tools and vessels, and organization of scientific data.
+
+1.  [http://sweet.jpl.nasa.gov/ontology/][12]
+1.  [https://github.com/automenta/keshefoundation\_ontologies][13]
+
+[][13]
+
+Netention grows a group mind by monitoring and clarifying individuals' mental states, and leads them to collaborate with each other through passive and active interactions.
+
+Given that we store language, conversations, words meanings, emotional states and their implications which could be linked to parts of a conversation, we can provide very accurate simulations of real interactions and have a clear understanding of the individuals and the collective situation.  Given any personal or collective situation Netention is potentially capable of guiding it toward a better state.  A much healthier society can result from this process.
+
+"...I've been coping with the realization that netention has the potential to be far more invasive in our user's lives than anything google has come up with. However, it's nature is also to be far more explicit about how integral a part of the user's life it can be become. I say this because I'm now thinking that the central concern of netention should be "person management" along the same line of thought as the phrase "resource management". I will briefly outline where I'm going with this.
+
+The space competition is what really got me thinking about this, because I wanted to know what "use" netention could best serve to an upcoming mission off-world. The most important factor in the survival of a group of people is inter- and intra-personal dynamics. No matter how skilled the individuals are, the mission cannot be accomplished without a harmony of interaction between each unit in the team. So, how do you 'ensure' this harmony?
+
+Put the right group of people together; people who will "naturally" enjoy each other's company and look out for one another, based on mutual understanding and empathy. How do you find the "right" group of people? Have a bunch of people who are interested in being part of this supposed mission interact within a common system, Netention, which will both facilitate some level of simulation of the kinds of events(problems) that these potential team-mates will encounter together and then, based on the patterns of interaction, suggest an optimal cohort group.
+
+Here we are getting into the re-directing of people's lives through "suggestion" which is a tricky area. This is why, in order to not be evil, the participants must, at all times, be aware of the context in which they are participating."
+
+Netention is basically a tool for forming group minds in a deep way.  people concerned about privacy from a facebook perspective may overlook the best ways netention can be used - in small groups of people that already have implicit trust.  i've been delaying building security into it because i want to support this set of functionality first, and because it's easier to concentrate on the UI.  
+
+Though, netention does offer a higher degree of security than facebook or G+ by the simple fact that you can run it on your own server which you can seal off from the internet by arbitrary levels of security (ex: a VPN or SSH tunnel).  this will allow people to store intimate details of their life that they ordinarily wouldnt feel comfortable sharing on a public network, even if it did promise some form of privacy or anonymity - since they could compromise it at any time since their software is out of your control.
+
+Some have commented after reviewing netention that it encourages selfishness and narcissism in the way that people tweet or blog about every little detail of their life.  this is true but only if you decide to share that data with others, rather than harvesting it for your own analysis.  so i foresee adding some privacy flags to the objects to avoid them being shared with others on the network, so that you can store details that are only relevant to you (though at a later point you could make them public, or vice-versa).
+
+### [The Naked Mind and Space Exploration][14]
+
+[http://blog.automenta.com/search?q=nirgal][15]
+
+[][15]
+
+[][15]
+
+[réf :][14][][16][Incomplete definition of a Naked Mind][16].
+
+Space travel is at a really beginning stage and one of the major issues concerns the psychological behaviour of these early explorers.
+
+A book has been recently published about this topic, but as[][17][this review][17] points out, some critical aspects are not discussed, or maybe hidden because of secrecy.
+
+Another relevant book discussing this topic is the[][18][Mars Trilogy][18] written by Kim Stanley Robinson.
+
+The[][19][Mars-500][19] mission used[][20][sociomapping][20] to monitor social behaviour.
+
+Sociomapping is a method developed for processing and visualization of relational data (e.g. social network data). It uses the data-landscape metaphor, creating a visually coded picture resembling a map that can be interpreted with similar rules as navigation in the landscape. This picture is called a Sociomap.
+
+Netention could allow the automatic generation and updates of such sociomap, and also automatically detect possible emerging conflicts.
+
+The advantages of using such a tool are numerous.
+
+The role of the psychologist in such a team is really difficult, as it is pointed in Mars Trilogy. This character having no one to express its profound feelings, he may feel lonely as its role can be pictured as the loving father and mother of the crew, hence the feeling of being excluded.
+
+So this role could be diluted among every person of the crew by defining a Naked Mind protocol using[][21][Netention][21] and virtual means of communication.
+
+The choice of a crew might as well be crucial.[][22][The Generation Z][22] or those having an intimate connection with new technologies and virtual worlds are more likely to live far from a "natural environment". Being able to spend months or years without any real social behaviour or "normal activities" other than virtual activities through internet like coding, communicating, playing... can be a huge advantage, and i sense this kind of people are more likely to adapt to a Naked Mind protocol.
+
+### Basics of Naked Mind Protocol
+
+Synchronous communication is used mostly to express positive feelings and informations that need immediate response.
+
+1.  implies the speaker wants an immediate response.  this could take the form of speech but also text or video chat.
+
+Asynchronous communication is used when temporal and/or emotional dimensions can or need to be tempered. It can go from sharing ideas and emotions to pointing an inter-personal problem.
+
+This is crucial considering inter-personal issues, as it removes some of the emotional tensions in such a situation, and add a temporal dimension which allows a better processing of the information.
+
+1.  allows the recipient arbitrary time to respond, and the sender knows that so he/she is not waiting for an immediate response.  this too could take the form of a text message, a voice message, a video message, etc..  [http://en.wikipedia.org/wiki/Asynchronous\_I/O][23]
+
+[][23]
+
+Collective issues are discussed verbally or virtually depending on the temporal urgency and the emotional charge of the issue.  Communication, virtual or verbal, and we can imagine a kind of priority level, or a qualification of communication.  An asynchronous emotional message would be treated by the receiver when he has time and feel balanced enough for anything it could be.
+
+### Psychological Optimization Protocol
+
+A complete protocol includes the following :
+
+1.  Monitoring of mental states
+1.  Agreements unique to the group and mutually decided during an isolation experiment prior to the travel mission
+1.  Social simulations made during the isolation experiment (including emergencies, inter-personal issues or relationships)
+
+It seems obvious that human species isn't adapted for space travel, long missions or definitive settling on other planets, hence the need to "engineer" an evolution of human species by altering psychological trends.
+
+I don't think there's a need to go too far, video games players, and many people living more in the virtual than the natural realm have many traits that could be crucial for such things.
+
+i also continuously consider the applicability of Netention in such far scenarios.  this way we can make sure the ideas are solid and can withstand at least a few technological paradigm shifts.
+
+Yes seems like a great solution - just train everyone to be each other's psychologist.  i expect that psychological therapy can be encoded into the ontology.  like this in-progress emotion ontology that includes some questions i paraphrased from a[][24][CBT][24] ebook which would be optionally & passively prompted when a negative emotion is being described:
+
+1.  [https://github.com/automenta/netentionjs2/blob/b8aa32030eeca211d8e84c80cbdc3ec8900473ef/plugin/emotion.js][25]
+
+[][25]
+
+[][25]
+
+[][25]
+
+[  
+][25]References
+
+[http://100yss.org/mission/purpose][26]
+
+[http://www.peaceinspace.com][27]
+
+[http://www.youtube.com/watch?v=dvk1bnx20fE][28] Space Lottery
+
+[\[a\]][29]Helene Finidori:
 
 I love the idea of data kept alive. Same for conversations... they should be kept alive and accessible. That's why any mapping/resource maping project must be coupled by a pull and engagement mechanism. Look at this video: http://www.youtube.com/watch?feature=player\_embedded&v=3Q2YgeKbbt4
 
-[\[b\]][13]Helene Finidori:
+[\[b\]][30]Helene Finidori:
 
 Where do I see :)
 
-[\[c\]][14]Helene Finidori:
+[\[c\]][31]Helene Finidori:
 
 Actually he based his methodology on ABCD. More here: 
 
@@ -329,7 +492,7 @@ Helene Finidori:
 
 The links are all I have...
 
-[\[d\]][15]Helene Finidori:
+[\[d\]][32]Helene Finidori:
 
 Seth, Like you did for the orchestra, could you describe in a few words how Netention could be used for a sharing service, what it could enable better than any catalog or regular map of stuff. how the query, the possibilities, contextualizations would be easier etc etc.... Putting yourself in the shoes of a lender and borrower.
 
@@ -339,7 +502,7 @@ S H:
 
 whether you want to find or share something away you're interested in the same "types" of things in that given moment.  from there its extra details to clarify your relationship to it
 
-[\[e\]][16]Helene Finidori:
+[\[e\]][33]Helene Finidori:
 
 The important thing here is the possibility to qualify the objects. How can we explain this in simple terms, to give an idea of the potential? There's this multidimensioanl aspect taking time into account. Place, shape, volume, caracteristics... that you probably don't have in any other mapping system? We probably need to focus on objects for a start. What are onjects? How can they be described, how can they be related.
 
@@ -361,8 +524,25 @@ S H:
 [9]: #cmnt4
 [10]: http://en.wikipedia.org/wiki/Liveaboard
 [11]: #cmnt5
-[12]: #cmnt_ref1
-[13]: #cmnt_ref2
-[14]: #cmnt_ref3
-[15]: #cmnt_ref4
-[16]: #cmnt_ref5
+[12]: http://sweet.jpl.nasa.gov/ontology/
+[13]: https://github.com/automenta/keshefoundation_ontologies
+[14]: http://blog.automenta.com/2012/12/the-naked-mind-and-space-exploration.html
+[15]: http://blog.automenta.com/search?q=nirgal
+[16]: http://blog.automenta.com/2012/11/the-open-source-human-naked-mind.html?utm_source=BP_recent
+[17]: http://www.centauri-dreams.org/?p=24523
+[18]: http://en.wikipedia.org/wiki/Mars_trilogy
+[19]: http://en.wikipedia.org/wiki/MARS-500
+[20]: http://en.wikipedia.org/wiki/Sociomapping
+[21]: http://netention.org/
+[22]: http://en.wikipedia.org/wiki/Generation_Z
+[23]: http://en.wikipedia.org/wiki/Asynchronous_I/O
+[24]: http://en.wikipedia.org/wiki/Cognitive_behavioral_therapy
+[25]: https://github.com/automenta/netentionjs2/blob/b8aa32030eeca211d8e84c80cbdc3ec8900473ef/plugin/emotion.js
+[26]: http://100yss.org/mission/purpose
+[27]: http://www.peaceinspace.com/contact-us
+[28]: http://www.youtube.com/watch?v=dvk1bnx20fE
+[29]: #cmnt_ref1
+[30]: #cmnt_ref2
+[31]: #cmnt_ref3
+[32]: #cmnt_ref4
+[33]: #cmnt_ref5

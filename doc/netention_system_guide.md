@@ -28,165 +28,169 @@ SYSTEM GUIDE
 
 [Installation][4]
 
-[Sensors][5]
+[Ubuntu 12.10][5]
 
-[Mapping][6]
+[Windows 7][6]
 
-[Quality of Life][7]
+[Sensors][7]
 
-[Geological][8]
+[Mapping][8]
 
-[SEIS][9]
+[Quality of Life][9]
 
-[Incidents][10]
+[Geological][10]
 
-[Water and food][11]
+[SEIS][11]
 
-[Shelter][12]
+[Incidents][12]
 
-[Hotels][13]
+[Water and food][13]
 
-[Safety][14]
+[Shelter][14]
 
-[Crime][15]
+[Hotels][15]
 
-[UFO Reports][16]
+[Safety][16]
 
-[Fire Protection][17]
+[Crime][17]
 
-[Freedom and Human Rights][18]
+[UFO Reports][18]
 
-[Environment & Pollution][19]
+[Fire Protection][19]
 
-[Radiation and Nuclear Threats][20]
+[Freedom and Human Rights][20]
 
-[MEXT][21]
+[Environment & Pollution][21]
 
-[Pachube][22]
+[Radiation and Nuclear Threats][22]
 
-[FLEXPART Atmospheric Simulation][23]
+[MEXT][23]
 
-[Chemtrails][24]
+[Pachube][24]
 
-[US Cell Towers][25]
+[FLEXPART Atmospheric Simulation][25]
 
-[Water Quality][26]
+[Chemtrails][26]
 
-[Hydrofracking][27]
+[US Cell Towers][27]
 
-[Energy][28]
+[Water Quality][28]
 
-[Communication (Mail, Phone, Internet)][29]
+[Hydrofracking][29]
 
-[Healthcare][30]
+[Energy][30]
 
-[Life Expectancy][31]
+[Communication (Mail, Phone, Internet)][31]
 
-[Addiction Mitigation][32]
+[Healthcare][32]
 
-[Pharmacies][33]
+[Life Expectancy][33]
 
-[Hospitals][34]
+[Addiction Mitigation][34]
 
-[Doctors][35]
+[Pharmacies][35]
 
-[Epidemiology][36]
+[Hospitals][36]
 
-[Childcare][37]
+[Doctors][37]
 
-[Employment][38]
+[Epidemiology][38]
 
-[Education][39]
+[Childcare][39]
 
-[Transportation][40]
+[Employment][40]
 
-[Sex][41]
+[Education][41]
 
-[Population size and demographics, ex: of members of specific gender per age][42]
+[Transportation][42]
 
-[Waste Disposal][43]
+[Sex][43]
 
-[Economic, Financial, and Corporate][44]
+[Population size and demographics, ex: of members of specific gender per age][44]
 
-[Banks, ATM's, Credit Unions][45]
+[Waste Disposal][45]
 
-[TheyRule.net Data Sources][46]
+[Economic, Financial, and Corporate][46]
 
-[Exploring Enron][47]
+[Banks, ATM's, Credit Unions][47]
 
-[Board to Death][48]
+[TheyRule.net Data Sources][48]
 
-[Gapminder][49]
+[Exploring Enron][49]
 
-[Agriculture][50]
+[Board to Death][50]
 
-[Natural Disasters][51]
+[Gapminder][51]
 
-[Extreme Temperatures][52]
+[Agriculture][52]
 
-[Earthquakes][53]
+[Natural Disasters][53]
 
-[Volcanoes][54]
+[Extreme Temperatures][54]
 
-[Fires][54]
+[Earthquakes][55]
 
-[Floods][54]
+[Volcanoes][56]
 
-[Tsunamis][54]
+[Fires][56]
 
-[Storms, Tornadoes, and Hurricanes][54]
+[Floods][56]
 
-[Travel][54]
+[Tsunamis][56]
 
-[Wildlife][55]
+[Storms, Tornadoes, and Hurricanes][56]
 
-[Urban Smart / Sensor Grids][56]
+[Travel][56]
 
-[Psychological & Demographics][57]
+[Wildlife][57]
 
-[Hardware and AI Classification / Feature Detection][58]
+[Urban Smart / Sensor Grids][58]
 
-[Resources][59]
+[Psychological & Demographics][59]
 
-[List of Thinking Subjects][60]
+[Hardware and AI Classification / Feature Detection][60]
 
-[Plutchik's Primary Emotions][61]
+[Resources][61]
 
-[Patrick Anderson's Word List][62]
+[List of Thinking Subjects][62]
 
-[Story Elements][63]
+[Plutchik's Primary Emotions][63]
 
-[Psychogenic Human Needs][64]
+[Patrick Anderson's Word List][64]
 
-[Abraham Maslow's Hierarchy][65]
+[Story Elements][65]
 
-[Erich Fromm][66]
+[Psychogenic Human Needs][66]
 
-[According to Fromm, basic needs include the need for relatedness, transcendence, rootedness, identity and a frame of orientation.][67]
+[Abraham Maslow's Hierarchy][67]
 
-[Murray Biological and Psychogenic Needs & Thematic Appreciation Test (TAT)][68]
+[Erich Fromm][68]
 
-[Murrays Psychogenic Needs][69]
+[According to Fromm, basic needs include the need for relatedness, transcendence, rootedness, identity and a frame of orientation.][69]
 
-[1\. Ambition Needs][70]
+[Murray Biological and Psychogenic Needs & Thematic Appreciation Test (TAT)][70]
 
-[2\. Materialistic Needs][71]
+[Murrays Psychogenic Needs][71]
 
-[3\. Power Needs][72]
+[1\. Ambition Needs][72]
 
-[4\. Affection Needs][73]
+[2\. Materialistic Needs][73]
 
-[5\. Information Needs][74]
+[3\. Power Needs][74]
 
-[Maslow's Hierarchy of Needs][75]
+[4\. Affection Needs][75]
 
-[Five Levels of the Hierarchy of Needs][76]
+[5\. Information Needs][76]
 
-[Characteristics of Self-Actualized People][77]
+[Maslow's Hierarchy of Needs][77]
 
-## Web: [http://netention.org][78]
+[Five Levels of the Hierarchy of Needs][78]
 
-## Source code: [https://github.com/automenta/netentionjs2][79]
+[Characteristics of Self-Actualized People][79]
+
+## Web: [http://netention.org][80]
+
+## Source code: [https://github.com/automenta/netentionjs2][81]
 
 # 
 
@@ -194,13 +198,13 @@ SYSTEM GUIDE
 
 ## 
 
-Ubuntu 12.10
+## Ubuntu 12.10
 
 sudo apt-get install git npm mongodb g++ libxml2-dev make  
 
 //install nodejs
 
-wget[][80][http://nodejs.org/dist/v0.8.14/node-v0.8.14.tar.gz][80]
+wget[][82][http://nodejs.org/dist/v0.8.14/node-v0.8.14.tar.gz][82]
 
 tar xvzf node-v0.8.14.tar.gz
 
@@ -214,7 +218,7 @@ sudo make install
 
 cd ..
 
-git clone[][81][https://github.com/automenta/netentionjs2.git][81] netention  
+git clone[][83][https://github.com/automenta/netentionjs2.git][83] netention  
 cd netention
 
 npm install
@@ -225,7 +229,7 @@ npm install --force htmlparser jsdom apricot
 
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
-Basically it needs node.js, the latest version, and then certain libraries installed via 'npm' the node package manager (i'll list them in the instructions).  then run web.sh (which uses the very helpful '[always][82]' package) and visit on port 8080 (specified in config.js).
+Basically it needs node.js, the latest version, and then certain libraries installed via 'npm' the node package manager (i'll list them in the instructions).  then run web.sh (which uses the very helpful '[always][84]' package) and visit on port 8080 (specified in config.js).
 
 the client/ folder is served publicly by the webserver as static files.  this includes client-side html and javascript.
 
@@ -233,7 +237,103 @@ client/sensor contains the sensor hierarchy.  some of the files (without .client
 
 server/ contains server-side specific code.
 
-in the meantime, if you're able to make some progress and need some help, feel free to reach me by email or instant message.  :)  if you'd like i will help you set up the environment via screenshare and we can write the instructions at the same time, perhaps recording it too.
+## Windows 7
+
+1\. Setting up the environment
+
+-Install node.js
+
+[http://nodejs.org/download/][85]
+
+[][85]
+
+-Download and install mongodb
+
+[http://www.mongodb.org/downloads][86]
+
+[http://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/][87]
+
+[][87]
+
+2\. Get the code
+
+-install github for windows :[][88][http://windows.github.com/][88]
+
+[][88]
+
+-Go to :[][81][https://github.com/automenta/netentionjs2][81]
+
+click on "clone in windows"
+
+3\. Install npm
+
+-open windows command shell
+
+-Go to the repository directory and run npm install :
+
+type three commands : (in this case the directory is F:\\rep\\netentionjs2)
+
+f:
+
+cd \\rep\\netentionjs2
+
+npm install
+
+4\. Create your custom webserver configuration
+
+-create a file "localnetention.js" in the netentionjs2 root directory with this code :
+
+var web = require('./server/web.js');
+
+web.start('localhost:8080', 8080, 'localhost/o1', function(server) {
+
+server.permissions\['authenticate\_to\_configure\_plugins'\] = false;
+
+server.permissions\['authenticate\_to\_delete\_objects'\] = false;
+
+server.permissions\['authenticate\_to\_proxy\_http'\] = false;
+
+});
+
+the first parameter is the url it will run at, the second is the database url
+
+5\. edit web/server.js
+
+Remove line 3 : var cortexit = require('./cortexit.js');
+
+6\. Launch the netention server
+
+go to the command line and run:
+
+node localnetention.js
+
+you can then visit[][89][http://localhost:8080][89] in your browser
+
+go to the menu, 'Plugins', and enable some
+
+Allow others access to your server
+
+if it's not firewalled by your router
+
+give them your IP and tell them port 8080
+
+if your database gets full or something
+
+you can create a new database by changing localhost/o1 in localnetention.js
+
+to locahost/o2
+
+and so on
+
+just point it to a new url and you get a new database
+
+the old one remains but it wont be accessed
+
+you will have to re-enable plugins at that point too
+
+because the list of enabled plugins is set in the db
+
+it also allows you to switch between different db's
 
 ![](https://lh5.googleusercontent.com/t6v26JkIG0ITRVkKRSRVVkL0WgGlZMH0YlB36u99PAsCEw03ql7K7QKFHGYvR-WxfY6ca0sFvSOeCSRkEugvr2kp7t_Yoo8yKrBn3lUQVfAiww)
 
@@ -241,59 +341,59 @@ in the meantime, if you're able to make some progress and need some help, feel f
 
 ## Mapping
 
-[http://en.wikipedia.org/wiki/Public\_Participation\_GIS][83]
+[http://en.wikipedia.org/wiki/Public\_Participation\_GIS][90]
 
-[http://en.wikipedia.org/wiki/Collaborative\_mapping][84]
+[http://en.wikipedia.org/wiki/Collaborative\_mapping][91]
 
-[http://en.wikipedia.org/wiki/Participatory\_GIS][85]
+[http://en.wikipedia.org/wiki/Participatory\_GIS][92]
 
-[http://en.wikipedia.org/wiki/Neighborhood\_planning][86]
+[http://en.wikipedia.org/wiki/Neighborhood\_planning][93]
 
-[http://en.wikipedia.org/wiki/Volunteered\_Geographic\_Information][87]
+[http://en.wikipedia.org/wiki/Volunteered\_Geographic\_Information][94]
 
-[http://en.wikipedia.org/wiki/Web\_mapping][88]
+[http://en.wikipedia.org/wiki/Web\_mapping][95]
 
-[http://en.wikipedia.org/wiki/Neogeography][89]
+[http://en.wikipedia.org/wiki/Neogeography][96]
 
-[][89]
+[][96]
 
-[][89]
+[][96]
 
 ## Quality of Life
 
-[http://en.wikipedia.org/wiki/Quality\_of\_life][90]
+[http://en.wikipedia.org/wiki/Quality\_of\_life][97]
 
 http://en.wikipedia.org/wiki/Gross\_National\_Happiness
 
-[http://en.wikipedia.org/wiki/Physical\_Quality\_of\_Life\_Index][91]
+[http://en.wikipedia.org/wiki/Physical\_Quality\_of\_Life\_Index][98]
 
-[http://en.wikipedia.org/wiki/Quality-of-life\_index][92]
+[http://en.wikipedia.org/wiki/Quality-of-life\_index][99]
 
-[http://en.wikipedia.org/wiki/Quality\_of\_life\_%28healthcare%29][93]
+[http://en.wikipedia.org/wiki/Quality\_of\_life\_%28healthcare%29][100]
 
 http://en.wikipedia.org/wiki/Satisfaction\_with\_Life\_Index
 
 http://en.wikipedia.org/wiki/Happiness\_economics
 
-[http://en.wikipedia.org/wiki/Legatum\_Prosperity\_Index][94]
+[http://en.wikipedia.org/wiki/Legatum\_Prosperity\_Index][101]
 
 http://en.wikipedia.org/wiki/Global\_Peace\_Index
 
-[http://en.wikipedia.org/wiki/UN\_Human\_Development\_Index][95]
+[http://en.wikipedia.org/wiki/UN\_Human\_Development\_Index][102]
 
-[http://en.wikipedia.org/wiki/Human\_Poverty\_Index][96]
+[http://en.wikipedia.org/wiki/Human\_Poverty\_Index][103]
 
-[http://en.wikipedia.org/wiki/Human\_Development\_Index][97]
+[http://en.wikipedia.org/wiki/Human\_Development\_Index][104]
 
 http://en.wikipedia.org/wiki/Happy\_Planet\_Index
 
-[http://en.wikipedia.org/wiki/Standard\_of\_living][98]
+[http://en.wikipedia.org/wiki/Standard\_of\_living][105]
 
 http://en.wikipedia.org/wiki/Happiness
 
 http://en.wikipedia.org/wiki/Human\_rights
 
-[http://en.wikipedia.org/wiki/Emotional\_well-being][99]
+[http://en.wikipedia.org/wiki/Emotional\_well-being][106]
 
 http://en.wikipedia.org/wiki/World%27s\_most\_livable\_cities
 
@@ -301,36 +401,36 @@ http://en.wikipedia.org/wiki/World%27s\_most\_livable\_cities
 
 MQTT
 
-[http://mqtt.org/][100]
+[http://mqtt.org/][107]
 
-[][100]
+[][107]
 
 EEML
 
-[http://www.eeml.org/][101]
+[http://www.eeml.org/][108]
 
-[][101]
+[][108]
 
 OpenStreetMap Potential Datasources (BIG)
 
-[http://wiki.openstreetmap.org/wiki/Potential\_Datasources][102]
+[http://wiki.openstreetmap.org/wiki/Potential\_Datasources][109]
 
-[][102]
+[][109]
 
-COSM / PACHUBE:[][103][http://pachube.com][103]
+COSM / PACHUBE:[][110][http://pachube.com][110]
 
 Semantic Community
 
-[http://semanticommunity.info/][104]
+[http://semanticommunity.info/][111]
 
-[][103]
+[][110]
 
 GeoNetwork
 
-[http://geonetwork-opensource.org/gallery/gallery.html][105]
+[http://geonetwork-opensource.org/gallery/gallery.html][112]
 
 [  
-][105]GeoNetwork nodes  
+][112]GeoNetwork nodes  
   
 FAO GeoNetwork - http://www.fao.org/geonetwork  
 Food and Agriculture Organization of the United Nations GeoNetwork  
@@ -467,21 +567,21 @@ http://www.agi.com/resources/downloads/data/
 
 Environmental Protection Agency
 
-[http://www.epa.gov/regulations/][106]
+[http://www.epa.gov/regulations/][113]
 
-[][106]
+[][113]
 
 United Nations
 
-[http://data.un.org/][107]
+[http://data.un.org/][114]
 
-[][107]
+[][114]
 
 CIA World Factbook
 
-[https://www.cia.gov/library/publications/the-world-factbook/][108]
+[https://www.cia.gov/library/publications/the-world-factbook/][115]
 
-[http://www.kmlfactbook.org/\#&db=wri&table=3\_812&col=2000&][109]
+[http://www.kmlfactbook.org/\#&db=wri&table=3\_812&col=2000&][116]
     
 1.  Climate and Atmosphere  
     Forests, Grasslands and Drylands  
@@ -494,19 +594,19 @@ CIA World Factbook
     Coastal and Marine Ecosystems  
     Environmental Governance and Institutions
 
-[][110]
+[][117]
 
 NASA Worldwind: many demo applications with data
 
-[http://goworldwind.org/demos/][111]
+[http://goworldwind.org/demos/][118]
 
-[][111]
+[][118]
 
 GraDS Geological Servers
 
-[http://www.iges.org/grads/gds/][112]
+[http://www.iges.org/grads/gds/][119]
 
-[][112]
+[][119]
 
 Media Watch on Climate Change
 
@@ -660,47 +760,47 @@ Radon
 
 Unemployment
 
-[http://sedac.ciesin.org/data.html][113]
+[http://sedac.ciesin.org/data.html][120]
 
 lots of datasets
 
-[http://data.un.org/][107]
+[http://data.un.org/][114]
 
 international
 
-[http://geodata.grid.unep.ch/][114]
+[http://geodata.grid.unep.ch/][121]
 
 more UN environmental data
 
-[http://en.wikipedia.org/wiki/Crime\_mapping][115]
+[http://en.wikipedia.org/wiki/Crime\_mapping][122]
 
-[http://www.crimereports.com/][116]
+[http://www.crimereports.com/][123]
 
-[http://www.crimemapping.com/][117]
+[http://www.crimemapping.com/][124]
 
-[][117]
+[][124]
 
-[][117]
+[][124]
 
-[http://www.google.com/publicdata/overview?ds=d5bncppjof8f9\_][118]
+[http://www.google.com/publicdata/overview?ds=d5bncppjof8f9\_][125]
 
-[http://data.worldbank.org/][119]
+[http://data.worldbank.org/][126]
 
-[http://data.worldbank.org/indicator][120] (420 indicators)
+[http://data.worldbank.org/indicator][127] (420 indicators)
 
-NASA \#OpenData: What Will YOU Create?:[][121][http://www.rhok.org/node/2608][121]
+NASA \#OpenData: What Will YOU Create?:[][128][http://www.rhok.org/node/2608][128]
 
-[][121]
+[][128]
 
-[][121]
+[][128]
 
-[https://www.opensource.gov/][122]
+[https://www.opensource.gov/][129]
 
 The Open Source Center (OSC) is the US Government's premier provider of foreign open source intelligence
 
-[http://www.bbc.co.uk/news/technology-14841018][123]
+[http://www.bbc.co.uk/news/technology-14841018][130]
 
-[][123]
+[][130]
 
 ## Geological
 
@@ -708,37 +808,37 @@ The Open Source Center (OSC) is the US Government's premier provider of foreign 
 
 "The Shared Environmental Information System (SEIS) is a collaborative initiative of the European Commission and the European Environment Agency (EEA). Its objective is to establish together with the Member States an integrated and shared EU-wide information system to simplify monitoring and reporting of environmental data and information."
 
-[http://ec.europa.eu/environment/seis/newsletter/issue\_003.html][124]
+[http://ec.europa.eu/environment/seis/newsletter/issue\_003.html][131]
 
-[][124]
+[][131]
 
 This 'system of systems' will proactively link together existing and planned observing systems around the world and support the development of new systems where gaps currently exist. It will promote common technical standards so that data from the thousands of different instruments can be combined into coherent data sets. The 'GEOPortal' offers a single Internet access point for users seeking data, imagery and analytical software packages relevant to all parts of the globe. It connects users to existing data bases and portals and provides reliable, up-to-date and user friendly information -- vital for the work of decision makers, planners and emergency managers. For users with limited or no access to the Internet, similar information is available via the 'GEONETCast' network of telecommunication satellites.
 
-[http://www.earthobservations.org/geoss.shtml][125]
+[http://www.earthobservations.org/geoss.shtml][132]
 
-[][125]
+[][132]
 
-Funding :[][126][http://ec.europa.eu/environment/seis/funding.htm][126]
+Funding :[][133][http://ec.europa.eu/environment/seis/funding.htm][133]
 
-[][126]
+[][133]
 
 Ocean Buoys and Tsunamis
 
-[http://www.ndbc.noaa.gov/obs.shtml][127]
+[http://www.ndbc.noaa.gov/obs.shtml][134]
 
-[][127]
+[][134]
 
 Thematic Realtime Environmental Distributed Data Services: THREDDS
 
-[http://www.unidata.ucar.edu/projects/THREDDS/][128]
+[http://www.unidata.ucar.edu/projects/THREDDS/][135]
 
-[][128]
+[][135]
 
 NOAA Space Weather Alerts
 
-[http://www.swpc.noaa.gov/alerts/archive/current\_month.html][129]
+[http://www.swpc.noaa.gov/alerts/archive/current\_month.html][136]
 
-[][129]
+[][136]
 
 NOAA Space Weather Data
 
@@ -746,13 +846,13 @@ http://www.swpc.noaa.gov/ftpmenu/lists.html
 
 ### Incidents
 
-[http://www.globalincidentmap.com/][130]
+[http://www.globalincidentmap.com/][137]
 
-[][130][GlobalIncidentMap.com][130] [][131][Amber-Alert Map][131] [][132][HAZMAT Situations Map][132] [][133][Forest Fires Map][133] [][134][Disease Outbreaks Map][134] 
+[][137][GlobalIncidentMap.com][137] [][138][Amber-Alert Map][138] [][139][HAZMAT Situations Map][139] [][140][Forest Fires Map][140] [][141][Disease Outbreaks Map][141] 
 
-[][135][Gang Activity Map][135] [][136][Border Security Issues][136] [][137][Presidential Threat Map][137] [][138][Terrorism Event Predictions][138] [][139][New - Quakes Map][139] 
+[][142][Gang Activity Map][142] [][143][Border Security Issues][143] [][144][Presidential Threat Map][144] [][145][Terrorism Event Predictions][145] [][146][New - Quakes Map][146] 
 
-[][140][Drug Interdictions Map][140] [][141][Non-Terror Aviation Incidents][141] [][142][NEW - Food/Medicine Incidents][142] [][143][NEW - Human Trafficking][143] 
+[][147][Drug Interdictions Map][147] [][148][Non-Terror Aviation Incidents][148] [][149][NEW - Food/Medicine Incidents][149] [][150][NEW - Human Trafficking][150] 
 
 Crisis Mappers
 
@@ -762,9 +862,9 @@ http://crisismappers.net
 
 (availability of water, nutrients, and herbs)
 
-[http://en.wikipedia.org/wiki/Foodshed][144]
+[http://en.wikipedia.org/wiki/Foodshed][151]
 
-[][144]
+[][151]
 
 Foodshed Mapping
 
@@ -780,7 +880,7 @@ Porches, Bridges & Overpasses (provide temporary shelter from precipitation)
 
 Humanitarian & International Relief Organizations
 
-[http://en.wikipedia.org/wiki/Category:Humanitarian\_aid\_organizations][145]
+[http://en.wikipedia.org/wiki/Category:Humanitarian\_aid\_organizations][152]
 
 http://www.exploringabroad.com/humanitarian-org.htm
 
@@ -794,15 +894,15 @@ http://en.wikipedia.org/wiki/Crime\_mapping
 
 https://www.crimereports.com/
 
-[http://en.wikipedia.org/wiki/CompStat][146]
+[http://en.wikipedia.org/wiki/CompStat][153]
 
-[][146]
+[][153]
 
 ### UFO Reports
 
-[http://www.mufon.com/mufonreports.html][147]
+[http://www.mufon.com/mufonreports.html][154]
 
-[http://www.ufostalker.com/?mufon=true][148]
+[http://www.ufostalker.com/?mufon=true][155]
 
 ### Fire Protection
 
@@ -812,22 +912,22 @@ https://www.crimereports.com/
 
 ### Radiation and Nuclear Threats
 
-[http://en.wikipedia.org/wiki/Nuclear\_decommissioning][149]
+[http://en.wikipedia.org/wiki/Nuclear\_decommissioning][156]
 
 http://www.google.com/fusiontables/DataSource?dsrcid=579216&search=nuclear&cd=2
     
-1.  [http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5][150]
-1.  [http://www.google.com/fusiontables/DataSource?dsrcid=578937&search=nuclear&cd=12][151]
+1.  [http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5][157]
+1.  [http://www.google.com/fusiontables/DataSource?dsrcid=578937&search=nuclear&cd=12][158]
 
-[][151]
+[][158]
 
-[][151]
+[][158]
 
 IAEA Nuclear Facilities
 
-[http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5][150]
+[http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5][157]
 
-[][150]
+[][157]
 
 Europe Radiaton Network
 
@@ -843,25 +943,25 @@ http://www.nrc.gov/reading-rm/doc-collections/event-status/event/
 
 Toxic Release Inventory
 
-[http://www.epa.gov/tri/][152]
+[http://www.epa.gov/tri/][159]
 
-[][152]
+[][159]
 
 US Superfund Sites (Hazardous and Toxic Sites Needing to be Cleaned Up)
 
-[http://en.wikipedia.org/wiki/Superfund\#Accessing\_Superfund\_data][153]
+[http://en.wikipedia.org/wiki/Superfund\#Accessing\_Superfund\_data][160]
 
-[][153]
+[][160]
 
 WiFi Electrosmog
 
-[http://www.acousticecology.org/srwifi.html][154]
+[http://www.acousticecology.org/srwifi.html][161]
 
 meaningful application of googles horsepower on googles retracted wifi triangulation data
 
 EPA Datasets
 
-[http://www.epa.gov/enviro/facts/ef\_restful.html][155]
+[http://www.epa.gov/enviro/facts/ef\_restful.html][162]
 
 ### Pachube
 
@@ -871,31 +971,31 @@ http://api.pachube.com/v2/feeds.xml?units=nGy/h&per\_page=2000&order=created\_at
 
 EPA Air Quality Reports
 
-[http://AirNow.gov][156]
+[http://AirNow.gov][163]
 
 "NETA" Network?
 
 ### FLEXPART Atmospheric Simulation
 
-[http://transport.nilu.no/flexpart][157]
+[http://transport.nilu.no/flexpart][164]
 
-[][157]
+[][164]
 
 ### Chemtrails
 
-[http://chemtrailsmap.com/][158]
+[http://chemtrailsmap.com/][165]
 
-[][158]
+[][165]
 
 ### US Cell Towers
 
-[http://www.cellreception.com/towers/][159]
+[http://www.cellreception.com/towers/][166]
 
-[][159]
+[][166]
 
 ### Water Quality
 
-[http://waterdata.usgs.gov/nwis/qw][160]
+[http://waterdata.usgs.gov/nwis/qw][167]
 
 ### 
 
@@ -907,17 +1007,17 @@ http://www.hydraulicfracturingdisclosure.org/fracfocusfind/
 
 Gas and Electricity
 
-[http://nuclear.carboncapturereport.org/cgi-bin/topic][161]
+[http://nuclear.carboncapturereport.org/cgi-bin/topic][168]
 
 Power Plants, Fuels & Resources, Transmission, Consumers (cross-ref w/ Pollution)
 
-[http://globalenergyobservatory.org/select.php?tgl=Kml][162]
+[http://globalenergyobservatory.org/select.php?tgl=Kml][169]
 
-[][162]
+[][169]
 
 Realtime Power Outage Map (US)
 
-[http://outagecentral.com/][163]
+[http://outagecentral.com/][170]
 
 ## Communication (Mail, Phone, Internet)
 
@@ -941,23 +1041,23 @@ http://www.internettrafficreport.com
 
 ### Epidemiology
 
-[http://en.wikipedia.org/wiki/Cancer\_cluster][164]
+[http://en.wikipedia.org/wiki/Cancer\_cluster][171]
 
-[http://en.wikipedia.org/wiki/Biostatistics][165]
+[http://en.wikipedia.org/wiki/Biostatistics][172]
 
-[http://en.wikipedia.org/wiki/Cancer\_epidemiology][166]
+[http://en.wikipedia.org/wiki/Cancer\_epidemiology][173]
 
-[][166]
+[][173]
 
-[][166]
+[][173]
 
 ## Childcare
 
 ## Employment
 
-[http://www.helpx.net][167]
+[http://www.helpx.net][174]
 
-[][167]
+[][174]
 
 ## Education
 
@@ -975,15 +1075,15 @@ Sewage, garbage collection
 
 ## Banks, ATM's, Credit Unions
 
-[http://www.neural-forecasting.com/neural\_forecasting\_data.htm][168]
+[http://www.neural-forecasting.com/neural\_forecasting\_data.htm][175]
 
 Micro- and Macroeconomic Data
 
 Three websites guide practitioners, researchers, and students to data. The data can be used for econometric methods or analogous situations, or to adjust data such as to account for inflation or population.
     
-1.  [EconData.Net][169] provides access to regional, state, and local economic data. It is a comprehensive first stop for searching public and private data sources on the Web.
-1.  [Statistical Resources on the Web][170] (University of Michigan) has a detailed A-Z index and provides thousands of links to sites in business, economics, transportation, weather, and 18 other areas.
-1.  [Social Science Data on the Net][171] (University of California, San Diego) allows you to search the following sites. Much of the data can be downloaded.
+1.  [EconData.Net][176] provides access to regional, state, and local economic data. It is a comprehensive first stop for searching public and private data sources on the Web.
+1.  [Statistical Resources on the Web][177] (University of Michigan) has a detailed A-Z index and provides thousands of links to sites in business, economics, transportation, weather, and 18 other areas.
+1.  [Social Science Data on the Net][178] (University of California, San Diego) allows you to search the following sites. Much of the data can be downloaded.
 
 [][0][][0]
 
@@ -994,112 +1094,112 @@ Three websites guide practitioners, researchers, and students to data. The data 
 1.  ICPSR (Inter-University Consortium for Political and Social Research)
 1.  Stat-USA (Current and historical financial and economic data
 
-1.  The[][172][Survey of Professional Forecasters][172] is a quarterly survey of macroeconomic forecasts.
-1.  The[][173][Conference Board][173] provides economic and business cycle indicators.
-1.  US Macroeconomic data can be purchased from[][174][USInfostore.com][174].
-1.  Financial Data:        stock indices & individual stocks[][175][http://finance.yahoo.com/][175] --\> historical prices by symbol
-1.  currencies:[][176][http://fx.sauder.ubc.ca/][176] ---\> database retrieval
-1.  [http://www.oanda.com/][177] --\> FXHistory
+1.  The[][179][Survey of Professional Forecasters][179] is a quarterly survey of macroeconomic forecasts.
+1.  The[][180][Conference Board][180] provides economic and business cycle indicators.
+1.  US Macroeconomic data can be purchased from[][181][USInfostore.com][181].
+1.  Financial Data:        stock indices & individual stocks[][182][http://finance.yahoo.com/][182] --\> historical prices by symbol
+1.  currencies:[][183][http://fx.sauder.ubc.ca/][183] ---\> database retrieval
+1.  [http://www.oanda.com/][184] --\> FXHistory
 
 ### TheyRule.net Data Sources
 
-[Transnationale.org][178]
+[Transnationale.org][185]
 
 Sunday, March 7, 2010 - 09:43
 
-If you want to find out what company owns a brand -[][179][transnationale.org][179] is a prime place to check. It is an extensive database that not only tracks the brand ownership of multinationals but also connects them to environmental and labor violations.
-
-[Full post][178]
-
-[][178]
-
-[Interactive political map of the West Bank][180]
-
-Tuesday, September 16, 2008 - 23:00
-
-This[][181][Guardian interactive map of the occupation of the West Bank][181] is a beautiful exposition of the extent of the occupation. It leads the viewer through a series of clicks which turn on map elements revealing the dominance of the Israeli occupation one aspect at a time.
-
-[Full post][180]
-
-[][180]
-
-[A number that won't get any smaller][182]
-
-Wednesday, October 3, 2007 - 23:00
-
-[Full post][182]
-
-[][182]
-
-[Corporate Collective Consciousness][183]
-
-Monday, August 13, 2007 - 23:00
-
-Isn't it lovely that corpoations, basically people like the rest of us, can edit wikipedia. Use[][184][Wiki Scanner][184] to see what your least favorite Fortune 500 company has been using their free speech for.
-
-[Full post][183]
-
-[][183]
-
-[wheresgeorge.com - money and epidemics][185]
-
-Tuesday, January 31, 2006 - 00:00
-
-So it turns out money is like a disease!
-
-"Using a[][186][popular internet game][186] that traces the travels of dollar bills, scientists have unveiled statistical laws of human travel in the United States, and developed a mathematical description that can be used to model the spread of infectious disease in this country. This model is considered a breakthrough in the field."[][187][Read the full article here.][187] From[][188][SOCNET][188].
+If you want to find out what company owns a brand -[][186][transnationale.org][186] is a prime place to check. It is an extensive database that not only tracks the brand ownership of multinationals but also connects them to environmental and labor violations.
 
 [Full post][185]
 
 [][185]
 
-[Cryptome][189]
+[Interactive political map of the West Bank][187]
 
-Monday, January 2, 2006 - 00:00
+Tuesday, September 16, 2008 - 23:00
 
-Boing Boing had a[][190][link][190] to Cryptome[][191][Cryptome][191] this morning. According to[][192][Wikipedia][192] Cryptome is: "a controversial website, hosted in the United States by its owner John Young, that functions as a repository for information that is prohibited or suppressed by various governments."
+This[][188][Guardian interactive map of the occupation of the West Bank][188] is a beautiful exposition of the extent of the occupation. It leads the viewer through a series of clicks which turn on map elements revealing the dominance of the Israeli occupation one aspect at a time.
+
+[Full post][187]
+
+[][187]
+
+[A number that won't get any smaller][189]
+
+Wednesday, October 3, 2007 - 23:00
 
 [Full post][189]
 
 [][189]
 
-[Disappeared in America][193]
+[Corporate Collective Consciousness][190]
+
+Monday, August 13, 2007 - 23:00
+
+Isn't it lovely that corpoations, basically people like the rest of us, can edit wikipedia. Use[][191][Wiki Scanner][191] to see what your least favorite Fortune 500 company has been using their free speech for.
+
+[Full post][190]
+
+[][190]
+
+[wheresgeorge.com - money and epidemics][192]
+
+Tuesday, January 31, 2006 - 00:00
+
+So it turns out money is like a disease!
+
+"Using a[][193][popular internet game][193] that traces the travels of dollar bills, scientists have unveiled statistical laws of human travel in the United States, and developed a mathematical description that can be used to model the spread of infectious disease in this country. This model is considered a breakthrough in the field."[][194][Read the full article here.][194] From[][195][SOCNET][195].
+
+[Full post][192]
+
+[][192]
+
+[Cryptome][196]
+
+Monday, January 2, 2006 - 00:00
+
+Boing Boing had a[][197][link][197] to Cryptome[][198][Cryptome][198] this morning. According to[][199][Wikipedia][199] Cryptome is: "a controversial website, hosted in the United States by its owner John Young, that functions as a repository for information that is prohibited or suppressed by various governments."
+
+[Full post][196]
+
+[][196]
+
+[Disappeared in America][200]
 
 Wednesday, December 7, 2005 - 00:00
 
 From Site:
 
-[Full post][193]
+[Full post][200]
 
-## [Exploring Enron][194]
+## [Exploring Enron][201]
 
 Monday, November 21, 2005 - 00:00
 
 From the site: :Using the Enron e-mail archive as a motivating dataset, we are attempting the marriage of visual and algorithmic analyses of e-mail archives within an exploratory data analysis environment. The intent is to leverage the characteristic strengths of both man\[sic\] and machine for unearthing insight. Below are a few sketches from a preliminary exploration into the design space of such tools." Site by Jeffrey Heer - thanks to Michael Dale for sending me the link.
 
-[Full post][194]
+[Full post][201]
 
-## [Board to Death][195]
+## [Board to Death][202]
 
 Saturday, September 3, 2005 - 23:00
 
-Adbusters[][196][reviews][196] California's Sonoma State University examination of the resumes of the 118 people who sit on the boards of directors of America's ten largest media organizations.
+Adbusters[][203][reviews][203] California's Sonoma State University examination of the resumes of the 118 people who sit on the boards of directors of America's ten largest media organizations.
 
-[Full post][195]
+[Full post][202]
 
-## [Gapminder][197]
+## [Gapminder][204]
 
 Saturday, August 20, 2005 - 23:00
 
 "CHALLENGE: Let's make data on world development understandable, enjoyable and free!"
 
-[Gapminder.org][198]
+[Gapminder.org][205]
 
-[Full post][197]
+[Full post][204]
 
-[][197]
+[][204]
 
-[][197]
+[][204]
 
 ## Agriculture
 
@@ -1107,27 +1207,27 @@ Wild-growing Food (ex: Mulberries)
 
 IC.org (Intentional Communities)
 
-[http://directory.ic.org/maps/default.xml][199] is ic.org's XML file used in their map, containing ~2300 datapoints which seems to be only a fraction of IC.org directory. scraping their directory is a next step to get all the contact information and details about each community
+[http://directory.ic.org/maps/default.xml][206] is ic.org's XML file used in their map, containing ~2300 datapoints which seems to be only a fraction of IC.org directory. scraping their directory is a next step to get all the contact information and details about each community
 
 ## Natural Disasters
 
 Earthquakes, Volcanoes, Fires, etc..
 
-[http://www.globaldatavault.com/natural-disaster-threat-maps.htm][200]
+[http://www.globaldatavault.com/natural-disaster-threat-maps.htm][207]
 
-[http://hisz.rsoe.hu/alertmap/][201]
+[http://hisz.rsoe.hu/alertmap/][208]
 
-[][201]
+[][208]
 
 ## Extreme Temperatures
 
 Heating and Cooling Centers
 
-[http://en.wikipedia.org/wiki/Cooling\_center][202]
+[http://en.wikipedia.org/wiki/Cooling\_center][209]
 
-[http://en.wikipedia.org/wiki/Warming\_center][203]
+[http://en.wikipedia.org/wiki/Warming\_center][210]
 
-[][203]
+[][210]
 
 ## Earthquakes
 
@@ -1161,9 +1261,9 @@ Animal migration routes
 
 ## Urban Smart / Sensor Grids
 
-[http://www.scientificamerican.com/article.cfm?id=ratti-smartest-cities-use-people-as-sensors][204]
+[http://www.scientificamerican.com/article.cfm?id=ratti-smartest-cities-use-people-as-sensors][211]
 
-[][204]
+[][211]
 
 ## Psychological & Demographics
 
@@ -1171,23 +1271,23 @@ ex: tell me about parties in each city around the world or what type of music is
 
 # Hardware and AI Classification / Feature Detection
 
-[http://thenewamerican.com/tech/item/13613-darpa-sponsors-surveillance-technology-to-predict-future-behavior][205]
+[http://thenewamerican.com/tech/item/13613-darpa-sponsors-surveillance-technology-to-predict-future-behavior][212]
 
-[http://www.darpa.mil/NewsEvents/Releases/2011/09/28.aspx][206]
+[http://www.darpa.mil/NewsEvents/Releases/2011/09/28.aspx][213]
 
 # Resources
 
 AI and Simulation-Based Techniques for the Assessment of Supply Chain Logistic Performance
 
-[http://portal.acm.org/citation.cfm?id=786227][207]
+[http://portal.acm.org/citation.cfm?id=786227][214]
 
 The effectiveness of logistic network design andmanagement for complex and geographically distributedproduction systems can be measured in terms of directlogistic costs and in terms of supply chain productionperformance. The management of transportation logistics,for instance, involves difficult trade-offs among capacityutilization, transportation costs, and productionvariability often leading to the identification of multiplelogistic solutions. This paper defines and compares threedifferent modeling approaches to systematically assesseach identified logistic alternative in terms of actualtransportation costs and expected production losses. Thefirst modeling approach examined in the paper is amathematical model which provides the statistical basisfor estimating costs and risks of production losses insimple application cases. The second model is astochastic,discrete event simulation model of bulkmaritime transportation specifically designed to capturethe dynamic interactions between the logistic network andthe production facilities. The third one is an AI-basedmodel implemented as a modular architecture of ArtificialNeural Networks (ANNs). In such an architecture eachnetwork establishes a correlation between the logisticvariables relevant to a specific sub-problem and thecorresponding supply chain costs. Preliminary testing ofthe three models shows the relative effectiveness andflexibility of the ANN-based model; it also shows thatgood approximation levels may be attained when eitherthe mathematical model or the simulation model are usedto generate accurate ANN training data sets for eachtransportation/production sub-problem.
 
-[http://at-scm.com/index.php/2006/12/04/supply-chain-management/artificial-intelligence-in-supply-chains/][208]
+[http://at-scm.com/index.php/2006/12/04/supply-chain-management/artificial-intelligence-in-supply-chains/][215]
 
-[http://at-scm.com/index.php/2006/11/13/supply-chain-management/rea-a-semantic-model-for-internet-supply-chain-collaboration/][209]
+[http://at-scm.com/index.php/2006/11/13/supply-chain-management/rea-a-semantic-model-for-internet-supply-chain-collaboration/][216]
 
-REA:[][210][http://jeffsutherland.org/oopsla2000/mccarthy/mccarthy.htm][210]
+REA:[][217][http://jeffsutherland.org/oopsla2000/mccarthy/mccarthy.htm][217]
 
 Remember the ERP information flow?
 
@@ -1197,187 +1297,187 @@ The REA information flow is much simpler:
 
 Process-\>Stock Flow-\>Exchange-\>Stock Flow-\>Process etc. across multiple companies.
 
-[http://en.wikipedia.org/wiki/Basic\_human\_needs][211]
+[http://en.wikipedia.org/wiki/Basic\_human\_needs][218]
 
-[http://en.wikipedia.org/wiki/Maslow%27s\_hierarchy\_of\_needs][212]
+[http://en.wikipedia.org/wiki/Maslow%27s\_hierarchy\_of\_needs][219]
 
-[http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][213]
+[http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][220]
 
-[http://en.wikipedia.org/wiki/Environmental\_law][214]
+[http://en.wikipedia.org/wiki/Environmental\_law][221]
 
-[http://en.wikipedia.org/wiki/Standard\_of\_living][98]
+[http://en.wikipedia.org/wiki/Standard\_of\_living][105]
 
-[http://en.wikipedia.org/wiki/Planetary\_habitability][215]
+[http://en.wikipedia.org/wiki/Planetary\_habitability][222]
 
-[http://en.wikipedia.org/wiki/Survival\_skills][216]
+[http://en.wikipedia.org/wiki/Survival\_skills][223]
 
-[http://en.wikipedia.org/wiki/Metamotivation][217]
-
-[][217]
-
-[http://earthengine.googlelabs.com][218]
-
-[][218]
-
-[http://www.futurict.ethz.ch/FuturIcT][219]
-
-[][219]
-
-[http://code.google.com/apis/maps/][220]
-
-[http://tables.googlelabs.com/Home][221]
-
-[http://googlegeodevelopers.blogspot.com/2010/11/five-great-fusion-tables-maps-examples.html][222]
-
-[][222]
-
-[http://multiverseaccordingtoben.blogspot.com/2010/12/will-decreasing-scarcity-allow-us-to.html][223]
-
-[][223]
-
-[http://www.roboearth.org][224]
+[http://en.wikipedia.org/wiki/Metamotivation][224]
 
 [][224]
 
-[http://www.appropedia.org/Hexayurt\_mass\_evacuation][225]
+[http://earthengine.googlelabs.com][225]
 
 [][225]
 
-[http://en.wikipedia.org/wiki/ISO\_6709][226] (latitude, longitude, altitude)
+[http://www.futurict.ethz.ch/FuturIcT][226]
+
+[][226]
+
+[http://code.google.com/apis/maps/][227]
+
+[http://tables.googlelabs.com/Home][228]
+
+[http://googlegeodevelopers.blogspot.com/2010/11/five-great-fusion-tables-maps-examples.html][229]
+
+[][229]
+
+[http://multiverseaccordingtoben.blogspot.com/2010/12/will-decreasing-scarcity-allow-us-to.html][230]
+
+[][230]
+
+[http://www.roboearth.org][231]
+
+[][231]
+
+[http://www.appropedia.org/Hexayurt\_mass\_evacuation][232]
+
+[][232]
+
+[http://en.wikipedia.org/wiki/ISO\_6709][233] (latitude, longitude, altitude)
 
 http://www.poodwaddle.com/clocks/worldclock
 
 http://www.poodwaddle.com/clocks/worldclock/sources
 
-[http://www.stratfor.com/][227]
+[http://www.stratfor.com/][234]
 
-[http://www.mi2g.com/][228]
+[http://www.mi2g.com/][235]
 
 # List of Thinking Subjects
 
 (from: http://en.wikipedia.org/wiki/Nootropics)
 
-[Abstract thinking][229]
+[Abstract thinking][236]
 
-[Attention][230]
+[Attention][237]
 
-[Attitude][231]
+[Attitude][238]
 
-[Brainstorming][232]
+[Brainstorming][239]
 
-[Cognition][233]
+[Cognition][240]
 
-[Cognitive science][234]
+[Cognitive science][241]
 
-[Creative thinking][235]
+[Creative thinking][242]
 
-[Critical thinking][236]
+[Critical thinking][243]
 
-[Curiosity][237]
+[Curiosity][244]
 
-[Decision][238]
+[Decision][245]
 
-[Decision making][239]
+[Decision making][246]
 
-[Eidetic memory][240]
+[Eidetic memory][247]
 
-[Emotions][241] and [feelings][242]
+[Emotions][248] and [feelings][249]
 
-[Emotional intelligence][243]
+[Emotional intelligence][250]
 
-[Goals and goal setting][244]
+[Goals and goal setting][251]
 
-[Idea][245]
+[Idea][252]
 
-[Imagination][246]
+[Imagination][253]
 
-[Intelligence][247]
+[Intelligence][254]
 
-[Introspection][248]
+[Introspection][255]
 
-[Lateral thinking][249]
+[Lateral thinking][256]
 
-[Learning][250]
+[Learning][257]
 
-[Memory][251]
+[Memory][258]
 
-[Memory-prediction framework][252]
+[Memory-prediction framework][259]
 
-[Mental calculation][253]
+[Mental calculation][260]
 
-[Mind's eye][254]
+[Mind's eye][261]
 
-[Mindset][255]
+[Mindset][262]
 
-[Mood][256]
+[Mood][263]
 
-[Motivation][257]
+[Motivation][264]
 
-[Perception][258]
+[Perception][265]
 
-[Personality][259]
+[Personality][266]
 
-[Picture thinking][260]
+[Picture thinking][267]
 
-[Problem shaping][261]
+[Problem shaping][268]
 
-[Problem solving][262]
+[Problem solving][269]
 
-[Reason][263]
+[Reason][270]
 
-[Recollection (recall)][264]
+[Recollection (recall)][271]
 
-[Self-reflection][265]
+[Self-reflection][272]
 
-[Thought][266]
+[Thought][273]
 
-[Visual thinking][267]
+[Visual thinking][274]
 
 List of Health Subjects
 
-(from [http://en.wikipedia.org/wiki/Nootropics][268])
+(from [http://en.wikipedia.org/wiki/Nootropics][275])
 
-[Anxiety][269]
+[Anxiety][276]
 
-[Cognitive psychology][270]
+[Cognitive psychology][277]
 
-[Clinical depression][271]
+[Clinical depression][278]
 
-[Confusion][272]
+[Confusion][279]
 
-[Cosmetic pharmacology][273]
+[Cosmetic pharmacology][280]
 
-[Drug][274]
+[Drug][281]
 
-[Parasympathomimetics][275]
+[Parasympathomimetics][282]
 
-[Prescription drug][276]
+[Prescription drug][283]
 
-[Prohibition (drugs)][277]
+[Prohibition (drugs)][284]
 
-[Psychoactive drug][278] (aka psychotropic drug)
+[Psychoactive drug][285] (aka psychotropic drug)
 
-[Psychedelic drug][279]
+[Psychedelic drug][286]
 
-[Human enhancement][280]
+[Human enhancement][287]
 
-[Ergogenic aid][281]
+[Ergogenic aid][288]
 
-[Life extension][282]
+[Life extension][289]
 
-[Neurodegenerative disease][283]
+[Neurodegenerative disease][290]
 
-[Alzheimer's disease][284]
+[Alzheimer's disease][291]
 
-[Parkinson's disease][285]
+[Parkinson's disease][292]
 
-[Nutrition][286]
+[Nutrition][293]
 
-[Sleep disorders][287]
+[Sleep disorders][294]
 
-[Stress][288]
+[Stress][295]
 
-[Stress management][289] 
+[Stress management][296] 
 
 Optimal Thinking Questions
 
@@ -1393,7 +1493,7 @@ http://www.stevepavlina.com/blog/2004/10/optimal-thinking/
 1.  What's the best way for me to improve my social life?
 1.  What's the best book I should read next?
 
-What's the [best new blog][290] I should be reading regularly and tell everyone I know about? 
+What's the [best new blog][297] I should be reading regularly and tell everyone I know about? 
 
 A Better Life
 
@@ -1471,21 +1571,21 @@ Rent, Profit, Wage
 
 "Life Management" References
 
-[http://www.stevepavlina.com/forums/personal-effectiveness/956-life-management-software.html][291]
+[http://www.stevepavlina.com/forums/personal-effectiveness/956-life-management-software.html][298]
     
 1.  http://gtdportal.pbwiki.com/
 
-[http://www.mylifeorganized.net/][292]
+[http://www.mylifeorganized.net/][299]
 
-[http://sciral.com/products/index.html][293]
+[http://sciral.com/products/index.html][300]
 
-[http://iscrybe.com/main/index.php][294]
+[http://iscrybe.com/main/index.php][301]
 
-[http://www.trgtd.com.au/][295]
+[http://www.trgtd.com.au/][302]
     
 1.  http://en.wikipedia.org/wiki/Getting\_Things\_Done
 
-[http://en.wikipedia.org/wiki/Life\_hack][296]
+[http://en.wikipedia.org/wiki/Life\_hack][303]
     
 1.  http://lifehacker.com/
 1.  http://www.lifehack.org/
@@ -1493,47 +1593,47 @@ Rent, Profit, Wage
 
 See:
 
-[http://www.filemaker.com/products/bento/ipad.html][297]
+[http://www.filemaker.com/products/bento/ipad.html][304]
 
 http://www.filemaker.com/solutions
 
-[http://solutions.filemaker.com/database-templates/index.jsp][298]
+[http://solutions.filemaker.com/database-templates/index.jsp][305]
 
-[http://www.looptmix.com/][299]
+[http://www.looptmix.com/][306]
 
-[http://www.loopt.com/][300]
+[http://www.loopt.com/][307]
 
 ## 
 
-TradeVibes.  (2007-2008). Ben Goertzel. In: TradeVides.com Retrieved Dec 2008 from [http://www.tradevibes.com/person/profile/ben-goertzel\_1][301]
+TradeVibes.  (2007-2008). Ben Goertzel. In: TradeVides.com Retrieved Dec 2008 from [http://www.tradevibes.com/person/profile/ben-goertzel\_1][308]
 
-Convergence 2008\. (2008). Convergence 08: Speakers : Goertzel. In convergence08.org Retrieved Dec 2008 from [http://www.convergence08.org/speakers/goertzel/][302]
+Convergence 2008\. (2008). Convergence 08: Speakers : Goertzel. In convergence08.org Retrieved Dec 2008 from [http://www.convergence08.org/speakers/goertzel/][309]
 
 Ritter, S. (2007). Cognitive Tutor: Applied research in mathematics education. Psychonomic Bulletin & Review, 14 (2), 249-255 
 
 http://espace.library.uq.edu.au/view/UQ:57497
 
-[http://en.wikipedia.org/wiki/Learning\_object][303]
+[http://en.wikipedia.org/wiki/Learning\_object][310]
 
-[Intelligent tutoring system - Wikipedia, the free encyclopedia][304]
+[Intelligent tutoring system - Wikipedia, the free encyclopedia][311]
 
-[Cognitive tutor - Wikipedia, the free encyclopedia][305]
+[Cognitive tutor - Wikipedia, the free encyclopedia][312]
 
-[http://en.wikipedia.org/wiki/Theory\_of\_Constraints][306]
+[http://en.wikipedia.org/wiki/Theory\_of\_Constraints][313]
 
-[http://en.wikipedia.org/wiki/Role-playing][307]
+[http://en.wikipedia.org/wiki/Role-playing][314]
 
-[][307]
+[][314]
 
 Beating the Blues (NICE)
     
 1.  http://www.beatingtheblues.co.uk/connect/
 
-[http://www.ultrasis.com/products/product.jsp?product\_id=1][308] 
+[http://www.ultrasis.com/products/product.jsp?product\_id=1][315] 
 
-[http://moodgym.anu.edu.au/welcome/faq][309]
+[http://moodgym.anu.edu.au/welcome/faq][316]
 
-[http://ecouch.anu.edu.au/welcome][310] 
+[http://ecouch.anu.edu.au/welcome][317] 
 
 ## Story Elements
 
@@ -1541,9 +1641,9 @@ http://tvtropes.org/
 
 ## Psychogenic Human Needs
 
-[http://www.ehow.com/info\_8299766\_motives-pyschology.html][311]
+[http://www.ehow.com/info\_8299766\_motives-pyschology.html][318]
 
-[][311]
+[][318]
     
 1.  ## Abraham Maslow's Hierarchy
 1.  ## Erich Fromm
@@ -1552,8 +1652,8 @@ http://tvtropes.org/
 
 1.  ## Murray Biological and Psychogenic Needs & Thematic Appreciation Test (TAT)
 
-1.  [http://en.wikipedia.org/wiki/Thematic\_Apperception\_Test][312]
-1.  [http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][313]
+1.  [http://en.wikipedia.org/wiki/Thematic\_Apperception\_Test][319]
+1.  [http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][320]
 
 1.  Ishizuka's Spheres
 
@@ -1561,17 +1661,17 @@ http://tvtropes.org/
 
 1.  Neurotics Needs
 
-1.  [http://psychology.about.com/od/theoriesofpersonality/a/neuroticneeds.htm][314]
+1.  [http://psychology.about.com/od/theoriesofpersonality/a/neuroticneeds.htm][321]
 
-[][314]
+[][321]
 
-[][314]
+[][321]
 
 ### Murrays Psychogenic Needs
 
-This is the list of needs identified in Explorations in Personality, edited by[][315][Henry A. Murray][315] in 1938\.
+This is the list of needs identified in Explorations in Personality, edited by[][322][Henry A. Murray][322] in 1938\.
 
-[http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][313][][0][][0]
+[http://en.wikipedia.org/wiki/Murray's\_psychogenic\_needs][320][][0][][0]
 
 Need
 
@@ -1694,9 +1794,9 @@ To be curious, ask questions and find answers.
 
 ### Maslow's Hierarchy of Needs
 
-[http://psychology.about.com/od/theoriesofpersonality/a/hierarchyneeds\_2.htm][316]
+[http://psychology.about.com/od/theoriesofpersonality/a/hierarchyneeds\_2.htm][323]
 
-[][316]
+[][323]
 
 Maslow believed that these needs are similar to instincts and play a major role in motivating behavior. Physiological, security, social, and esteem needs are deficiency needs (also known as D-needs), meaning that these needs arise due to deprivation. Satisfying these lower-level needs is important in order to avoid unpleasant feelings or consequences.
 
@@ -1706,7 +1806,7 @@ Maslow termed the highest-level of the pyramid as growth needs (also known as be
 
 There are five different levels in Maslow's hierarchy of needs:
 
-1.  [Physiological Needs][317]
+1.  [Physiological Needs][324]
 
 1.  These include the most basic needs that are vital to survival, such as the need for water, air, food and sleep. Maslow believed that these needs are the most basic and instinctive needs in the hierarchy because all needs become secondary until these physiological needs are met.
 1.  Some examples of the physiological needs include:
@@ -1717,7 +1817,7 @@ There are five different levels in Maslow's hierarchy of needs:
 1.  Homeostatis
 1.  In addition to the basic requirements of nutrition, air and temperature regulation, the physiological needs also include such things as shelter and clothing. Sexual reproduction is also included in this level of the hierarchy of needs since it is essential to the survival and propagation of the species.
 
-1.  [Security Needs][318]
+1.  [Security Needs][325]
 
 1.  These include needs for safety and security. Security needs are important for survival, but they are not as demanding as the physiological needs. Examples of security needs include a desire for steady employment, health insurance, safe neighborhoods and shelter from the environment.
 
@@ -1732,7 +1832,7 @@ There are five different levels in Maslow's hierarchy of needs:
 
 Together, the safety and psychological levels of the hierarchy make up what is often referred to as the basic needs.
 
-1.  [Social Needs][319]
+1.  [Social Needs][326]
 
 1.  These include needs for belonging, love and affection. Maslow considered these needs to be less basic than physiological and security needs. Relationships such as friendships, romantic attachments and families help fulfill this need for companionship and acceptance, as does involvement in social, community or religious groups.
 
@@ -1745,15 +1845,15 @@ Together, the safety and psychological levels of the hierarchy make up what is o
 1.  Community groups
 1.  Churches and religious organizations
 
-1.  [Esteem Needs][320]
+1.  [Esteem Needs][327]
 
 1.  After the first three needs have been satisfied, esteem needs becomes increasingly important. These include the need for things that reflect on self-esteem, personal worth, social recognition and accomplishment.
 
-In addition to the need for feelings of accomplishment and prestige, the esteem needs include such things as[][321][self-esteem][321] and personal worth. People need to feel valued and by others as well as having a sense of making a contribution to the world. Participation in professional activities, academic accomplishments, athletic or team participation and personal hobbies can all play a role in fulfilling the esteem needs.
+In addition to the need for feelings of accomplishment and prestige, the esteem needs include such things as[][328][self-esteem][328] and personal worth. People need to feel valued and by others as well as having a sense of making a contribution to the world. Participation in professional activities, academic accomplishments, athletic or team participation and personal hobbies can all play a role in fulfilling the esteem needs.
 
-1.  [Self-actualizing Needs][322]
+1.  [Self-actualizing Needs][329]
 
-1.  This is the highest level of Maslow's hierarchy of needs.[][323][Self-actualizing][323] people are self-aware, concerned with personal growth, less concerned with the opinions of others and interested fulfilling their potential.
+1.  This is the highest level of Maslow's hierarchy of needs.[][330][Self-actualizing][330] people are self-aware, concerned with personal growth, less concerned with the opinions of others and interested fulfilling their potential.
 
 ### Characteristics of Self-Actualized People
 
@@ -1798,322 +1898,329 @@ http://en.wikipedia.org/wiki/Learning\_object
 [2]: #h.tobpod5z1bm3
 [3]: #h.yygt0bohc6ev
 [4]: #h.38gev7mibbro
-[5]: #h.k1zy52hqzb53
-[6]: #h.t8720cwdywtf
-[7]: #h.leny8gf4jy0l
-[8]: #h.bicg8ro9gnso
-[9]: #h.x4z8ohgx8bgy
-[10]: #h.wi9l8jzcw7we
-[11]: #h.j97j64vlzh6f
-[12]: #h.apb5svj4bga
-[13]: #h.98oru4vl4tkc
-[14]: #h.ka1guvj1vqtb
-[15]: #h.4k2fslxskwlm
-[16]: #h.ubvjqexzf53u
-[17]: #h.jmkrkle8z05y
-[18]: #h.rk5csd8eerdr
-[19]: #h.wsyfvwk0hqxr
-[20]: #h.74jbbsvljjzc
-[21]: #h.6j3f855mw2zv
-[22]: #h.dv0dfcfrjp7r
-[23]: #h.pyqq8fdhspes
-[24]: #h.lo0smp201ztw
-[25]: #h.q1sahrstbzvm
-[26]: #h.najl0xvzutg9
-[27]: #h.k6et9icvuoad
-[28]: #h.xzxvcjwzugug
-[29]: #h.kwnrhqgmjmvb
-[30]: #h.ghwpm6v2m8jn
-[31]: #h.gekmur5hzehu
-[32]: #h.1gwl45kj7wxv
-[33]: #h.5n2fiq2p1h8o
-[34]: #h.38ipvfm48fdi
-[35]: #h.qc7iosd5p5al
-[36]: #h.2xnul6duk3ev
-[37]: #h.imhgfxsveusx
-[38]: #h.htflyo99v1hm
-[39]: #h.68izulcvyg12
-[40]: #h.momkxncru9t
-[41]: #h.jbbnl52zeh2w
-[42]: #h.eft53tmlp3fd
-[43]: #h.psr0mggsbmx4
-[44]: #h.ee9t33uh56gb
-[45]: #h.tvxyw0wap63q
-[46]: #h.1sv3jdahou8y
-[47]: #h.9gjwor5za36c
-[48]: #h.pu1eydm9reug
-[49]: #h.dlfc3fawgou4
-[50]: #h.gu9ljha084kr
-[51]: #h.ct5x1mf6yue6
-[52]: #h.scq5s15hewy5
-[53]: #h.7gw7ig7l55tl
-[54]: #h.tqbdgkwvfaka
-[55]: #h.jyvnh0ngfk2h
-[56]: #h.e07jmolg4axa
-[57]: #h.lguvso46v9ng
-[58]: #h.h3v46z6h2dd9
-[59]: #h.kec0i7dj5578
-[60]: #h.h1074xklqkb1
-[61]: #h.26l2palb9iwy
-[62]: #h.4i7ivrcb6pzn
-[63]: #h.sk9n0pgr6xh6
-[64]: #h.k03hd6bessx5
-[65]: #h.9bm7zzifhnjr
-[66]: #h.ja35o6g0vnnl
-[67]: #h.v4v7pnuxa36i
-[68]: #h.7eaclf9th59g
-[69]: #h.7f5cegkitir
-[70]: #h.n2i0ck8v441d
-[71]: #h.cac35f6asblx
-[72]: #h.p75jqo3ikhih
-[73]: #h.54di3dz5m62k
-[74]: #h.d1h1w9v0eyz1
-[75]: #h.dwrh4j2sol2q
-[76]: #h.e3x8vam5spmw
-[77]: #h.j6x35sk3sj0
-[78]: http://netention.org
-[79]: https://github.com/automenta/netentionjs2
-[80]: http://nodejs.org/dist/v0.8.14/node-v0.8.14.tar.gz
-[81]: https://github.com/automenta/netentionjs2.git
-[82]: https://github.com/edwardhotchkiss/always
-[83]: http://en.wikipedia.org/wiki/Public_Participation_GIS
-[84]: http://en.wikipedia.org/wiki/Collaborative_mapping
-[85]: http://en.wikipedia.org/wiki/Participatory_GIS
-[86]: http://en.wikipedia.org/wiki/Neighborhood_planning
-[87]: http://en.wikipedia.org/wiki/Volunteered_Geographic_Information
-[88]: http://en.wikipedia.org/wiki/Web_mapping
-[89]: http://en.wikipedia.org/wiki/Neogeography
-[90]: http://en.wikipedia.org/wiki/Quality_of_life
-[91]: http://en.wikipedia.org/wiki/Physical_Quality_of_Life_Index
-[92]: http://en.wikipedia.org/wiki/Quality-of-life_index
-[93]: http://en.wikipedia.org/wiki/Quality_of_life_%28healthcare%29
-[94]: http://en.wikipedia.org/wiki/Legatum_Prosperity_Index
-[95]: http://en.wikipedia.org/wiki/UN_Human_Development_Index
-[96]: http://en.wikipedia.org/wiki/Human_Poverty_Index
-[97]: http://en.wikipedia.org/wiki/Human_Development_Index
-[98]: http://en.wikipedia.org/wiki/Standard_of_living
-[99]: http://en.wikipedia.org/wiki/Emotional_well-being
-[100]: http://mqtt.org/
-[101]: http://www.eeml.org/
-[102]: http://wiki.openstreetmap.org/wiki/Potential_Datasources
-[103]: http://pachube.com/
-[104]: http://semanticommunity.info/
-[105]: http://geonetwork-opensource.org/gallery/gallery.html
-[106]: http://www.epa.gov/regulations/
-[107]: http://data.un.org/
-[108]: http://www.google.com/url?q=https%3A%2F%2Fwww.cia.gov%2Flibrary%2Fpublications%2Fthe-world-factbook%2F&sa=D&sntz=1&usg=AFQjCNG1XTLvu6i3MVyJdY7PlGGBBr6Wpw
-[109]: http://www.kmlfactbook.org/#&db=wri&table=3_812&col=2000&
-[110]: https://www.cia.gov/library/publications/the-world-factbook/
-[111]: http://goworldwind.org/demos/
-[112]: http://www.iges.org/grads/gds/
-[113]: http://sedac.ciesin.org/data.html
-[114]: http://geodata.grid.unep.ch/
-[115]: http://en.wikipedia.org/wiki/Crime_mapping
-[116]: http://www.crimereports.com/
-[117]: http://www.crimemapping.com/
-[118]: http://www.google.com/publicdata/overview?ds=d5bncppjof8f9_
-[119]: http://data.worldbank.org/
-[120]: http://data.worldbank.org/indicator
-[121]: http://www.rhok.org/node/2608
-[122]: https://www.opensource.gov/
-[123]: http://www.bbc.co.uk/news/technology-14841018
-[124]: http://ec.europa.eu/environment/seis/newsletter/issue_003.html
-[125]: http://www.earthobservations.org/geoss.shtml
-[126]: http://ec.europa.eu/environment/seis/funding.htm
-[127]: http://www.ndbc.noaa.gov/obs.shtml
-[128]: http://www.unidata.ucar.edu/projects/THREDDS/
-[129]: http://www.swpc.noaa.gov/alerts/archive/current_month.html
-[130]: http://www.globalincidentmap.com/
-[131]: http://amberalerts.globalincidentmap.com/
-[132]: http://hazmat.globalincidentmap.com/
-[133]: http://fires.globalincidentmap.com/
-[134]: http://outbreaks.globalincidentmap.com/
-[135]: http://gangs.globalincidentmap.com/
-[136]: http://border.globalincidentmap.com/
-[137]: http://president.globalincidentmap.com/
-[138]: http://www.globalincidentmap.com/predictions.php
-[139]: http://quakes.globalincidentmap.com/
-[140]: http://drugs.globalincidentmap.com/
-[141]: http://aviation.globalincidentmap.com/
-[142]: http://food.globalincidentmap.com/
-[143]: http://human.globalincidentmap.com/
-[144]: http://en.wikipedia.org/wiki/Foodshed
-[145]: http://en.wikipedia.org/wiki/Category:Humanitarian_aid_organizations
-[146]: http://en.wikipedia.org/wiki/CompStat
-[147]: http://www.mufon.com/mufonreports.html
-[148]: http://www.ufostalker.com/?mufon=true
-[149]: http://en.wikipedia.org/wiki/Nuclear_decommissioning
-[150]: http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5
-[151]: http://www.google.com/fusiontables/DataSource?dsrcid=578937&search=nuclear&cd=12
-[152]: http://www.epa.gov/tri/
-[153]: http://en.wikipedia.org/wiki/Superfund#Accessing_Superfund_data
-[154]: http://www.acousticecology.org/srwifi.html
-[155]: http://www.epa.gov/enviro/facts/ef_restful.html
-[156]: http://airnow.gov/
-[157]: http://transport.nilu.no/flexpart
-[158]: http://chemtrailsmap.com/
-[159]: http://www.cellreception.com/towers/
-[160]: http://waterdata.usgs.gov/nwis/qw
-[161]: http://nuclear.carboncapturereport.org/cgi-bin/topic
-[162]: http://globalenergyobservatory.org/select.php?tgl=Kml
-[163]: http://outagecentral.com/
-[164]: http://en.wikipedia.org/wiki/Cancer_cluster
-[165]: http://en.wikipedia.org/wiki/Biostatistics
-[166]: http://en.wikipedia.org/wiki/Cancer_epidemiology
-[167]: http://www.helpx.net/
-[168]: http://www.neural-forecasting.com/neural_forecasting_data.htm
-[169]: http://econdata.net/
-[170]: http://www.lib.umich.edu/govdocs/stats.html
-[171]: http://odwin.ucsd.edu/idata/
-[172]: http://www.phil.frb.org/econ/spf/spfpage.html
-[173]: http://www.tcb-indicators.org/
-[174]: http://www.usinfostore.com/
-[175]: http://finance.yahoo.com/
-[176]: http://fx.sauder.ubc.ca/
-[177]: http://www.oanda.com/
-[178]: http://theyrule.net/drupal/content/transnationaleorg-0
-[179]: http://www.transnationale.org/
-[180]: http://theyrule.net/drupal/content/interactive-political-map-west-bank
-[181]: http://www.guardian.co.uk/world/interactive/2008/sep/11/israelandthepalestinians
-[182]: http://theyrule.net/drupal/content/number-wont-get-any-smaller
-[183]: http://theyrule.net/drupal/content/corporate-collective-consciousness
-[184]: http://wikiscanner.virgil.gr/
-[185]: http://theyrule.net/drupal/content/wheresgeorgecom-money-and-epidemics
-[186]: http://www.wheresgeorge.com/
-[187]: http://www.eurekalert.org/pub_releases/2006-01/uoc--igp012406.php
-[188]: http://www.insna.org/
-[189]: http://theyrule.net/drupal/content/cryptome
-[190]: http://cryptome.org/mil-dead-iqw.htm
-[191]: http://cryptome.org/
-[192]: http://en.wikipedia.org/wiki/Cryptome
-[193]: http://theyrule.net/drupal/content/disappeared-america
-[194]: http://theyrule.net/drupal/content/exploring-enron
-[195]: http://theyrule.net/drupal/content/board-death
-[196]: http://adbusters.org/blogs/Board_to_Death.html
-[197]: http://theyrule.net/drupal/content/gapminder
-[198]: http://www.gapminder.org/
-[199]: http://directory.ic.org/maps/default.xml
-[200]: http://www.globaldatavault.com/natural-disaster-threat-maps.htm
-[201]: http://hisz.rsoe.hu/alertmap/
-[202]: http://en.wikipedia.org/wiki/Cooling_center
-[203]: http://en.wikipedia.org/wiki/Warming_center
-[204]: http://www.scientificamerican.com/article.cfm?id=ratti-smartest-cities-use-people-as-sensors
-[205]: http://thenewamerican.com/tech/item/13613-darpa-sponsors-surveillance-technology-to-predict-future-behavior
-[206]: http://www.darpa.mil/NewsEvents/Releases/2011/09/28.aspx
-[207]: http://portal.acm.org/citation.cfm?id=786227
-[208]: http://at-scm.com/index.php/2006/12/04/supply-chain-management/artificial-intelligence-in-supply-chains/
-[209]: http://at-scm.com/index.php/2006/11/13/supply-chain-management/rea-a-semantic-model-for-internet-supply-chain-collaboration/
-[210]: http://jeffsutherland.org/oopsla2000/mccarthy/mccarthy.htm
-[211]: http://en.wikipedia.org/wiki/Basic_human_needs
-[212]: http://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs
-[213]: http://en.wikipedia.org/wiki/Murray%27s_psychogenic_needs
-[214]: http://en.wikipedia.org/wiki/Environmental_law
-[215]: http://en.wikipedia.org/wiki/Planetary_habitability
-[216]: http://en.wikipedia.org/wiki/Survival_skills
-[217]: http://en.wikipedia.org/wiki/Metamotivation
-[218]: http://earthengine.googlelabs.com/
-[219]: http://www.futurict.ethz.ch/FuturIcT
-[220]: http://code.google.com/apis/maps/
-[221]: http://tables.googlelabs.com/Home
-[222]: http://googlegeodevelopers.blogspot.com/2010/11/five-great-fusion-tables-maps-examples.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed:+GoogleGeoDevelopersBlog+%28Google+Geo+Developers+Blog%29
-[223]: http://multiverseaccordingtoben.blogspot.com/2010/12/will-decreasing-scarcity-allow-us-to.html
-[224]: http://www.roboearth.org/
-[225]: http://www.appropedia.org/Hexayurt_mass_evacuation
-[226]: http://en.wikipedia.org/wiki/ISO_6709
-[227]: http://www.stratfor.com/
-[228]: http://www.mi2g.com/
-[229]: http://en.wikipedia.org/wiki/Abstraction
-[230]: http://en.wikipedia.org/wiki/Attention
-[231]: http://en.wikipedia.org/wiki/Attitude_%28psychology%29
-[232]: http://en.wikipedia.org/wiki/Brainstorming
-[233]: http://en.wikipedia.org/wiki/Cognition
-[234]: http://en.wikipedia.org/wiki/Cognitive_science
-[235]: http://en.wikipedia.org/wiki/Creativity
-[236]: http://en.wikipedia.org/wiki/Critical_thinking
-[237]: http://en.wikipedia.org/wiki/Curiosity
-[238]: http://en.wikipedia.org/wiki/Decision
-[239]: http://en.wikipedia.org/wiki/Decision_making
-[240]: http://en.wikipedia.org/wiki/Eidetic_memory
-[241]: http://en.wikipedia.org/wiki/Emotion
-[242]: http://en.wikipedia.org/wiki/Feeling
-[243]: http://en.wikipedia.org/wiki/Emotional_intelligence
-[244]: http://en.wikipedia.org/wiki/Objective_%28goal%29
-[245]: http://en.wikipedia.org/wiki/Idea
-[246]: http://en.wikipedia.org/wiki/Imagination
-[247]: http://en.wikipedia.org/wiki/Intelligence_%28trait%29
-[248]: http://en.wikipedia.org/wiki/Introspection
-[249]: http://en.wikipedia.org/wiki/Lateral_thinking
-[250]: http://en.wikipedia.org/wiki/Learning
-[251]: http://en.wikipedia.org/wiki/Memory
-[252]: http://en.wikipedia.org/wiki/Memory-prediction_framework
-[253]: http://en.wikipedia.org/wiki/Mental_calculation
-[254]: http://en.wikipedia.org/wiki/Mind%27s_eye
-[255]: http://en.wikipedia.org/wiki/Mindset
-[256]: http://en.wikipedia.org/wiki/Mood_%28psychology%29
-[257]: http://en.wikipedia.org/wiki/Motivation
-[258]: http://en.wikipedia.org/wiki/Perception
-[259]: http://en.wikipedia.org/wiki/Personality_psychology
-[260]: http://en.wikipedia.org/wiki/Picture_thinking
-[261]: http://en.wikipedia.org/wiki/Problem_shaping
-[262]: http://en.wikipedia.org/wiki/Problem_solving
-[263]: http://en.wikipedia.org/wiki/Reason
-[264]: http://en.wikipedia.org/wiki/Recollection
-[265]: http://en.wikipedia.org/wiki/Human_self-reflection
-[266]: http://en.wikipedia.org/wiki/Thought
-[267]: http://en.wikipedia.org/wiki/Visual_thinking
-[268]: http://en.wikipedia.org/wiki/Nootropics
-[269]: http://en.wikipedia.org/wiki/Anxiety
-[270]: http://en.wikipedia.org/wiki/Cognitive_psychology
-[271]: http://en.wikipedia.org/wiki/Clinical_depression
-[272]: http://en.wikipedia.org/wiki/Mental_confusion
-[273]: http://en.wikipedia.org/wiki/Cosmetic_pharmacology
-[274]: http://en.wikipedia.org/wiki/Drug
-[275]: http://en.wikipedia.org/wiki/Parasympathomimetics
-[276]: http://en.wikipedia.org/wiki/Prescription_drug
-[277]: http://en.wikipedia.org/wiki/Prohibition_%28drugs%29
-[278]: http://en.wikipedia.org/wiki/Psychoactive_drug
-[279]: http://en.wikipedia.org/wiki/Psychedelic_drug
-[280]: http://en.wikipedia.org/wiki/Human_enhancement
-[281]: http://en.wikipedia.org/wiki/Ergogenic_aid
-[282]: http://en.wikipedia.org/wiki/Life_extension
-[283]: http://en.wikipedia.org/wiki/Neurodegenerative_disease
-[284]: http://en.wikipedia.org/wiki/Alzheimer%27s_disease
-[285]: http://en.wikipedia.org/wiki/Parkinson%27s_disease
-[286]: http://en.wikipedia.org/wiki/Nutrition
-[287]: http://en.wikipedia.org/wiki/Sleep_disorder
-[288]: http://en.wikipedia.org/wiki/Stress_%28medicine%29
-[289]: http://en.wikipedia.org/wiki/Stress_management
-[290]: http://www.stevepavlina.com/blog
-[291]: http://www.stevepavlina.com/forums/personal-effectiveness/956-life-management-software.html
-[292]: http://www.mylifeorganized.net/
-[293]: http://sciral.com/products/index.html
-[294]: http://iscrybe.com/main/index.php
-[295]: http://www.trgtd.com.au/
-[296]: http://en.wikipedia.org/wiki/Life_hack
-[297]: http://www.filemaker.com/products/bento/ipad.html
-[298]: http://solutions.filemaker.com/database-templates/index.jsp
-[299]: http://www.looptmix.com/
-[300]: http://www.loopt.com/
-[301]: http://www.tradevibes.com/person/profile/ben-goertzel_1
-[302]: http://www.convergence08.org/speakers/goertzel/
-[303]: http://en.wikipedia.org/wiki/Learning_object
-[304]: http://en.wikipedia.org/wiki/Intelligent_tutoring_system
-[305]: http://en.wikipedia.org/wiki/Cognitive_Tutor
-[306]: http://en.wikipedia.org/wiki/Theory_of_Constraints
-[307]: http://en.wikipedia.org/wiki/Role-playing
-[308]: http://www.ultrasis.com/products/product.jsp?product_id=1
-[309]: http://moodgym.anu.edu.au/welcome/faq
-[310]: http://ecouch.anu.edu.au/welcome
-[311]: http://www.ehow.com/info_8299766_motives-pyschology.html
-[312]: http://en.wikipedia.org/wiki/Thematic_Apperception_Test
-[313]: http://en.wikipedia.org/wiki/Murray's_psychogenic_needs
-[314]: http://psychology.about.com/od/theoriesofpersonality/a/neuroticneeds.htm
-[315]: http://en.wikipedia.org/wiki/Henry_A._Murray
-[316]: http://psychology.about.com/od/theoriesofpersonality/a/hierarchyneeds_2.htm
-[317]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_2.htm
-[318]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_3.htm
-[319]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_4.htm
-[320]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_5.htm
-[321]: http://psychology.about.com/od/sindex/f/what-is-self-esteem.htm
-[322]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_6.htm
-[323]: http://psychology.about.com/od/theoriesofpersonality/tp/self-actualized-characteristic.htm
+[5]: #h.cv1m3fgb7lli
+[6]: #h.h8epjbg8ofb3
+[7]: #h.k1zy52hqzb53
+[8]: #h.t8720cwdywtf
+[9]: #h.leny8gf4jy0l
+[10]: #h.bicg8ro9gnso
+[11]: #h.x4z8ohgx8bgy
+[12]: #h.wi9l8jzcw7we
+[13]: #h.j97j64vlzh6f
+[14]: #h.apb5svj4bga
+[15]: #h.98oru4vl4tkc
+[16]: #h.ka1guvj1vqtb
+[17]: #h.4k2fslxskwlm
+[18]: #h.ubvjqexzf53u
+[19]: #h.jmkrkle8z05y
+[20]: #h.rk5csd8eerdr
+[21]: #h.wsyfvwk0hqxr
+[22]: #h.74jbbsvljjzc
+[23]: #h.6j3f855mw2zv
+[24]: #h.dv0dfcfrjp7r
+[25]: #h.pyqq8fdhspes
+[26]: #h.lo0smp201ztw
+[27]: #h.q1sahrstbzvm
+[28]: #h.najl0xvzutg9
+[29]: #h.k6et9icvuoad
+[30]: #h.xzxvcjwzugug
+[31]: #h.kwnrhqgmjmvb
+[32]: #h.ghwpm6v2m8jn
+[33]: #h.gekmur5hzehu
+[34]: #h.1gwl45kj7wxv
+[35]: #h.5n2fiq2p1h8o
+[36]: #h.38ipvfm48fdi
+[37]: #h.qc7iosd5p5al
+[38]: #h.2xnul6duk3ev
+[39]: #h.imhgfxsveusx
+[40]: #h.htflyo99v1hm
+[41]: #h.68izulcvyg12
+[42]: #h.momkxncru9t
+[43]: #h.jbbnl52zeh2w
+[44]: #h.eft53tmlp3fd
+[45]: #h.psr0mggsbmx4
+[46]: #h.ee9t33uh56gb
+[47]: #h.tvxyw0wap63q
+[48]: #h.1sv3jdahou8y
+[49]: #h.9gjwor5za36c
+[50]: #h.pu1eydm9reug
+[51]: #h.dlfc3fawgou4
+[52]: #h.gu9ljha084kr
+[53]: #h.ct5x1mf6yue6
+[54]: #h.scq5s15hewy5
+[55]: #h.7gw7ig7l55tl
+[56]: #h.tqbdgkwvfaka
+[57]: #h.jyvnh0ngfk2h
+[58]: #h.e07jmolg4axa
+[59]: #h.lguvso46v9ng
+[60]: #h.h3v46z6h2dd9
+[61]: #h.kec0i7dj5578
+[62]: #h.h1074xklqkb1
+[63]: #h.26l2palb9iwy
+[64]: #h.4i7ivrcb6pzn
+[65]: #h.sk9n0pgr6xh6
+[66]: #h.k03hd6bessx5
+[67]: #h.9bm7zzifhnjr
+[68]: #h.ja35o6g0vnnl
+[69]: #h.v4v7pnuxa36i
+[70]: #h.7eaclf9th59g
+[71]: #h.7f5cegkitir
+[72]: #h.n2i0ck8v441d
+[73]: #h.cac35f6asblx
+[74]: #h.p75jqo3ikhih
+[75]: #h.54di3dz5m62k
+[76]: #h.d1h1w9v0eyz1
+[77]: #h.dwrh4j2sol2q
+[78]: #h.e3x8vam5spmw
+[79]: #h.j6x35sk3sj0
+[80]: http://netention.org
+[81]: https://github.com/automenta/netentionjs2
+[82]: http://nodejs.org/dist/v0.8.14/node-v0.8.14.tar.gz
+[83]: https://github.com/automenta/netentionjs2.git
+[84]: https://github.com/edwardhotchkiss/always
+[85]: http://nodejs.org/download/
+[86]: http://www.mongodb.org/downloads
+[87]: http://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/
+[88]: http://windows.github.com/
+[89]: http://localhost:8080/
+[90]: http://en.wikipedia.org/wiki/Public_Participation_GIS
+[91]: http://en.wikipedia.org/wiki/Collaborative_mapping
+[92]: http://en.wikipedia.org/wiki/Participatory_GIS
+[93]: http://en.wikipedia.org/wiki/Neighborhood_planning
+[94]: http://en.wikipedia.org/wiki/Volunteered_Geographic_Information
+[95]: http://en.wikipedia.org/wiki/Web_mapping
+[96]: http://en.wikipedia.org/wiki/Neogeography
+[97]: http://en.wikipedia.org/wiki/Quality_of_life
+[98]: http://en.wikipedia.org/wiki/Physical_Quality_of_Life_Index
+[99]: http://en.wikipedia.org/wiki/Quality-of-life_index
+[100]: http://en.wikipedia.org/wiki/Quality_of_life_%28healthcare%29
+[101]: http://en.wikipedia.org/wiki/Legatum_Prosperity_Index
+[102]: http://en.wikipedia.org/wiki/UN_Human_Development_Index
+[103]: http://en.wikipedia.org/wiki/Human_Poverty_Index
+[104]: http://en.wikipedia.org/wiki/Human_Development_Index
+[105]: http://en.wikipedia.org/wiki/Standard_of_living
+[106]: http://en.wikipedia.org/wiki/Emotional_well-being
+[107]: http://mqtt.org/
+[108]: http://www.eeml.org/
+[109]: http://wiki.openstreetmap.org/wiki/Potential_Datasources
+[110]: http://pachube.com/
+[111]: http://semanticommunity.info/
+[112]: http://geonetwork-opensource.org/gallery/gallery.html
+[113]: http://www.epa.gov/regulations/
+[114]: http://data.un.org/
+[115]: http://www.google.com/url?q=https%3A%2F%2Fwww.cia.gov%2Flibrary%2Fpublications%2Fthe-world-factbook%2F&sa=D&sntz=1&usg=AFQjCNG1XTLvu6i3MVyJdY7PlGGBBr6Wpw
+[116]: http://www.kmlfactbook.org/#&db=wri&table=3_812&col=2000&
+[117]: https://www.cia.gov/library/publications/the-world-factbook/
+[118]: http://goworldwind.org/demos/
+[119]: http://www.iges.org/grads/gds/
+[120]: http://sedac.ciesin.org/data.html
+[121]: http://geodata.grid.unep.ch/
+[122]: http://en.wikipedia.org/wiki/Crime_mapping
+[123]: http://www.crimereports.com/
+[124]: http://www.crimemapping.com/
+[125]: http://www.google.com/publicdata/overview?ds=d5bncppjof8f9_
+[126]: http://data.worldbank.org/
+[127]: http://data.worldbank.org/indicator
+[128]: http://www.rhok.org/node/2608
+[129]: https://www.opensource.gov/
+[130]: http://www.bbc.co.uk/news/technology-14841018
+[131]: http://ec.europa.eu/environment/seis/newsletter/issue_003.html
+[132]: http://www.earthobservations.org/geoss.shtml
+[133]: http://ec.europa.eu/environment/seis/funding.htm
+[134]: http://www.ndbc.noaa.gov/obs.shtml
+[135]: http://www.unidata.ucar.edu/projects/THREDDS/
+[136]: http://www.swpc.noaa.gov/alerts/archive/current_month.html
+[137]: http://www.globalincidentmap.com/
+[138]: http://amberalerts.globalincidentmap.com/
+[139]: http://hazmat.globalincidentmap.com/
+[140]: http://fires.globalincidentmap.com/
+[141]: http://outbreaks.globalincidentmap.com/
+[142]: http://gangs.globalincidentmap.com/
+[143]: http://border.globalincidentmap.com/
+[144]: http://president.globalincidentmap.com/
+[145]: http://www.globalincidentmap.com/predictions.php
+[146]: http://quakes.globalincidentmap.com/
+[147]: http://drugs.globalincidentmap.com/
+[148]: http://aviation.globalincidentmap.com/
+[149]: http://food.globalincidentmap.com/
+[150]: http://human.globalincidentmap.com/
+[151]: http://en.wikipedia.org/wiki/Foodshed
+[152]: http://en.wikipedia.org/wiki/Category:Humanitarian_aid_organizations
+[153]: http://en.wikipedia.org/wiki/CompStat
+[154]: http://www.mufon.com/mufonreports.html
+[155]: http://www.ufostalker.com/?mufon=true
+[156]: http://en.wikipedia.org/wiki/Nuclear_decommissioning
+[157]: http://www.google.com/fusiontables/DataSource?dsrcid=579353&search=nuclear&cd=5
+[158]: http://www.google.com/fusiontables/DataSource?dsrcid=578937&search=nuclear&cd=12
+[159]: http://www.epa.gov/tri/
+[160]: http://en.wikipedia.org/wiki/Superfund#Accessing_Superfund_data
+[161]: http://www.acousticecology.org/srwifi.html
+[162]: http://www.epa.gov/enviro/facts/ef_restful.html
+[163]: http://airnow.gov/
+[164]: http://transport.nilu.no/flexpart
+[165]: http://chemtrailsmap.com/
+[166]: http://www.cellreception.com/towers/
+[167]: http://waterdata.usgs.gov/nwis/qw
+[168]: http://nuclear.carboncapturereport.org/cgi-bin/topic
+[169]: http://globalenergyobservatory.org/select.php?tgl=Kml
+[170]: http://outagecentral.com/
+[171]: http://en.wikipedia.org/wiki/Cancer_cluster
+[172]: http://en.wikipedia.org/wiki/Biostatistics
+[173]: http://en.wikipedia.org/wiki/Cancer_epidemiology
+[174]: http://www.helpx.net/
+[175]: http://www.neural-forecasting.com/neural_forecasting_data.htm
+[176]: http://econdata.net/
+[177]: http://www.lib.umich.edu/govdocs/stats.html
+[178]: http://odwin.ucsd.edu/idata/
+[179]: http://www.phil.frb.org/econ/spf/spfpage.html
+[180]: http://www.tcb-indicators.org/
+[181]: http://www.usinfostore.com/
+[182]: http://finance.yahoo.com/
+[183]: http://fx.sauder.ubc.ca/
+[184]: http://www.oanda.com/
+[185]: http://theyrule.net/drupal/content/transnationaleorg-0
+[186]: http://www.transnationale.org/
+[187]: http://theyrule.net/drupal/content/interactive-political-map-west-bank
+[188]: http://www.guardian.co.uk/world/interactive/2008/sep/11/israelandthepalestinians
+[189]: http://theyrule.net/drupal/content/number-wont-get-any-smaller
+[190]: http://theyrule.net/drupal/content/corporate-collective-consciousness
+[191]: http://wikiscanner.virgil.gr/
+[192]: http://theyrule.net/drupal/content/wheresgeorgecom-money-and-epidemics
+[193]: http://www.wheresgeorge.com/
+[194]: http://www.eurekalert.org/pub_releases/2006-01/uoc--igp012406.php
+[195]: http://www.insna.org/
+[196]: http://theyrule.net/drupal/content/cryptome
+[197]: http://cryptome.org/mil-dead-iqw.htm
+[198]: http://cryptome.org/
+[199]: http://en.wikipedia.org/wiki/Cryptome
+[200]: http://theyrule.net/drupal/content/disappeared-america
+[201]: http://theyrule.net/drupal/content/exploring-enron
+[202]: http://theyrule.net/drupal/content/board-death
+[203]: http://adbusters.org/blogs/Board_to_Death.html
+[204]: http://theyrule.net/drupal/content/gapminder
+[205]: http://www.gapminder.org/
+[206]: http://directory.ic.org/maps/default.xml
+[207]: http://www.globaldatavault.com/natural-disaster-threat-maps.htm
+[208]: http://hisz.rsoe.hu/alertmap/
+[209]: http://en.wikipedia.org/wiki/Cooling_center
+[210]: http://en.wikipedia.org/wiki/Warming_center
+[211]: http://www.scientificamerican.com/article.cfm?id=ratti-smartest-cities-use-people-as-sensors
+[212]: http://thenewamerican.com/tech/item/13613-darpa-sponsors-surveillance-technology-to-predict-future-behavior
+[213]: http://www.darpa.mil/NewsEvents/Releases/2011/09/28.aspx
+[214]: http://portal.acm.org/citation.cfm?id=786227
+[215]: http://at-scm.com/index.php/2006/12/04/supply-chain-management/artificial-intelligence-in-supply-chains/
+[216]: http://at-scm.com/index.php/2006/11/13/supply-chain-management/rea-a-semantic-model-for-internet-supply-chain-collaboration/
+[217]: http://jeffsutherland.org/oopsla2000/mccarthy/mccarthy.htm
+[218]: http://en.wikipedia.org/wiki/Basic_human_needs
+[219]: http://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs
+[220]: http://en.wikipedia.org/wiki/Murray%27s_psychogenic_needs
+[221]: http://en.wikipedia.org/wiki/Environmental_law
+[222]: http://en.wikipedia.org/wiki/Planetary_habitability
+[223]: http://en.wikipedia.org/wiki/Survival_skills
+[224]: http://en.wikipedia.org/wiki/Metamotivation
+[225]: http://earthengine.googlelabs.com/
+[226]: http://www.futurict.ethz.ch/FuturIcT
+[227]: http://code.google.com/apis/maps/
+[228]: http://tables.googlelabs.com/Home
+[229]: http://googlegeodevelopers.blogspot.com/2010/11/five-great-fusion-tables-maps-examples.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed:+GoogleGeoDevelopersBlog+%28Google+Geo+Developers+Blog%29
+[230]: http://multiverseaccordingtoben.blogspot.com/2010/12/will-decreasing-scarcity-allow-us-to.html
+[231]: http://www.roboearth.org/
+[232]: http://www.appropedia.org/Hexayurt_mass_evacuation
+[233]: http://en.wikipedia.org/wiki/ISO_6709
+[234]: http://www.stratfor.com/
+[235]: http://www.mi2g.com/
+[236]: http://en.wikipedia.org/wiki/Abstraction
+[237]: http://en.wikipedia.org/wiki/Attention
+[238]: http://en.wikipedia.org/wiki/Attitude_%28psychology%29
+[239]: http://en.wikipedia.org/wiki/Brainstorming
+[240]: http://en.wikipedia.org/wiki/Cognition
+[241]: http://en.wikipedia.org/wiki/Cognitive_science
+[242]: http://en.wikipedia.org/wiki/Creativity
+[243]: http://en.wikipedia.org/wiki/Critical_thinking
+[244]: http://en.wikipedia.org/wiki/Curiosity
+[245]: http://en.wikipedia.org/wiki/Decision
+[246]: http://en.wikipedia.org/wiki/Decision_making
+[247]: http://en.wikipedia.org/wiki/Eidetic_memory
+[248]: http://en.wikipedia.org/wiki/Emotion
+[249]: http://en.wikipedia.org/wiki/Feeling
+[250]: http://en.wikipedia.org/wiki/Emotional_intelligence
+[251]: http://en.wikipedia.org/wiki/Objective_%28goal%29
+[252]: http://en.wikipedia.org/wiki/Idea
+[253]: http://en.wikipedia.org/wiki/Imagination
+[254]: http://en.wikipedia.org/wiki/Intelligence_%28trait%29
+[255]: http://en.wikipedia.org/wiki/Introspection
+[256]: http://en.wikipedia.org/wiki/Lateral_thinking
+[257]: http://en.wikipedia.org/wiki/Learning
+[258]: http://en.wikipedia.org/wiki/Memory
+[259]: http://en.wikipedia.org/wiki/Memory-prediction_framework
+[260]: http://en.wikipedia.org/wiki/Mental_calculation
+[261]: http://en.wikipedia.org/wiki/Mind%27s_eye
+[262]: http://en.wikipedia.org/wiki/Mindset
+[263]: http://en.wikipedia.org/wiki/Mood_%28psychology%29
+[264]: http://en.wikipedia.org/wiki/Motivation
+[265]: http://en.wikipedia.org/wiki/Perception
+[266]: http://en.wikipedia.org/wiki/Personality_psychology
+[267]: http://en.wikipedia.org/wiki/Picture_thinking
+[268]: http://en.wikipedia.org/wiki/Problem_shaping
+[269]: http://en.wikipedia.org/wiki/Problem_solving
+[270]: http://en.wikipedia.org/wiki/Reason
+[271]: http://en.wikipedia.org/wiki/Recollection
+[272]: http://en.wikipedia.org/wiki/Human_self-reflection
+[273]: http://en.wikipedia.org/wiki/Thought
+[274]: http://en.wikipedia.org/wiki/Visual_thinking
+[275]: http://en.wikipedia.org/wiki/Nootropics
+[276]: http://en.wikipedia.org/wiki/Anxiety
+[277]: http://en.wikipedia.org/wiki/Cognitive_psychology
+[278]: http://en.wikipedia.org/wiki/Clinical_depression
+[279]: http://en.wikipedia.org/wiki/Mental_confusion
+[280]: http://en.wikipedia.org/wiki/Cosmetic_pharmacology
+[281]: http://en.wikipedia.org/wiki/Drug
+[282]: http://en.wikipedia.org/wiki/Parasympathomimetics
+[283]: http://en.wikipedia.org/wiki/Prescription_drug
+[284]: http://en.wikipedia.org/wiki/Prohibition_%28drugs%29
+[285]: http://en.wikipedia.org/wiki/Psychoactive_drug
+[286]: http://en.wikipedia.org/wiki/Psychedelic_drug
+[287]: http://en.wikipedia.org/wiki/Human_enhancement
+[288]: http://en.wikipedia.org/wiki/Ergogenic_aid
+[289]: http://en.wikipedia.org/wiki/Life_extension
+[290]: http://en.wikipedia.org/wiki/Neurodegenerative_disease
+[291]: http://en.wikipedia.org/wiki/Alzheimer%27s_disease
+[292]: http://en.wikipedia.org/wiki/Parkinson%27s_disease
+[293]: http://en.wikipedia.org/wiki/Nutrition
+[294]: http://en.wikipedia.org/wiki/Sleep_disorder
+[295]: http://en.wikipedia.org/wiki/Stress_%28medicine%29
+[296]: http://en.wikipedia.org/wiki/Stress_management
+[297]: http://www.stevepavlina.com/blog
+[298]: http://www.stevepavlina.com/forums/personal-effectiveness/956-life-management-software.html
+[299]: http://www.mylifeorganized.net/
+[300]: http://sciral.com/products/index.html
+[301]: http://iscrybe.com/main/index.php
+[302]: http://www.trgtd.com.au/
+[303]: http://en.wikipedia.org/wiki/Life_hack
+[304]: http://www.filemaker.com/products/bento/ipad.html
+[305]: http://solutions.filemaker.com/database-templates/index.jsp
+[306]: http://www.looptmix.com/
+[307]: http://www.loopt.com/
+[308]: http://www.tradevibes.com/person/profile/ben-goertzel_1
+[309]: http://www.convergence08.org/speakers/goertzel/
+[310]: http://en.wikipedia.org/wiki/Learning_object
+[311]: http://en.wikipedia.org/wiki/Intelligent_tutoring_system
+[312]: http://en.wikipedia.org/wiki/Cognitive_Tutor
+[313]: http://en.wikipedia.org/wiki/Theory_of_Constraints
+[314]: http://en.wikipedia.org/wiki/Role-playing
+[315]: http://www.ultrasis.com/products/product.jsp?product_id=1
+[316]: http://moodgym.anu.edu.au/welcome/faq
+[317]: http://ecouch.anu.edu.au/welcome
+[318]: http://www.ehow.com/info_8299766_motives-pyschology.html
+[319]: http://en.wikipedia.org/wiki/Thematic_Apperception_Test
+[320]: http://en.wikipedia.org/wiki/Murray's_psychogenic_needs
+[321]: http://psychology.about.com/od/theoriesofpersonality/a/neuroticneeds.htm
+[322]: http://en.wikipedia.org/wiki/Henry_A._Murray
+[323]: http://psychology.about.com/od/theoriesofpersonality/a/hierarchyneeds_2.htm
+[324]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_2.htm
+[325]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_3.htm
+[326]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_4.htm
+[327]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_5.htm
+[328]: http://psychology.about.com/od/sindex/f/what-is-self-esteem.htm
+[329]: http://psychology.about.com/od/theoriesofpersonality/ss/maslows-needs-hierarchy_6.htm
+[330]: http://psychology.about.com/od/theoriesofpersonality/tp/self-actualized-characteristic.htm
