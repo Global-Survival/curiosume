@@ -1,3 +1,5 @@
+![Netention logo](https://raw.github.com/automenta/netentionjs2/master/doc/netention_logo_6.png)
+
 Netention for Node.JS
 =====================
 
@@ -8,6 +10,22 @@ Netention is a tool for describing one's current life situation (“is”), and 
 Netention realizes one’s goals based on their desires and translates them into tangible outcomes in one’s own network.
 
 Netention aims to solve, in general, all resource management and planning issues that occur among communities of participants.  A complete system could conceivably eliminate the balkanization of various separate online services that presently serve relatively narrow subsets of the more general problem.
+
+Netention is under development and is experimental.  Use at your own risk
+
+[User Guide](https://github.com/automenta/netentionjs2/blob/master/doc/netention_user_guide.md)
+*   What it does
+*   How to use it
+*   Netention Philosophy
+
+[System Guide](https://github.com/automenta/netentionjs2/blob/master/doc/netention_system_guide.md)
+*   System requirements
+*   How to install
+*   How to maintain and administer a Netention node
+
+[Development Plan](https://github.com/automenta/netentionjs2/blob/master/doc/netention_development_plan.md)
+*   Features
+*   Planned improvements and fixes
 
 The term Netention is a portmanteau of the words Network, and Attention or Intention.  It refers to a community's collective abilities.
 
@@ -28,3 +46,5 @@ A semantic concept represents each agent (ex: a human) participating in interact
 A Network is a community-managed web service to which clients connect.  Servers communicate with other servers in a P2P network.
 
 http://netention.org
+
+![Netention logo](https://raw.github.com/automenta/netentionjs2/master/doc/netention_logo_1.png)
