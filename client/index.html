@@ -5,7 +5,7 @@
         <title>Netention</title>
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        <link rel="icon" href="/icon/gss.ico" type="image/x-icon" sizes="16x16">
+        <link rel="icon" href="/icon/netention_icon.png" type="image/x-icon" sizes="16x16">
 
         <script src="/lib/jquery/jquery.js"></script>
         <script src="netention.js"></script> 
@@ -40,9 +40,9 @@
                     { id: 'timerange', value: { startsAt: 384848833, endsAt: 83484848, timezone: 'EST' } },
                     { id: 'fileattachment', url: '/dkjfsdfkjs' },
                     
-                    { id: 'emotion.Happy', strength: 0.75 },
-                    { id: 'emotion.Sad', strength: 0.25 },
-                	{ id: 'emotion.Surprised', strength: 0.25, 
+                    { id: 'emotion.happy', strength: 0.75 },
+                    { id: 'emotion.sad', strength: 0.25 },
+                	{ id: 'emotion.surprised', strength: 0.25, 
                         value: [ { id: 'excessiveWorry', value: 'yes very' } ]  },
                 	{ id: 'environment.EarthQuake', strength: 0.5,
                         value: [ { id: 'eqMagnitude', value: 5.2}, { id: 'eqDepth', value: 205 } ] },
@@ -102,13 +102,20 @@
                 $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange) );
             
                 var lastValue = null;
-                function search() {                    
-                    var v = $('.nameInput').val();
-                    if (lastValue!=v) {
-                        updateTagSuggestions(v, $('.tagSuggestions'), onAdd);
+                function search() {   
+                    
+                    //skip suggestions when editing a Tag
+                    if (objHasTag(getEditedFocus(), 'Tag')) {
+                        $('.tagSuggestions').html('');    
+                    }
+                    else {
+                        var v = $('.nameInput').val();
+                        if (lastValue!=v) {
+                            updateTagSuggestions(v, $('.tagSuggestions'), onAdd);
+                        }
+                        lastValue = v;
                     }
                     
-                    lastValue = v;
                 }
                 
                 ontoSearcher = setInterval(search, 500);

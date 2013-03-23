@@ -249,9 +249,9 @@ exports.objFirstValue = objFirstValue;
 
 function objValues(object, id) {
     var v = [];
-    if (object.values) {
+    if (object.value) {
         for (var k = 0; k < object.value.length; k++) {
-    		if (object.value[k].uri == id)
+    		if (object.value[k].id == id)
 				v.push( object.value[k].value );
 		}
 	}

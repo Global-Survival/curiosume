@@ -475,6 +475,24 @@ function netention(f) {
             			attention[y.id] = y;
             		}
             		
+                    function objTagObjectToTag(x) {
+                        var p = { };
+                        _.each( objValues(x, 'tagValueType'), function(v) {
+                            var vv = v.split(':');
+                            p[vv[0]] = { name: vv[0], type: vv[1] };
+                        });
+                        
+                        return {
+                            uri: x.name,
+                            name: x.name,
+                            description: objDescription(x),
+                            properties: p
+                        };
+                    }
+                    
+                    if (objHasTag(y, 'Tag')) {
+                        that.addTags( [ objTagObjectToTag(y) ] );
+                    }
             	}
             	
                 

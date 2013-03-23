@@ -186,8 +186,8 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
         d.append(tagButtons);
     
         //d.hover(function(){ tagButtons.fadeIn(200);}, function() { tagButtons.fadeOut(200);});
-        d.hover(function(){ tagButtons.show();}, function() { tagButtons.hide();});                
-        tagButtons.hide();
+        //d.hover(function(){ tagButtons.show();}, function() { tagButtons.hide();});                
+        //tagButtons.hide();
     }
     
     

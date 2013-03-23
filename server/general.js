@@ -135,6 +135,16 @@ var generalTags = [
     //  
     { uri: 'Promise', name: 'Promise',
             description: "I’ll do it, but only if you’ll help." //PledgeBank.com
+    },
+    
+    { uri: 'Tag', name: 'Tag',
+            description: "Indicates that an object defines a tag",
+        	properties: {
+    					 'tagValueType': { name: 'Value Type', type: 'text' },
+        				 //'tagDomain': { name: 'Domain', type: 'text' }
+        	}
+                     
+            
     }
     
         
@@ -146,8 +156,7 @@ exports.plugin = {
 		options: { },
         version: '1.0',
         author: 'http://netention.org',
-		start: function(netention) { 
-
+		start: function(netention, util) { 
             netention.addTags(generalTags );
         },
 		stop: function(netention) { }
