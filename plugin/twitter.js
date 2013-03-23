@@ -10,7 +10,7 @@ var _= require('underscore');
 
 exports.plugin = {
         name: 'Tweets Nearby',    
-		description: 'Repeatdly gets geographically-tagged tweets surrounding each user',
+    	description: 'Repeatdly gets geographically-tagged tweets surrounding each user',
 		options: { },
         version: '1.0',
         author: 'http://twitter.com',
@@ -28,6 +28,8 @@ exports.plugin = {
                         var lat = g[0];
                         var lon = g[1];
                         var url = 'http://search.twitter.com/search.json?geocode=' + lat + ',' + lon + ',2mi';
+                        
+                        //TODO update to the new netention data format
                         request(url, function (error, response, body) {
                             if (!error && response.statusCode == 200) {
                                 var x = JSON.parse(body);
