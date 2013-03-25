@@ -268,18 +268,25 @@ exports.start = function(host, port, database, init) {
 	}
 	
     //TODO fix this to use the new tag data model
-	function getObjectsByTag(t, withObjects) {
+	function getObjectsByTag(t, withObject) {
 		var db = mongo.connect(databaseUrl, collections);
-		db.obj.find({ tag: { $in: [ t ] } }, function(err, docs) {
+		//db.obj.find({ tag: { $in: [ t ] } }, function(err, docs) {
+        db.obj.find(function(err, docs) {
+            
+    		if (err) {
+				nlog('getObjectsByTag: ' + err);            
+			}
+            else {
+            	var totals = { };
+                
+                docs.forEach( function(d) {                
+                    if (util.objHasTag(d, t))
+                        withObject(d);
+                });
+            }			
 	
 			db.close();
 			
-			if (!err) {						
-				withObjects(docs);
-			}		
-            else {
-                nlog('getObjectsByTag: ' + err);
-            }
 		});		
 	}
     that.getObjectsByTag = getObjectsByTag;
