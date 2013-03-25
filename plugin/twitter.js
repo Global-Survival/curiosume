@@ -15,11 +15,14 @@ exports.plugin = {
         version: '1.0',
         author: 'http://netention.org',
         
-		start: function(netention) { 
+		start: function(netention, util) { 
             
       
             netention.addTags(
                 [
+                    { uri: 'Tweet', name: 'Tweet'                        
+                    },
+                    
                     { uri: 'InterestInTwitterUser', name: 'Interest in Twitter User',
                         description: "Interest in Twitter user tweets, friends, and other activity",
                         properties: {
@@ -50,49 +53,37 @@ exports.plugin = {
                 });
                 netention.getObjectsByTag('InterestInTwitterLocation', function(tl) {
                     //console.log('Interest in Twitter Location: ' + tl);
-                });
-                
-                /*
-                var users = netention.getObjectsByTag('User', function(users) {
+                    var l = util.objFirstValue(tl, 'twitterLocation');
                     
-                    _.each(users, function(u) {
-                        var g = u.geolocation;
-                        if (!g)
-                            return;
-                            
-                        var lat = g[0];
-                        var lon = g[1];
-                        var url = 'http://search.twitter.com/search.json?geocode=' + lat + ',' + lon + ',2mi';
-                        
-                        //TODO update to the new netention data format
-                        request(url, function (error, response, body) {
-                            if (!error && response.statusCode == 200) {
-                                var x = JSON.parse(body);
-                                var tw = x.results;
-                                for (var i = 0; i < tw.length; i++) {
-                                    var t = tw[i];
-                                    if (t.geo) {
-                                        var s = {
-                                            uri: 'twitter_' + t.id,
-                                            geolocation: t.geo.coordinates,
-                                            name: '@' + t.from_user + ': ' + t.text,
-                                            tag: [ 'Message', 'twitter.Tweet' ],
-                                            tagStrength: [ 1.0, 1.0 ],
-                                            when: Date.parse(t.created_at)
-                                            
-                                        };
-                                        netention.notice(s);
-                                    }
+                    //TODO verify it is planet Earth
+                    var lat = l.lat;
+                    var lon = l.lon;
+                    var url = 'http://search.twitter.com/search.json?geocode=' + lat + ',' + lon + ',2mi';
+                    
+                    //TODO update to the new netention data format
+                    request(url, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            var x = JSON.parse(body);
+                            var tw = x.results;
+                            for (var i = 0; i < tw.length; i++) {
+                                var t = tw[i];
+                                if (t.geo) {                                                                        
+                                    var x = util.objNew('twitter_' + t.id, '@' + t.from_user + ': ' + t.text);
+                                    x.createdAt = Date.parse(t.created_at);
+                                    util.objAddGeoLocation(x, t.geo.coordinates[0], t.geo.coordinates[1]);
+                                    util.objAddTag(x, 'Tweet', 1.0);
+                                    util.objAddTag(x, 'Message', 0.5);
+                                    
+                                    netention.notice(x);                                    
                                 }
                             }
-                            else {
-                                console.log('twitter lookup: ' + error);
-                            }
-                        });
-                        
+                        }
+                        else {
+                            console.log('twitter lookup: ' + error);
+                        }
                     });
-                    
-                });*/
+                });
+                
                 
             }
             
