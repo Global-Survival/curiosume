@@ -81,10 +81,13 @@ exports.plugin = {
                 
                 netention.getObjectsByTag('InterestInTwitterUser', function(tu) {
                     //console.log('Interest in Twitter user: ' + tu);
-                    var username = util.objFirstValue(tu, 'twitterID');                    
-                    if (username[0]!='@')
-                        username = '@' + username;                        
-                    parseTwitterJSONResults('http://search.twitter.com/search.json?q=' + username );
+                    var users = util.objValues(tu, 'twitterID');
+                    _.each(users, function(username) {
+                        if (username[0]!='@')
+                            username = '@' + username;                        
+                        console.log('fetching twitter results for: ' + username);
+                        parseTwitterJSONResults('http://search.twitter.com/search.json?q=' + username );                        
+                    });
                 });
                 netention.getObjectsByTag('InterestInTwitterHashtag', function(th) {
                     //console.log('Interest in Twitter user: ' + tu);
