@@ -775,7 +775,7 @@ function updateTypeTree(a, onSelectionChange) {
         var label = name;
         if (stc[xi])
             if (stc[xi] > 0)
-                label += ' (' + stc[xi] + ')';
+                label += ' (' + _n(stc[xi]) + ')';
                 
         var n = $('<li id="' + xi + '">' + label + '</li>');
         
