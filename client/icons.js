@@ -16,5 +16,6 @@ var defaultIcons = {
     'emotion.happy': '/icon/emoticon/happy.svg',
     'emotion.sad': '/icon/emoticon/sad.svg',
     'emotion.angry': '/icon/emoticon/angry.svg',
-    'emotion.surprised': '/icon/emoticon/surprised.svg'
+    'emotion.surprised': '/icon/emoticon/surprised.svg',
+    'Tweet': '/icon/twitter.png'
 };

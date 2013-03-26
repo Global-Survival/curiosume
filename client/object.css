@@ -371,6 +371,9 @@ div.olMapViewport {
     float: left;
     width: 24em;
 }
+.trendTagLabel img {
+    height: 1em;
+}
 .trendTagCount {
     float: left;
     width: 6em;

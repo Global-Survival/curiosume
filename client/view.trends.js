@@ -35,7 +35,14 @@ function renderTrends(s, o, v) {
             var url = '#/tag/' + ti;            
             //var fs = 3.0 + Math.log(1+tagCount[k])*0.2;            
             //var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
-            var ab = $('<a href="' + url + '">' + name + '</a>');
+            
+            var ab;
+            
+            if (t!=undefined)
+                ab = newTagButton(t);
+            else
+                ab = $('<a href="' + url + '">' + name + '</a>');
+                
             ab.click(function() {
                 s.set('currentView', 'list');
                 Backbone.history.navigate(url, true);  

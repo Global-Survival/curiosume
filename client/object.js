@@ -6,6 +6,8 @@ function getTagIcon(t) {
         //try all the tags, return the first
         if (t.value) {
             for (var x = 0; x < t.value.length; x++) {
+                if (isPrimitive(t.value[x].id))
+                    continue;
                 var r = getTagIcon(t.value[x].id);
                 if (r)
                     return r;
@@ -14,7 +16,7 @@ function getTagIcon(t) {
         return null;
     }
     else {
-        return defaultIcons[t] || defaultIcons['default'];
+        return defaultIcons[t];
     }
 }
     

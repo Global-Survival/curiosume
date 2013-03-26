@@ -73,7 +73,7 @@ function loadScripts(f) {
                         
 //		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 
-		                "/util.js", "./map.js", "./object.js", '/icons.js', '/ontosearch.js',
+		                "/util.js", "/map.js", "/object.js", '/icons.js', '/ontosearch.js',
                         
 //                        "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
                         //"/lib/wysihtml5/bootstrap-wysihtml5.js",
