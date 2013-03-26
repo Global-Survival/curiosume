@@ -83,9 +83,15 @@ exports.plugin = {
                     //console.log('Interest in Twitter user: ' + tu);
                     var username = util.objFirstValue(tu, 'twitterID');                    
                     if (username[0]!='@')
-                        username = '@' + username;
-                        
+                        username = '@' + username;                        
                     parseTwitterJSONResults('http://search.twitter.com/search.json?q=' + username );
+                });
+                netention.getObjectsByTag('InterestInTwitterHashtag', function(th) {
+                    //console.log('Interest in Twitter user: ' + tu);
+                    var ht = util.objFirstValue(th, 'twitterHashtag');
+                    if (ht[0]!='#')
+                        ht = '#' + ht;                        
+                    parseTwitterJSONResults('http://search.twitter.com/search.json?q=' + encodeURIComponent(ht) );
                 });
                 netention.getObjectsByTag('InterestInTwitterLocation', function(tl) {
                     //console.log('Interest in Twitter Location: ' + tl);
