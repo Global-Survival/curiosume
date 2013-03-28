@@ -291,16 +291,12 @@ exports.start = function(host, port, database, init) {
 				nlog('getObjectsByTag: ' + err);            
 			}
             else {
-            	var totals = { };
-                
                 docs.forEach( function(d) {                
                     if (util.objHasTag(d, t))
                         withObject(d);
                 });
-            }			
-	
-			db.close();
-			
+            }				
+			db.close();			
 		});		
 	}
     that.getObjectsByTag = getObjectsByTag;
@@ -813,8 +809,11 @@ exports.start = function(host, port, database, init) {
 	       //share tags
 	       socket.emit('addTags', tags, properties);
            
+           getObjectsByTag('Tag', function(to) {
+               socket.emit('notice', to);
+           });
            getObjectsByAuthor(cid, function(uo) {
-               socket.emit('notice', uo);              
+               socket.emit('notice', uo);
            });
 	    });
 	    
