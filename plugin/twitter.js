@@ -28,6 +28,8 @@ exports.plugin = {
                     { uri: 'Tweet', name: 'Tweet'                        
                     },
                     
+                    //TODO language parameter
+                    
                     { uri: 'InterestInTwitterUser', name: 'Interest in Twitter User',
                         description: "Interest in Twitter user tweets, friends, and other activity",
                         properties: {

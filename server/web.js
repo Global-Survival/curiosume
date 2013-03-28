@@ -619,6 +619,39 @@ exports.start = function(host, port, database, init) {
 	  req.logout();
 	  res.redirect('/');
 	});
+    
+    express.get('/histogram', function(req, res) {
+        var x = {
+            id: '@somebody',
+            tStart: Date.now()-500000,
+            tStop: Date.now(),
+            tSteps: 5,
+            features: {
+                'Writing': [ 0, 0.25, 0.5, 0.5, 0.75, 1.0 ],
+                'Happy': [  0, 0.25, 0, 0, 0  ],
+                'Sad': [  0, 0, 0, 0, 0, 1  ],
+                'Buying': [ 0, 0, 0.25, 0.25, 0 ],
+                'Questioning': [0,0,0,0,0],
+                'Cursing': [0,0,0,0,0],
+                'Linking': [0,0,0,0,0],
+                'Retweeting': [0,0,0,0,0],
+                'Mentioning': [0,0,0,0,0],
+                'Moving': [0,0,0,0,0], //geolocation changes
+                'Laughing': [ 1.0, 0, 0, 0, 0.25 ]                    
+            },
+            conclusions: [
+                'Person laughs before cursing 60%',
+                'Person is simultaneously questioning and happy 85%',
+            ],
+            suggestions: [
+                'Person should buy <a href="http://www.amazon.com/gp/product/B001OORMVQ/ref=s9_simh_gw_p147_d1_i4?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=1D1EGERGCVBCF3PMGYS7&pf_rd_t=101&pf_rd_p=1389517282&pf_rd_i=507846">SATA Adapter</a>',
+                'Person should talk to @otherperson'
+            ]
+        };
+            
+        sendJSON(res, x); 
+    });
+    
 	
 	
 	var channelListeners = {};

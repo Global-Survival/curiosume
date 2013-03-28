@@ -364,9 +364,6 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
         }
         
     }
-    else if (type == 'fileattachment') {
-        //...
-    }
     else if (type == 'EmotionSelect') {
         var es = $('<img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/c/ce/Plutchik-wheel.svg"/>');
         es.click(function() {
@@ -627,7 +624,8 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 	d.append(hb);
 	
     (function() {
-	    d.hover(function(){ hb.fadeIn(200);}, function() { hb.fadeOut(200);});	    
+	    //d.hover(function(){ hb.fadeIn(200);}, function() { hb.fadeOut(200);});
+        d.hover(function(){ hb.show();}, function() { hb.hide();});        
     })();
     hb.hide();
 

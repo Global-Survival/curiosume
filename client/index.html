@@ -325,8 +325,8 @@
             
             function cloneFocus() {
                 var y = getEditedFocus();
-                var oldURI = y.uri;
-                y.uri = uuid();
+                var oldURI = y.id;
+                y.id = uuid();
                 commitFocus(y);
                 $.pnotify({
                     title: 'Cloning...',
