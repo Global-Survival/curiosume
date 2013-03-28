@@ -142,6 +142,17 @@
     
                 });
             }
+    
+            function saveObject(p) {
+                p.author = self.id();
+                objTouch(p);
+                self.notice(p);
+                self.pub(p);
+                $.pnotify({
+                    title: 'Saved',
+                    text: p.uri                        
+                });                    
+            }
             
             function initDescriptionRichText() {
                 $('#FocusDescriptionSection').html('<textarea id="FocusDescription"></textarea>');
@@ -201,20 +212,11 @@
                 });
                 
     
-    
-    
                 //TODO move this to focus.semantic.js when dynamically generating the focus UI
                 $('#SaveButton').click(function() {
                     var p = getEditedFocus();
                     later(function() {
-                        p.author = self.id();
-                        objTouch(p);
-                        self.notice(p);
-                        self.pub(p);
-                        $.pnotify({
-                            title: 'Saved',
-                            text: p.uri                        
-                        });                             
+                        saveObject(p);
                     });
                 });
                 $('#ClearButton').click(function() {
@@ -329,6 +331,8 @@
                 y.id = uuid();
                 y.author = window.self.id();
                 commitFocus(y);
+                saveObject(y);
+                
                 $.pnotify({
                     title: 'Cloning...',
                     text: oldURI + ' -> ' + y.id
