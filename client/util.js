@@ -213,15 +213,16 @@ exports.objTagRelevance = objTagRelevance;
 
   objDistanceSpace(x, y) -> meters between two objects, assuming both have locations. otherwise null
   objDistanceTime(x, y) -> time difference between two objects, assuming both have times, otherwise null
-  objDistanceSpaceTime(x, y, speed) - speed in meters/sec
-
-
-  
+  objDistanceSpaceTime(x, y, speed) - speed in meters/sec  
   
 */
 
 function objSpacePoint(x) {
-    return objFirstValue(x, 'spacepoint', null);    
+    var s = objFirstValue(x, 'spacepoint', null);    
+    if (s!=null) return s;
+    
+    //TODO iterate through all values for a primitive with type spacepoint?
+    return null;    
 }
 exports.objSpacePoint = objSpacePoint;
 

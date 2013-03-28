@@ -266,6 +266,20 @@ exports.start = function(host, port, database, init) {
 		}		
 		
 	}
+
+    function getObjectsByAuthor(a, withObjects) {
+    	var db = mongo.connect(databaseUrl, collections);
+        db.obj.find({author: a}, function(err, docs) {            
+    		if (err) {
+				nlog('getObjectsByAuthor: ' + err);            
+			}
+            else {
+                withObjects(docs);
+            }				
+			db.close();
+		});
+	}
+    that.getObjectsByAuthor = getObjectsByAuthor;
 	
     //TODO fix this to use the new tag data model
 	function getObjectsByTag(t, withObject) {
@@ -798,6 +812,10 @@ exports.start = function(host, port, database, init) {
 	       
 	       //share tags
 	       socket.emit('addTags', tags, properties);
+           
+           getObjectsByAuthor(cid, function(uo) {
+               socket.emit('notice', uo);              
+           });
 	    });
 	    
 	    socket.on('updateSelf', function(s, getObjects) {

@@ -59,9 +59,6 @@ function loadScripts(f) {
                         //NEEDED FOR CHRONOZOOM:
 		                "http://code.jquery.com/ui/jquery-ui-git.js",
                         
-//		                "/lib/jquery-tmpl/jquery.tmpl.js",
-                        
-//		                "/lib/jstorage/jstorage.js",
 		                "/lib/jQuery-URL-Parser/purl.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js',
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
@@ -71,11 +68,12 @@ function loadScripts(f) {
 
                         '/lib/pnotify/jquery.pnotify.min.js',
                         
-//		                "http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
+                        //"http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
 
-		                "/util.js", "/map.js", "/object.js", '/icons.js', '/ontosearch.js',
+		                "/util.js", "/map.js", "/object.js", '/icons.js', '/ontosearch.js', '/example_object.js',
                         
-//                        "/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
+                        //"/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
+
                         //"/lib/wysihtml5/bootstrap-wysihtml5.js",
                         
                         '/lib/timeago/timeago.js',
