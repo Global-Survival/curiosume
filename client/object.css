@@ -331,7 +331,7 @@ div.olMapViewport {
 }
 
 .MetadataLine {
-    color: gray;
+    opacity: 0.8;
     clear: both;
 }
 .MetadataLine img {
