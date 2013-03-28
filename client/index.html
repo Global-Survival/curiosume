@@ -327,10 +327,11 @@
                 var y = getEditedFocus();
                 var oldURI = y.id;
                 y.id = uuid();
+                y.author = window.self.id();
                 commitFocus(y);
                 $.pnotify({
                     title: 'Cloning...',
-                    text: oldURI + ' -> ' + y.uri
+                    text: oldURI + ' -> ' + y.id
                 });                
                 return y;
             }
