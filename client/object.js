@@ -509,7 +509,7 @@ function newPropertyView(self, vv) {
     if (p.type == 'object') {
         var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
         
-        return ('<li>' + vv.id + ': <a href="#">' + o.name + '</a></li>');
+        return ('<li>' + vv.id + ': <a href="javascript:newPopupObjectView(\'' + vv.value + '\')">' + o.name + '</a></li>');
     }
     else {
         return ('<li>' + vv.id + ': ' + vv.value + '</li>');    
