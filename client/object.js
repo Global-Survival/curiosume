@@ -509,10 +509,28 @@ function newPropertyView(self, vv) {
     if (p.type == 'object') {
         var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
         
-        return ('<li>' + vv.id + ': <a href="javascript:newPopupObjectView(\'' + vv.value + '\')">' + o.name + '</a></li>');
+        return ('<li>' + p.name + ': <a href="javascript:newPopupObjectView(\'' + vv.value + '\')">' + o.name + '</a></li>');
     }
     else {
-        return ('<li>' + vv.id + ': ' + vv.value + '</li>');    
+        var v = $('<li>' + p.name + ': ' + vv.value + '</li>');
+        
+        //Property Actions
+        //TODO make this more abstract and extendable by plugins
+        
+        if ((vv.id == 'walletBTC') || (vv.id == 'walletPayPal') || (vv.id == 'walletRipple')) {
+            var payButton = $('<button>Pay</button>');
+            payButton.click(function() {
+               alert('Payments not implemented yet.');
+            });
+
+            var vu = $('<ul/>');
+            vu.append(payButton);            
+            v.append(vu);
+
+        }
+        
+        
+        return v;
     }
 }
 

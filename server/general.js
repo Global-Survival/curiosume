@@ -73,7 +73,11 @@ var generalTags = [
 		             'moneyUSD': { name: 'USD ($)', type: 'real' },		            
 		             'moneyEUR': { name: 'EUR (€)', type: 'real' },		            
 		             'moneyGold': { name: 'Gold (g)', type: 'real' },		            
-		             'moneySilver': { name: 'Silver (g)', type: 'real' }	            
+		             'moneySilver': { name: 'Silver (g)', type: 'real' },
+                     'walletBTC': { name: 'Bitcoin Wallet', type: 'text' },
+                     'walletRipple': { name: 'Ripple Wallet', type: 'text' },
+                     'walletPayPal': { name: 'PayPal Address', type: 'text' },
+                     'walletRTN': { name: 'Bank Account', type: 'text' },     //http://en.wikipedia.org/wiki/Routing_transit_number
 		}
 	},
 	{ uri: 'Contract', name: 'Contract',
