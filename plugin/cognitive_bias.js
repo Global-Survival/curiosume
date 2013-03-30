@@ -1,5 +1,6 @@
 /*
 http://lesswrong.com/lw/4fp/fun_and_games_with_cognitive_biases/
+http://rationalwiki.org/wiki/List_of_cognitive_biases
 https://www.cia.gov/library/center-for-the-study-of-intelligence/csi-publications/books-and-monographs/psychology-of-intelligence-analysis/index.html
 
 How long do you think it should take to solve a major problem if you are not wasting any time?

@@ -9,30 +9,60 @@
             
             
             function renderFeatureHeading(l) {
-                return '<div class="FeatureHeading">' + l + '</div>';
+                return '<span class="FeatureHeading">' + l + '</span>';
             }
             function renderFeatureCell(v) {
+                if (v == null) v = 0;
+                
                 var g = 255;
                 var r = parseInt((1.0-v)*255.0);
                 var b = parseInt((1.0-v)*255.0);
                 var bg = 'rgb(' + r + ',' + g + ',' + b +')';
-                return '<div class="featureCell" style="background-color: ' + bg + '">' + v + '</div>';
+                return '<span class="featureCell" style="background-color: ' + bg + '">' + '*' + '</span>';
             }
             
             function renderReport(x) {
                 var d = $('<div></div>');
+                d.addClass('histogram');
                 d.append('<h2>' + x.id + '</h2>');
-                d.append(new Date(x.tStart) + ' <i>to</i> ' + new Date(x.tStop));
+                
+                var e = $('<div></div>');
+                e.addClass('histogram');
+                //Histogram
+                e.append(new Date(x.tStart) + ' <i>to</i> ' + new Date(x.tStop));
                 _.each(x.features, function(v, k) {
                     var f = $('<div></div>');
                     f.append(renderFeatureHeading(k));
+                    
+                    function uu(p) { if (p == null) return 0; else return p; }
+                    
+                    var max = uu(v[i]);
+                    var min = max;
+                    
+                    for (var i = 1; i < x.tSteps; i++) {
+                        var u = uu(v[i]);
+                        if (u < min) min = u;
+                        if (u > max) max = u;
+                    }
                     for (var i = 0; i < x.tSteps; i++) {
-                        f.append(renderFeatureCell(v[i]));
+                        var u = uu(v[i]);
+                        if (min == max) u = 0;
+                        else u = (u - min) / (max - min);
+                        f.append(renderFeatureCell(u));
                     }
                     f.append('<br/>');            
                     
-                    d.append(f);                    
+                    e.append(f);                    
                 });
+                
+                d.append(e);
+                
+                d.append('<h3>Map</h3>');
+                //map
+                
+                d.append('<h3>Tags</h3>');
+                //tags
+                
                 d.append('<h3>Conclusions</h3><ul>');
                 _.each(x.conclusions, function(c) {
                     d.append('<li>' + c + '</li>');
@@ -48,14 +78,17 @@
                 return d;
             }
             
-            function reportURL(lat, lon, when) {
-                return '/report?' + 'lat=' + lat + '&lon=' + lon + ' &when=' + when;
+            function reportURL(lat, lon, whenStart, whenStop) {
+                return '/report?' + 'lat=' + lat + '&lon=' + lon + ' &whenStart=' + whenStart + '&whenStop=' + whenStop;
             }
             
             $(document).ready(function(){
                 netention(function(self) {
                     
-                    $.getJSON('/report', function(r) {                    
+                    var now = Date.now();
+                    var u = reportURL(40.44,-79.99, now-1000*60*60*340, now );
+                    
+                    $.getJSON(u, function(r) {                    
                         $('body').append(renderReport(r));
                     });
                 });
@@ -68,16 +101,20 @@
             .FeatureHeading {
                 width: 8em;
                 float: left;
+                clear: both;
             }
             .featureCell {
-                width: 4em;
+                width: 2em;
                 float: left;
                 text-align: center;
+                color: #888;
+            }
+            .histogram {
+                /* overflow-x: scroll; */
             }
         </style>
     </head>    
     
     <body>
-        <h1>Noosphere Analysis</h1>
     </body>
 </html>

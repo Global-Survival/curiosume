@@ -1,5 +1,6 @@
 var memory = require('./memory.js');
 var util = require('../client/util.js');
+var feature = require('./feature.js');
 //var cortexit = require('./cortexit.js');
 var expressm = require('express');
 var express = expressm();
@@ -318,6 +319,62 @@ exports.start = function(host, port, database, init) {
 	}
     that.getObjectsByTags = getObjectsByTags;
     */
+    
+    function getReport(lat, lon, whenStart, whenStop, withReport) {
+    	var db = mongo.connect(databaseUrl, collections);
+        
+        var histogram = { };
+        var numBins = 38;
+        var numAnalyzed = 0;
+        
+        function getHistogramBin(t) {
+            return ((t - whenStart) / (whenStop - whenStart)) * numBins;
+        }
+        
+        db.obj.find(function(err, docs) {
+            
+    		if (err) {
+				nlog('getReport: ' + err);            
+			}
+            else {
+                docs.forEach( function(d) {
+                    var t = d.modifiedAt || d.createdAt;
+                    
+                    if ((t <= whenStop) && (t >= whenStart)) {
+                        var a = feature.objAnalysis(d);   
+                        var bin = parseInt(getHistogramBin(t));
+                        for (var k in a) {
+                            if (histogram[k] == undefined)
+                                histogram[k] = [];
+                            if (histogram[k][bin] == undefined)
+                                histogram[k][bin] = 0;
+                            histogram[k][bin] += a[k];
+                        }
+                        numAnalyzed++;
+                    }
+                });
+                var x = {
+                    id: '@somebody',
+                    tStart: whenStart,
+                    tStop: whenStop,
+                    tSteps: numBins,
+                    'numAnalyzed': numAnalyzed,
+                    features: histogram,
+                    conclusions: [
+                        'Person laughs before cursing 60%',
+                        'Person is simultaneously questioning and happy 85%',
+                    ],
+                    suggestions: [
+                        'Person should buy <a href="http://www.amazon.com/gp/product/B001OORMVQ/ref=s9_simh_gw_p147_d1_i4?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=1D1EGERGCVBCF3PMGYS7&pf_rd_t=101&pf_rd_p=1389517282&pf_rd_i=507846">SATA Adapter</a>',
+                        'Person should talk to @otherperson'
+                    ]
+                }; 
+                withReport(x);                
+            }				
+			db.close();			
+		});		
+        
+    }
 
     
 	function getTagCounts(whenFinished) {	
@@ -630,36 +687,16 @@ exports.start = function(host, port, database, init) {
 	  res.redirect('/');
 	});
     
-    express.get('/report', function(req, res) {
-        var x = {
-            id: '@somebody',
-            tStart: Date.now()-500000,
-            tStop: Date.now(),
-            tSteps: 5,
-            features: {
-                'Writing': [ 0, 0.25, 0.5, 0.5, 0.75, 1.0 ],
-                'Happy': [  0, 0.25, 0, 0, 0  ],
-                'Sad': [  0, 0, 0, 0, 0, 1  ],
-                'Buying': [ 0, 0, 0.25, 0.25, 0 ],
-                'Questioning': [0,0,0,0,0],
-                'Cursing': [0,0,0,0,0],
-                'Linking': [0,0,0,0,0],
-                'Retweeting': [0,0,0,0,0],
-                'Mentioning': [0,0,0,0,0],
-                'Moving': [0,0,0,0,0], //geolocation changes
-                'Laughing': [ 1.0, 0, 0, 0, 0.25 ]                    
-            },
-            conclusions: [
-                'Person laughs before cursing 60%',
-                'Person is simultaneously questioning and happy 85%',
-            ],
-            suggestions: [
-                'Person should buy <a href="http://www.amazon.com/gp/product/B001OORMVQ/ref=s9_simh_gw_p147_d1_i4?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=center-2&pf_rd_r=1D1EGERGCVBCF3PMGYS7&pf_rd_t=101&pf_rd_p=1389517282&pf_rd_i=507846">SATA Adapter</a>',
-                'Person should talk to @otherperson'
-            ]
-        };
-            
-        sendJSON(res, x); 
+    express.get('/report', function(req, res) {            
+        getReport( 
+            parseFloat(req.query['lat']),
+            parseFloat(req.query['lon']),
+            parseFloat(req.query['whenStart']),
+            parseFloat(req.query['whenStop']),
+            function(r) {
+                sendJSON(res, r);
+            }
+        ); 
     });
     
 	
