@@ -18,9 +18,11 @@ var http = require('http');
 var _ = require('underscore');
 
 
+var SkipEarthquakes = true;
+
 exports.plugin = {
         name: 'Emergency and Disaster Information Service',	
-		description: '',
+		description: 'Still not completely functional, use with caution',
 		options: { },
         version: '1.0',
         author: 'http://hisz.rsoe.hu',
@@ -52,12 +54,16 @@ exports.plugin = {
                       var nextB = text.indexOf('<\\/b>');
                       var name = text.substring(firstB+3, nextB);                      
                       
+                      if (SkipEarthquakes)
+                        if (name == 'Earthquake')
+                            continue;
+                            
                       //TODO get date
                       
                       var x = util.objNew(util.MD5('EDIS.' + name + coords[0] + coords[1]), name);
                       util.objAddTag(x, 'Report');
                       util.objAddGeoLocation(x, coords[0], coords[1]);
-                      util.objDescription(x, text);                                            
+                      util.objAddDescription(x, text);                                            
                       
                       xx.push(x);
 

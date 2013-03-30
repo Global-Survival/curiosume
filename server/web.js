@@ -630,7 +630,7 @@ exports.start = function(host, port, database, init) {
 	  res.redirect('/');
 	});
     
-    express.get('/histogram', function(req, res) {
+    express.get('/report', function(req, res) {
         var x = {
             id: '@somebody',
             tStart: Date.now()-500000,

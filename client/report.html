@@ -19,7 +19,7 @@
                 return '<div class="featureCell" style="background-color: ' + bg + '">' + v + '</div>';
             }
             
-            function renderHistogram(x) {
+            function renderReport(x) {
                 var d = $('<div></div>');
                 d.append('<h2>' + x.id + '</h2>');
                 d.append(new Date(x.tStart) + ' <i>to</i> ' + new Date(x.tStop));
@@ -48,10 +48,15 @@
                 return d;
             }
             
+            function reportURL(lat, lon, when) {
+                return '/report?' + 'lat=' + lat + '&lon=' + lon + ' &when=' + when;
+            }
+            
             $(document).ready(function(){
                 netention(function(self) {
-                    $.getJSON('/histogram', function(r) {                    
-                        $('body').append(renderHistogram(r));
+                    
+                    $.getJSON('/report', function(r) {                    
+                        $('body').append(renderReport(r));
                     });
                 });
             });
