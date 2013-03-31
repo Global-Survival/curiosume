@@ -248,6 +248,23 @@ function objFirstValue(object, id, defaultValue) {
 }
 exports.objFirstValue = objFirstValue;
 
+function objSetFirstValue(object, id, newValue) {
+    var existingValue = objFirstValue(object, id, null);
+    if (existingValue == null) {
+        objAddValue(object, id, newValue);
+    }
+    else {
+        if (object.value) {
+            for (var k = 0; k < object.value.length; k++) {
+                if (object.value[k].id == id)
+    				object.value[k].value = newValue;
+    		}
+    	}
+    }
+}
+exports.objSetFirstValue = objSetFirstValue;
+
+
 function objValues(object, id) {
     var v = [];
     if (object.value) {

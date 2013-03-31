@@ -19,12 +19,12 @@ exports.plugin = {
             
             netention.addTags([
                 {
-                    uri: 'web.RSSFeed', name: 'RSS Feed', properties: {
+                    uri: 'RSSFeed', name: 'RSS Feed', 
+                    properties: {
                         'url': { name: 'URL', type: 'text' /* url */, min: 1, default: 'http://' },
                         'urlFetchPeriod': { name: 'Fetch Period (seconds)', type: 'text' /* number */, default: "3600", min: 1, max: 1 },
-                        'addArticleTag': { name: 'Add Tag to Articles', type: 'text' }
-                        //'urlLastFetchedAt': { name: 'Last Fetched (timestamp)', type: 'text' /* number */ }
-                        
+                        'addArticleTag': { name: 'Add Tag to Articles', type: 'text' },
+                        'lastRSSUpdate': { name: 'Last RSS Update',  type: 'timepoint' }
                     }
                 }
             ], [ 'web' ]);
@@ -38,11 +38,8 @@ exports.plugin = {
                 
                 that.feeds = { };                
                 
-                that.netention.getObjectsByTag('web.RSSFeed', function(objs) {
-                    for (var i = 0; i < objs.length; i++) {
-                        var x = objs[i];
-                        that.feeds[x.uri] = x;
-                    }
+                that.netention.getObjectsByTag('RSSFeed', function(x) {
+                    that.feeds[x.id] = x;
                     
                     if (f)
                         f();
@@ -57,7 +54,6 @@ exports.plugin = {
                 
                 that.update(function() {
                     
-                    
                     for (var k in that.feeds) {
                         var f = that.feeds[k];
                         
@@ -67,13 +63,13 @@ exports.plugin = {
                             
                         var needsFetch = false;
                                             
-                        if (!util.getProperty(f, 'lastUpdate')) {
+                        if (!util.objFirstValue(f, 'lastRSSUpdate')) {
                             needsFetch = true;
                         }
                         else {
-                            var age = (Date.now() - util.getProperty(f, 'lastUpdate'))/1000.0;
+                            var age = (Date.now() - util.objFirstValue(f, 'lastRSSUpdate'))/1000.0;
                             
-                            var fp = util.getProperty(f, 'urlFetchPeriod');
+                            var fp = util.objFirstValue(f, 'urlFetchPeriod');
                             fp = Math.max(fp, minUrlFetchPeriod);
                             
                             if (fp < age) {
@@ -86,7 +82,7 @@ exports.plugin = {
                         
                         if (needsFetch) {
                         
-                            var furi = util.getPropertyValues(f, 'url');
+                            var furi = util.objValues(f, 'url');
                             
                             if (furi) {
                                 for (var ff = 0; ff < furi.length; ff++) {
@@ -102,7 +98,7 @@ exports.plugin = {
                                 //set error message as f property
                             }
                             
-                            util.setTheProperty(f, 'lastUpdate', Date.now());                        
+                            util.objSetFirstValue(f, 'lastRSSUpdate', Date.now());                        
                             netention.pub(f);
                         }
                     }
@@ -116,9 +112,7 @@ exports.plugin = {
         },
                 
         notice: function(x) {
-            if (!x.tag)
-                return;
-            if (_.contains(x.tag, 'web.RSSFeed')) {
+            if (util.objHasTag(x, 'web.RSSFeed')) {
                 this.update();
             }
         },

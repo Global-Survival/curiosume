@@ -289,7 +289,8 @@ exports.start = function(host, port, database, init) {
         db.obj.find(function(err, docs) {
             
     		if (err) {
-				nlog('getObjectsByTag: ' + err);            
+				nlog('getObjectsByTag: ' + err);
+                console.trace("Here I am!");
 			}
             else {
                 docs.forEach( function(d) {                

@@ -3,7 +3,7 @@ var util = require('./../client/util.js');
 
 exports.plugin = {
         name: 'Environment',    
-		description: 'Environment and climate datasets provided by http://ClimateViewer.com',
+    	description: 'Environment and climate datasets provided by http://ClimateViewer.com',
 		options: { },
         version: '1.0',
         author: 'http://ClimateViewer.com and P2P-Foundation NORA',
@@ -228,6 +228,58 @@ From IOBY.org
 		Clean Air, Clean Water, Climate Change, Open Space & Greening, Compost, Recycling
 	Taking place at/in:
 		Community Centers, Streets & Sidewalks, Schools & Playgrounds, Parks, Gardens, Urban Farms, Beaches, Waterways & Lakes
+*/
+
+/*
+From Numbeo.com:
+
+    Cost Of Living
+        Cost of Living Comparison
+        Cost of Living Calculator
+        Cost Of Living Index
+        Cost Of Living Index (Current)
+        Cost Of Living Rankings By Country
+        Prices By City
+        Prices By Country
+        Food Prices
+        Basket of Goods and Services
+        Motivation and Methodology
+        Update Information for Your City
+	Property Prices
+        Property Prices Comparison
+        Property Price Index
+        Property Price Index Rate (Current)
+        Property Price Index By Country
+	Traffic
+        Traffic Comparisons
+        Traffic Index Rate Latest
+        Traffic Index
+        Traffic Index by Country
+	Crime
+        Crime Comparisons
+        Crime Index Rate Latest
+        Crime Index
+        Crime Index by Country
+	Health Care
+        Health Care Comparisons
+        Health Care Index Rate Latest
+        Health Care Index
+        Health Care Index by Country
+	Pollution
+        Pollution Comparisons
+        Pollution Index Rate Latest
+        Pollution Index
+        Pollution Index by Country
+    Quality Of Life
+        Quality of Life Comparisons
+        Quality of Life Index Rate Latests
+        Quality of Life Index
+        Quality of Life Index by Country
+    Travel
+        Taxi Fare Calculator
+        Gas Prices Calculator
+        Hotel Prices
+    
 */
 		},
             
