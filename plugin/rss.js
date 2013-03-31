@@ -26,6 +26,9 @@ exports.plugin = {
                         'addArticleTag': { name: 'Add Tag to Articles', type: 'text' },
                         'lastRSSUpdate': { name: 'Last RSS Update',  type: 'timepoint' }
                     }
+                },
+                {
+                    uri: 'RSSItem', name: 'RSS Item'
                 }
             ], [ 'web' ]);
             
@@ -154,6 +157,7 @@ var RSSFeed = function(url, perArticle) {
 		if (a['geo:lat']) {
             util.objAddGeoLocation(x, parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) );
 		}
+        util.objAddTag(x, 'RSSItem');
 
 		perArticle(x, a);
 		
