@@ -1,20 +1,44 @@
 var util = require('../client/util.js');
 
+
+function wordCount(t) {
+    //http://stackoverflow.com/questions/4593565/regular-expression-for-accurate-word-count-using-javascript
+    return t.match(/\S+/g).length;
+}
+
+function wordOccurrences(string, subString, allowOverlapping){
+    //http://stackoverflow.com/questions/4009756/how-to-count-string-occurrence-in-string
+    
+    string+=""; subString+="";
+    if(subString.length<=0) return string.length+1;
+
+    var n=0, pos=0;
+    var step=(allowOverlapping)?(1):(subString.length);
+
+    while(true){
+        pos=string.indexOf(subString,pos);
+        if(pos>=0){ n++; pos+=step; } else break;
+    }
+    return(n);
+}
+
 function objAnalysis(x) {
     var t = util.objName(x) + '\n' + util.objDescription(x);
     var a = { };
+    var numWords = wordCount(t);
+    
     if (t.indexOf(':)')!=-1) {
         a['happy'] = 1.0;
     }
     if (t.indexOf(':(')!=-1) {
         a['sad'] = 1.0;
     }
-    if (t!='') {
-        a['written'] = 1.0;
+    
+    if (numWords > 0) {
+        a['written'] = numWords;
+        a['cursing'] = (wordOccurrences(t, 'fuck', false) + wordOccurrences(t, 'shit', false)) / numWords;
     }
-    if ((t.indexOf('fuck')!=-1) || (t.indexOf('shit')!=-1)) {
-        a['cursing'] = 1.0;
-    }
+    
     
         /*            
             'Writing': [ 0, 0.25, 0.5, 0.5, 0.75, 1.0 ],

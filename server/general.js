@@ -3,12 +3,12 @@
 var generalTags = [
         
     //Being superclass of Human..
-	{ uri: 'Human', name: 'Human',		
+    { uri: 'Human', name: 'Human',		
 		properties: {
 		             'currentRole': { name: 'Current Role', type: 'text' },
 		             'biography': { name: 'Biography', type: 'textarea' },
                      
-		             'birthdate': { name: 'Birthdate', type: 'time' },
+		             'birthdate': { name: 'Birthdate', type: 'timepoint' },
                      
                      //age: { name: 'Age', type: 'function', value: function(x) { return = now - getProperty(x, 'birthdate').val() ... } }
                      
