@@ -511,6 +511,10 @@ function newPropertyView(self, vv) {
         
         return ('<li>' + p.name + ': <a href="javascript:newPopupObjectView(\'' + vv.value + '\')">' + o.name + '</a></li>');
     }
+    else if (p.type == 'url') {
+        var u = vv.value;
+        return ('<li>' + p.name + ': <a target="_blank" href="' + u + '">' + u + '</a></li>');        
+    }
     else {
         var v = $('<li>' + p.name + ': ' + vv.value + '</li>');
         

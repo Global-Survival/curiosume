@@ -28,7 +28,10 @@ exports.plugin = {
                     }
                 },
                 {
-                    uri: 'RSSItem', name: 'RSS Item'
+                    uri: 'RSSItem', name: 'RSS Item',
+                    properties: {
+                        'rssItemURL': { name: 'RSS Item URL', type: 'url' }
+                    }
                 }
             ], [ 'web' ]);
             
@@ -149,7 +152,7 @@ var RSSFeed = function(url, perArticle) {
         var x = util.objNew( util.MD5(a['guid']), a['title'] );
         x.createdAt = w;
         
-        util.objDescription(x, a['description']);        
+        util.objAddDescription(x, a['description']);        
         
 		if (a['georss:point']) {
             util.objAddGeoLocation(x, a['georss:point'][0], a['georss:point'][1] );
@@ -158,7 +161,7 @@ var RSSFeed = function(url, perArticle) {
             util.objAddGeoLocation(x, parseFloat(a['geo:lat']['#']), parseFloat(a['geo:long']['#']) );
 		}
         util.objAddTag(x, 'RSSItem');
-
+        util.objAddValue(x, 'rssItemURL', a['link']);
 		perArticle(x, a);
 		
 	}	
