@@ -4,7 +4,9 @@ http://en.wikipedia.org/wiki/Nutrition
 http://en.wikipedia.org/wiki/Nutrient_density
 http://en.wikipedia.org/wiki/Allergy
 
-http://openfoodweb.org/
+http://openfoodweb.org
+http://en.openfoodfacts.org
+
 
 	Nutrient objects (the various macronutrients, vitamins, minerals, adaptogens, nootropics)
 

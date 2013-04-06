@@ -103,6 +103,11 @@ var generalTags = [
 	{ uri: 'Report', name: 'Report'}, //Report=Incident
 		//NewsSourceLink (url)
 		//see: Ushahidi.com
+    
+    { uri: 'Problem', name: 'Problem'},
+    { uri: 'Solution', name: 'Solution'},
+    { uri: 'Cause', name: 'Cause'},
+    { uri: 'Effect', name: 'Effect'},
 
 	{ uri: 'Goal', name: 'Goal'}, //=Project=Program=Plan=Opportunity
 		//state = considered|desired|active|completed
