@@ -712,3 +712,53 @@ function OutputBuffer(interval, write /* limit */) {
 	return that;
 }
 exports.OutputBuffer = OutputBuffer;
+
+function propGetType(t) {
+    if (isPrimitive(t))
+        return t;
+    else {
+        var p = window.self.getProperty(t);
+        return p.type;
+    }
+}
+
+function isIntegerValueIndefinite(v) {
+    return isNaN(parseInt(v));
+}
+
+function objMode(x) {
+    var ind = 'indefinite';
+    
+    
+    if (x.value) {
+        for (var i = 0; i < x.value.length; i++) {
+            var v = x.value[i];
+            var vi = v.id;
+            var t = propGetType(vi);
+            if (t == 'integer') {
+                if (isIntegerValueIndefinite(v.value))
+                    return ind;
+            }
+        }
+    }
+    
+    return 'definite';   
+}
+exports.objMode = objMode;
+
+function objCompare(a, b) {
+    
+    var c = {
+        aMode: objMode(a),
+        bMode: objMode(b),
+        tagDotProduct: objTagRelevance(a, b),
+        commonTags: [ ],
+        aSpecificTags: [ ],
+        bSpecificTags: [ ],
+        propertyComparisons: [ ],
+        compositeMatch: 0
+    };
+    
+    return c;
+}
+exports.objCompare = objCompare;

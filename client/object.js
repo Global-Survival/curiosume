@@ -187,6 +187,7 @@ function renderObject(x, editable, focus, commitFocus) {
     if (editable)
         ontoSearcher = setInterval(search, 500);
     
+    d.getEditedFocus = getEditedFocus;
     
     return d;                
 }

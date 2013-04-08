@@ -27,10 +27,11 @@
             
             function focus() { return window.self.focus(); }
             
-            
+            var renderedFocus;
             function updateFocus() {
                                 
-                $('#Focus').html( renderObject(focus(), true, focus, commitFocus) );
+                renderedFocus = renderObject(focus(), true, focus, commitFocus);
+                $('#Focus').html( renderedFocus );
             
             }
 
@@ -45,7 +46,7 @@
                 
                 updateTypeTree(tt, function(s) {
                     
-                    var e = getEditedFocus();
+                    var e = renderedFocus.getEditedFocus();
                     for (var i = 0; i < s.length; i++) {
                         var m = s[i];
                         if (!objHasTag(e, m))
@@ -127,7 +128,7 @@
     
                 //TODO move this to focus.semantic.js when dynamically generating the focus UI
                 $('#SaveButton').click(function() {
-                    var p = getEditedFocus();
+                    var p = renderedFocus.getEditedFocus();
                     later(function() {
                         saveObject(p);
                     });
@@ -168,7 +169,7 @@
                             var ab = $('<button>Add Image To Description</button>');
                             var absURL = url.substring(1);
                             ab.click(function() {
-                                var f = getEditedFocus();
+                                var f = renderedFocus.getEditedFocus();
                                 objAddDescription(f, '<a href="'+absURL +'"><img src="' + absURL + '"></img></a>');
                                 commitFocus(f);                         
                             });
@@ -234,7 +235,7 @@
             function showEditedFocus() {
                 $.pnotify({
                     title: 'Current Focus (JSON)',
-                    text: (JSON.stringify(getEditedFocus(), null, 4))
+                    text: (JSON.stringify(renderedFocus.getEditedFocus(), null, 4))
                 });                
             }
             

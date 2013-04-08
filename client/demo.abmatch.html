@@ -7,29 +7,59 @@
         <script src="netention.js"></script> 
         
         <script>
+            var a, b;
+            var aWidget, bWidget;
+            
+            function initFocus() {
+                a = objNew();
+                objName(a, 'Left Object');
+                objAddValue(a, 'integer', 3);
+        
+                b = objNew();
+                objName(b, 'Right Object');                
+                objAddValue(b, 'integer', '<4');
+            }
+            
+            function updateMatch() {
+                $('#MatchView').html(JSON.stringify(objCompare(a, b), null, 4));
+            }
+            
+            function updateAFocus() {
+                aWidget = renderObject(a, true, function() { return a; }, function(e) { 
+                    a = e; 
+                    updateAFocus(); 
+                    updateMatch();
+                });
+                
+                $('#A').html( aWidget );
+            }
+            function updateBFocus() {
+                bWidget = renderObject(b, true, function() { return b; }, function(e) { 
+                    b = e; 
+                    updateBFocus(); 
+                    updateMatch();
+                } );
+                
+                $('#B').html( bWidget );
+            }
         
             
             $(document).ready(function(){
                 netention(function(self) {
                     window.self = self;
-                    
-                    var a = objNew();
-                    objName(a, 'Left Object');
-            
-                    var b = objNew();
-                    objName(b, 'Right Object');
-
-                    function updateAFocus() {
-                        $('#A').html( renderObject(a, true, function() { return a; }, function(e) { a = e; updateAFocus(); } ) );                    
-                    }
-                    function updateBFocus() {
-                        $('#B').html( renderObject(b, true, function() { return b; }, function(e) { b = e; updateBFocus(); } ) );
-                    }
+             
+                    initFocus();
                     
                     updateAFocus();
                     updateBFocus();
                     
+                    updateMatch();
                     
+                    $('#MatchUpdate').click(function() {
+                        a = aWidget.getEditedFocus();
+                        b = bWidget.getEditedFocus();
+                        updateMatch();
+                    });
                 });
             });
             
@@ -63,7 +93,9 @@
         <div id="A">
         </div>
         <div id="Match">
-            ...
+            <center><button id="MatchUpdate">Update</button></center>
+            <br/>
+            <div id="MatchView"></div>
         </div>
         <div id="B">
         </div>
