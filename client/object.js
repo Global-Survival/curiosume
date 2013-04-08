@@ -306,10 +306,16 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             whenSaved.push(function(y) {
                 if ((type == 'text') || (type=='url'))
                     objAddValue(y, tag, dd.val(), strength);
-                else if (type == 'real')
-                    objAddValue(y, tag, parseFloat(dd.val()), strength);
-                else if (type == 'integer')
-                    objAddValue(y, tag, parseInt(dd.val()), strength);
+                else if (type == 'real') {
+                    var ddv = parseFloat(dd.val());
+                    if (isNaN(ddv)) ddv = dd.val();    //store as string                 
+                    objAddValue(y, tag, ddv, strength);
+                }
+                else if (type == 'integer') {
+                    var ddv = parseInt(dd.val());
+                    if (isNaN(ddv)) ddv = dd.val();     //store as string
+                    objAddValue(y, tag, ddv, strength);
+                }
             });
 
         }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TypeTree Demo | Netention</title>
+        <title>AB-Match Demo | Netention</title>
         
         <script src="/lib/jquery/jquery.js"></script>
         <script src="netention.js"></script> 
@@ -14,7 +14,7 @@
                 uri: 'testTag',
                 name: 'Test Tag',
                 properties: {
-                    'aIntger': {name: 'An Integer', type: 'integer'},
+                    'aInteger': {name: 'An Integer', type: 'integer'},
                     'aReal': {name: 'A Real', type: 'real'},
                     'aText': {name: 'Some Text', type: 'text'}
                 }
@@ -31,6 +31,7 @@
                 b = objNew();
                 objName(b, 'Right Object');                
                 objAddTag(b, 'testTag');
+                objAddTag(b, 'Imaginary');
             }
             
             function updateMatch() {

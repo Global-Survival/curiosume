@@ -154,7 +154,8 @@ var generalTags = [
         	}
                      
             
-    }
+    },
+    { uri: 'Imaginary', name: 'Imaginary', description: 'Something imaginary, indefinite values.' }
     
         
 ];

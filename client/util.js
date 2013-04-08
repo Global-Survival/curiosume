@@ -136,6 +136,15 @@ function objTags(x) {
 }
 exports.objTags = objTags;
 
+function objProperties(x) {
+  if (!x.value) return [];
+  return _.uniq( _.filter( _.pluck(x.value, 'id'), function(t) { 
+      return (window.self.getProperty(t)!=null);
+  } ) );
+}
+exports.objProperties = objProperties;
+
+
 function objTagStrength(x, normalize, noProperties) {
   // objTags(x) -> array of tags involved
   var t = { };  
@@ -185,7 +194,7 @@ function objTagRelevance(x,y) {
     var yy = objTagStrength(y, false, true);
     var common = _.intersection( _.keys(xx), _.keys(yy) );
     if (common) {
-        var union = _.union( _.keys(xx), _.keys(yy) );
+        var union = _.difference(_.union( _.keys(xx), _.keys(yy) ), ['Imaginary']);
         if (common.length > 0) {
             var total = 0.0;
             for (var i = 0; i < common.length; i++) {
@@ -733,8 +742,11 @@ function isNumberValueIndefinite(v) {
     return isNaN(parseInt(v));
 }
     
+var _IND = 'indefinite';
+var _DEF = 'definite';
 function objMode(x) {
-    var ind = 'indefinite';    
+    if (objHasTag(x, 'Imaginary'))
+        return _IND;
     
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
@@ -745,7 +757,7 @@ function objMode(x) {
             if (t == null) { }
             else if ((t == 'integer') || (t == 'real')) {
                 if (isNumberValueIndefinite(v.value))
-                    return ind;
+                    return _IND;
             }
             else {
                 console.log('objMade', 'Uncompared type', t);
@@ -753,7 +765,7 @@ function objMode(x) {
         }
     }
     
-    return 'definite';   
+    return _DEF;   
 }
 exports.objMode = objMode;
 
@@ -763,12 +775,90 @@ function objCompare(a, b) {
         aMode: objMode(a),
         bMode: objMode(b),
         tagDotProduct: objTagRelevance(a, b),
-        commonTags: [ ],
+        /*commonTags: [ ],
         aSpecificTags: [ ],
         bSpecificTags: [ ],
         propertyComparisons: [ ],
-        compositeMatch: 0
+        compositeMatch: 0*/
     };
+    var at = objTags(a);
+    var bt = objTags(b);
+    
+    c.commonTags = _.intersection(at, bt);
+    c.aSpecificTags = _.difference(at, c.commonTags);
+    c.bSpecificTags = _.difference(bt, c.commonTags);
+    
+    var ap = objProperties(a);
+    var bp = objProperties(b);
+    c.commonProperties = _.intersection(ap, bp);
+    c.aSpecificProperties = _.difference(ap, c.commonProperties);
+    c.bSpecificProperties = _.difference(bp, c.commonProperties);
+
+    function matchDefiniteIndefinite(primitive, defValue, indefValue) {
+        if ((primitive == 'integer') || (primitive == 'real')) {
+            var dn = parseFloat(defValue);
+            
+            if (indefValue[0] == '<') {
+                var n = parseFloat(indefValue.substring(1));
+                return dn < n ? 1.0 : 0.0;
+            }
+            else if (indefValue[0] == '>') {
+                if (indefValue.indexOf('<')!=-1) {
+                    //TODO this operator is weird, use a more natural one like: a..b (this will involve not using isNaN in other functions to determine if a number)
+                    var mm = indefValue.substring(1).split('<');
+                    return (dn >= mm[0]) && (dn <= mm[1]) ? 1.0 : 0.0;
+                }
+                else {
+                    var n = parseFloat(indefValue.substring(1));
+                    return dn > n ? 1.0 : 0.0;
+                }
+            }
+            /*else if (indefValue.indexOf('..')!=-1) {
+                var mm = indefValue.split('..');
+                return (dn >= mm[0]) && (dn <= mm[1]) ? 1.0 : 0.0;
+            }*/
+            else if ((indefValue == '') || (isNaN(indefValue)))
+                return 1.0;
+            else
+                return dn == parseFloat(indefValue) ? 1.0 : 0.0;
+        }
+        return 0;
+    }
+    
+    function computeDefiniteIndefinite(r, d, i) {
+        r.propertyMatch = { };
+        
+        var numProp = r.commonProperties.length;
+        if (numProp > 0) {
+            var totalMatch = 0;
+            for (var x = 0; x < numProp; x++) {
+                var rp = r.commonProperties[x];
+                
+                var bestMatch = 0;
+                var dv = objValues(d, rp);
+                var iv = objValues(i, rp);
+                var prim = propGetType(rp);
+                for (var xdv = 0; xdv < dv.length; xdv++) {
+                    for (var xiv = 0; xiv < iv.length; xiv++) {
+                        var match = matchDefiniteIndefinite(prim, dv[xdv], iv[xiv]);
+                        if (match > bestMatch)
+                            bestMatch = match;
+                    }                    
+                }
+                
+                r.propertyMatch[rp] = bestMatch;            
+                totalMatch += bestMatch;
+            }
+            r.compositeMatch = totalMatch / numProp;
+        }
+    }
+    
+    if ((c.aMode == _IND) && (c.bMode == _DEF)) {
+        computeDefiniteIndefinite(c, b, a);
+    }
+    if ((c.bMode == _IND) && (c.aMode == _DEF)) {        
+        computeDefiniteIndefinite(c, a, b);
+    }
     
     return c;
 }

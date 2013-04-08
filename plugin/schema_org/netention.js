@@ -42,12 +42,15 @@ exports.plugin = {
                 };
                 return p;
             }));
+            
+            var unnecessaryProperties = [ 'description', 'image', 'name', 'url', 'about'];            
+            
             netention.addTags(_.map(types, function(type) {
                 return {
                     uri: type.id,
                     name: type.label,
                     description: type.comment,
-                    properties: type.properties,
+                    properties: _.difference(type.properties, unnecessaryProperties),
                     tag: type.supertypes
                 };
             }));
