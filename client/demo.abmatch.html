@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TypeTree Demo | Netention</title>
+        
+        <script src="/lib/jquery/jquery.js"></script>
+        <script src="netention.js"></script> 
+        
+        <script>
+        
+            
+            $(document).ready(function(){
+                netention(function(self) {
+                    
+                    var a = objNew();
+                    objName(a, 'Left Object');
+            
+                    var b = objNew();
+                    objName(b, 'Right Object');
+
+                    
+                    $('#A').html( renderObject(a, true, function() { return a; }, function(e) { a = e; } ) );
+                    $('#B').html( renderObject(b, true, function() { return b; }, function(e) { b = e; } ) );
+                    
+                    
+                });
+            });
+            
+        </script>
+        <style>
+            
+            #A, #B, #Match {
+                width: 30%;
+                height: 100%;
+                position: fixed;
+                overflow: auto;
+            }
+            
+            #A {
+                background-color: #ddf;
+                left: 0px;
+            }
+            #B {
+                background-color: #dfd;
+                right: 0px;
+            }
+            #Match {
+                left: auto;
+                left: 33%;
+            }
+            
+            .ui-widget-content { border: none; }
+        </style>
+    </head>
+    <body>
+        <div id="A">
+        </div>
+        <div id="Match">
+            ...
+        </div>
+        <div id="B">
+        </div>
+    </body>
+</html>

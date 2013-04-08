@@ -25,65 +25,13 @@
                 });                
             }
             
-            var whenSaved = [];
-            
-            function getEditedFocus() {
-                var f = focus();
-                var x = objNew( f.id );
-                x.createdAt = f.createdAt;
-                x.author = f.author;
-                for (var i = 0; i < whenSaved.length; i++) {
-                    var w = whenSaved[i];
-                    w(x);
-                }
-                return x;
-            }
-            
             function focus() { return window.self.focus(); }
             
-            var ontoSearcher;
             
             function updateFocus() {
-                whenSaved = [];
-                
-                var onAdd = function(tag, value) {
-                    commitFocus( objAddValue(getEditedFocus(), tag, value));
-                };
-                var onRemove = function(i) {                    
-                    commitFocus( objRemoveValue( getEditedFocus(), i) );
-                };
-                var onStrengthChange = function(i, newStrength) {
-                    var e = getEditedFocus();
-                    e.value[i].strength = newStrength;
-                    commitFocus(e);
-                };
-                var onOrderChange = function(fromIndex, toIndex) {
-                    var e = getEditedFocus();
-                    //http://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
-                    e.value.splice(toIndex, 0, e.value.splice(fromIndex, 1)[0]);
-                    commitFocus(e);
-                };
-                
-                $('#Focus').html( renderObject(focus(), true, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange) );
+                                
+                $('#Focus').html( renderObject(focus(), true, focus, commitFocus) );
             
-                var lastValue = null;
-                function search() {   
-                    
-                    //skip suggestions when editing a Tag
-                    if (objHasTag(getEditedFocus(), 'Tag')) {
-                        $('.tagSuggestions').html('');    
-                    }
-                    else {
-                        var v = $('.nameInput').val();
-                        if (lastValue!=v) {
-                            updateTagSuggestions(v, $('.tagSuggestions'), onAdd);
-                        }
-                        lastValue = v;
-                    }
-                    
-                }
-                
-                ontoSearcher = setInterval(search, 500);
             }
 
             function commitFocus(f) {

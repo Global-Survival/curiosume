@@ -18,7 +18,7 @@
                     .replace('\/',' ').split(' ');
         }
         
-        function updateTagSuggestions(t, mt, onAdd) {
+        function updateTagSuggestions(t, mt, onAdd, getEditedFocus) {
             t = getKeywords(t);
             
             var keywords = _.filter(t, isValidKeyword);

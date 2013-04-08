@@ -281,6 +281,11 @@ From Numbeo.com:
         Hotel Prices
     
 */
+/*
+	http://datacasting.jpl.nasa.gov/
+	http://datacasting.jpl.nasa.gov/feed_directory/
+*/
+
 		},
             
 

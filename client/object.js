@@ -95,8 +95,40 @@ function newReplyWidget(onReply, onCancel) {
 }
 
 
-function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange, onOrderChange) {
+function renderObject(x, editable, focus, getEditedFocus) {
     var d = $('<div/>');
+    
+    var whenSaved = [];
+            
+    function getEditedFocus() {
+        var f = focus();
+        var x = objNew( f.id );
+        x.createdAt = f.createdAt;
+        x.author = f.author;
+        for (var i = 0; i < whenSaved.length; i++) {
+            var w = whenSaved[i];
+            w(x);
+        }
+        return x;
+    }
+    
+    var onAdd = function(tag, value) {
+        commitFocus( objAddValue(getEditedFocus(), tag, value));
+    };
+    var onRemove = function(i) {                    
+        commitFocus( objRemoveValue( getEditedFocus(), i) );
+    };
+    var onStrengthChange = function(i, newStrength) {
+        var e = getEditedFocus();
+        e.value[i].strength = newStrength;
+        commitFocus(e);
+    };
+    var onOrderChange = function(fromIndex, toIndex) {
+        var e = getEditedFocus();
+        //http://stackoverflow.com/questions/5306680/move-an-array-element-from-one-array-position-to-another
+        e.value.splice(toIndex, 0, e.value.splice(fromIndex, 1)[0]);
+        commitFocus(e);
+    };
     
     if (editable) {
         var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
@@ -121,7 +153,35 @@ function renderObject(x, editable, whenSaved, onAdd, onRemove, onStrengthChange,
         }
     }
     
-    d.append( $('<ul/>').addClass('tagSuggestions') );
+    var ts = $('<ul/>');
+    
+    d.append( ts.addClass('tagSuggestions') );
+    
+    var ontoSearcher;
+
+    var lastValue = null;
+    function search() {   
+        if (!ts.is(':visible')) {
+            clearInterval(ontoSearcher);
+            return;
+        }
+        
+        //skip suggestions when editing a Tag
+        if (objHasTag(getEditedFocus(), 'Tag')) {
+            ts.html('');    
+        }
+        else {
+            var v = $('.nameInput').val();
+            if (lastValue!=v) {
+                updateTagSuggestions(v, ts, onAdd, getEditedFocus);
+            }
+            lastValue = v;
+        }
+        
+    }
+    
+    ontoSearcher = setInterval(search, 500);
+    
     
     return d;                
 }

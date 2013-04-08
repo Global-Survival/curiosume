@@ -88,7 +88,7 @@
     width: 100%;
 }
 #SaveButtonWrapper {
-    //text-align: right;
+    /* text-align: right; */
     float: right;
     margin-top: 1em;
 }
