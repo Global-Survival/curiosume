@@ -10,18 +10,40 @@
             var a, b;
             var aWidget, bWidget;
             
+            var testTag = {
+                uri: 'testTag',
+                name: 'Test Tag',
+                properties: {
+                    'aIntger': {name: 'An Integer', type: 'integer'},
+                    'aReal': {name: 'A Real', type: 'real'},
+                    'aText': {name: 'Some Text', type: 'text'}
+                }
+            };
+            
+            
             function initFocus() {
+                window.self.addTags([ testTag ]);
+                
                 a = objNew();
                 objName(a, 'Left Object');
-                objAddValue(a, 'integer', 3);
+                objAddTag(a, 'testTag');
         
                 b = objNew();
                 objName(b, 'Right Object');                
-                objAddValue(b, 'integer', '<4');
+                objAddTag(b, 'testTag');
             }
             
             function updateMatch() {
-                $('#MatchView').html(JSON.stringify(objCompare(a, b), null, 4));
+                var c = objCompare(a, b);
+                var v = $('#MatchView');
+                
+                v.html('');
+                
+                v.append('<p><b>Left Object Mode:</b> ' + c.aMode + '</p>');
+                v.append('<p><b>Right Object Mode:</b> ' + c.bMode + '</p>');
+                
+                v.append('<p><b>Tag Dot-Product:</b> ' + _n(100.0 * c.tagDotProduct) + '% </p>');
+                v.append(JSON.stringify(c, null, 4));
             }
             
             function updateAFocus() {

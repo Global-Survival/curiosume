@@ -136,7 +136,7 @@ function objTags(x) {
 }
 exports.objTags = objTags;
 
-function objTagStrength(x, normalize) {
+function objTagStrength(x, normalize, noProperties) {
   // objTags(x) -> array of tags involved
   var t = { };  
   if (!x.value)
@@ -150,6 +150,10 @@ function objTagStrength(x, normalize) {
     var ii = vv.id;
     if (isPrimitive(ii))
         continue;
+    if (noProperties) {
+        if (window.self.getProperty(ii)!=null)
+            continue;
+    }
     var s = vv.strength || 1.0;
     if (!t[ii])
         t[ii] = s;
@@ -177,17 +181,18 @@ exports.objTagStrength = objTagStrength;
 function objTagRelevance(x,y) {
     /* dot product of the normalized tag vectors */
     
-    var xx = objTagStrength(x);
-    var yy = objTagStrength(y);
+    var xx = objTagStrength(x, false, true);
+    var yy = objTagStrength(y, false, true);
     var common = _.intersection( _.keys(xx), _.keys(yy) );
     if (common) {
+        var union = _.union( _.keys(xx), _.keys(yy) );
         if (common.length > 0) {
             var total = 0.0;
             for (var i = 0; i < common.length; i++) {
                 var c = common[i];
                 total += xx[c] * yy[c]; //dot product
             }
-            return total / common.length;
+            return total / union.length;
         }
     }
     return 0;
@@ -718,26 +723,32 @@ function propGetType(t) {
         return t;
     else {
         var p = window.self.getProperty(t);
+        if (!p)
+            return null;
         return p.type;
     }
 }
 
-function isIntegerValueIndefinite(v) {
+function isNumberValueIndefinite(v) {
     return isNaN(parseInt(v));
 }
-
-function objMode(x) {
-    var ind = 'indefinite';
     
+function objMode(x) {
+    var ind = 'indefinite';    
     
     if (x.value) {
         for (var i = 0; i < x.value.length; i++) {
             var v = x.value[i];
             var vi = v.id;
             var t = propGetType(vi);
-            if (t == 'integer') {
-                if (isIntegerValueIndefinite(v.value))
+            
+            if (t == null) { }
+            else if ((t == 'integer') || (t == 'real')) {
+                if (isNumberValueIndefinite(v.value))
                     return ind;
+            }
+            else {
+                console.log('objMade', 'Uncompared type', t);
             }
         }
     }
