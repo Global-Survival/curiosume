@@ -94,8 +94,11 @@ function newReplyWidget(onReply, onCancel) {
     return w;
 }
 
-
-function renderObject(x, editable, focus, getEditedFocus) {
+/**
+ *  focus - a function that returns the current focus
+ *  commitFocus - a function that takes as parameter the next focus to save
+ */
+function renderObject(x, editable, focus, commitFocus) {
     var d = $('<div/>');
     
     var whenSaved = [];
@@ -130,8 +133,9 @@ function renderObject(x, editable, focus, getEditedFocus) {
         commitFocus(e);
     };
     
+    var nameInput = null;
     if (editable) {
-        var nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
+        nameInput = $('<input/>').attr('type', 'text').attr('x-webkit-speech', 'x-webkit-speech').addClass('nameInput');
         nameInput.val(objName(x));
         d.append(nameInput);
         
@@ -171,7 +175,7 @@ function renderObject(x, editable, focus, getEditedFocus) {
             ts.html('');    
         }
         else {
-            var v = $('.nameInput').val();
+            var v = nameInput.val();
             if (lastValue!=v) {
                 updateTagSuggestions(v, ts, onAdd, getEditedFocus);
             }
@@ -180,7 +184,8 @@ function renderObject(x, editable, focus, getEditedFocus) {
         
     }
     
-    ontoSearcher = setInterval(search, 500);
+    if (editable)
+        ontoSearcher = setInterval(search, 500);
     
     
     return d;                

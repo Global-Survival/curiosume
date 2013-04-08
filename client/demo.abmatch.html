@@ -11,6 +11,7 @@
             
             $(document).ready(function(){
                 netention(function(self) {
+                    window.self = self;
                     
                     var a = objNew();
                     objName(a, 'Left Object');
@@ -18,9 +19,15 @@
                     var b = objNew();
                     objName(b, 'Right Object');
 
+                    function updateAFocus() {
+                        $('#A').html( renderObject(a, true, function() { return a; }, function(e) { a = e; updateAFocus(); } ) );                    
+                    }
+                    function updateBFocus() {
+                        $('#B').html( renderObject(b, true, function() { return b; }, function(e) { b = e; updateBFocus(); } ) );
+                    }
                     
-                    $('#A').html( renderObject(a, true, function() { return a; }, function(e) { a = e; } ) );
-                    $('#B').html( renderObject(b, true, function() { return b; }, function(e) { b = e; } ) );
+                    updateAFocus();
+                    updateBFocus();
                     
                     
                 });
