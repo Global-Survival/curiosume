@@ -251,13 +251,23 @@ THE FOLLOWING REMAINS TO BE EDITED:
 
 # 
 
+# Important definitions
+
+Tag
+
+A tag is a unique property or set of properties that allows to define an object.
+
+Object
+
+An object is a unique association of Tags and their values.
+
 # Trust System
 
-Self-organising moderation system that can scale to any number of users without the need of a centralised authority. It aims at constantly improve the quality of the ontology and the good behaviour within the system. It can also expand to a reputation economy.
+Self-organising moderation or peer-reviewing system that can scale to any number of users without the need of a centralised authority. It aims at constantly improve the quality of the ontology and the good behaviour within the system. It can also expand to a reputation economy.
 
-Trusted users
+Trusted users ( tag = trustedUser )
 
-A verified user has been tagged positively by at least three verified users. This kind of tag can be also used as a kind of reputation currency to build a trusted network.
+A trusted user has been tagged positively by at least three trusted users. This kind of tag can be also used as a kind of reputation currency to build a trusted network. A trusted user shall not be a bot (else it would need the tag botUser).
 
 Trusted taggers
 
@@ -265,11 +275,15 @@ Have created at least three basic tags that have been upgraded to trusted tags
 
 Trusted tags
 
-Have been reviewed by at least three trusted taggers. Unique objects that corresponds to the "good practices of creating a tag".
+Have been reviewed by at least three trusted taggers. Unique objects that correspond to the "good practices of creating a tag".
 
 Each created object gives or removes a certain amount of points. Each type of action provides then specific points that allows one to progressively access more potential within netention.
 
 This approach can also be applied to a naked mind protocol, rewarding and guiding users.
+
+- Good practices of tag's creation
+
+Each tag must have an unique function and meaning.
 
 - Personal tags
 
@@ -281,7 +295,7 @@ Express that you'd like to meet this person (which can appear as a contract : ne
 
 Verifiable tag or object
 
-A non-trusted user can ask to trusted user to check up his tag or object by adding this tag. All verified taggers will have access to verifiable tags and can filter by speciality, subject, etc. With a search object defined for this purpose, a trusted user can for exemple receive notifications for all the new verifiable tags in chemistry...
+A non-trusted user can ask to trusted users to check up his tag or object by adding this tag. All verified taggers will have access to verifiable tags and can filter by speciality, subject, etc. With a search object defined for this purpose, a trusted user can for exemple receive notifications for all the new verifiable tags in chemistry...
 
 Report tag
 
@@ -293,9 +307,11 @@ These tags may need to be more integrated to the ui than other tags as they are 
 
 Reference objects
 
-Verified objects that can be used as templates, for exemple, a reference object for chemistry will have all useful fields to add such object.
+Verified objects that can be used as templates, for exemple, a reference object for chemistry will have all useful fields to describe such object.
 
 Another exemple, for events, various templates can be classified as to allow a quick creation of an object already tagged. Only contextual informations will be needed.
+
+Progress, achievements and points.
 
 # Netention in Space
 
@@ -455,8 +471,8 @@ Yes seems like a great solution - just train everyone to be each other's psychol
 
 [][25]
 
-[  
-][25]References
+## [  
+][25]Space Exploration References
 
 [http://100yss.org/mission/purpose][26]
 
@@ -464,15 +480,23 @@ Yes seems like a great solution - just train everyone to be each other's psychol
 
 [http://www.youtube.com/watch?v=dvk1bnx20fE][28] Space Lottery
 
-[\[a\]][29]Helene Finidori:
+# Holopticism
+
+[http://wiki.thetransitioner.org/English/Holopticism][29]
+
+"A holoptical space is a space in which each participant gets a live perception of the [Whole][30]. Each player, thanks to his/her experience and expertise, relates to this Whole in order to adjust his/her actions and coordinate them with others' moves. Therefore there is an unceasing round trip, a feedback loop that works like a mirror between the individual level and the collective one....
+
+Holoptical communities will then be able to evolve toward self-reflexion, self-actualization, higher consciousness and a high capacity to cohere in the being and the doing. They will hold the potential to become [global wisdom driven organizations][31]."
+
+[\[a\]][32]Helene Finidori:
 
 I love the idea of data kept alive. Same for conversations... they should be kept alive and accessible. That's why any mapping/resource maping project must be coupled by a pull and engagement mechanism. Look at this video: http://www.youtube.com/watch?feature=player\_embedded&v=3Q2YgeKbbt4
 
-[\[b\]][30]Helene Finidori:
+[\[b\]][33]Helene Finidori:
 
 Where do I see :)
 
-[\[c\]][31]Helene Finidori:
+[\[c\]][34]Helene Finidori:
 
 Actually he based his methodology on ABCD. More here: 
 
@@ -492,7 +516,7 @@ Helene Finidori:
 
 The links are all I have...
 
-[\[d\]][32]Helene Finidori:
+[\[d\]][35]Helene Finidori:
 
 Seth, Like you did for the orchestra, could you describe in a few words how Netention could be used for a sharing service, what it could enable better than any catalog or regular map of stuff. how the query, the possibilities, contextualizations would be easier etc etc.... Putting yourself in the shoes of a lender and borrower.
 
@@ -502,7 +526,7 @@ S H:
 
 whether you want to find or share something away you're interested in the same "types" of things in that given moment.  from there its extra details to clarify your relationship to it
 
-[\[e\]][33]Helene Finidori:
+[\[e\]][36]Helene Finidori:
 
 The important thing here is the possibility to qualify the objects. How can we explain this in simple terms, to give an idea of the potential? There's this multidimensioanl aspect taking time into account. Place, shape, volume, caracteristics... that you probably don't have in any other mapping system? We probably need to focus on objects for a start. What are onjects? How can they be described, how can they be related.
 
@@ -541,8 +565,11 @@ S H:
 [26]: http://100yss.org/mission/purpose
 [27]: http://www.peaceinspace.com/contact-us
 [28]: http://www.youtube.com/watch?v=dvk1bnx20fE
-[29]: #cmnt_ref1
-[30]: #cmnt_ref2
-[31]: #cmnt_ref3
-[32]: #cmnt_ref4
-[33]: #cmnt_ref5
+[29]: http://wiki.thetransitioner.org/English/Holopticism
+[30]: http://wiki.thetransitioner.org/Whole
+[31]: http://wiki.thetransitioner.org/English/Global_Wisdom_Driven_Organization
+[32]: #cmnt_ref1
+[33]: #cmnt_ref2
+[34]: #cmnt_ref3
+[35]: #cmnt_ref4
+[36]: #cmnt_ref5

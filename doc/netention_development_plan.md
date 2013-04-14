@@ -104,10 +104,21 @@
 
 # Uncategorized
     
+1.  send essential objects on connect:
+
+1.  user's own objects "mine"
+1.  tags
+1.  most recent
+
+1.  getGeolocation
+
+1.  consider both primitive spacepoint property and first property with it
+
 1.  fix relevant not updating when /tag/ accessed
 1.  add primitive tag
-1.  add tag
-1.  add tag property
+1.  add color primitive data type
+1.  add tag property, with type select (requires new meta-primitive)
+1.  db stores involved tags as cache for fast index queries; removes the cache property from retrieved DB object
 1.  CompleteObject loaded from menu/url
 1.  complete object manipulation unit tests
 1.  fix the matching plugins, for basic object matching
