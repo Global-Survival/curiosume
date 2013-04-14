@@ -4,6 +4,7 @@
 //http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml
 
 //http://www.emsc-csem.org/#2
+//http://quakes.globalincidentmap.com/
 
 var rss = require('./rss.js');
 

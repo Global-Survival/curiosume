@@ -407,9 +407,9 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             var lr = $('<input type="text" placeholder="Time" />');
             lr.val(new Date(t.at));
             d.append(lr);
-            var lb = $('<button style="margin-top: -0.5em"><i class="icon-calendar"/></button>');
-            
+            var lb = $('<button style="margin-top: -0.5em"><i class="icon-calendar"/></button>');            
             d.append(lb);
+	    //TODO add 'Now' button
             
             //TODO add save function
         }
@@ -423,11 +423,13 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             lr.val(new Date(t.startsAt));
             d.append('Start: ');
             d.append(lr);
+	    //TODO add 'Now' button
             d.append('<br/>');
             var ls = $('<input type="text" placeholder="Time End" />');
             ls.val(new Date(t.endsAt));
             d.append('Stop: ');
             d.append(ls);
+	    //TODO add 'Now' button
             
             //TODO add save function
         }

@@ -1,4 +1,5 @@
 /*
+Defense against threats, both immediate and potential, local or global (weapons of mass destruction)
 
 http://defensedistributed.com/
 	http://defcad.org
@@ -12,5 +13,16 @@ http://en.wikipedia.org/wiki/First_Earth_Battalion
 
 http://en.wikipedia.org/wiki/United_States_Army_Field_Manuals
 	http://www.loc.gov/rr/frd/Military_Law/pamphlets_manuals.html
+
+
+http://www.nti.org/gmap/ Nuclear Threat Initiative
+
+	Biological
+	Chemical
+	Missile
+	Nuclear
+
+http://en.wikipedia.org/wiki/List_of_military_bases
+http://www.globalsecurity.org/
 
 */
