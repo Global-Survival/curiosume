@@ -15,11 +15,4 @@ http://en.wikipedia.org/wiki/Pundit
     In certain cases, it may be used in a derogatory manner as well, 
     as the political equivalent of "ideologue."
 
-infowars.com
-enformable.com
-americannationalmilitia.com
-petersantilli.com
-oppt-in.com
-exopolitics.com
-
 */
