@@ -4,9 +4,7 @@
     "dependencies":{
 	"express":"",
 	"request":"",
-    "http":"",
 	"url":"",
-	"fs":"",
 	"util":"",
 	"socket.io": "",
 	"node-static":"",
