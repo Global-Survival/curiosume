@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>slatebox.js example</title>
+    <link rel='stylesheet' type='text/css' href='example.css' media='screen' />
+
+    	<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js" type="text/javascript"></script>
+
+	<script type="text/javascript" src="raphael/raphael.js"></script>
+
+	<script type="text/javascript" src="slatebox.js"></script>
+	<script type="text/javascript" src="slatebox.slate.js"></script>
+	<script type="text/javascript" src="slatebox.node.js"></script>
+
+	<script type="text/javascript" src="raphael/raphael.el.tooltip.js"></script>
+	<script type="text/javascript" src="raphael/raphael.el.loop.js"></script>
+	<script type="text/javascript" src="raphael/raphael.el.style.js"></script>
+	<script type="text/javascript" src="raphael/raphael.button.js"></script>
+	<script type="text/javascript" src="raphael/raphael.fn.connection.js"></script>
+	<script type="text/javascript" src="raphael/raphael.fn.objects.js"></script>
+
+	<script type="text/javascript" src="node/Slatebox.node.editor.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.shapes.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.menu.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.toolbar.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.context.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.colorpicker.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.links.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.connectors.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.relationships.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.images.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.template.js"></script>
+	<script type="text/javascript" src="node/Slatebox.node.resize.js"></script>
+
+	<script type="text/javascript" src="spinner.js"></script>
+	<script type="text/javascript" src="emile/emile.js"></script>
+	<script type="text/javascript" src="notify.js"></script>
+
+	<script type="text/javascript" src="slate/Slatebox.slate.canvas.js"></script>
+	<script type="text/javascript" src="slate/Slatebox.slate.message.js"></script>
+	<script type="text/javascript" src="slate/Slatebox.slate.multiselection.js"></script>
+	<script type="text/javascript" src="slate/Slatebox.slate.nodes.js"></script>
+
+	<script type="text/javascript" src="slate/Slatebox.slate.zoomSlider.js"></script>
+	<script type="text/javascript" src="slate/Slatebox.slate.keyboard.js"></script>
+	<script type="text/javascript" src="slate/Slatebox.slate.birdseye.js"></script>
+
+
+    <script>
+        (function ($, $s) {
+            $(document).ready(function () {
+                var log = [], startTime = Math.round(new Date().getTime() / 1000);
+
+                function upd() {
+                    Slatebox.el("txtSlateJson").value = _mainSlate.exportJSON();
+                    Slatebox.el("txtSlateLastUpdated").innerHTML = "last updated <b>" + new Date().toString();
+                };
+
+		console.log($s);
+
+                var _mainSlate = $s.slate({
+                    id: 'firstSlateExample' //slate with the same ids can collaborate together.
+                    , container: 'slate'
+                    , viewPort: { width: 50000, height: 50000, allowDrag: true, left: 5000, top: 5000 }
+                    , showZoom: true
+                    , showBirdsEye: false
+                    , showStatus: false
+                    , showMultiSelect: false
+                    , onSlateChanged: function (subscriberCount) {
+                        upd();
+                    }
+                    , collaboration: {
+                        allow: false
+/*                        , showPanel: false
+                        , url: 'http://slatebox.com'
+                        , jsonp: true
+                        , userName: "Tester"
+                        , userIP: 1
+                        , userProfile: ''
+                        , callbacks: {
+                            onCollaboration: function (name, msg) {
+                                var secs = Math.round(new Date().getTime() / 1000) - startTime;
+                                log.push(secs + " secs ago - " + name + ": " + msg.toLowerCase());
+                                Slatebox.el("slateMessage").innerHTML = log.reverse().join('<br/>');
+                                startTime = Math.round(new Date().getTime() / 1000);
+                                upd();
+                            }
+                        }
+*/
+
+                    }
+                }).canvas.init({ imageFolder: "cursors/" });
+
+                var _nodes = [
+                    $s.node({ id: 'first_node', text: 'drag', xPos: 5090, yPos: 5120, height: 40, width: 80, vectorPath: 'roundedrectangle', backgroundColor: '90-#ADD8C7-#59a989', lineColor: "green", lineWidth: 2, allowDrag: true, allowMenu: true, allowContext: true })
+                    , $s.node({ id: 'second_node', text: 'me', xPos: 5290, yPos: 5080, height: 40, width: 100, vectorPath: 'ellipse', backgroundColor: '90-#6A8FBD-#54709a', lineColor: "green", lineWidth: 4, allowDrag: true, allowMenu: true, allowContext: true })
+                    , $s.node({ id: 'third_node', text: 'around', xPos: 5260, yPos: 5305, height: 40, width: 80, vectorPath: 'rectangle', backgroundColor: '90-#756270-#6bb2ab', lineColor: "blue", lineWidth: 5, allowDrag: true, allowMenu: true, allowContext: true })
+                ];
+                _mainSlate.nodes.addRange(_nodes);
+                _nodes[1].relationships.addParent(_nodes[0], {});
+                _nodes[2].relationships.addAssociation(_nodes[0], {});
+                _nodes[2].relationships.addAssociation(_nodes[1], {});
+                _mainSlate.init();
+            });
+        })(jQuery, new Slatebox());
+    </script>
+</head>
+
+<body>
+    <h2>slatebox.js example</h2>
+
+    <div id="slateContainer">
+        <div id="slate">
+        </div>
+	<!--
+        <div id="slateJson">
+            <p>
+                Current JSON (can be used to save slate to a user's account at Slatebox.com)</p>
+            <textarea id='txtSlateJson'></textarea>
+            <div id="txtSlateLastUpdated">
+            </div>
+        </div>
+	-->
+    </div>
+    <!--  <div id="slateMessage"></div> -->
+
+</body>
+</html>

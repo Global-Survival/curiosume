@@ -1,5 +1,22 @@
 /*
 
+http://tbmdb.blogspot.com/2008/12/what-is-business-model.html
+
+Common components in most business model definitions
+    Core capabilities (assets, capabilities, processes)
+    Customer value propositions (products and services, offering, differentiation)
+        all value offered to all stakeholders
+    Target customer (segments, scope, needs)
+    Revenue model (pricing, ways of charging)
+    Distribution channel (delivery, channels, promotion)
+    Partnerships (suppliers, partners, value chain position)
+    Cost structure (fixed and variable costs)
+    Control mechanisms used to protect the created values and the profit streams from being reduced by partners, competitors or strong customers
+    Objects for transactions to clarify what is being transacted between different stakeholders, as it is no longer limited to products and services
+
+A business model answers the questions:
+    How are values created, captured and by whom?
+    How are values extracted, controlled and by whom?
 
 http://pittsburghpa.gov/controller/about
 http://www.sfcontroller.org/
