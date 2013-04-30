@@ -45,6 +45,7 @@ web.get('/wiki/:tag', function(req, res) {
 
 function returnPage(url, rres, redirector) {
     http.get(url, function(res) {
+    
         if (res.statusCode > 300 && res.statusCode < 400 && res.headers.location) {
             // The location for some (most) redirects will only contain the path,  not the hostname;
             // detect this and add the host to the path.
@@ -60,7 +61,7 @@ function returnPage(url, rres, redirector) {
 
         var page = '';
         res.on("data", function(chunk) {
-            page = page + chunk;
+            page += chunk;
         });
         res.on('end', function() {
             var $ = cheerio.load(page);

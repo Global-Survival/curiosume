@@ -15,7 +15,10 @@ and open the template in the editor.
         <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href='/lib/pnotify/jquery.pnotify.default.css' rel="stylesheet" type="text/css" />
         
-                        
+        <script src="http://openlayers.org/dev/OpenLayers.js"></script>
+        <script src="/map.js"></script>
+        
+          
         <style>
             body {
             }
@@ -48,6 +51,7 @@ and open the template in the editor.
             #tagButtons {
                 margin: 0.25em;
                 float: left;
+                display:none;
             }
             #selfButtons {
                 float: right;
@@ -57,6 +61,7 @@ and open the template in the editor.
             #tagButtons div { 
                 float: left; padding: 0.25em; 
                 border: 1px solid gray;
+                
             }
             .tn3 {  font-size: 90%; background-color: #f66;   }
             .tn2 {  font-size: 130%; background-color: orange;    }
@@ -70,6 +75,21 @@ and open the template in the editor.
             }
             #searchInput {
                 margin-top: 0.4em;
+            }
+            .NameHeader {
+                font-size: 150%;
+                border-bottom: 1px solid gray;
+                margin-bottom: 1em;
+            }
+            #KnowledgeChart {
+                max-width: 40%;
+                float: left;
+                margin-top: 2em;
+            }
+            #Map {
+               height: 250px;
+               width: 40%;
+               float: right;
             }
         </style>
         <script>
@@ -86,7 +106,7 @@ and open the template in the editor.
                 
                 var tb = $('#tagButtons');
                 if (cp)  {
-                    tb.show();
+                    tb.fadeIn();
                 }
                 else  {
                     tb.hide();
@@ -140,15 +160,31 @@ and open the template in the editor.
                 var c = $('#content');        
                 c.html('');                
                 
-                c.append('<h1>My Tags</h1>');
+                
+                var np = $('<div/>');
+                np.addClass('NameHeader');
+                np.append('<input type="text" placeholder="Name"/>');
+                np.append("'s Knowledge");
+                c.append(np);
+                
+                var kc = $('<div id="KnowledgeChart"/>');
+                
                 for (var i in tags) {
                     var l = $('<p/>');
                     var ki = $('<a href="/wiki/' + i + '">' + i + '</a>');
                     l.append(ki);
                     l.append(': ' + tagString(tags[i]));
-                    c.append(l);
+                    kc.append(l);
                 }
+                c.append(kc);
+                
                 c.append('<br/>');
+                
+                c.append('<div id="Map"/>');
+                initLocationChooserMap('Map');
+                
+                c.append('<div style="clear: both"/>');
+                
                 c.append('Knowedge Code:');
                 var p = $('<pre>');
                 p.html(JSON.stringify(tags));
@@ -230,12 +266,12 @@ and open the template in the editor.
         <div id="menuwrapper">
             <div id="zertifyMenu">
                 <div id="tagButtons">
-                    <div class="tn3"><a href="#" title="Student">_</a></div>
-                    <div class="tn2"><a href="#">_</a></div>
-                    <div class="tn1"><a href="#">_</a></div>
-                    <div class="tp1"><a href="#">_</a></div>
-                    <div class="tp2"><a href="#">_</a></div>
-                    <div class="tp3"><a href="#" title="Teacher">_</a></div>
+                    <div class="tn3" data-toggle="tooltip" title="Beginner Student"><a href="#">_</a></div>
+                    <div class="tn2" data-toggle="tooltip" title="Intermediate Student"><a href="#">_</a></div>
+                    <div class="tn1" data-toggle="tooltip" title="Collaborating Student"><a href="#">_</a></div>
+                    <div class="tp1" data-toggle="tooltip" title="Collaborating Teacher"><a href="#">_</a></div>
+                    <div class="tp2" data-toggle="tooltip" title="Intermediate Teacher"><a href="#">_</a></div>
+                    <div class="tp3" data-toggle="tooltip" title="Expert Teacher"><a href="#">_</a></div>
                     &nbsp;
                     <button id="tClear"  style="tclear" title="Clear">X</button>
                 </div>
