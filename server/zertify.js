@@ -66,8 +66,7 @@ function returnPage(url, rres, redirector) {
             var $ = cheerio.load(page);
             
             if (redirector)
-                $('#content').append('<div style="display:none" class="WIKIPAGEREDIRECTOR">' + redirector + '</div>');
-            
+                $('#content').append('<div style="display:none" class="WIKIPAGEREDIRECTOR">' + redirector + '</div>');            
             rres.write($('#content').html() || $.html());
             rres.end();
         });

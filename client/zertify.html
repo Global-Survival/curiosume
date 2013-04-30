@@ -26,6 +26,7 @@ and open the template in the editor.
             #content {
                 margin-left: 4em;
                 margin-right: 4em;
+                padding-top: 1em;
             }
             #homecontent {
                 text-align: center;
@@ -55,16 +56,20 @@ and open the template in the editor.
             }
             #tagButtons div { 
                 float: left; padding: 0.25em; 
+                border: 1px solid gray;
             }
-            .tn3 {  font-size: 90%; background-color: red;   }
+            .tn3 {  font-size: 90%; background-color: #f66;   }
             .tn2 {  font-size: 130%; background-color: orange;    }
             .tn1 {  font-size: 170%; background-color: yellow;    }
             .tp1 {  font-size: 170%; background-color: #5f5;    }
-            .tp2 {  font-size: 130%; background-color: #55f;    }
+            .tp2 {  font-size: 130%; background-color: #bbf;    }
             .tp3 {  font-size: 90%; background-color: fuchsia;    }
 
             #selfButtons button {
                 font-size: 120%;
+            }
+            #searchInput {
+                margin-top: 0.4em;
             }
         </style>
         <script>
@@ -74,15 +79,49 @@ and open the template in the editor.
                 l.fadeIn(800);
                 $('#content').html(l); 
             }
+            
+            function updateControls() {
+                var cp = currentPage();                
+                var tc = $('#tClear');
+                
+                var tb = $('#tagButtons');
+                if (cp)  {
+                    tb.show();
+                }
+                else  {
+                    tb.hide();
+                }
+                
+                var v = getTag(currentPage());
+                if (v) {
+                    tc.show();
+                    $('#tagButtons div').html('_');                    
+                         if (v == -3) $('.tn3').html('*');
+                    else if (v == -2) $('.tn2').html('*');    
+                    else if (v == -1) $('.tn1').html('*');    
+                    else if (v == 1)  $('.tp1').html('*');    
+                    else if (v == 2)  $('.tp2').html('*');    
+                    else if (v == 3)  $('.tp3').html('*');    
+                }
+                else {
+                    tc.hide();
+                    $('#tagButtons div').html('_');
+                }
+                
+                $('a[href*="&action=edit"]').remove();
+            }
+            
             function home() {
                 $.get('zertify-home.html', function(h) {
                    $('#content').html(h); 
+                   updateControls();
                 });                
             }
             function go(t) {
                 loading();
                 $.get('/zertify/wiki/' + t, function(r) {
-                   $('#content').html(r);
+                   $('#content').html(r);                   
+                   updateControls();
                 });
             }
             function search(t) {
@@ -94,6 +133,7 @@ and open the template in the editor.
                        rr = rr.html();
                        window.history.pushState(rr, rr, '/wiki/' + rr);
                    }
+                   updateControls();
                 });
             }
             function myself() {
@@ -113,6 +153,8 @@ and open the template in the editor.
                 var p = $('<pre>');
                 p.html(JSON.stringify(tags));
                 c.append(p);
+                
+                updateControls();
             }
             
             
@@ -126,7 +168,7 @@ and open the template in the editor.
             }
             
             function getTag(p) {
-                return localStorage['tags'][p];
+                return tags[p];
             }
             
             var tags = { };
@@ -143,6 +185,7 @@ and open the template in the editor.
                     $.pnotify({ title: p, text: 'Tagged ' + tagString(v)});
                     tags[p] = v;
                     saveTags();
+                    updateControls();
                 }
                 else
                     alert('This page can not be tagged.');
@@ -154,6 +197,7 @@ and open the template in the editor.
                         delete tags[p];
                         $.pnotify({ title: p, text: 'Cleared'});                    
                         saveTags();
+                        updateControls();
                     }
                 }
             }
@@ -193,7 +237,7 @@ and open the template in the editor.
                     <div class="tp2"><a href="#">_</a></div>
                     <div class="tp3"><a href="#" title="Teacher">_</a></div>
                     &nbsp;
-                    <a id="tClear" href="#" style="tclear" title="Clear">X</a>
+                    <button id="tClear"  style="tclear" title="Clear">X</button>
                 </div>
                 <div id="selfButtons">
                     <span>
