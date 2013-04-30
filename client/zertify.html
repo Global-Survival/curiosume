@@ -1,0 +1,102 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Zertify</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="/lib/jquery/jquery.js"></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
+                        
+        <style>
+            body {
+            }
+            h1, h2, p {
+                margin: 0;
+                padding: 0;
+            }
+            #homecontent {
+                text-align: center;
+            }
+            #menuwrapper {
+                margin-bottom: 2.5em;
+            }
+        </style>
+        <style>
+            #zertifyMenu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background-color: #ddd;
+                padding: 0.2em;
+                padding-top: 0;
+                border-bottom: 1px solid black;
+            }
+            #tagButtons {
+                margin: 0.25em;
+                float: left;
+            }
+            #selfButtons {
+                float: right;
+                margin: 0.1em;
+                margin-right: 0.5em;
+            }
+            #tagButtons div { 
+                float: left; padding: 0.25em; 
+            }
+            .tn3 {  background-color: red;   }
+            .tn2 {  background-color: orange;    }
+            .tn1 {  background-color: yellow;    }
+            .tp1 {  background-color: #5f5;    }
+            .tp2 {  background-color: #55f;    }
+            .tp3 {  background-color: fuchsia;    }
+
+            #selfButtons button {
+                font-size: 120%;
+            }
+        </style>
+        <script>
+            function home() {
+                $.get('zertify-home.html', function(h) {
+                   $('#content').html(h); 
+                });                
+            }
+            function go(t) {
+                $.get('/zertify/wiki/' + t, function(r) {
+                   $('#content').html(r);
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div id="menuwrapper">
+            <div id="zertifyMenu">
+                <div id="tagButtons">
+                    <div class="tn3"><a href="#" title="Student">_</a></div>
+                    <div class="tn2"><a href="#">_</a></div>
+                    <div class="tn1"><a href="#">_</a></div>
+                    <div class="tp1"><a href="#">_</a></div>
+                    <div class="tp2"><a href="#">_</a></div>
+                    <div class="tp3"><a href="#" title="Teacher">_</a></div>
+                    <a href="#" style="tclear" title="Clear">X</a>
+                </div>
+                <div id="selfButtons">
+                    <button>☺</button>
+                </div>
+            </div>            
+        </div>
+        <div id="content">
+        </div>
+        <script>
+            $(document).ready(function() {
+                
+                <%=initjs%>
+                
+            });
+        </script>
+            
+    </body>
+</html>

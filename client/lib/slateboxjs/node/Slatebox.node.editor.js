@@ -1,8 +1,18 @@
+
 ﻿(function ($s, $n) {
     $n.fn._editor = function () {
         var _self = this, _tempId = $s.guid().replace("-", ""), lineBreaks = [], _keypress, _submit, _cancel, cursor, ll, _ntfy;
+        
         _self.editing = false;
-        _self.start = function () {
+        
+        _self.start = function() {
+            console.dir(_self._.options.text);
+            /*if ($s.nodeDoubleClicked)
+                $s.nodeDoubleClicked($n);*/
+        };
+        
+        _self.oldStart = function () {
+            
             _self.editing = true;
             _self._.slate.keyboard && _self._.slate.keyboard.end();
 

@@ -1,5 +1,6 @@
 var util = require('../client/util.js');
 
+//http://www.brainpickings.org/index.php/2012/05/10/graphing-jane-austen/
 
 function wordCount(t) {
     //http://stackoverflow.com/questions/4593565/regular-expression-for-accurate-word-count-using-javascript

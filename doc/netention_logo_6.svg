@@ -34,7 +34,7 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="324.48444"
@@ -43,10 +43,11 @@
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1280"
-     inkscape:window-height="937"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1" />
+     inkscape:window-height="991"
+     inkscape:window-x="1280"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     showborder="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -81,8 +82,9 @@
        sodipodi:ry="257.5889"
        d="m 572.7565,423.03714 a 264.65997,257.5889 0 1 1 -529.319946,0 264.65997,257.5889 0 1 1 529.319946,0 z"
        transform="matrix(0.87596056,0,0,0.92905256,95.650051,87.469735)"
-       inkscape:export-xdpi="237.92938"
-       inkscape:export-ydpi="237.92938" />
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png" />
     <text
        xml:space="preserve"
        style="font-size:108.3960495px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#888a85;fill-opacity:1;stroke:none;filter:url(#filter4000);font-family:Sans"
@@ -108,26 +110,27 @@
        sodipodi:ry="257.5889"
        d="m 572.7565,423.03714 a 264.65997,257.5889 0 1 1 -529.319946,0 264.65997,257.5889 0 1 1 529.319946,0 z"
        transform="matrix(0.77866419,0,0,0.82890025,125.33645,128.61089)"
-       inkscape:export-xdpi="237.92938"
-       inkscape:export-ydpi="237.92938" />
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png" />
     <path
        style="fill:#6699cc;stroke:#000000;stroke-width:3.7;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.66517861000000000;stroke-dasharray:none"
        d="m 198.83179,599.70809 88.62739,71.23252 80.58884,16.83133 -58.10716,-48.98076 -23.25193,-73.3688 -7.14286,-162.85715 79.28571,-1.42857 9.28572,158.57143 87.85714,0.71428 -11.42857,-160.71428 -25,-80 -57.5,-44.28571 -56.78571,7.14285 -62.85715,35 -61.2132,70.843 -19.33648,99.76976 z"
        id="path2996"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccccc"
-       inkscape:export-filename="/home/me/path3033-1.png"
-       inkscape:export-xdpi="237.92938"
-       inkscape:export-ydpi="237.92938" />
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <path
        style="fill:#98fc66;fill-opacity:1;stroke:#000000;stroke-width:3.70000005;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:0.66517861;stroke-dasharray:none"
        d="m 531.33178,377.56523 -61.53063,-76.36152 -106.55224,-26.0374 55.97883,41.7583 24.2469,78.49776 7.14286,162.85715 -79.28571,1.42857 -9.28572,-158.57143 -87.85714,-0.71428 11.42857,160.71428 25,80 57.85714,46.42856 56.42857,-9.2857 62.85715,-35 62.72843,-80.94452 13.78064,-99.76977 z"
        id="path2996-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccccccccccc"
-       inkscape:export-filename="/home/me/path3033-1.png"
-       inkscape:export-xdpi="237.92938"
-       inkscape:export-ydpi="237.92938" />
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"
        id="rect3982"
@@ -136,9 +139,9 @@
        x="462.05811"
        y="720.02203"
        ry="0.69512504"
-       inkscape:export-filename="/home/me/g39412.png"
-       inkscape:export-xdpi="151.88"
-       inkscape:export-ydpi="151.88" />
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <rect
        style="fill:#6699cc;fill-opacity:1;stroke:#000000;stroke-width:4.625;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:0.66517861;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3775"
@@ -147,7 +150,10 @@
        x="408.22607"
        y="585.01898"
        ry="0.50319254"
-       transform="matrix(0.99989041,-0.01480443,0.01480443,0.99989041,0,0)" />
+       transform="matrix(0.99989041,-0.01480443,0.01480443,0.99989041,0,0)"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <rect
        style="fill:#6699cc;fill-opacity:1;stroke:#000000;stroke-width:4.62501764;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:0.66517861;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3775-3"
@@ -156,7 +162,10 @@
        x="345.66583"
        y="593.36304"
        ry="0.35519007"
-       transform="matrix(0.99991697,-0.0128865,0.01680357,0.99985881,0,0)" />
+       transform="matrix(0.99991697,-0.0128865,0.01680357,0.99985881,0,0)"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <rect
        style="fill:#98fc66;fill-opacity:1;stroke:#000000;stroke-width:4.625;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:0.66517861;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3775-36"
@@ -165,7 +174,10 @@
        x="255.90294"
        y="-382.24161"
        ry="0.50319254"
-       transform="matrix(0.99996408,-0.00847528,-0.00847528,-0.99996408,0,0)" />
+       transform="matrix(0.99996408,-0.00847528,-0.00847528,-0.99996408,0,0)"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
     <rect
        style="fill:#98fc66;fill-opacity:1;stroke:#000000;stroke-width:4.62501764;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:0.66517861;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3775-3-5"
@@ -174,6 +186,9 @@
        x="343.31882"
        y="-366.97998"
        ry="0.35519007"
-       transform="matrix(0.99983527,0.01815044,0.02206715,-0.99975649,0,0)" />
+       transform="matrix(0.99983527,0.01815044,0.02206715,-0.99975649,0,0)"
+       inkscape:export-filename="/tmp/transparent_netention_icon.png"
+       inkscape:export-xdpi="74.470001"
+       inkscape:export-ydpi="74.470001" />
   </g>
 </svg>
