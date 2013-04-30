@@ -68,36 +68,33 @@ and open the template in the editor.
             }
         </style>
         <script>
+            function loading() {
+                var l = $('<div/>');
+                l.append('<h1>Loading...</h1>');
+                l.fadeIn(800);
+                $('#content').html(l); 
+            }
             function home() {
                 $.get('zertify-home.html', function(h) {
                    $('#content').html(h); 
                 });                
             }
             function go(t) {
+                loading();
                 $.get('/zertify/wiki/' + t, function(r) {
                    $('#content').html(r);
                 });
             }
             function search(t) {
+                loading();
                 $.get('/zertify/search/' + encodeURIComponent(t), function(r) {
                    $('#content').html(r);
+                   var rr = $('#content .WIKIPAGEREDIRECTOR');
+                   if (rr) {                        
+                       rr = rr.html();
+                       window.history.pushState(rr, rr, '/wiki/' + rr);
+                   }
                 });
-                //TODO handle redirect
-                /*
-                $.ajax({
-                    type: "GET",
-                    url: '/zertify/search/' + encodeURIComponent(t),
-                    success: function(data, textStatus) {
-                        if (data.redirect) {
-                            // data.redirect contains the string URL to redirect to
-                            window.location.href = data.redirect;
-                        }
-                        else {
-                            // data.form contains the HTML for the replacement form
-                            $('#content').html(data);
-                        }
-                    }
-                });*/
             }
             function myself() {
                 var c = $('#content');        
@@ -106,7 +103,9 @@ and open the template in the editor.
                 c.append('<h1>My Tags</h1>');
                 for (var i in tags) {
                     var l = $('<p/>');
-                    l.html(i + ': ' + tagString(tags[i]));
+                    var ki = $('<a href="/wiki/' + i + '">' + i + '</a>');
+                    l.append(ki);
+                    l.append(': ' + tagString(tags[i]));
                     c.append(l);
                 }
                 c.append('<br/>');
@@ -171,6 +170,13 @@ and open the template in the editor.
                 $('.tp2').click(function() {  tag(+2); });
                 $('.tp3').click(function() {  tag(+3); });
                 $('#tClear').click(function() { clearTag(); } );
+                
+                $('#searchInput').keypress(function(event) {
+                   if (event.keyCode == 13) {
+                       search($('#searchInput').val());
+                   } 
+                });
+                
                 <%=initjs%>
                 
             });
@@ -192,7 +198,6 @@ and open the template in the editor.
                 <div id="selfButtons">
                     <span>
                         <input id="searchInput" name="search" type="search" size="20" autofocus="autofocus" accesskey="F" results="10"/>
-                        <button onclick="javascript:search($('#searchInput').val())">  →  </button>
                     </span>
                     
                     <button title="Home" onclick="javascript:window.location='/';">⌂</butotn>

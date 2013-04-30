@@ -43,7 +43,7 @@ web.get('/wiki/:tag', function(req, res) {
     sendZertify(res, 'go("' + t + '");');
 });
 
-function returnPage(url, rres) {
+function returnPage(url, rres, redirector) {
     http.get(url, function(res) {
         if (res.statusCode > 300 && res.statusCode < 400 && res.headers.location) {
             // The location for some (most) redirects will only contain the path,  not the hostname;
@@ -51,26 +51,26 @@ function returnPage(url, rres) {
             var u = res.headers.location;
             var pu = u.indexOf('/wiki/');
             if (pu!=-1) {
-                var puu = u.substring(pu + 6);
-                rres.redirect('/wiki/' + puu);                
-            }
-            else {
-                rres.redirect('/');
+                redirector = u.substring(pu + 6);
+                returnPage(u, rres, redirector);
+                return;
             }
         }
-        else {
-            rres.writeHead(200, {'Content-Type': 'text/html' })
+        rres.writeHead(200, {'Content-Type': 'text/html' })
 
-            var page = '';
-            res.on("data", function(chunk) {
-                page = page + chunk;
-            });
-            res.on('end', function() {
-                var $ = cheerio.load(page);
-                rres.write($('#content').html() || $.html());
-                rres.end();
-            });
-        }
+        var page = '';
+        res.on("data", function(chunk) {
+            page = page + chunk;
+        });
+        res.on('end', function() {
+            var $ = cheerio.load(page);
+            
+            if (redirector)
+                $('#content').append('<div style="display:none" class="WIKIPAGEREDIRECTOR">' + redirector + '</div>');
+            
+            rres.write($('#content').html() || $.html());
+            rres.end();
+        });
     })
     /*.on('error', function(e) {
         rres.send("Got error: " + e.message);
