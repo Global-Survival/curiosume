@@ -34,32 +34,59 @@ function sendZertify(res, initialjs) {
 web.get('/', function(req, res){
     sendZertify(res, 'home();');
 });
+web.get('/myself', function(req, res){
+    sendZertify(res, 'myself();');
+});
 
-web.get('/zertify/:tag', function(req, res) {
+web.get('/wiki/:tag', function(req, res) {
     var t = req.params.tag;
     sendZertify(res, 'go("' + t + '");');
 });
 
+function returnPage(url, rres) {
+    http.get(url, function(res) {
+        if (res.statusCode > 300 && res.statusCode < 400 && res.headers.location) {
+            // The location for some (most) redirects will only contain the path,  not the hostname;
+            // detect this and add the host to the path.
+            var u = res.headers.location;
+            var pu = u.indexOf('/wiki/');
+            if (pu!=-1) {
+                var puu = u.substring(pu + 6);
+                rres.redirect('/wiki/' + puu);                
+            }
+            else {
+                rres.redirect('/');
+            }
+        }
+        else {
+            rres.writeHead(200, {'Content-Type': 'text/html' })
+
+            var page = '';
+            res.on("data", function(chunk) {
+                page = page + chunk;
+            });
+            res.on('end', function() {
+                var $ = cheerio.load(page);
+                rres.write($('#content').html() || $.html());
+                rres.end();
+            });
+        }
+    })
+    /*.on('error', function(e) {
+        rres.send("Got error: " + e.message);
+    })*/;    
+}
+
+web.get('/zertify/search/:query', function(req, rres) {
+   var q = req.params.query;
+   returnPage('http://en.wikipedia.org/w/index.php?search=' + q, rres);
+});
+
+
 
 web.get('/zertify/wiki/:tag', function(req, rres) {
     var t = req.params.tag;
-    rres.writeHead(200, {'Content-Type': 'text/html' })
-    http.get("http://en.wikipedia.org/wiki/" + t, function(res) {
-        var page = '';
-        res.on("data", function(chunk) {
-            //rres.send("Got response: " + res.statusCode);
-            //rres.send(chunk);
-            //rres.write(chunk);
-            page = page + chunk;
-        });
-        res.on('end', function() {
-            var $ = cheerio.load(page);
-            rres.write($('#content').html());
-            rres.end();
-        });
-    }).on('error', function(e) {
-        rres.send("Got error: " + e.message);
-    });
+    returnPage("http://en.wikipedia.org/wiki/" + t, rres);
 });
 
 

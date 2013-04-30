@@ -9,6 +9,12 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="/lib/jquery/jquery.js"></script>
         <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
+        <script src='/lib/pnotify/jquery.pnotify.min.js'></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href='/lib/pnotify/jquery.pnotify.default.css' rel="stylesheet" type="text/css" />
+        
                         
         <style>
             body {
@@ -17,14 +23,17 @@ and open the template in the editor.
                 margin: 0;
                 padding: 0;
             }
+            #content {
+                margin-left: 4em;
+                margin-right: 4em;
+            }
             #homecontent {
                 text-align: center;
             }
             #menuwrapper {
-                margin-bottom: 2.5em;
+                margin-bottom: 3.5em;
             }
-        </style>
-        <style>
+            
             #zertifyMenu {
                 position: fixed;
                 top: 0;
@@ -47,12 +56,12 @@ and open the template in the editor.
             #tagButtons div { 
                 float: left; padding: 0.25em; 
             }
-            .tn3 {  background-color: red;   }
-            .tn2 {  background-color: orange;    }
-            .tn1 {  background-color: yellow;    }
-            .tp1 {  background-color: #5f5;    }
-            .tp2 {  background-color: #55f;    }
-            .tp3 {  background-color: fuchsia;    }
+            .tn3 {  font-size: 90%; background-color: red;   }
+            .tn2 {  font-size: 130%; background-color: orange;    }
+            .tn1 {  font-size: 170%; background-color: yellow;    }
+            .tp1 {  font-size: 170%; background-color: #5f5;    }
+            .tp2 {  font-size: 130%; background-color: #55f;    }
+            .tp3 {  font-size: 90%; background-color: fuchsia;    }
 
             #selfButtons button {
                 font-size: 120%;
@@ -69,6 +78,102 @@ and open the template in the editor.
                    $('#content').html(r);
                 });
             }
+            function search(t) {
+                $.get('/zertify/search/' + encodeURIComponent(t), function(r) {
+                   $('#content').html(r);
+                });
+                //TODO handle redirect
+                /*
+                $.ajax({
+                    type: "GET",
+                    url: '/zertify/search/' + encodeURIComponent(t),
+                    success: function(data, textStatus) {
+                        if (data.redirect) {
+                            // data.redirect contains the string URL to redirect to
+                            window.location.href = data.redirect;
+                        }
+                        else {
+                            // data.form contains the HTML for the replacement form
+                            $('#content').html(data);
+                        }
+                    }
+                });*/
+            }
+            function myself() {
+                var c = $('#content');        
+                c.html('');                
+                
+                c.append('<h1>My Tags</h1>');
+                for (var i in tags) {
+                    var l = $('<p/>');
+                    l.html(i + ': ' + tagString(tags[i]));
+                    c.append(l);
+                }
+                c.append('<br/>');
+                c.append('Knowedge Code:');
+                var p = $('<pre>');
+                p.html(JSON.stringify(tags));
+                c.append(p);
+            }
+            
+            
+            function currentPage() {
+                var pn = document.location.pathname;
+                var iw = pn.indexOf('/wiki/');
+                if (iw!=-1) {
+                    return pn.substring(iw + 6);
+                }
+                return null;
+            }
+            
+            function getTag(p) {
+                return localStorage['tags'][p];
+            }
+            
+            var tags = { };
+            
+            function saveTags() {
+                localStorage['tags'] = JSON.stringify(tags);
+            }
+            
+            function tagString(v) { return v; }
+            
+            function tag(v) {
+                var p = currentPage();
+                if (p) {
+                    $.pnotify({ title: p, text: 'Tagged ' + tagString(v)});
+                    tags[p] = v;
+                    saveTags();
+                }
+                else
+                    alert('This page can not be tagged.');
+            }
+            function clearTag() { 
+                var p = currentPage();
+                if (p) {
+                    if (tags[p]) {
+                        delete tags[p];
+                        $.pnotify({ title: p, text: 'Cleared'});                    
+                        saveTags();
+                    }
+                }
+            }
+            
+            $(document).ready(function() {
+                if (localStorage['tags']) {
+                    tags = JSON.parse(localStorage['tags']);
+                }
+                
+                $('.tn3').click(function() {  tag(-3); });
+                $('.tn2').click(function() {  tag(-2); });
+                $('.tn1').click(function() {  tag(-1); });
+                $('.tp1').click(function() {  tag(+1); });
+                $('.tp2').click(function() {  tag(+2); });
+                $('.tp3').click(function() {  tag(+3); });
+                $('#tClear').click(function() { clearTag(); } );
+                <%=initjs%>
+                
+            });
         </script>
     </head>
     <body>
@@ -81,22 +186,22 @@ and open the template in the editor.
                     <div class="tp1"><a href="#">_</a></div>
                     <div class="tp2"><a href="#">_</a></div>
                     <div class="tp3"><a href="#" title="Teacher">_</a></div>
-                    <a href="#" style="tclear" title="Clear">X</a>
+                    &nbsp;
+                    <a id="tClear" href="#" style="tclear" title="Clear">X</a>
                 </div>
                 <div id="selfButtons">
-                    <button>☺</button>
+                    <span>
+                        <input id="searchInput" name="search" type="search" size="20" autofocus="autofocus" accesskey="F" results="10"/>
+                        <button onclick="javascript:search($('#searchInput').val())">  →  </button>
+                    </span>
+                    
+                    <button title="Home" onclick="javascript:window.location='/';">⌂</butotn>
+                    <button title="Myself" onclick="javascript:window.location='/myself';">☺</button>
                 </div>
             </div>            
         </div>
         <div id="content">
         </div>
-        <script>
-            $(document).ready(function() {
-                
-                <%=initjs%>
-                
-            });
-        </script>
             
     </body>
 </html>
