@@ -2,6 +2,38 @@
 Collaborative Consumption services
 	Originally from a diagram by Rachel Botsman @ http://CollaborativeConsumption.com
 	Transcribed to text by Dante Monson
+
+http://www.collaborativeconsumption.com/directory-category
+	CHILDREN 
+		Babysitting​​, ​Clothes​​, ​Gear​​, ​Toys​​
+	ELECTRONICS
+		Appliances​​, ​Camera​​, ​Laptop​​, ​Stereo​​, ​Tablet​​
+	ENTERTAINMENT
+		Books​​, ​Games​​, ​Movies​​, ​Music​​, ​Video Games​​
+	EQUIPMENT
+		Machinery​​, ​Pets​​, ​Photography​​, ​Sports Equipment​​, ​Tools 
+	FASHION
+		Accessories​​, ​Clothes​​, ​Makeup
+	FOOD 
+		Cooking​​, ​Dining​​, ​Garden​​, ​Produce​​, ​Social Dining​​, ​Takeaway
+	HOME 
+		Appliances​​, ​Art​​, ​Furniture​​, ​Tools​​, ​Utilities
+	LEARNING
+		Language​​, ​Skills​​, ​Textbooks​​
+	LEISURE
+		Experiences​​, ​Sports​​
+	LUXURY GOODS
+		Accessories​​, ​Clothes​​, ​Sports​​ 
+	MONEY
+		Crowdfunding​​, ​Currencies​​, ​Insurance​​, ​Investing​​, ​Lending​​, ​Loans​​, ​Payments​​, ​Timebanking
+	SPACES
+		Garden​​, ​Home​​, ​Office​​, ​Parking​​, ​Retail​​, ​Storage​​, ​Venues​​, ​Work 
+	TASKS 
+		Cleaners​​, ​Couriers​​, ​Errands​​, ​Freelance​​, ​Personal Assistants​​, ​Repairs​​, ​Talent​​, ​Timebanking​​
+	TRANSPORT
+		Bikes​​, ​Carpool + Rides​​, ​Cars​​, ​Motorcycles + Scooters​​, ​Taxis​​
+	TRAVEL
+		Accommodation​​, ​Guides​​, ​Host​​, ​Tours
 */
 
 /*
@@ -11,7 +43,7 @@ Redistribution :
 ( craigslist , ebay , gumtree )
 
 - Free / Gift Exchanges
-( freecycle , giftflow , freally , exchango )
+( freecycle , giftflow , freally , exchango, yerdle )
 
 - Swap sites for books
 ( paperbackswap , bookmooch )
@@ -85,7 +117,7 @@ Assets and Services :
 ( Tamyca , Buzzcar , Nachbarschaftsauto , autonetzer , snappcar )
 
 - Errand and Task Networks
-( Zaarly , Airrun , Mytaskanger , Gigwalk , Airtasker , Taskrunner )
+( Zaarly , Airrun , Mytaskanger , Gigwalk , Airtasker , Taskrunner, TaskRabbit )
 
 - Neighborhood Support
 ( Neighborhoodgoods, Share some sugar , Streetbank , Toolzdo )

@@ -1,6 +1,11 @@
 //http://hyperlocavore.ning.com/page/what-is-hyperlocavore-and-yard
-//http://www.farmshares.com/
-
+//http://www.farmshares.com
+//http://sharedearth.com
+//http://www.localharvest.org
+//http://www.ams.usda.gov/AMSv1.0/farmersmarkets
+//http://www.beginningfarmers.org/
+//http://www.farmstandapp.com/
+//https://www.cookening.com/
 
 /*
 What is 'yard sharing or a yard share'?
