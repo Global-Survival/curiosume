@@ -67,14 +67,13 @@
             .tp3 {  font-size: 90%; background-color: fuchsia;    }
 
             #selfButtons button {
-                font-size: 120%;
+                font-size: 250%;
             }
             #searchInput {
                 margin-top: 0.4em;
             }
             .NameHeader {
                 font-size: 150%;
-                border-bottom: 1px solid gray;
                 margin-bottom: 1em;
             }
             #KnowledgeChart {
@@ -211,7 +210,14 @@
                 bio.append(objarea);
                 c.append(bio);
                 
-                c.append('<div id="Map"/>');
+                var saveButton = $('<button>Save</button>');
+                bio.append(saveButton);
+                saveButton.click(function() {
+                   alert('Feature not available yet'); 
+                });
+                
+                var cm = $('<div id="Map"/>');
+                c.append(cm);
                 
                 var location = tags['@'];
                 if (location) {
@@ -222,7 +228,13 @@
                 }
                         
                 var lmap = initLocationChooserMap('Map', location);
-
+                cm.append('<br/>');
+                var locAnon = $('<select><option>Exact Location</option><option>Anonymize 1km</option><option>Anonymize 5km</option><option>No Location</option></select>');
+                locAnon.change(function() {
+                   alert('Feature not available yet'); 
+                });
+                
+                cm.append(locAnon);
                 
                 lmap.onClicked = function(l) {
                     tags['@'] = [ l.lon, l.lat ];
@@ -231,6 +243,8 @@
                 };
                 
                 c.append('<div style="clear: both"/>');
+                c.append('<br/>');
+                c.append('<br/>');
                 
                 var kc = $('<div id="KnowledgeChart"/>');
                 
