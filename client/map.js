@@ -67,10 +67,15 @@ function initLocationChooserMap(target, location, zoom) {
         center(project(new OpenLayers.LonLat(location[1], location[0])));        
     }
     
+    m.onClicked = null;
+    
     m.events.register("click", m, function(e) {
         //var opx = m.getLayerPxFromViewPortPx(e.xy) ;
         var oll = m.getLonLatFromViewPortPx(e.xy);
         center(oll);
+        
+        if (m.onClicked)
+            m.onClicked(unproject(oll));
     });
     
     function unproject(x) {

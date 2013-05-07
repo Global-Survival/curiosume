@@ -1,12 +1,8 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
 <html>
     <head>
         <title>Zertify</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
         <script src="/lib/jquery/jquery.js"></script>
         <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
         <script src='/lib/pnotify/jquery.pnotify.min.js'></script>
@@ -82,17 +78,54 @@ and open the template in the editor.
                 margin-bottom: 1em;
             }
             #KnowledgeChart {
-                max-width: 40%;
-                float: left;
+                width: 80%;
                 margin-top: 2em;
+                margin-left: auto;
+                margin-right: auto;
+                border: 1px solid gray;
+                padding: 2em;
+            }
+            #Bio {
+                float: left;
+                width: 40%;
+            }
+            #Bio textarea {
+                width: 100%;
+                height: 10em;
             }
             #Map {
                height: 250px;
                width: 40%;
                float: right;
             }
+            #KnowledgeCodeLabel {
+                font-size: 150%;
+                margin-top: 1em;
+            }
+            .KnowledgeSectionLabel {
+                font-size: 150%;
+                margin-bottom: 0.4em;
+            }
+            
         </style>
         <script>
+            var levelLabel = {
+                '3': 'Expert Teacher',
+                '2': 'Intermediate Teacher',                
+                '1': 'Collaborating Teacher',
+                '-1': 'Collaborating Student',
+                '-2': 'Intermediate Student',
+                '-3': 'Beginner Student'
+            };
+            var levelColor = {
+                '3': '#f66',
+                '2': 'orange',                
+                '1': 'yellow',
+                '-1': '#5f5',
+                '-2': '#bbf',
+                '-3': 'fuchsia'                
+            };
+            
             function loading() {
                 var l = $('<div/>');
                 l.append('<h1>Loading...</h1>');
@@ -167,25 +200,67 @@ and open the template in the editor.
                 np.append("'s Knowledge");
                 c.append(np);
                 
+                
+                
+                var bio = $('<div id="Bio"/>');
+                
+                //http://en.wikipedia.org/wiki/HResume
+
+                var objarea = $('<textarea id="BioText"></textarea>');
+                objarea.html('objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications ');
+                bio.append(objarea);
+                c.append(bio);
+                
+                c.append('<div id="Map"/>');
+                
+                var location = tags['@'];
+                if (location) {
+                    //HACK swap lat/lon
+                    var m = location[0];
+                    location[0] = location[1];
+                    location[1] = m;                    
+                }
+                        
+                var lmap = initLocationChooserMap('Map', location);
+
+                
+                lmap.onClicked = function(l) {
+                    tags['@'] = [ l.lon, l.lat ];
+                    saveTags();
+                    myself();
+                };
+                
+                c.append('<div style="clear: both"/>');
+                
                 var kc = $('<div id="KnowledgeChart"/>');
                 
-                for (var i in tags) {
-                    var l = $('<p/>');
-                    var ki = $('<a href="/wiki/' + i + '">' + i + '</a>');
-                    l.append(ki);
-                    l.append(': ' + tagString(tags[i]));
-                    kc.append(l);
+                var st = _.groupBy(_.without(_.keys(tags), '@'), function(t) { return tags[t]; });                
+                
+                function displayKnowledgeSection(n, t) {
+                    kc.append('<span class="KnowledgeSectionLabel" style="background-color: ' + levelColor[n] + '">&nbsp;&nbsp;</span>&nbsp;');
+                    kc.append('<span class="KnowledgeSectionLabel">' + levelLabel[n] + '</span>');
+                    for (var x=0; x < t.length; x++) {
+                        var i = t[x];
+                        var l = $('<p/>');
+                        var ki = $('<a href="/wiki/' + i + '">' + i + '</a>');
+                        l.append(ki);
+                        kc.append(l);                    
+                    }
+                    kc.append('<br/>');
                 }
+                
+                if (st[3]) displayKnowledgeSection(3, st[3]);
+                if (st[2]) displayKnowledgeSection(2, st[2]);
+                if (st[1]) displayKnowledgeSection(1, st[1]);
+                if (st[-1]) displayKnowledgeSection(-1, st[-1]);
+                if (st[-2]) displayKnowledgeSection(-2, st[-2]);
+                if (st[-3]) displayKnowledgeSection(-3, st[-3]);
+                
                 c.append(kc);
                 
                 c.append('<br/>');
                 
-                c.append('<div id="Map"/>');
-                initLocationChooserMap('Map');
-                
-                c.append('<div style="clear: both"/>');
-                
-                c.append('Knowedge Code:');
+                c.append('<div id="KnowledgeCodeLabel">Knowedge Code:</div>');
                 var p = $('<pre>');
                 p.html(JSON.stringify(tags));
                 c.append(p);
