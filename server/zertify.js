@@ -28,7 +28,7 @@ var oneYear = 31557600000;
 
 
 function sendZertify(res, initialjs) {
-   res.send( _.template(fs.readFileSync('./client/zertify.html', 'utf8'), { initjs: initialjs } ) );    
+   res.send( _.template(fs.readFileSync('./client/skill.html', 'utf8'), { initjs: initialjs } ) );    
 }
 
 web.get('/', function(req, res){

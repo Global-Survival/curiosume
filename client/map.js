@@ -34,8 +34,11 @@ function initLocationChooserMap(target, location, zoom) {
         div: target,
         projection: fromProjection,
         displayProjection: toProjection,
-        numZoomLevels: 9
-    });
+        numZoomLevels: 9,
+		maxExtent: [-18924313.432222, -15538711.094146, 18924313.432222, 15538711.094146],
+		restrictedExtent: [-13358338.893333, -9608371.5085962, 13358338.893333, 9608371.5085962],
+		center: [-12356463.476333, 5621521.4854095]
+	    });
     var mapnik = new OpenLayers.Layer.OSM();
     var vector = new OpenLayers.Layer.Vector("Editable Vectors", {});
     m.vector = vector;

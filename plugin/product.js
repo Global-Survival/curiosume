@@ -8,4 +8,7 @@ Product and sales related
 --Shipping
 --Status
 
+http://wiki.goodrelations-vocabulary.org/Cookbook/Schema.org
+
+
 */

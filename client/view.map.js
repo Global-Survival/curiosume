@@ -26,6 +26,7 @@ function getKMLLayer(kmlurl) {
     });
 }
 
+
 function renderMap(s, o, v) {
     var e = uuid();
     $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
@@ -48,7 +49,6 @@ function renderMap(s, o, v) {
     if (!location)
         location = [0,0];
     
-    var defaultZoomLevel = 9;
     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
     var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
@@ -56,19 +56,24 @@ function renderMap(s, o, v) {
     var m = new OpenLayers.Map({
         div: target,
         projection: fromProjection,
-        displayProjection: toProjection,
-        numZoomLevels: 12
+        displayProjection: toProjection
+        //numZoomLevels: 12
     });
     
     
     var mapnik = new OpenLayers.Layer.OSM();
-    var vector = new OpenLayers.Layer.Vector("Editable Vectors", {});
+    var aerial = new OpenLayers.Layer.OSM("Open Aerial", ["http://otile1.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile2.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile3.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg",
+                        "http://otile4.mqcdn.com/tiles/1.0.0/sat/${z}/${x}/${y}.jpg"]);
+
+    var vector = new OpenLayers.Layer.Vector("Vectors", {});
     var markers =  new OpenLayers.Layer.Markers( "Markers" );
     
     m.vector = vector;
     
     m.addLayers([
-        mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
+        aerial, mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
 
     
@@ -94,6 +99,8 @@ function renderMap(s, o, v) {
     }
     
     m.targetLocation = m.getCenter();
+
+    m.addControl( new OpenLayers.Control.LayerSwitcher() );
 
     var select = new OpenLayers.Control.SelectFeature([vector], {
         toggle: true,
@@ -291,3 +298,5 @@ function renderMap(s, o, v) {
 
     
 }
+
+

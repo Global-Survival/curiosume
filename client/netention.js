@@ -30,7 +30,7 @@ function later(f) {
 
 
 function loadScripts(f) {
-    loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
+    /*loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
     loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
 
 	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
@@ -46,7 +46,7 @@ function loadScripts(f) {
     loadCSS('/map.css');
     loadCSS('/object.css');
     
-    loadCSS('/index.css', 'only screen and (min-device-width: 641px)');
+    loadCSS('/index.css', 'only screen and (min-device-width: 641px)');*/
  
     //https://github.com/rgrove/lazyload/
 	$.getScript('/lib/lazyload.js', function() {

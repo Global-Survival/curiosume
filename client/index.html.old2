@@ -1,29 +1,15 @@
+
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta charset="utf-8">
-    <title>Netention Redux a.02</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="SeH / Jim Lee / Revlin">
-    <meta name="robots" content="noindex, nofollow, noarchive">
-
-    <!-- CSS -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/minified/jquery-ui.min.css" rel="stylesheet">
-    <link href="/netention.css" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-    <![endif]-->
-
-    
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+<html>
+    <head>
+        <title>Netention</title>
         
-        <script src="/netention.js" type="text/javascript"></script> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <link rel="icon" href="/icon/netention_icon.png" type="image/x-icon" sizes="16x16">
+
+        <script src="/lib/jquery/jquery.js"></script>
+        <script src="netention.js"></script> 
+        
         
         <script>
             "use strict";
@@ -88,35 +74,10 @@
             }
             
             var updateView;
-
-	    function expandEditor(b) {
-		if (!b) {
-                        //hide it
-                        $('#SelfTarget').hide();
-                        $('#FocusMainMenu').hide();
-		}
-		else {
-                	//show it
-        	        $('#SelfTarget').show();
-        	        $('#FocusMainMenu').show();
-		}
-	    };
-		
-	   function setMainMenuVisible(b) {
-		if (!b) {
-                        //hide it
-                        $('#MainMenuDrop').hide();
-		}
-		else {
-                	//show it
-                        $('#MainMenuDrop').show();
-		}
-	   };
             
             function initUI(self) {
-				
                 $('body').timeago();
-				expandEditor(false);
+                
                 updateView = _.throttle(_updateView, 150);
 
                 self.on('change:attention', function() {
@@ -125,12 +86,7 @@
                     });
                 }); 
                 
-                $('#ToggleMainMenuDrop').click(function() {
-		    var mainMenuVisible = $('#MainMenuDrop').is(':visible');
-                    setMainMenuVisible(!mainMenuVisible);
-		});
-		setMainMenuVisible(false);
-				
+                
                 self.on('change:currentView', function() {
                     later(function() {
                         updateView();
@@ -146,12 +102,25 @@
 
                 $('#FocusToggleButton').click(function() {
                     var focusShown = $('#SelfTarget').is(':visible');
-		    expandEditor(!focusShown);
+                    if (focusShown) {
+                        //hide it
+                        $('#SelfTarget').hide();
+                        $('#DataTarget').addClass('DataTargetFull');
+                        $('#ViewSelect').addClass('ViewSelectIndented');
+                        $('#FocusMainMenu').hide();
+                    }
+                    else {
+                        //show it
+                        $('#DataTarget').removeClass('DataTargetFull');
+                        $('#ViewSelect').removeClass('ViewSelectIndented');
+                        $('#SelfTarget').show();
+                        $('#FocusMainMenu').show();
+                    }
                     updateView();
                 });
                 
-				$('.nav .viz .btn').click(function(x) {  
-				    var b = $(this);
+                $('#ViewSelect button').click(function(x) {
+                    var b = $(this);
                     var v = b.attr('id');
                     self.set('currentView', v);
                 });
@@ -211,7 +180,7 @@
                 }
 
                 
-                var msgs = [ 'Revolutionary', 'Extraordinary', 'Bodacious', 'Scrumptious', 'Delicious' ];
+                var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
         		function updatePrompt() {
     				var l = msgs[parseInt(Math.random() * msgs.length)];
     				$('.nameInput').attr('placeholder', l + '...');					
@@ -314,7 +283,7 @@
                     window.self.clear();
             }
             
-
+            
             $(document).ready(function(){
             
 			    netention(function(self) {
@@ -439,141 +408,120 @@
                     });
                                         
                     
-	       });
+			    });
                 
             });
+   
         </script>
-
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/icon/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/icon/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/icon/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/icon/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/icon/favicon.png">
-  </head>
-
-  <body>
-  
-<!-- Fixed navbar -->
-
-     <div class="container">
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-              <ul class="nav">
-                <li id="MainMenu" class="dropdown">
-                              <a id="ToggleMainMenuDrop" class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><b class="icon-user"></b></a>
-                              <ul id="MainMenuDrop" class="dropdown-menu" aria-labelledby="dLabel">
-                                <li><a href="/#/me"><img alt="me" src="assets/ico/ID-clip.png"/>Me</a></li>
-                                <li><a href="/#/example"><img alt="example" src="assets/ico/chipcard-active.png"/>Example Object</a></li>
-                                <li><a href="/tests.html"><img alt="system tests" src="assets/ico/vote.png"/>System Tests</a></li>
-                                <li><a href="/#/trends"><img alt="trends" src="assets/ico/report.png"/>Trends</a></li>
-                                <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="assets/ico/workflow.png"/>Plugins</a></li>
-                                    <!-- <li><a href="/#/team"><img alt="team" src="assets/ico/user-group.png"/>Team</a></li> -->
-                                    <!--<li><a href="/#/new">New</a></li><br/>-->
-                                    <!-- <li><a href="/#/tags"><img alt="tags: src="assets/ico/back-to-ou.png"/>Tags</a></li> -->
-                               <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="theme" src="assets/ico/function.png"/>Theme</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="javascript:setTheme('cv3d')">Matrix (red)</a></li>
-                                        <li><a href="javascript:setTheme('bright')">Bright</a></li>
-                                        <li><a href="javascript:setTheme('dark')">Dark</a></li>
-                                        <li><a href="javascript:setTheme('space')">Space</a></li>
-                                        <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
-                                        <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
-                                        <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="options" src="assets/ico/manage.png"/>Options</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Listen to all Channels</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Silence</a></li>
-                                        <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
-                                    </ul>
-                                </li>
-                                <li class="divider"></li>
-                                <li><div id="ViewOptions"></div></li>
-                                <li><div id="ViewSelect" class="ViewSelectNormal"></div></li>
-                                <li class="divider"></li>
-                                <li><a href="/login.html">Login</a></li>
-                                <li><a href="/logout">Logout</a></li>
-                                <li class="divider"></li>
-                                <li><a href="/#/help">Help</a></li>
-                                
-                              </ul>
-                              <!-- <a class="btn" href="#">Location</a> -->
-                	</li>
-                	<li><a class="btn" id='toggle-main-menu' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
-                </ul>
-            <a class="brand" href="#">Netention</a>
-            <div class="nav-collapse collapse">
-              <ul class="nav">
-                    <li class="viz"><a class="btn" id="map" title="Display Map" href="#"><b class="icon-globe"></b></a></li>
-                    <li class="viz"><a class="btn" id="grid" title="Display Grid" href="#"><b class="icon-th"></b></a></li>
-                    <li class="viz"><a class="btn" id="list" title="Display List" href="#"><b class="icon-th-list"></b></a></li>
-                    <li class="viz"><a class="btn" id="time" title="Display Timeline" href="#"><b class="icon-time"></b></a></li>
-                    <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
-                    <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
-                    <li class="viz"><a class="btn" id="graph" title="Display Graph" href="#"><b class="icon-random"></b></a></li>
-                    <li class="viz"><a class="btn" id="trends" title="Display Trends" href="#"><b class="icon-signal"></b></a></li>
+        
+        <style>
+	    </style>    
+        
+        
+    </head>
+    
+    <body>
+        <div id="ContentArea" style="display:none">
+            <div id="MenuWrapper">
+                <span id="MainMenu" class="dropdown">
+                  <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><i class="icon-user"></i></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <!--<li><a href="/#/new">New</a></li>
+                    <br/>-->
+                    <li><a href="/#/me"><img src="/icon/rrze/emblems/ID-clip.png"/>Me</a></li>
+                    <li><a href="/#/example"><img src="/icon/rrze/emblems/chipcard-active.png"/>Example Object</a></li>
+                    <li><a href="/tests.html"><img src="/icon/rrze/emblems/vote.png"/>System Tests</a></li>
+                    <!-- <li><a href="/#/team"><img src="/icon/rrze/categories/user-group.png"/>Team</a></li>
+                    <li><a href="/#/trends"><img src="/icon/rrze/emblems/report.png"/>Trends</a></li> -->
+                    <!-- <li><a href="/#/tags"><img src="/icon/rrze/actions/back-to-ou.png"/>Tags</a></li> -->
+                    <li><a href="/plugins.html" target="_blank"><img src="/icon/rrze/emblems/workflow.png"/>Plugins</a></li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/emblems/function.png"/>Theme</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:setTheme('bright')">Bright</a></li>
+                            <li><a href="javascript:setTheme('dark')">Dark</a></li>
+                            <li><a href="javascript:setTheme('space')">Space</a></li>
+                            <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
+                            <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
+                            <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="#"><img src="/icon/rrze/actions/manage.png"/>Options</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Listen to all Channels</a></li>
+                            <li><a href="#">Silence</a></li>
+                            <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
+                        </ul>
+                    </li>
+                    <br/>
+                    <li><a href="/login.html">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <br/>
+                    <li><a href="/#/help">Help</a></li>
+                    
                   </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
-      </div>
-
-<!-- HIDDEN UNTIL LOADED -->
-
-<div id="ContentArea" class="container" style="display:none">
- 
-<!-- ADD CONTENT PANEL -->
-
-
-<!-- DISPLAY LAYERS -->
-
-    	    <div id="DataTarget">
-            <div id="SelfTarget" class="ui-corner-all" refactorToID="FocusEdit">
- 			<h1>Add Content</h1>
-               <div id="FocusMainMenu">
+                  <!-- <a class="btn" href="#">Location</a> -->
+                </span>            
+                                    
+                <button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button>
+                
+                <span id="FocusMainMenu">
                     <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
-                    <div class="btn-group">
+                    <span class="btn-group">
                         <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
                         <button title="Add Description" id="AddDescriptionButton"><i class="icon-pencil"></i></button>                
-                        <button title="Add Location" id="AddLocationButton"><i class="icon-globe"></i></button>
+                        <button title="Add Location"id="AddLocationButton"><i class="icon-globe"></i></button>
                         <button title="Upload" type="button" data-toggle="modal" data-target="#UploadModal"><i class="icon-file"></i></button>                
                         <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
-                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
                         <ul class="dropdown-menu">
                             <li><a href="javascript:">Save Privately...</a></li>
-                            <li class="divider"></li>
+                            <hr/>
                             <li><a href="javascript:showEditedFocus();">Export...</a></li>
                             <li><a href="javascript:cloneFocus();">Clone...</a></li>
                             <li><a href="javascript:deleteFocus();">Delete</a></li>
                         </ul>
-                    </div>
-                </div>
-                <div id="Focus"></div>
+                    </span>
+                </span>
             </div>
-            	<div id="View"></div>
-    	    </div>
+            <div id="SelfTarget" refactorToID="FocusEdit">
+                    
+                <div id="Focus">
+                </div>
+                
+            </div>
             
-<!-- END HIDDEN UNTIL LOADED -->
-</div>
-
-<!-- LOADING SCREEN -->
-
-        <div id="LoadingSplash">        
-            <p style="font-size: 500%; text-align: center; margin-top: 50px;"><img alt="Loading... please wait a moment." src="/icon/load.gif" ></p>
+    	    <div id="DataTarget" class="DataTargetNormal">
+                <div>
+                    <span id="ViewSelect" class="ViewSelectNormal">
+                        
+                      <button id='grid' title="Grid"><i class="icon-th"></i></button>
+                      <button id='list' title="List"><i class="icon-th-list"></i></button>
+                      <button id='map' title="Map"</a><i class="icon-globe"></i></button>
+                      <button id='time' title="Time"><i class="icon-time"></i></button>
+                      <button id='slides'  title="Slides"><i class="icon-play"></i></button>
+                      <button id='graph'  title="Graph"><i class="icon-random"></i></button>
+                      <button id='trends'  title="Trends"><i class="icon-signal"></i></button>
+                        
+                    </span>
+                    <span id="ViewOptions">
+                        
+                    </span>
+                </div>
+                <div id="View">
+                    
+                </div>
+             
+    	    </div>
         </div>
 
-<!-- UI LAYERS -->
-
+        <div id="LoadingSplash">        
+            <p style="font-size: 500%; text-align: center; margin-top: 3em;">&#8987;</p>
+        </div>
+        
         <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
 
             <h2>Select Tags</h2>
@@ -581,6 +529,7 @@
             
             <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
+        
         <div id="UploadModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
             <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
                 <p>File:
@@ -598,5 +547,6 @@
             
             <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
-  </body>
+    
+    </body>
 </html>

@@ -1,0 +1,1185 @@
+/* CSS Document */
+
+ul.wysihtml5-toolbar {
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+ul.wysihtml5-toolbar::after {
+	clear: both;
+	display: table;
+	content: "";
+}
+
+ul.wysihtml5-toolbar > li {
+	float: left;
+	display: list-item;
+	list-style: none;
+	margin: 0 5px 10px 0;
+}
+
+ul.wysihtml5-toolbar a[data-wysihtml5-command=bold] {
+	font-weight: bold;
+}
+
+ul.wysihtml5-toolbar a[data-wysihtml5-command=italic] {
+	font-style: italic;
+}
+
+ul.wysihtml5-toolbar a[data-wysihtml5-command=underline] {
+	text-decoration: underline;
+}
+
+ul.wysihtml5-toolbar a.btn.wysihtml5-command-active {
+	background-image: none;
+	-webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+	background-color: #E6E6E6;
+	background-color: #D9D9D9;
+	outline: 0;
+}
+
+ul.wysihtml5-commands-disabled .dropdown-menu {
+	display: none !important;
+}
+
+ul.wysihtml5-toolbar div.wysihtml5-colors {
+  display:block;
+  width: 50px;
+  height: 20px;
+  margin-top: 2px;
+  margin-left: 5px;
+  position: absolute;
+  pointer-events: none;
+}
+
+ul.wysihtml5-toolbar a.wysihtml5-colors-title {
+  padding-left: 70px;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="black"] {
+  background: black !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="silver"] {
+  background: silver !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="gray"] {
+  background: gray !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="maroon"] {
+  background: maroon !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="red"] {
+  background: red !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="purple"] {
+  background: purple !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="green"] {
+  background: green !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="olive"] {
+  background: olive !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="navy"] {
+  background: navy !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="blue"] {
+  background: blue !important;
+}
+
+ul.wysihtml5-toolbar div[data-wysihtml5-command-value="orange"] {
+  background: orange !important;
+}
+
+/*******************************************************************************
+ * Tree container
+ */
+ul.dynatree-container
+{
+	font-family: tahoma, arial, helvetica;
+//	font-size: 10pt; /* font size should not be too big */
+	white-space: nowrap;
+	padding: 3px;
+	margin: 0; /* issue 201 */
+	background-color: rgba(255,255,255,0.5);
+/*	border: 1px dotted gray;*/
+	overflow: auto;
+	height: 100%; /* issue 263 */
+}
+
+ul.dynatree-container ul
+{
+	padding: 0 0 0 16px;
+	margin: 0;
+}
+
+ul.dynatree-container li
+{
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	-moz-background-clip:border;
+	-moz-background-inline-policy: continuous;
+	-moz-background-origin: padding;
+	background-attachment: scroll;
+	background-color: transparent;
+	background-repeat: repeat-y;
+	background-image: url("vline.gif");
+	background-position: 0 0;
+	/*
+	background-image: url("icons_96x256.gif");
+	background-position: -80px -64px;
+	*/
+	margin: 0;
+	padding: 1px 0 0 0;
+}
+/* Suppress lines for last child node */
+ul.dynatree-container li.dynatree-lastsib
+{
+	background-image: none;
+}
+/* Suppress lines if level is fixed expanded (option minExpandLevel) */
+ul.dynatree-no-connector > li
+{
+	background-image: none;
+}
+
+/* Style, when control is disabled */
+.ui-dynatree-disabled ul.dynatree-container
+{
+	opacity: 0.5;
+/*	filter: alpha(opacity=50); /* Yields a css warning */
+	background-color: silver;
+}
+
+/*******************************************************************************
+ * Common icon definitions
+ */
+span.dynatree-empty,
+span.dynatree-vline,
+span.dynatree-connector,
+span.dynatree-expander,
+span.dynatree-icon,
+span.dynatree-checkbox,
+span.dynatree-radio,
+span.dynatree-drag-helper-img,
+#dynatree-drop-marker
+{
+	width: 16px;
+	height: 16px;
+/*	display: -moz-inline-box; /* @ FF 1+2 removed for issue 221 */
+/*	-moz-box-align: start; /* issue 221 */
+	display: inline-block; /* Required to make a span sizeable */
+	vertical-align: top;
+	background-repeat: no-repeat;
+	background-position: left;
+	background-image: url("icons.gif");
+	background-position: 0 0;
+}
+
+/** Used by 'icon' node option: */
+ul.dynatree-container img
+{
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	vertical-align: top;
+	border-style: none;
+}
+
+
+/*******************************************************************************
+ * Lines and connectors
+ */
+
+span.dynatree-connector
+{
+	background-position: -16px -64px;
+}
+
+/*******************************************************************************
+ * Expander icon
+ * Note: IE6 doesn't correctly evaluate multiples class names,
+ *		 so we create combined class names that can be used in the CSS.
+ *
+ * Prefix: dynatree-exp-
+ * 1st character: 'e': expanded, 'c': collapsed
+ * 2nd character (optional): 'd': lazy (Delayed)
+ * 3rd character (optional): 'l': Last sibling
+ */
+
+span.dynatree-expander
+{
+	background-position: 0px -80px;
+	cursor: pointer;
+}
+.dynatree-exp-cl span.dynatree-expander /* Collapsed, not delayed, last sibling */
+{
+	background-position: 0px -96px;
+}
+.dynatree-exp-cd span.dynatree-expander /* Collapsed, delayed, not last sibling */
+{
+	background-position: -64px -80px;
+}
+.dynatree-exp-cdl span.dynatree-expander /* Collapsed, delayed, last sibling */
+{
+	background-position: -64px -96px;
+}
+.dynatree-exp-e span.dynatree-expander,  /* Expanded, not delayed, not last sibling */
+.dynatree-exp-ed span.dynatree-expander  /* Expanded, delayed, not last sibling */
+{
+	background-position: -32px -80px;
+}
+.dynatree-exp-el span.dynatree-expander,  /* Expanded, not delayed, last sibling */
+.dynatree-exp-edl span.dynatree-expander  /* Expanded, delayed, last sibling */
+{
+	background-position: -32px -96px;
+}
+.dynatree-loading span.dynatree-expander  /* 'Loading' status overrides all others */
+{
+	background-position: 0 0;
+	background-image: url("loading.gif");
+}
+
+
+/*******************************************************************************
+ * Checkbox icon
+ */
+span.dynatree-checkbox
+{
+	margin-left: 3px;
+	background-position: 0px -32px;
+}
+span.dynatree-checkbox:hover
+{
+	background-position: -16px -32px;
+}
+
+.dynatree-partsel span.dynatree-checkbox
+{
+	background-position: -64px -32px;
+}
+.dynatree-partsel span.dynatree-checkbox:hover
+{
+	background-position: -80px -32px;
+}
+
+.dynatree-selected span.dynatree-checkbox
+{
+	background-position: -32px -32px;
+}
+.dynatree-selected span.dynatree-checkbox:hover
+{
+	background-position: -48px -32px;
+}
+
+/*******************************************************************************
+ * Radiobutton icon
+ * This is a customization, that may be activated by overriding the 'checkbox'
+ * class name as 'dynatree-radio' in the tree options.
+ */
+span.dynatree-radio
+{
+	margin-left: 3px;
+	background-position: 0px -48px;
+}
+span.dynatree-radio:hover
+{
+	background-position: -16px -48px;
+}
+
+.dynatree-partsel span.dynatree-radio
+{
+	background-position: -64px -48px;
+}
+.dynatree-partsel span.dynatree-radio:hover
+{
+	background-position: -80px -48px;
+}
+
+.dynatree-selected span.dynatree-radio
+{
+	background-position: -32px -48px;
+}
+.dynatree-selected span.dynatree-radio:hover
+{
+	background-position: -48px -48px;
+}
+
+/*******************************************************************************
+ * Node type icon
+ * Note: IE6 doesn't correctly evaluate multiples class names,
+ *		 so we create combined class names that can be used in the CSS.
+ *
+ * Prefix: dynatree-ico-
+ * 1st character: 'e': expanded, 'c': collapsed
+ * 2nd character (optional): 'f': folder
+ */
+
+span.dynatree-icon /* Default icon */
+{
+	margin-left: 3px;
+	background-position: 0px 0px;
+}
+
+.dynatree-ico-cf span.dynatree-icon  /* Collapsed Folder */
+{
+	background-position: 0px -16px;
+}
+
+.dynatree-ico-ef span.dynatree-icon  /* Expanded Folder */
+{
+	background-position: -64px -16px;
+}
+
+/* Status node icons */
+
+.dynatree-statusnode-wait span.dynatree-icon
+{
+	background-image: url("loading.gif");
+}
+
+.dynatree-statusnode-error span.dynatree-icon
+{
+	background-position: 0px -112px;
+/*	background-image: url("ltError.gif");*/
+}
+
+/*******************************************************************************
+ * Node titles
+ */
+
+/* @Chrome: otherwise hit area of node titles is broken (issue 133)
+   Removed again for issue 165; (133 couldn't be reproduced) */
+span.dynatree-node
+{
+/*	display: -moz-inline-box; /* issue 133, 165, 172, 192. removed for issue 221*/
+/*	-moz-box-align: start; /* issue 221 */
+/*  display: inline-block; /* Required to make a span sizeable */
+}
+
+
+/* Remove blue color and underline from title links */
+ul.dynatree-container a
+/*, ul.dynatree-container a:visited*/
+{
+	color: black; /* inherit doesn't work on IE */
+	text-decoration: none;
+	vertical-align: top;
+	margin: 0px;
+	margin-left: 3px;
+/*	outline: 0; /* @ Firefox, prevent dotted border after click */
+}
+
+ul.dynatree-container a:hover
+{
+/*	text-decoration: underline; */
+	background-color: #F2F7FD; /* light blue */
+	border-color: #B8D6FB; /* darker light blue */
+}
+
+span.dynatree-node a
+{
+	display: inline-block; /* Better alignment, when title contains <br> */
+/*	vertical-align: top;*/
+	padding-left: 3px;
+	padding-right: 3px; /* Otherwise italic font will be outside bounds */
+	/*	line-height: 16px; /* should be the same as img height, in case 16 px */
+}
+span.dynatree-folder a
+{
+	font-weight: bold;
+}
+
+ul.dynatree-container a:focus,
+span.dynatree-focused a:link  /* @IE */
+{
+	background-color: #EFEBDE; /* gray */
+}
+
+span.dynatree-has-children a
+{
+}
+
+span.dynatree-expanded a
+{
+}
+
+span.dynatree-selected a
+{
+	color: green;
+	font-style: italic;
+}
+
+span.dynatree-active a
+{
+	background-color: rgba(35,35,255,0.1) !important;
+	/*color: white !important;*/ /* @ IE6 */
+}
+
+/*******************************************************************************
+ * Drag'n'drop support
+ */
+
+/*** Helper object ************************************************************/
+div.dynatree-drag-helper
+{
+}
+div.dynatree-drag-helper a
+{
+	border: 1px solid gray;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+	opacity: 0.8;
+}
+span.dynatree-drag-helper-img
+{
+	/*
+	position: relative;
+	left: -16px;
+	*/
+}
+div.dynatree-drag-helper /*.dynatree-drop-accept*/
+{
+
+/*    border-color: green;
+	background-color: red;*/
+}
+div.dynatree-drop-accept span.dynatree-drag-helper-img
+{
+	background-position: -32px -112px;
+}
+div.dynatree-drag-helper.dynatree-drop-reject
+{
+	border-color: red;
+}
+div.dynatree-drop-reject span.dynatree-drag-helper-img
+{
+	background-position: -16px -112px;
+}
+
+/*** Drop marker icon *********************************************************/
+
+#dynatree-drop-marker
+{
+	width: 24px;
+	position: absolute;
+	background-position: 0 -128px;
+	margin: 0;
+/*	border: 1px solid red; */
+}
+#dynatree-drop-marker.dynatree-drop-after,
+#dynatree-drop-marker.dynatree-drop-before
+{
+	width:64px;
+	background-position: 0 -144px;
+}
+#dynatree-drop-marker.dynatree-drop-copy
+{
+	background-position: -64px -128px;
+}
+#dynatree-drop-marker.dynatree-drop-move
+{
+	background-position: -64px -128px;
+}
+
+/*** Source node while dragging ***********************************************/
+
+span.dynatree-drag-source
+{
+	/* border: 1px dotted gray; */
+	background-color: #e0e0e0;
+}
+span.dynatree-drag-source a
+{
+	color: gray;
+}
+
+/*** Target node while dragging cursor is over it *****************************/
+
+span.dynatree-drop-target
+{
+	/*border: 1px solid gray;*/
+}
+span.dynatree-drop-target a
+{
+}
+span.dynatree-drop-target.dynatree-drop-accept a
+{
+	/*border: 1px solid green;*/
+	background-color: #3169C6 !important;
+	color: white !important; /* @ IE6 */
+	text-decoration: none;
+}
+span.dynatree-drop-target.dynatree-drop-reject
+{
+	/*border: 1px solid red;*/
+}
+span.dynatree-drop-target.dynatree-drop-after a
+{
+}
+
+
+/*******************************************************************************
+ * Custom node classes (sample)
+ */
+
+span.custom1 a
+{
+	background-color: maroon;
+	color: yellow;
+}
+
+
+div.olMapViewport {
+     z-index: 1;
+}
+
+.focusMap {
+    width: 98%;
+    height: 18em;
+}
+.objectView {
+	padding: 0.25em;
+	margin-bottom: 0.5em;
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(top right, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+	border-left: 5px solid rgba(0,0,0,0.5);
+    clear: both;
+}
+.objectGridItem {
+    width: 20%;
+    clear:none;
+    float: left;
+    margin: 1em;
+    overflow: none;
+	z-index:2;
+}
+
+.objectGridItem .ObjectViewHideButton {
+    position:relative;
+    margin-top:-2em;
+	z-index:2;
+}
+
+
+.objectView h1 {
+	font-size: 125%;
+	font-weight: bold;
+    line-height: 1.0em;
+    margin-bottom: 2px;
+	z-index:2;
+}
+.objectView h2 {
+	font-size: 115%;
+	font-weight: normal;
+	margin: 0;
+    line-height: 1.2em;
+	z-index:2;
+}
+.objectView h3 {
+	font-size: 70%;
+	font-weight: normal;
+	color: #333;
+	margin: 0;
+    line-height: 1.2em;
+	z-index:2;
+}
+
+.objectView ul {
+    list-style-type: none;    
+    margin-bottom: 0.2em;
+    padding-left: 0;
+    margin-left: 0;
+	z-index:2;
+}
+.objectView ul li {
+    padding: 0.3em;
+    font-size: 110%;
+    font-weight: bold;
+	z-index:2;
+}
+
+
+.objectView h3, .objectView p, .objectView time {
+    padding-left: 10px;
+    padding-top: 5px;
+	z-index:2;
+}
+.objectView img {
+    max-height: 12em;
+	z-index:2;
+}
+
+.MessageSubject {
+    width: 100%;
+    font-size: 125%;
+	z-index:2;
+}
+.MessageDescription {
+    width: 98%;	
+	z-index:2;
+}
+
+.ObjectReply {
+    margin-left: 2em;
+    margin-top: 0.2em;
+    font-size: 80%;
+	z-index:2;
+}
+
+.TypePropertyButtons {
+	padding-left: 0.25em;	
+	padding-top: 0.15em;
+	padding-bottom: 0.25em;
+}
+.TypePropertyButtons button {
+	font-size: 60%;
+	padding: 0.25em;
+}
+
+.PropertyArea {
+	margin-left: 2em;
+	font-size: 75%;	
+	z-index:2;
+}
+
+.DataViewMenu {
+	background-color: black;
+	margin-bottom: 0.25em;
+	height: 35px;
+	z-index:2;
+}
+.TypesMenuButtons {
+	height: 35px;
+	background: black;
+}
+.PropertyEdit {
+	margin-bottom: 0.25em;
+}
+.PropertyEdit textarea {
+	width: 100%;
+}
+.AvatarIcon {
+	padding: 5px;	
+	float: left;
+}
+.AvatarIcon img {
+	height: 2em;
+}
+.ObjectViewHideButton {
+    display:inline;
+    float:right;
+}
+.DataSubViewMenu {
+	margin-left: 2em;
+	float: right;
+	color: white;
+}
+.ContentScroll {
+	overflow: auto;	
+}
+#teamContent {
+    width: 100%;
+    overflow: none;
+    height: 95%;
+}
+
+.DataViewFilter {
+	background: transparent;
+	color: white;	
+}
+div.olMapViewport {
+     z-index: 1;
+}
+
+
+#CurrentInterests {
+    clear: both;
+}
+#InterestsBar {
+    clear: both;
+}
+
+.InterestItem {
+    margin-bottom: 0.3em;
+    
+    padding: 0.2em;
+    border-right: 5px solid rgba(125,25,0,0.5);
+	padding-bottom: 1.0em;	
+
+/*
+   -webkit-transition:border-color 2.618s ease-in;  
+   -moz-transition:border-color 2.618s ease-in;  
+   -o-transition:border-color 2.618s ease-in;*/  
+
+	-webkit-transition:background-color 0.618s ease-in;  
+   -moz-transition:background-color 0.618s ease-in;  
+   -o-transition:background-color 0.618s ease-in;  
+
+}
+.interestSelected {
+	border-color: rgba(255, 0, 0, 0.75);	
+   -webkit-transition:border-color 0.618s ease-in;  
+   -moz-transition:border-color 0.618s ease-in;  
+   -o-transition:border-color 0.618s ease-in;  
+}
+
+/* http://www.quackit.com/css/css_color_codes.cfm */
+.interestItem25 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #000;
+    font-size: 96%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear; 
+   color: #333;  
+
+}
+.interestItem50 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #463544;
+    font-size: 110%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #222;  
+}
+.interestItem75 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #5B468D;
+    font-size: 140%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 1.618s linear;  
+   -o-transition:border-color 1.618s linear;  
+   color: #111;  
+}
+.interestItem100 {
+    background-color: rgba(235,235,235,0.8);
+    background-image: -webkit-linear-gradient(bottom left, rgba(255,255,255,0.8) 0%, rgba(235,235,235,0.8) 100%);
+    border-right: 5px solid #358DD4;
+    font-size: 180%;
+    vertical-align: top;
+   -webkit-transition:border-color 2.618s linear;  
+   -moz-transition:border-color 2.618s linear;  
+   -o-transition:border-color 2.618s linear;
+   color: #000;  
+}
+
+.SelfBarSection {
+	padding: 0.5em;
+}
+
+#Profile {
+    clear:both;
+}
+
+.ImportanceButtons {
+	float: right;
+	position: relative;
+	top:0;
+}
+
+.ImportanceButtons button {
+	padding: 2px;
+	margin: 0;
+	border-left: 0;
+	border-top: 0;
+	border-bottom: 0;
+	border-width: 2px;
+	height: 20px;
+}
+
+
+.nameInput {
+	width: 98%;
+	font-size: 150%;
+}
+.idLabel {
+    font-size: 70%;
+    opacity: 0.7;
+    line-height: 70%;
+}
+
+		.valueInput {
+			width: 95%;
+			font-size: 125%;
+			margin-bottom: 0.4em;
+		}
+		
+		.updateButton {
+			font-weight: bold;
+		}
+		
+		.eBottom {
+			border-top: 1px solid gray;
+			clear: both;
+			float: right;
+			width: 100%;
+			text-align: right;
+		}
+		.typeCollapsible {
+			margin-left: 1em;
+		}
+		.typeMenu {
+			float: left;
+			width: 32%;
+		}
+		.valueArea {
+			overflow: auto;
+			width: 63%;
+			float: right;
+			margin-top: 0.5em;
+		}
+
+.PropertyEdit input[type="checkbox"] {
+}
+
+.ReplyWidget textarea {
+    width: 98%;
+    height: 5em;
+}
+
+.tagSection {
+    width: 100%;
+    margin-bottom: 1.5em;
+}
+
+.tagDescription {
+    width: 95%;
+}
+
+.tagLabel {
+    float: left;
+    font-weight: bold;
+    font-size: 125%;
+}
+.tagLabel img {
+    height: 1em;
+    margin-right: 0.25em;
+}
+
+.tag25 { opacity: 0.7; font-size: 70%  }
+.tag50 { opacity: 0.8; font-size: 80%  }
+.tag75 { opacity: 0.9; font-size: 90%  }
+.tag100 { opacity: 1.0; font-size: 100%  }
+
+.tagButtons {
+    font-weight: bold;
+    position: relative;
+    right: 0;
+    float: right;
+    opacity: 0.5;
+}
+.tagButton {
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+.MetadataLine {
+    opacity: 0.8;
+    clear: both;
+}
+.MetadataLine img {
+    height: 1em;
+    padding-right: 0.2em;
+}
+/*
+.MetadataLine img:hover {
+    height: 2em;
+}*/
+
+#FocusTypes img {
+    height: 1em;
+    margin-right: 0.2em;
+}
+
+.tagSlider {
+    float: right;
+    width: 70%;
+}
+.tagSliderLabel {
+    clear: both;
+    float: left;
+    width: 25%;
+    font-weight: bold;
+}
+
+ .ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  
+  
+.trendTagLabel {
+    float: left;
+    width: 24em;
+}
+.trendTagLabel img {
+    height: 1em;
+}
+.trendTagCount {
+    float: left;
+    width: 6em;
+}
+//much of this needs moved to their own .css files.  until then, this
+// is a very diverse collection of styles
+
+#LoadingSplash {
+    position: fixed;
+    width: 95%;
+    height: 90%;
+    left: auto;
+    top: auto;
+    background-color: white;
+}
+
+#LoadingSplash h1 {
+    text-align: center;
+}
+
+
+.ui-pnotify.stack-bottomleft {
+    		bottom: 25px;
+			left: 25px;
+			top: auto;
+			right: auto;
+		}
+        
+
+
+#Menu {
+	display: none;
+}
+
+#ViewSelect {
+}
+.ViewSelectNormal {
+}
+.ViewSelectIndented {
+    padding-left: 50px;
+}
+
+#ViewSelect {
+    float: left;
+}
+#ViewOptions {
+    text-align: right;
+    float: right;
+    padding-top: 0.5em;
+    width: 60%;
+}
+#Focus {
+    width: 98%;
+}
+.FocusSection {
+    padding: 0.2em;
+    border-right: 5px solid rgba(125,25,0,0.5);
+
+	-webkit-transition:background-color 0.618s ease-in;  
+   -moz-transition:background-color 0.618s ease-in;  
+   -o-transition:background-color 0.618s ease-in;  
+
+}
+
+#focusName, #focusDescription {
+    width: 100%;
+}
+#SaveButtonWrapper {
+    /* text-align: right; */
+    float: right;
+    margin-top: 1em;
+}
+#View {
+    clear: both;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.map {
+    width: 100%;
+    height: 200px;
+}
+
+#FocusName, #FocusDescription {
+    width: 97%;
+}
+#FocusDescriptionSection, #FocusMapSection {
+    
+    
+}
+#FocusMapSection, #FocusUploadSection, .FocusSection {
+    margin-top: 1.0em;
+}
+
+
+#MenuWrapper {
+    margin-bottom: 1.5em;
+    z-index: 500;
+}
+#MenuWrapper img {
+    padding-right: 1.0em;
+}
+#ViewOptions select {
+    width: auto;
+}
+.PropertyRemoveButton {
+    float: right;
+}
+#MenuWrapper {
+    position: fixed;
+	width:100px;
+}
+
+#FocusModeSelect {
+    width: auto;
+    margin-top: 4px;
+    padding: 1px;
+}
+#ui-dialog { 
+	z-index:2000 !important;
+}
+
+#TypeSelectModal {
+    width: 75%;
+    height: 75%;
+    left: auto;
+    top: auto;
+    padding: 1em;
+    margin-left: auto;
+	z-index:2000;
+}
+            
+#TypeSelectModalTree {
+    max-height: 80%;
+    overflow: auto;
+}
+#TypeSelectModalTree button {
+    margin: 1em;
+}
+
+.TagTree {
+    font-size: 160%;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+.tagSuggestions {
+    margin: 1em;
+    max-height: 8em;
+    overflow: auto;
+}
+#MatchedTypes button {
+    margin: 0.2em;
+    opacity: 0.5;
+    font-size: 80%;
+    font-variant: italic;
+}
+#main-menu {
+	position: absolute;
+	top:0;
+	left:0;
+	margin:0;
+	padding:0;
+	width:100%;
+	height:32px;
+	z-index:50000;
+	background:#FFF;
+}
+.main-menu-open {
+	margin:0;
+	padding:0;
+	display:block;
+	z-index:50000;
+	width:100%;
+	height:40px;
+	background:#FFF;
+}
+.main-menu-close {
+	width:0px;
+	height:0px;
+}
+
+#footer-span {position:absolute; bottom:5px; right:5px; float:right; }
+#footer-brand { height:32px; width:32px; margin:5px 10px; }
+#ViewSelect { float:left; margin-right:10px; }
+
+#ontop {z-index:50000 !important; }
+
+#ContentArea {
+position: absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+height: 100%;
+width:100%;
+z-index:1;
+}
+#DataTarget, #View {
+position: relative;
+height: 100%;
+width:100%;
+z-index:1;
+}
+#ContentArea {
+	margin-top:40px;
+margin-bottom:-40px;
+}
+#View { position: relative }
+
+#DataTarget {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#SelfTarget {
+position: absolute;
+bottom:20px;
+left:40px;
+text-align:center;
+width:100%;
+height:auto;
+padding:15px;
+margin:0;
+display:block;
+max-width:500px !important;
+max-height:500px !important;
+overflow-y: auto;
+overflow-x: hidden;
+z-index:3;
+background:#FFF;
+}
+#SelfTarget h1 {
+font-size:20px;
+margin: 5px auto;
+display:block;
+clear:both;
+}
+#FocusMainMenu {margin: 0px auto 10px auto; display:block;}
+
+.ui-dialog { z-index:2000 !important; }
