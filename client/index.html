@@ -259,6 +259,9 @@
                 else if (view == 'grid') {
                     renderGrid(s, o, v);
                 }
+                else if (view == 'self') {
+                    renderSelf(s, o, v);
+                }
                 else {
                     v.html('Unknown view: ' + view);                    
                 }
@@ -516,14 +519,15 @@
             <a class="brand" href="#"></a>
             <div class="nav-collapse collapse">
               <ul class="nav">
-                    <li class="viz"><a class="btn" id="map" title="Display Map" href="#"><b class="icon-globe"></b></a></li>
-                    <li class="viz"><a class="btn" id="grid" title="Display Grid" href="#"><b class="icon-th"></b></a></li>
-                    <li class="viz"><a class="btn" id="list" title="Display List" href="#"><b class="icon-th-list"></b></a></li>
-                    <li class="viz"><a class="btn" id="time" title="Display Timeline" href="#"><b class="icon-time"></b></a></li>
+                    <li class="viz"><a class="btn" id="map" title="Map" href="#"><b class="icon-globe"></b></a></li>
+                    <li class="viz"><a class="btn" id="grid" title="Grid" href="#"><b class="icon-th"></b></a></li>
+                    <li class="viz"><a class="btn" id="list" title="List" href="#"><b class="icon-th-list"></b></a></li>
+                    <li class="viz"><a class="btn" id="time" title="Timeline" href="#"><b class="icon-time"></b></a></li>
                     <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
                     <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
-                    <li class="viz"><a class="btn" id="graph" title="Display Graph" href="#"><b class="icon-random"></b></a></li>
-                    <li class="viz"><a class="btn" id="trends" title="Display Trends" href="#"><b class="icon-signal"></b></a></li>
+                    <li class="viz"><a class="btn" id="graph" title="Graph" href="#"><b class="icon-random"></b></a></li>
+                    <li class="viz"><a class="btn" id="trends" title="Trends" href="#"><b class="icon-signal"></b></a></li>
+                    <li class="viz"><a class="btn" id="self" title="Self" href="#"><b class="icon-home"></b></a></li>
                   </ul>
             </div><!--/.nav-collapse -->
           </div>

@@ -1159,7 +1159,7 @@ margin-bottom:-40px;
 
 #FocusEdit {
     border: 1px solid gray;
-position: absolute;
+position: fixed;
 bottom:20px;
 left:40px;
 text-align:center;

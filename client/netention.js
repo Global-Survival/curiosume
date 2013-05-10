@@ -90,6 +90,7 @@ function loadScripts(f) {
                         '/view.trends.js',
                         '/view.slides.js',
                         '/view.graph.js',
+                        '/view.self.js',
                         
 		                ];
 		

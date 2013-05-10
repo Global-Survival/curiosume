@@ -34,7 +34,36 @@ http://www.collaborativeconsumption.com/directory-category
 		Bikes​​, ​Carpool + Rides​​, ​Cars​​, ​Motorcycles + Scooters​​, ​Taxis​​
 	TRAVEL
 		Accommodation​​, ​Guides​​, ​Host​​, ​Tours
-*/
+
+http://meshing.it/
+    accessories & gifts
+    books & writing
+    business & innovation
+    careers, jobs & vocation
+    creativity, media & the arts
+    diy
+    education
+    energy
+    entertainment
+    farming & gardening
+    fashion & clothing
+    finance & economics
+    food & drink
+    government
+    health & fitness
+    home improvement
+    kids' stuff
+    marketing services
+    mobility
+    natural resources & environment
+    real estate
+    seasonal & holidays
+    technology & data
+    travel
+    upcycling & recycling
+ 
+ 
+ **/
 
 /*
 Redistribution :
