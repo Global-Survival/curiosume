@@ -37,7 +37,6 @@ function loadScripts(f) {
 	    
 	loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
             
-    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
     
     //loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
     
@@ -47,6 +46,8 @@ function loadScripts(f) {
     loadCSS('/object.css');
     
     loadCSS('/index.css', 'only screen and (min-device-width: 641px)');*/
+
+    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
  
     //https://github.com/rgrove/lazyload/
 	$.getScript('/lib/lazyload.js', function() {

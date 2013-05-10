@@ -1157,7 +1157,8 @@ margin-bottom:-40px;
     overflow-x: hidden;
 }
 
-#SelfTarget {
+#FocusEdit {
+    border: 1px solid gray;
 position: absolute;
 bottom:20px;
 left:40px;

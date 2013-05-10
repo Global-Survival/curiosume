@@ -92,12 +92,12 @@
 	    function expandEditor(b) {
 		if (!b) {
                         //hide it
-                        $('#SelfTarget').hide();
+                        $('#FocusEdit').hide();
                         $('#FocusMainMenu').hide();
 		}
 		else {
                 	//show it
-        	        $('#SelfTarget').show();
+        	        $('#FocusEdit').show();
         	        $('#FocusMainMenu').show();
 		}
 	    };
@@ -145,7 +145,7 @@
                 });
 
                 $('#FocusToggleButton').click(function() {
-                    var focusShown = $('#SelfTarget').is(':visible');
+                    var focusShown = $('#FocusEdit').is(':visible');
 		    expandEditor(!focusShown);
                     updateView();
                 });
@@ -509,7 +509,7 @@
                               </ul>
                               <!-- <a class="btn" href="#">Location</a> -->
                 	</li>
-                	<li><a class="btn" id='toggle-main-menu' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
+                	<li><a class="btn" id='FocusToggleButton' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
                 </ul>
             <a class="brand" href="#">Netention</a>
             <div class="nav-collapse collapse">
@@ -538,8 +538,7 @@
 <!-- DISPLAY LAYERS -->
 
     	    <div id="DataTarget">
-            <div id="SelfTarget" class="ui-corner-all" refactorToID="FocusEdit">
- 			<h1>Add Content</h1>
+            <div id="FocusEdit" class="ui-corner-all" refactorToID="FocusEdit">
                <div id="FocusMainMenu">
                     <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
                     <div class="btn-group">
