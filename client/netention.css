@@ -109,7 +109,7 @@ ul.wysihtml5-toolbar div[data-wysihtml5-command-value="orange"] {
 ul.dynatree-container
 {
 	font-family: tahoma, arial, helvetica;
-//	font-size: 10pt; /* font size should not be too big */
+/*	font-size: 10pt;*/ /* font size should not be too big */
 	white-space: nowrap;
 	padding: 3px;
 	margin: 0; /* issue 201 */
