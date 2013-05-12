@@ -150,8 +150,8 @@
                     updateView();
                 });
                 
-				$('.nav .viz .btn').click(function(x) {  
-				    var b = $(this);
+		$('.nav .viz .btn').click(function(x) {  
+		    var b = $(this);
                     var v = b.attr('id');
                     self.set('currentView', v);
                 });
@@ -225,6 +225,8 @@
                 updateTagTree();
             }
                         
+            var lastView = null;
+            
             function _updateView() {
                 var s = window.self;
                 
@@ -233,6 +235,10 @@
                 s.saveLocal();
                 
                 var view = s.get('currentView');
+                if (lastView==view)
+                   return;
+               
+                lastView = view;
                 
 
                 var o = $('#ViewOptions');

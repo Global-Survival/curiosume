@@ -1131,7 +1131,7 @@ div.olMapViewport {
 #ontop {z-index:50000 !important; }
 
 #ContentArea {
-position: absolute;
+position: fixed;
 top:0;
 left:0;
 right:0;
@@ -1139,16 +1139,13 @@ bottom:0;
 height: 100%;
 width:100%;
 z-index:1;
+padding-top:50px;
 }
 #DataTarget, #View {
 position: relative;
 height: 100%;
 width:100%;
 z-index:1;
-}
-#ContentArea {
-	margin-top:40px;
-margin-bottom:-40px;
 }
 #View { position: relative }
 
@@ -1184,3 +1181,32 @@ clear:both;
 #FocusMainMenu {margin: 0px auto 10px auto; display:block;}
 
 .ui-dialog { z-index:2000 !important; }
+
+.SelfView {
+    height: 100%;
+    width: 100%;    
+}
+.SelfViewSide {
+    width: 25%;
+    float: left;
+    padding: 1.0em;
+}
+.SelfViewContent {
+    width: 70%;
+    float: right;
+    padding:1.0em;
+}
+.SelfViewSide button {
+    width: 100%;
+    float: right;
+    margin: 0.3em;
+}
+#Bio {
+    width: 50%;
+    float: left;
+}
+#SelfMap  {
+    width: 40%;
+    height: 250px;
+    float: right;
+}

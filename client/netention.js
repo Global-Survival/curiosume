@@ -192,7 +192,7 @@ function netention(f) {
             getProperty : function(p) { return this.properties()[p]; },
             
             setObject : function(o) {
-                var i = o.uri;
+                var i = o.id;
                 this.objects()[i] = o;
                 return o;  
             },
@@ -203,7 +203,6 @@ function netention(f) {
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 
-                var dl = [0.0];
                 if (!o) {
                     o = objNew('Self-' + this.id(), 'Anonymous');
                     objAddTag(o, 'Human');
