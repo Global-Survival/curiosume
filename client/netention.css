@@ -1146,6 +1146,7 @@ position: relative;
 height: 100%;
 width:100%;
 z-index:1;
+border: none;
 }
 #View { position: relative }
 
@@ -1210,3 +1211,5 @@ clear:both;
     height: 250px;
     float: right;
 }
+.navbar, .navbar-inner {z-index:20000 !important;}
+.nav-collapse, .collapse {z-index:20000 !important;}

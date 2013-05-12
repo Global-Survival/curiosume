@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en"><head>
     <meta charset="utf-8">
-    <title>Netention Redux a.02</title>
+    <title>Netention Redux alpha v.003</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="SeH / Jim Lee / Revlin">
     <meta name="robots" content="noindex, nofollow, noarchive">
 
     <!-- CSS -->
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/minified/jquery-ui.min.css" rel="stylesheet">
-    <link href="/netention.css" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
-
+	<style type="text/css">
+      @import url("lib/bootstrap/2.3.1/css/bootstrap.min.css");
+      @import url("lib/bootstrap/2.3.1/css/bootstrap-responsive.min.css");
+      @import url("lib/jquery-ui/1.10.3/themes/base/minified/jquery-ui.min.css");
+      @import url("netention.css");
+    </style>
+    <link href="lib/jquery-ui/1.10.3/themes/ui-darkness/jquery-ui.min.css" rel="stylesheet">
+    
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="assets/js/html5shiv.js"></script>
     <![endif]-->
 
     
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="lib/jquery/2.0.0/jquery-2.0.0.min.js" type="text/javascript"></script>
+        <script src="lib/jquery-ui/1.10.3/ui/minified/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="lib/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
         
-        <script src="/netention.js" type="text/javascript"></script> 
+        <script src="netention.js" type="text/javascript"></script> 
         
         <script>
             "use strict";
@@ -150,8 +153,8 @@
                     updateView();
                 });
                 
-		$('.nav .viz .btn').click(function(x) {  
-		    var b = $(this);
+			$('.viz a').click(function(x) {
+				    var b = $(this);
                     var v = b.attr('id');
                     self.set('currentView', v);
                 });
@@ -235,8 +238,8 @@
                 s.saveLocal();
                 
                 var view = s.get('currentView');
-                if (lastView==view)
-                   return;
+                /*if (lastView==view)
+                   return;*/
                
                 lastView = view;
                 
@@ -317,7 +320,7 @@
                 }                
                 
                 $('#themecss').remove();                
-                $('head').append('<link id="themecss" href="/theme/' + t + '.css" type="text/css" rel="stylesheet"/>');
+                $('head').append('<link id="themecss" href="lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css" type="text/css" rel="stylesheet"/>');
             }
             
             function confirmClear() {
@@ -453,14 +456,24 @@
 	       });
                 
             });
+			
+			
+		$(document).ready(function() {
+			$('ul#display-menu li a').hover(
+				  function() { $(this).addClass('ui-state-hover'); },
+				  function() { $(this).removeClass('ui-state-hover'); }
+			);
+			/*$( "#buttonset" ).buttonset();*/
+		});
+
         </script>
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/icon/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/icon/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/icon/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/icon/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/icon/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="icon/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="icon/favicon.png">
   </head>
 
   <body>
@@ -469,7 +482,7 @@
 
      <div class="container">
       <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
+        <div class="navbar-inner ui-widget-header">
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -477,30 +490,47 @@
             </button>
               <ul class="nav">
                 <li id="MainMenu" class="dropdown">
-                              <a id="ToggleMainMenuDrop" class="btn dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><b class="icon-user"></b></a>
+                              <a id="ToggleMainMenuDrop" class="ui-button dropdown-toggle" data-toggle="dropdown" href="#" title="Main"><b class="icon-user"></b></a>
                               <ul id="MainMenuDrop" class="dropdown-menu" aria-labelledby="dLabel">
-                                <li><a href="/#/me"><img alt="me" src="assets/ico/ID-clip.png"/>Me</a></li>
-                                <li><a href="/#/example"><img alt="example" src="assets/ico/chipcard-active.png"/>Example Object</a></li>
-                                <li><a href="/tests.html"><img alt="system tests" src="assets/ico/vote.png"/>System Tests</a></li>
-                                <li><a href="/#/trends"><img alt="trends" src="assets/ico/report.png"/>Trends</a></li>
-                                <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="assets/ico/workflow.png"/>Plugins</a></li>
-                                    <!-- <li><a href="/#/team"><img alt="team" src="assets/ico/user-group.png"/>Team</a></li> -->
+                                <li><a href="/#/me"><img alt="me" src="icon/ID-clip.png"/>Me</a></li>
+                                <li><a href="/#/example"><img alt="example" src="icon/chipcard-active.png"/>Example Object</a></li>
+                                <li><a href="/tests.html"><img alt="system tests" src="icon/vote.png"/>System Tests</a></li>
+                                <li><a href="/#/trends"><img alt="trends" src="icon/report.png"/>Trends</a></li>
+                                <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="icon/workflow.png"/>Plugins</a></li>
+                                    <!-- <li><a href="/#/team"><img alt="team" src="icon/user-group.png"/>Team</a></li> -->
                                     <!--<li><a href="/#/new">New</a></li><br/>-->
-                                    <!-- <li><a href="/#/tags"><img alt="tags: src="assets/ico/back-to-ou.png"/>Tags</a></li> -->
+                                    <!-- <li><a href="/#/tags"><img alt="tags: src="icon/back-to-ou.png"/>Tags</a></li> -->
                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="theme" src="assets/ico/function.png"/>Theme</a>
+                                    <a tabindex="-1" href="#"><img alt="theme" src="icon/function.png"/>Theme</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="javascript:setTheme('cv3d')">Matrix (red)</a></li>
-                                        <li><a href="javascript:setTheme('bright')">Bright</a></li>
-                                        <li><a href="javascript:setTheme('dark')">Dark</a></li>
-                                        <li><a href="javascript:setTheme('space')">Space</a></li>
-                                        <li><a href="javascript:setTheme('cybernetic')">Cybernetic</a></li>
-                                        <li><a href="javascript:setTheme('notebook')">Notebook</a></li>
-                                        <li><a href="javascript:setTheme('rainforest')">Rainforest</a></li>
+                                        <li><a href="javascript:setTheme('black-tie')">Black Tie</a></li>
+                                        <li><a href="javascript:setTheme('blitzer')">Blitzer</a></li>
+                                        <li><a href="javascript:setTheme('cupertino')">Cupertino</a></li>
+                                        <li><a href="javascript:setTheme('dark-hive')">Dark Hive</a></li>
+                                        <li><a href="javascript:setTheme('dot-luv')">Dot Luv</a></li>
+                                        <li><a href="javascript:setTheme('eggplant')">Eggplant</a></li>
+                                        <li><a href="javascript:setTheme('excite-bike')">Excite Bike</a></li>
+                                        <li><a href="javascript:setTheme('flick')">Flick</a></li>
+                                        <li><a href="javascript:setTheme('hot-sneaks')">Hot Sneaks</a></li>
+                                        <li><a href="javascript:setTheme('humanity')">Humanity</a></li>
+                                        <li><a href="javascript:setTheme('le-frog')">Le Frog</a></li>
+                                        <li><a href="javascript:setTheme('mint-choc')">Mint Chocolate</a></li>
+                                        <li><a href="javascript:setTheme('overcast')">Overcast</a></li>
+                                        <li><a href="javascript:setTheme('pepper-grinder')">Pepper Grinder</a></li>
+                                        <li><a href="javascript:setTheme('redmond')">Redmond</a></li>
+                                        <li><a href="javascript:setTheme('smoothness')">Smoothness</a></li>
+                                        <li><a href="javascript:setTheme('south-street')">South Street</a></li>
+                                        <li><a href="javascript:setTheme('start')">Start</a></li>
+                                        <li><a href="javascript:setTheme('sunny')">Sunny</a></li>
+                                        <li><a href="javascript:setTheme('swanky-purse')">Swanky Purse</a></li>
+                                        <li><a href="javascript:setTheme('trontastic')">Trontastic</a></li>
+                                        <li><a href="javascript:setTheme('ui-darkness')">UI Darkness</a></li>
+                                        <li><a href="javascript:setTheme('ui-lightness')">UI Lightness</a></li>
+                                        <li><a href="javascript:setTheme('vader')">Vader</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="options" src="assets/ico/manage.png"/>Options</a>
+                                    <a tabindex="-1" href="#"><img alt="options" src="icon/manage.png"/>Options</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">Listen to all Channels</a></li>
                                         <li class="divider"></li>
@@ -520,20 +550,20 @@
                               </ul>
                               <!-- <a class="btn" href="#">Location</a> -->
                 	</li>
-                	<li><a class="btn" id='FocusToggleButton' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
+                	<li><a class="ui-button" id='FocusToggleButton' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
                 </ul>
             <a class="brand" href="#"></a>
             <div class="nav-collapse collapse">
-              <ul class="nav">
-                    <li class="viz"><a class="btn" id="map" title="Map" href="#"><b class="icon-globe"></b></a></li>
-                    <li class="viz"><a class="btn" id="grid" title="Grid" href="#"><b class="icon-th"></b></a></li>
-                    <li class="viz"><a class="btn" id="list" title="List" href="#"><b class="icon-th-list"></b></a></li>
-                    <li class="viz"><a class="btn" id="time" title="Timeline" href="#"><b class="icon-time"></b></a></li>
+              <ul id="display-menu" class="nav">
+                    <li class="viz"><a class="ui-button" id="map" title="Map" href="#"><b class="icon-globe"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="grid" title="Grid" href="#"><b class="icon-th"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="list" title="List" href="#"><b class="icon-th-list"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="time" title="Timeline" href="#"><b class="icon-time"></b></a></li>
                     <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
                     <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
-                    <li class="viz"><a class="btn" id="graph" title="Graph" href="#"><b class="icon-random"></b></a></li>
-                    <li class="viz"><a class="btn" id="trends" title="Trends" href="#"><b class="icon-signal"></b></a></li>
-                    <li class="viz"><a class="btn" id="self" title="Self" href="#"><b class="icon-home"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="graph" title="Graph" href="#"><b class="icon-random"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="trends" title="Trends" href="#"><b class="icon-signal"></b></a></li>
+                    <li class="viz"><a class="ui-button" id="self" title="Self" href="#"><b class="icon-home"></b></a></li>
                   </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -571,7 +601,7 @@
                 </div>
                 <div id="Focus"></div>
             </div>
-            	<div id="View"></div>
+            	<div id="View" class="ui-widget-content"></div>
     	    </div>
             
 <!-- END HIDDEN UNTIL LOADED -->

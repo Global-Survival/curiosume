@@ -47,51 +47,35 @@ function loadScripts(f) {
     
     loadCSS('/index.css', 'only screen and (min-device-width: 641px)');*/
 
-    loadCSS('/lib/pnotify/jquery.pnotify.default.css');
+    loadCSS('lib/pnotify/jquery.pnotify.default.css');
  
     //https://github.com/rgrove/lazyload/
-	$.getScript('/lib/lazyload.js', function() {
+	$.getScript('lib/lazyload.js', function() {
 		
-	var scripts = [     "/socket.io/socket.io.js", 
-//		                'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
-		                
-                        "http://openlayers.org/dev/OpenLayers.js",
-                        
-                        //NEEDED FOR CHRONOZOOM:
-		                "http://code.jquery.com/ui/jquery-ui-git.js",
-                        
-		                "/lib/jQuery-URL-Parser/purl.js",
+	var scripts = [     'socket.io/socket.io.js', 
+                        'http://openlayers.org/dev/OpenLayers.js',
+		                'http://code.jquery.com/ui/jquery-ui-git.js',
+		                'lib/jQuery-URL-Parser/purl.js',
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js',
                         'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
-                        
-                        "http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap.min.js",
                         'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js',
-
-                        '/lib/pnotify/jquery.pnotify.min.js',
-                        
-                        //"http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
-
-		                "/util.js", "/map.js", "/object.js", '/icons.js', '/ontosearch.js', '/example_object.js',
-                        
+                        'lib/pnotify/jquery.pnotify.min.js',
+		                'util.js', 'map.js', 'object.js', 'icons.js', 'ontosearch.js', 'example_object.js',
+                        'lib/timeago/timeago.js',
+                        'lib/jquery-form/jquery.form.js',
+                        "lib/dynatree/jquery.dynatree.min.js",
+                        'view.map.js',
+                        'view.grid.js',
+                        'view.list.js',
+                        'view.trends.js',
+                        'view.slides.js',
+                        'view.graph.js',
+                        'view.self.js',
+						//'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
                         //"/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
-
-                        //"/lib/wysihtml5/bootstrap-wysihtml5.js",
-                        
-                        '/lib/timeago/timeago.js',
-                        '/lib/jquery-form/jquery.form.js',
-                        
-                        "/lib/dynatree/jquery.dynatree.min.js",
-
-                        '/view.map.js',
+                        //"http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
                         //'/view.map.cesium.js',
-                        
-                        '/view.grid.js',
-                        '/view.list.js',
-                        '/view.trends.js',
-                        '/view.slides.js',
-                        '/view.graph.js',
-                        '/view.self.js',
-                        
+                        //"/lib/wysihtml5/bootstrap-wysihtml5.js",
 		                ];
 		
 		LazyLoad.js(scripts, f);
@@ -230,6 +214,7 @@ function netention(f) {
                 socket.on('reconnect', function() {
                      /*$.pnotify({
                         title: 'Reconnected'
+
                      }); */
                      init();
                 });                
@@ -466,6 +451,7 @@ function netention(f) {
                                 p.push(y.id);
                         }
                         else {
+
                             replies[y.replyTo] = [ y.id ];
                         }
                     }
