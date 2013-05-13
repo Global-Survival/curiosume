@@ -486,7 +486,14 @@ exports.start = function(host, port, database, init) {
 
         console.log(x);
         logMemory.push(msg);
+   }
+   
+    function sendRDF(res, g) {
+        res.writeHead(200, {'content-type': 'text/json'});
+        //N-Triples
+        res.end(g.toNT());        
     }
+
     function sendJSON(res, x, pretty) {
         res.writeHead(200, {'content-type': 'text/json'});
         var p;
@@ -671,7 +678,49 @@ exports.start = function(host, port, database, init) {
     express.get('/users/json', function(req, res) {
        res.redirect('/tag/User/json');        
     });
-
+    express.get('/users/skill/rdf', function(req, res) {
+        var rdfstore = require('rdfstore');
+        rdfstore.create(function(store) {
+             var exampleQuery = 
+                    'PREFIX n: <http://netention.org/>\
+                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
+                     PREFIX : <' + Server.host + '/>\
+                     INSERT DATA {\
+                     :alice\
+                         rdf:type        n:Person ;\
+                         n:name       "Alice" ;\
+                         n:mbox       <mailto:alice@work> ;\
+                         n:knows      :bob ;\
+                         .\
+                     :bob\
+                         rdf:type        n:Person ;\
+                         n:name       "Bob" ; \
+                         n:knows      :alice ;\
+                         n:mbox       <mailto:bob@home> ;\
+                         .\
+                     }';
+             var query = 
+                    'PREFIX n: <http://netention.org/>\
+                     PREFIX d: <http://dbpedia.org/resource/>\
+                     PREFIX zertify: <http://zertify.org/>\
+                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
+                     PREFIX : <' + Server.host + '/>\
+                     INSERT DATA {';
+                     
+                     query += 'n:002340423 zertify:BeginnerStudent d:Learning;';
+                     
+                     query += '}';
+                     
+               store.execute(query, function(success, results) {
+                    store.graph(function(success,graph){            
+                        sendRDF(res, graph);
+                    });
+               });
+        });
+        
+    });
     express.get('/tag/:tag/json', function(req, res) {
         var tag = req.params.tag;
         var objects = [];
