@@ -65,7 +65,7 @@ function newReplyWidget(onReply, onCancel) {
     var ta = $('<textarea/>');
     w.append(ta);
     
-    var bw = $('<div style="text-align: right"></div>');
+    var bw = $('<div style="text-align: left"></div>');
     w.append(bw);
     
     var c = $('<button>Cancel</button>');
@@ -660,8 +660,9 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     var favoriteButton = $('<button title="Favorite" class="ui-widget-content ui-button ui-corner-tl"><i class="icon-star"></i></button>');
     hb.append(favoriteButton);
     
+    var replyButton, focusButton, deleteButton;
     if (!mini) {
-        var replyButton = $('<button title="Reply" class="ui-widget-content ui-button"><i class="icon-share"></i></button>');
+        replyButton = $('<button title="Reply" class="ui-widget-content ui-button"><i class="icon-share"></i></button>');
         replyButton.click(function() {
             
             newReply.show();
@@ -682,6 +683,9 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
                     
                     self.notice(rr);
                     
+                    console.log('replying');
+                    console.log(rr);
+                    
                     self.pub(rr);
                     
                     refreshReplies();
@@ -696,14 +700,14 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         });
         hb.append(replyButton);
 
-        var focusButton = $('<button title="Focus" class="ui-widget-content ui-button"><i class="icon-zoom-in"></i></button>');
+        focusButton = $('<button title="Focus" class="ui-widget-content ui-button"><i class="icon-zoom-in"></i></button>');
     	focusButton.click(function() {
             var oid = x.id;
             Backbone.history.navigate('/object/' + oid + '/focus', {trigger: true});
     	});
     }
     
-	var deleteButton = $('<button title="Delete" class="ui-widget-content ui-button" style="padding-right:8px;"><i class="icon-remove"></i></button>');
+	deleteButton = $('<button title="Delete" class="ui-widget-content ui-button" style="padding-right:8px;"><i class="icon-remove"></i></button>');
 	deleteButton.click(function() {
         if (!x.author) {
             //don't confirm delete if no author is specified
@@ -715,22 +719,29 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     		}
         }
 	});
-	  deleteButton.hover(
-		  function() { $(this).addClass('ui-state-hover'); },
-		  function() { $(this).removeClass('ui-state-hover'); }
-	  );
-	  favoriteButton.hover(
-		  function() { $(this).addClass('ui-state-hover'); },
-		  function() { $(this).removeClass('ui-state-hover'); }
-	  );
-	  replyButton.hover(
-		  function() { $(this).addClass('ui-state-hover'); },
-		  function() { $(this).removeClass('ui-state-hover'); }
-	  );
-	  focusButton.hover(
-		  function() { $(this).addClass('ui-state-hover'); },
-		  function() { $(this).removeClass('ui-state-hover'); }
-	  );
+        
+        if (deleteButton)
+          deleteButton.hover(
+                  function() { $(this).addClass('ui-state-hover'); },
+                  function() { $(this).removeClass('ui-state-hover'); }
+          );
+
+        favoriteButton.hover(
+                function() { $(this).addClass('ui-state-hover'); },
+                function() { $(this).removeClass('ui-state-hover'); }
+        );
+        if (replyButton)
+          replyButton.hover(
+                  function() { $(this).addClass('ui-state-hover'); },
+                  function() { $(this).removeClass('ui-state-hover'); }
+          );
+
+        if (focusButton)
+          focusButton.hover(
+                  function() { $(this).addClass('ui-state-hover'); },
+                  function() { $(this).removeClass('ui-state-hover'); }
+          );
+                
 	hb.append(focusButton);
 	hb.append(deleteButton);
 	d.append(hb);
