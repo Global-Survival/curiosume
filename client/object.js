@@ -624,7 +624,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
 	var fs = (1.0 + r/2.0)*100.0 + '%';
 	
-	var d = $('<div class="objectView" style="font-size:' + fs + '">');
+	var d = $('<div class="objectView ui-widget-content" style="font-size:' + fs + '">');
 	var xn = x.name;
 	var authorID = x.author;
 	
@@ -655,13 +655,13 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         }
     }
 
-	var hb = $('<div>').addClass('ObjectViewHideButton');
+	var hb = $('<div>').addClass('ObjectViewHideButton ui-widget-header ui-corner-tl');
     
-    var favoriteButton = $('<button title="Favorite"><i class="icon-star"></i></button>');
+    var favoriteButton = $('<button title="Favorite" class="ui-widget-content ui-button ui-corner-tl"><i class="icon-star"></i></button>');
     hb.append(favoriteButton);
     
     if (!mini) {
-        var replyButton = $('<button title="Reply"><i class="icon-share"></i></button>');
+        var replyButton = $('<button title="Reply" class="ui-widget-content ui-button"><i class="icon-share"></i></button>');
         replyButton.click(function() {
             
             newReply.show();
@@ -695,15 +695,15 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
             replyButton.enabled = false;
         });
         hb.append(replyButton);
-        
-        var focusButton = $('<button title="Focus"><i class="icon-zoom-in"></i></button>');
+
+        var focusButton = $('<button title="Focus" class="ui-widget-content ui-button"><i class="icon-zoom-in"></i></button>');
     	focusButton.click(function() {
             var oid = x.id;
             Backbone.history.navigate('/object/' + oid + '/focus', {trigger: true});
     	});
     }
     
-	var deleteButton = $('<button title="Delete"><i class="icon-remove"></i></button>');
+	var deleteButton = $('<button title="Delete" class="ui-widget-content ui-button" style="padding-right:8px;"><i class="icon-remove"></i></button>');
 	deleteButton.click(function() {
         if (!x.author) {
             //don't confirm delete if no author is specified
@@ -715,6 +715,22 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     		}
         }
 	});
+	  deleteButton.hover(
+		  function() { $(this).addClass('ui-state-hover'); },
+		  function() { $(this).removeClass('ui-state-hover'); }
+	  );
+	  favoriteButton.hover(
+		  function() { $(this).addClass('ui-state-hover'); },
+		  function() { $(this).removeClass('ui-state-hover'); }
+	  );
+	  replyButton.hover(
+		  function() { $(this).addClass('ui-state-hover'); },
+		  function() { $(this).removeClass('ui-state-hover'); }
+	  );
+	  focusButton.hover(
+		  function() { $(this).addClass('ui-state-hover'); },
+		  function() { $(this).removeClass('ui-state-hover'); }
+	  );
 	hb.append(focusButton);
 	hb.append(deleteButton);
 	d.append(hb);
