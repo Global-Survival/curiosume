@@ -611,12 +611,14 @@ exports.start = function(host, port, database, init) {
         next();
     });
 
+
+    var oneDay = 86400000;
     var oneYear = 31557600000;
     
     
     var staticContentConfig = {
-        //PRODUCTION: 
-        //{maxAge: oneYear}
+        //PRODUCTION: oneYear
+        maxAge: 0
     };
     
     express.use("/", expressm.static('./client' , staticContentConfig));        

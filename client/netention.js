@@ -179,18 +179,26 @@ function netention(f) {
                 var t = { };
                 
                 var olist = this.objects();
-                for (var i = 0; i < olist.length; i++) {
+                for (var i in olist) {
                     var o = olist[i];
-                    if (o.author == userid) {
+                    if (o.author === userid) {
                         var tags = objTags(o);
                         
-                        for (var k = 0; k < oneOfTags.length; k++)
-                            if (_.contains(tags, oneOfTags[k])) {
-                                t[oneOfTags[k]] = o.id;
-                            }                        
-                                
-                    }
+                        var include = false;
+                        for (var k = 0; k < oneOfTags.length; k++) {
+                            var kk = oneOfTags[k];
+                            if (_.contains(tags, kk)) {
+                                if (!t[kk])
+                                       t[kk] = [];
+                                var otherTags = _.without(tags, kk);  
+                                console.log(tags, otherTags);
+                                t[kk] = _.uniq( t[kk].concat( otherTags ) );
+                            }
+                        }
+                        
+                   }
                 }
+                console.log(t);
                 return t;
                 
             },

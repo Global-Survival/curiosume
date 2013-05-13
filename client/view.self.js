@@ -79,9 +79,11 @@ function newTagBrowser(s) {
                 if (currentTag==null) return;
                 
                 var o = objNew();
+                o.author = s.id();
                 objAddTag(o, currentTag);
                 objAddTag(o, tag);
-                console.dir(o);
+                
+                s.notice(o);
             });
             return b;            
         }
@@ -109,8 +111,8 @@ function newSelfTagList(s, user, c) {
     
     
     
-    var tags = s.getIncidentTags(person.id, _.keys(tagColorPresets));    
-    
+    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));    
+        
     //{"Node.js":1,"Javascript":2,"Html5":2,"Intelligence":-2,"Learning":-2}
     /*s.tags = {
         'CollaboratingTeacher': [ 'en.wikipedia.org/wiki/Node.js' ],
