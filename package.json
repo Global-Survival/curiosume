@@ -21,7 +21,8 @@
 	"connect":"",
 	"underscore":"",
 	"irc":"",
-        "cheerio":""
+        "cheerio":"",
+        "rdfstore":""
     },
     "engines": {
 	"node": "0.8.x", 
