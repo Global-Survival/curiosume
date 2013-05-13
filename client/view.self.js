@@ -1,10 +1,101 @@
+/* http://www.perbang.dk/rgbgradient/
+    6 steps between: AFE500 and FF3B2E
+        AFE500 E9EA08 EFBB11 F48E1A F96324 FF3B2E
+*/
+
+var tagColorPresets = {
+    'BeginnerStudent': '#AFE500',
+    'IntermediateStudent': '#E9EA08',
+    'CollaboratingStudent': '#EFBB11',
+    'CollaboratingTeacher': '#F48E1A',
+    'IntermediateTeacher': '#F96324',
+    'ExpertTeacher': '#FF3B2E'                
+};
+    
 function newTagBrowser(s) {
     var b = $('<div/>');
-    $.get('/skill-home.html', function(d) {
-       b.html('');
-       b.append(d); 
-       
-    });
+    
+    var br = $('<div/>');
+    br.addClass('WikiBrowser');
+    
+    
+    var currentTag = 'Learning';
+    
+    function gotoTag(t) {        
+        br.html('');
+        currentTag = t;
+        
+        if (t == null) {
+            $.get('/skill-home.html', function(d) {
+               br.html('');
+               br.append(d); 
+
+            });
+            
+        }
+        else {
+            $.get('/wiki/' + t + '/html', function(d) {
+               br.html('');
+               br.append(d); 
+               br.find('a').each(function(){
+                   var t = $(this);
+                   var h = t.attr('href');
+                   t.attr('href', '#');
+                   if (h) {
+                    if (h.indexOf('/wiki') == 0) {
+                         t.click(function() {
+
+                             gotoTag(h.substring(6)); 
+                         });
+                    }
+                   }
+                   /*if (h) {
+                       if (h.indexOf('/wiki/')==0) {
+                           var tt = h.substring(5);
+                           t.click(function() {
+                                alert(h);
+                                gotoTag(tt);
+                           });
+                       }
+                   }*/
+               });
+            });
+            
+            //..
+        }
+    }
+    gotoTag(currentTag);
+        
+    b.append(br);
+    
+    {
+        var tagBar = $('<div/>');
+        
+        function tbutton( tag) {
+            var b = $('<button/>');
+            b.attr('style','background-color:' + tagColorPresets[tag]);
+            b.html(tag);
+            b.click(function() {
+                if (currentTag==null) return;
+                
+                var o = objNew();
+                objAddTag(o, currentTag);
+                objAddTag(o, tag);
+                console.dir(o);
+            });
+            return b;            
+        }
+        
+        tagBar.append(tbutton('BeginnerStudent'));
+        tagBar.append(tbutton('IntermediateStudent'));
+        tagBar.append(tbutton('CollaboratingStudent'));        
+        tagBar.append(tbutton('CollaboratingTeacher'));
+        tagBar.append(tbutton('IntermediateTeacher'));
+        tagBar.append(tbutton('ExpertTeacher'));
+        
+        b.append(tagBar);
+    }
+    
     return b;    
 }
 
@@ -16,12 +107,16 @@ function newSelfTagList(s, user, c) {
     var person = s.getSelf(s.id());
     var name = person.name;
     
+    
+    
+    var tags = s.getIncidentTags(person.id, _.keys(tagColorPresets));    
+    
     //{"Node.js":1,"Javascript":2,"Html5":2,"Intelligence":-2,"Learning":-2}
-    s.claims = {
+    /*s.tags = {
         'CollaboratingTeacher': [ 'en.wikipedia.org/wiki/Node.js' ],
         'IntermediateTeacher': [ 'en.wikipedia.org/wiki/Html5' ],
         'IntermediateStudent': ['en.wikipedia.org/wiki/Intelligence', 'en.wikipedia.org/wiki/Learning' ]
-    };
+    };*/
     
     var ownButton, addButton;
     b.append(ownButton = $('<button>' + name + '</button>'));    
@@ -34,19 +129,11 @@ function newSelfTagList(s, user, c) {
         c.html(newTagBrowser(s));        
     });
     
-    var tagColorPresets = {
-        'BeginnerStudent': 'f66',
-        'IntermediateStudent': 'orange',
-        'CollaboratingStudent': 'yellow',
-        'CollaboratingTeacher': '#ff5',
-        'IntermediateTeacher': '#bbf',
-        'ExpertTeacher': '#fuchsia'                
-    };
     
     function addTagSection(x) {
         if (!x) return;
         
-        var cl = s.claims[x];
+        var cl = tags[x];
         
         var color = tagColorPresets[x] || 'gray';
         
@@ -58,7 +145,7 @@ function newSelfTagList(s, user, c) {
         
         b.append('<br/>');
     }
-    var k = _.keys(s.claims);
+    var k = _.keys(tags);
     var pinnedSections = ['ExpertTeacher', 'IntermediateTeacher', 'CollaboratingTeacher', 'IntermediateStudent' ];
     for (var i = 0; i < pinnedSections.length; i++) {
         var p = pinnedSections[i];

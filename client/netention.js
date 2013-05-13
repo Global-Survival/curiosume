@@ -175,6 +175,26 @@ function netention(f) {
             getTag : function(t) { return this.tags()[t]; },
             getProperty : function(p) { return this.properties()[p]; },
             
+            getIncidentTags : function(userid, oneOfTags) {
+                var t = { };
+                
+                var olist = this.objects();
+                for (var i = 0; i < olist.length; i++) {
+                    var o = olist[i];
+                    if (o.author == userid) {
+                        var tags = objTags(o);
+                        
+                        for (var k = 0; k < oneOfTags.length; k++)
+                            if (_.contains(tags, oneOfTags[k])) {
+                                t[oneOfTags[k]] = o.id;
+                            }                        
+                                
+                    }
+                }
+                return t;
+                
+            },
+                    
             setObject : function(o) {
                 var i = o.id;
                 this.objects()[i] = o;
@@ -184,6 +204,7 @@ function netention(f) {
             focus : function() { 
                 return this.get('focus');
             },            
+            
             
             myself: function() { 
                 var o = this.getSelf(this.id()); 

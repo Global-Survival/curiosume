@@ -612,8 +612,15 @@ exports.start = function(host, port, database, init) {
     });
 
     var oneYear = 31557600000;
-    express.use("/", expressm.static('./client', {maxAge: oneYear}));
-    express.use("/plugin", expressm.static('./plugin', {maxAge: oneYear}));
+    
+    
+    var staticContentConfig = {
+        //PRODUCTION: 
+        //{maxAge: oneYear}
+    };
+    
+    express.use("/", expressm.static('./client' , staticContentConfig));        
+    express.use("/plugin", expressm.static('./plugin' , staticContentConfig ));
 
     express.post('/upload', function(req, res) {
         //TODO validate permission to upload
@@ -785,6 +792,52 @@ exports.start = function(host, port, database, init) {
                     sendJSON(res, r);
                 }
         );
+    });
+
+
+    function returnWikiPage(url, rres, redirector) {
+        http.get(url, function(res) {
+
+            if (res.statusCode > 300 && res.statusCode < 400 && res.headers.location) {
+                // The location for some (most) redirects will only contain the path,  not the hostname;
+                // detect this and add the host to the path.
+                var u = res.headers.location;
+                var pu = u.indexOf('/wiki/');
+                if (pu!=-1) {
+                    redirector = u.substring(pu + 6);
+                    returnPage(u, rres, redirector);
+                    return;
+                }
+            }
+            rres.writeHead(200, {'Content-Type': 'text/html' })
+
+            var page = '';
+            res.on("data", function(chunk) {
+                page += chunk;
+            });
+            res.on('end', function() {
+                var cheerio = require('cheerio');
+                var $ = cheerio.load(page);
+
+                if (redirector)
+                    $('#content').append('<div style="display:none" class="WIKIPAGEREDIRECTOR">' + redirector + '</div>');            
+                rres.write($('#content').html() || $.html());
+                rres.end();
+            });
+        })
+        /*.on('error', function(e) {
+            rres.send("Got error: " + e.message);
+        })*/;    
+    }
+
+    express.get('/wiki/search/:query', function(req, rres) {
+       var q = req.params.query;
+       returnWikiPage('http://en.wikipedia.org/w/index.php?search=' + q, rres);
+    });
+
+    express.get('/wiki/:tag/html', function(req, rres) {
+        var t = req.params.tag;
+        returnWikiPage("http://en.wikipedia.org/wiki/" + t, rres);
     });
 
 

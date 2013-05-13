@@ -1309,3 +1309,15 @@ clear:both;
 }
 @media (max-width: 260px) {
 }
+
+
+.WikiBrowser {
+    max-height: 450px;
+    overflow:auto;
+    background-color: white;
+}
+.WikiBrowser a {
+    border: 1px solid gray;
+    padding: 1px;
+    cursor: crosshair;
+}
