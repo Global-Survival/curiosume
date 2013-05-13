@@ -807,7 +807,7 @@ exports.start = function(host, port, database, init) {
                 var pu = u.indexOf('/wiki/');
                 if (pu!=-1) {
                     redirector = u.substring(pu + 6);
-                    returnPage(u, rres, redirector);
+                    returnWikiPage(u, rres, redirector);
                     return;
                 }
             }

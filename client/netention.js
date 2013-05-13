@@ -191,14 +191,12 @@ function netention(f) {
                                 if (!t[kk])
                                        t[kk] = [];
                                 var otherTags = _.without(tags, kk);  
-                                console.log(tags, otherTags);
                                 t[kk] = _.uniq( t[kk].concat( otherTags ) );
                             }
                         }
                         
                    }
                 }
-                console.log(t);
                 return t;
                 
             },

@@ -15,13 +15,21 @@ var tagColorPresets = {
 function newTagBrowser(s) {
     var b = $('<div/>');
     
+    var searchInput = $('<input placeholder="search"/>');
+    var searchInputButton = $('<button>..</button>');
+    searchInputButton.click(function() {
+       gotoTag(searchInput.val(), true); 
+    });
+    b.append(searchInput);
+    b.append(searchInputButton);
+    
     var br = $('<div/>');
     br.addClass('WikiBrowser');
     
     
     var currentTag = 'Learning';
     
-    function gotoTag(t) {        
+    function gotoTag(t,search) {        
         br.html('');
         currentTag = t;
         
@@ -34,9 +42,17 @@ function newTagBrowser(s) {
             
         }
         else {
-            $.get('/wiki/' + t + '/html', function(d) {
+            var url = search ? '/wiki/search/' + t : '/wiki/' + t + '/html';
+            
+            
+            $.get(url, function(d) {
                br.html('');
                br.append(d); 
+               
+               if (search) {
+                    currentTag = $('.WIKIPAGEREDIRECTOR').html();
+               }
+               
                br.find('a').each(function(){
                    var t = $(this);
                    var h = t.attr('href');
@@ -103,22 +119,11 @@ function newTagBrowser(s) {
 
 function newSelfTagList(s, user, c) {
     
-    
-    
     var b = $('<div/>');
     var person = s.getSelf(s.id());
     var name = person.name;
     
-    
-    
-    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));    
-        
-    //{"Node.js":1,"Javascript":2,"Html5":2,"Intelligence":-2,"Learning":-2}
-    /*s.tags = {
-        'CollaboratingTeacher': [ 'en.wikipedia.org/wiki/Node.js' ],
-        'IntermediateTeacher': [ 'en.wikipedia.org/wiki/Html5' ],
-        'IntermediateStudent': ['en.wikipedia.org/wiki/Intelligence', 'en.wikipedia.org/wiki/Learning' ]
-    };*/
+    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));            
     
     var ownButton, addButton;
     b.append(ownButton = $('<button>' + name + '</button>'));    
