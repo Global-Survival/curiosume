@@ -458,6 +458,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             var ts = $('<input></input>');
             
             var value = t.value;
+            ts.val(value);
             
             //http://jqueryui.com/autocomplete/#default
             //http://jqueryui.com/autocomplete/#categories
@@ -506,7 +507,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             d.append(tt);
             
             whenSaved.push(function(y) {
-               objAddValue(y, tag, ts.result || '', strength);
+               objAddValue(y, tag, ts.result || ts.val(), strength);
             });            
         }
     }    
@@ -581,7 +582,7 @@ function newPropertyView(self, vv) {
         return ('<li>' + vv.id + ': ' + vv.value + '</li>');
         
     if (p.type == 'object') {
-        var o = self.object(vv.value) || { name: 'Unknown object: ' + vv.value };
+        var o = self.object(vv.value) || { name: vv.value };
         
         return ('<li>' + p.name + ': <a href="javascript:newPopupObjectView(\'' + vv.value + '\')">' + o.name + '</a></li>');
     }

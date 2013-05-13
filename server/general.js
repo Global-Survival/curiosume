@@ -139,7 +139,18 @@ var generalTags = [
         { uri: 'Decision.Block', name: 'Block', tag: ['Decision'],
             description: 'You have serious objections and you’ll be extremely unhappy if this proposal goes ahead.'
         },
-    
+
+    { uri: 'Skill', name: 'Skill', properties: {
+            'knowledge': { name: 'Knowledge', type: 'object' }
+    }}, 
+        
+        { uri: 'BeginnerStudent', name: 'Beginner Student', tag: ['Skill'] },
+        { uri: 'IntermediateStudent', name: 'Intermediate Student', tag: ['Skill'] },
+        { uri: 'CollaboratingStudent', name: 'Collaborating Student', tag: ['Skill'] },
+        { uri: 'CollaboratingTeacher', name: 'Collaborating Teacher', tag: ['Skill'] },
+        { uri: 'IntermediateTeacher', name: 'Intermediate Teacher', tag: ['Skill'] },
+        { uri: 'ExpertTeacher', name: 'Expert Teacher', tag: ['Skill'] },
+
     //Pledge = Promise
     //  
     { uri: 'Promise', name: 'Promise',
