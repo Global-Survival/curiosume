@@ -1306,6 +1306,7 @@ clear:both;
 
 .WikiBrowser {
     max-height: 450px;
+    height: 450px;
     overflow:auto;
     background-color: white;
 }

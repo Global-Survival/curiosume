@@ -30,7 +30,7 @@ function newTagBrowser(s) {
     var currentTag = 'Learning';
     
     function gotoTag(t,search) {        
-        br.html('');
+        br.html('Loading...');
         currentTag = t;
         
         if (t == null) {
