@@ -557,7 +557,7 @@ function netention(f) {
         });
         
 
-		console.log('Scripts loaded');
+	console.log('Scripts loaded');
 		
         var s = new Self();
         s.loadLocal();
@@ -565,7 +565,7 @@ function netention(f) {
                         
         f(s);	    
 		
-	});
+    });
 	
 }
 
