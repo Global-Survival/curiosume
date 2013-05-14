@@ -248,6 +248,15 @@ exports.start = function(host, port, database, init) {
     }
     that.addTags = addTags;
 
+    function removeMongoID(x) {
+        if (Array.isArray(x)) {
+            for (var i = 0; i < x.length; i++)
+                delete x[i]._id;
+        }
+        else
+            delete x._id;
+    }
+    
     function getObjectSnapshot(uri, whenFinished) {
         if (tags[uri] != undefined) {
             //it's a tag
@@ -276,6 +285,7 @@ exports.start = function(host, port, database, init) {
                 nlog('getObjectsByAuthor: ' + err);
             }
             else {
+                removeMongoID(docs);
                 withObjects(docs);
             }
             db.close();
@@ -304,8 +314,10 @@ exports.start = function(host, port, database, init) {
             }
             else {
                 docs.forEach(function(d) {
-                    if (util.objHasTag(d, t))
+                    if (util.objHasTag(d, t)) {
+                        removeMongoID(d);
                         withObject(d);
+                    }
                 });
             }
             db.close();
@@ -678,6 +690,7 @@ exports.start = function(host, port, database, init) {
         var n = parseInt(req.params.num);
         var db = mongo.connect(databaseUrl, collections);
         db.obj.find().limit(n).sort({modifiedAt: -1}, function(err, objs) {
+            removeMongoID(objs);
             sendJSON(res, objs);
             db.close();
         });
@@ -761,8 +774,8 @@ exports.start = function(host, port, database, init) {
 
             });
             
-        });
-        
+        }); 
+       
     });
     express.get('/tag/:tag/json', function(req, res) {
         var tag = req.params.tag;
@@ -785,6 +798,9 @@ exports.start = function(host, port, database, init) {
         getObjectSnapshot(uri, function(x) {
             sendJSON(res, x);
         });
+    });
+    express.get('/schema/json', function(req, res) {
+        sendJSON(res, { 'tags': tags, 'properties': properties } );
     });
 
     express.get('/state', function(req, res) {
@@ -1065,6 +1081,7 @@ exports.start = function(host, port, database, init) {
         socket.on('getObjects', function(query, withObjects) {
             var db = mongo.connect(databaseUrl, collections);
             db.obj.find(function(err, docs) {
+                removeMongoID(docs);
                 withObjects(docs);
                 db.close();
             });
