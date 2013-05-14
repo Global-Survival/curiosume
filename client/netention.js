@@ -563,9 +563,14 @@ function netention(f) {
 		
         var s = new Self();
         s.loadLocal();
-        s.connect();
-                        
-        f(s);	    
+        
+        $.getJSON('/schema/json', function(schema) {
+            s.addProperties(schema['tags']);
+            s.addTags(schema['properties']);
+            
+            s.connect();
+            f(s);	    
+        });
 		
     });
 	

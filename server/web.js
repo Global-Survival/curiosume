@@ -1045,7 +1045,7 @@ exports.start = function(host, port, database, init) {
             socket.emit('setServer', Server.name, Server.description);
 
             //share tags
-            socket.emit('addTags', tags, properties);
+            //socket.emit('addTags', tags, properties);
 
             getObjectsByTag('Tag', function(to) {
                 socket.emit('notice', to);
