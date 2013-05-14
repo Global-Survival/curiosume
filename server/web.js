@@ -285,6 +285,8 @@ exports.start = function(host, port, database, init) {
 
     //TODO optimize this to use a tag cache property
     function getObjectsByTag(t, withObject, whenFinished) {
+        //t can be a single string, or an array of strings
+        
         var db = mongo.connect(databaseUrl, collections);
         
         var oldClose = db.close;
@@ -681,16 +683,13 @@ exports.start = function(host, port, database, init) {
         });
     });
     
-    express.get('/agents/json', function(req, res) {
-        
-    });
     express.get('/users/json', function(req, res) {
        res.redirect('/tag/User/json');        
     });
     express.get('/users/skill/rdf', function(req, res) {
         var rdfstore = require('rdfstore');
         rdfstore.create(function(store) {
-             var exampleQuery = 
+             /*var exampleQuery = 
                     'PREFIX n: <http://netention.org/>\
                      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
                      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
@@ -709,29 +708,60 @@ exports.start = function(host, port, database, init) {
                          n:mbox       <mailto:bob@home> ;\
                          .\
                      }';
-             var query = 
-                    'PREFIX n: <http://netention.org/>\
-                     PREFIX d: <http://dbpedia.org/resource/>\
-                     PREFIX zertify: <http://zertify.org/>\
-                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
-                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
-                     PREFIX : <' + Server.host + '/>\
-                     INSERT DATA {';
+            */
+            var objects = [];
+
+            var tagMap = {
+                'BeginnerStudent': '#AFE500',
+                'IntermediateStudent': '#E9EA08',
+                'CollaboratingStudent': '#EFBB11',
+                'CollaboratingTeacher': '#F48E1A',
+                'IntermediateTeacher': '#F96324',
+                'ExpertTeacher': '#FF3B2E'                
+            };
+
+            getObjectsByTag(_.keys(tagMap), function(o) {
+                objects.push(o);
+            }, function() {
+                var query = 
+                       'PREFIX n: <http://netention.org/>\
+                        PREFIX d: <http://dbpedia.org/resource/>\
+                        PREFIX zertify: <http://zertify.org/>\
+                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
+                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
+                        PREFIX : <' + Server.host + '/>\
+                        INSERT DATA {';
+
+                for (var i = 0; i < objects.length; i++) {
+                    var oo = objects[i];
+                    var t = util.objTags(oo);
+                    console.log(t);
+                    var skillLevel = t[1];
+                    var object = t[0];
+                    query += 'n:' + oo.author + ' zertify:' + skillLevel + ' d:' + object + '.\n'; 
+                }
                      
-                     query += 'n:002340423 zertify:BeginnerStudent d:Learning;';
+                query += 'n:002340423 zertify:BeginnerStudent d:Learning.\n';
                      
-                     query += '}';
+                query += '}';
+                console.log(query);
                      
                store.execute(query, function(success, results) {
                     store.graph(function(success,graph){            
                         sendRDF(res, graph);
                     });
                });
+
+            });
+            
         });
         
     });
     express.get('/tag/:tag/json', function(req, res) {
         var tag = req.params.tag;
+        if (tag.indexOf(',')) {
+            tag = tag.split(',');
+        }
         var objects = [];
         getObjectsByTag(tag, function(o) {
             objects.push(o);

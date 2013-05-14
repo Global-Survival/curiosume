@@ -276,7 +276,15 @@ function objAddGeoLocation(x, lat, lon) {
 exports.objAddGeoLocation = objAddGeoLocation;
 
 function objHasTag(x, t) {    
-    return _.contains(objTags(x), t);
+    if (Array.isArray(t)) {
+        var ot = objTags(x);
+        for (var i = 0; i < t.length; i++) 
+            if (_.contains(ot, t[i]))
+              return true;
+        return false;
+    }
+    else
+        return _.contains(objTags(x), t);
 }
 exports.objHasTag = objHasTag;
 
