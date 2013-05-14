@@ -140,14 +140,16 @@ function newSelfTagList(s, user, c) {
     function newTagWidget(x, i) {
         var name
         var o = s.getObject(i);
-        var tags = objTags(o);
-        var otherTags = _.without(tags, x);  
-        var b = $('<div>' +  + '</div>');
-        var a = $('<a href="#">' + otherTags[0] + '</a>');
-        a.click(function() {
-            newPopupObjectView(i);
-        });
-        a.appendTo(b);
+        if (o) {
+            var tags = objTags(o);
+            var otherTags = _.without(tags, x);  
+            var b = $('<div>' +  + '</div>');
+            var a = $('<a href="#">' + otherTags[0] + '</a>');
+            a.click(function() {
+                newPopupObjectView(i);
+            });
+            a.appendTo(b);
+        }
         return b;        
     }
     
