@@ -230,6 +230,21 @@
         			updatePrompt();
                 }
         
+                $(document).ready(function() {
+                  $('ul#display-menu li a').hover(
+                            function() { $(this).addClass('ui-state-hover'); },
+                            function() { $(this).removeClass('ui-state-hover'); }
+                  );
+                  $('#ToggleMainMenuDrop').hover(
+                            function() { $(this).addClass('ui-state-hover'); },
+                            function() { $(this).removeClass('ui-state-hover'); }
+                  );
+                  $('#FocusToggleButton').hover(
+                            function() { $(this).addClass('ui-state-hover'); },
+                            function() { $(this).removeClass('ui-state-hover'); }
+                  );
+                });
+
                 updateTagTree();
             }
                         

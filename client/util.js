@@ -129,6 +129,36 @@ function objDescription(x) {
 }
 exports.objDescription = objDescription;
 
+function objIncidentTags(olist, oneOfTags, userid) {
+    var t = { };
+    for (var i in olist) {
+        var o = olist[i];
+
+        if (userid) {
+            if (o.author !== userid) {
+                continue;
+            }
+        }
+
+        var tags = objTags(o);
+
+        for (var k = 0; k < oneOfTags.length; k++) {
+            var kk = oneOfTags[k];
+            if (_.contains(tags, kk)) {
+                if (!t[kk])
+                       t[kk] = [];
+                t[kk] = t[kk].concat( o.id );
+            }
+        }
+
+    }
+    return t;
+
+}
+exports.objIncidentTags= objIncidentTags;
+                
+
+
 function objTags(x) {
   // objTags(x) -> array of tags involved
   if (!x.value) return [];

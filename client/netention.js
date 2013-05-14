@@ -176,26 +176,8 @@ function netention(f) {
             getProperty : function(p) { return this.properties()[p]; },
             
             getIncidentTags : function(userid, oneOfTags) {
-                var t = { };
                 
-                var olist = this.objects();
-                for (var i in olist) {
-                    var o = olist[i];
-                    if (o.author === userid) {
-                        var tags = objTags(o);
-                        
-                        for (var k = 0; k < oneOfTags.length; k++) {
-                            var kk = oneOfTags[k];
-                            if (_.contains(tags, kk)) {
-                                if (!t[kk])
-                                       t[kk] = [];
-                                t[kk] = t[kk].concat( o.id );
-                            }
-                        }
-                        
-                   }
-                }
-                return t;
+                return objIncidentTags(this.objects(), oneOfTags, userid);
                 
             },
                     
