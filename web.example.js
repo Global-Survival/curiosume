@@ -7,11 +7,18 @@ var web = require('./server/web.js');
 
 web.start('siteurl' /* include :port if necessary */, 
 		
-		/* port */ 8080, 
-		
-		databaseURL /* ex: 'localhost/test' */,
-		
-		function() {	
-			//after ready, call this
-		}
+    8080, /* port */ 
+
+    'databaseURL', /* ex: 'localhost/test' */
+
+    /* after initialized, calls this: */
+    function() {	
+        //CONFIGURATION OPTIONS        
+        /*
+        server.permissions['authenticate_to_configure_plugins'] = false;
+        server.permissions['authenticate_to_create_objects'] = false;
+        server.permissions['authenticate_to_delete_objects'] = false;
+        server.permissions['authenticate_to_proxy_http'] = false;
+        */
+    }
 );

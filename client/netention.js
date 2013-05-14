@@ -506,7 +506,9 @@ function netention(f) {
             },
             
             pub: function(message) {
-                this.socket.emit('pub', message);
+                this.socket.emit('pub', message, function(err) {
+                    $.pnotify({title: 'Error publishing:', text: err, type:'error'});
+                });
             },
             
             //THIS NEEDS UPDATED

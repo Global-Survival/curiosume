@@ -965,7 +965,12 @@ exports.start = function(host, port, database, init) {
         });
 
 
-        socket.on('pub', function(message) {
+        socket.on('pub', function(message, err) {
+            if (Server.permissions['authenticate_to_create_objects'] != false) {
+                if (!isAuthenticated(session)) {
+                    err('Not authenticated');
+                }
+            }
             broadcast(socket, message);
         });
 
