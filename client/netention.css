@@ -1122,9 +1122,8 @@ clear:both;
     float: right;
     padding:1.0em;
 }
-.SelfViewSide button {
-    width: 100%;
-    float: right;
+.SelfViewSide button {    
+    float: left;
     margin: 0.3em;
 }
 #Bio {
@@ -1305,8 +1304,10 @@ clear:both;
 
 
 .WikiBrowser {
-    max-height: 450px;
-    height: 450px;
+    /*max-height: 450px;
+    height: 450px;*/
+    position: absolute;
+    height: 80%;
     overflow:auto;
     background-color: white;
 }
@@ -1314,4 +1315,13 @@ clear:both;
     border: 1px solid gray;
     padding: 1px;
     cursor: crosshair;
+}
+.SelfAddTagButton {
+    float: right;
+    width: auto;
+}
+.SelfViewButtonPanel {
+    clear: both;
+    padding-bottom: 2.5em;
+    border-bottom: 1px solid gray;
 }

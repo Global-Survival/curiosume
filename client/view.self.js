@@ -37,7 +37,7 @@ function newTagBrowser(s) {
             $.get('/skill-home.html', function(d) {
                br.html('');
                br.append(d); 
-
+s
             });
             
         }
@@ -111,8 +111,10 @@ function newTagBrowser(s) {
         tagBar.append(tbutton('CollaboratingTeacher'));
         tagBar.append(tbutton('IntermediateTeacher'));
         tagBar.append(tbutton('ExpertTeacher'));
-        
-        b.append(tagBar);
+        tagBar.append('<br/>');
+        tagBar.append(tbutton('Can'));
+        tagBar.append(tbutton('Need'));
+        b.prepend(tagBar);
     }
     
     return b;    
@@ -127,15 +129,19 @@ function newSelfTagList(s, user, c) {
     var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));            
     
     var ownButton, addButton;
-    b.append(ownButton = $('<button>' + name + '</button>'));    
+    var svbp = $('<div/>').attr('class', 'SelfViewButtonPanel');
+
+    svbp.append(ownButton = $('<button>' + name + '</button>'));    
     
-    b.append(addButton = $('<button class="SelfAddTagButton">+</button>'));
+    svbp.append(addButton = $('<button class="SelfAddTagButton">+</button>'));
     ownButton.click(function() {
         c.html(newSelfSummary(s, user));
     });
     addButton.click(function() {
         c.html(newTagBrowser(s));        
     });
+    
+    b.append(svbp);
 
     function newTagWidget(x, i) {
         var name
