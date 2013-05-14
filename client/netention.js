@@ -184,14 +184,12 @@ function netention(f) {
                     if (o.author === userid) {
                         var tags = objTags(o);
                         
-                        var include = false;
                         for (var k = 0; k < oneOfTags.length; k++) {
                             var kk = oneOfTags[k];
                             if (_.contains(tags, kk)) {
                                 if (!t[kk])
                                        t[kk] = [];
-                                var otherTags = _.without(tags, kk);  
-                                t[kk] = _.uniq( t[kk].concat( otherTags ) );
+                                t[kk] = t[kk].concat( o.id );
                             }
                         }
                         

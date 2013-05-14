@@ -100,6 +100,7 @@ function newTagBrowser(s) {
                 objAddTag(o, tag);
                 
                 s.notice(o);
+                s.pub(o);
             });
             return b;            
         }
@@ -135,7 +136,20 @@ function newSelfTagList(s, user, c) {
     addButton.click(function() {
         c.html(newTagBrowser(s));        
     });
-    
+
+    function newTagWidget(x, i) {
+        var name
+        var o = s.getObject(i);
+        var tags = objTags(o);
+        var otherTags = _.without(tags, x);  
+        var b = $('<div>' +  + '</div>');
+        var a = $('<a href="#">' + otherTags[0] + '</a>');
+        a.click(function() {
+            newPopupObjectView(i);
+        });
+        a.appendTo(b);
+        return b;        
+    }
     
     function addTagSection(x) {
         if (!x) return;
@@ -147,7 +161,7 @@ function newSelfTagList(s, user, c) {
         b.append('<div><h4><span style="padding-right: 0.2em; background-color: ' + color + '">&nbsp;&nbsp;</span>&nbsp;' + x + '</h4></div>');
         
         for (var i = 0; i < cl.length; i++) {
-            b.append('<div>' + cl[i] + '</div>');
+            b.append(newTagWidget(x, cl[i]));
         }
         
         b.append('<br/>');
