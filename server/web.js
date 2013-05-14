@@ -719,8 +719,9 @@ exports.start = function(host, port, database, init) {
                 'IntermediateTeacher': '#F96324',
                 'ExpertTeacher': '#FF3B2E'                
             };
+            var st = _.keys(tagMap);
 
-            getObjectsByTag(_.keys(tagMap), function(o) {
+            getObjectsByTag(st, function(o) {
                 objects.push(o);
             }, function() {
                 var query = 
@@ -735,16 +736,22 @@ exports.start = function(host, port, database, init) {
                 for (var i = 0; i < objects.length; i++) {
                     var oo = objects[i];
                     var t = util.objTags(oo);
-                    console.log(t);
-                    var skillLevel = t[1];
-                    var object = t[0];
-                    query += 'n:' + oo.author + ' zertify:' + skillLevel + ' d:' + object + '.\n'; 
+                    
+                    var skillLevel, object;
+                    for (var w = 0; w < st.length; w++) {
+                        if (_.contains(t, st[w])) {
+                            skillLevel = st[w];
+                            t = _.without(t, st[w]);                            
+                            object = t[0];
+                            break;
+                        }
+                    }
+                    if ((skillLevel) && (object)) {
+                        query += 'n:' + oo.author + ' zertify:' + skillLevel + ' d:' + object + '.\n'; 
+                    }
                 }
-                     
-                query += 'n:002340423 zertify:BeginnerStudent d:Learning.\n';
-                     
+                                     
                 query += '}';
-                console.log(query);
                      
                store.execute(query, function(success, results) {
                     store.graph(function(success,graph){            
