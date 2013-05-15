@@ -51,6 +51,9 @@ function getAvatar(s) {
     return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
 function getAvatarURL(email) {
+    if (!email) {
+        return '/icon/question.png';
+    }
     return "http://www.gravatar.com/avatar/" + MD5(email) + "&s=200";
 }
 
