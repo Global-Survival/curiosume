@@ -1106,7 +1106,7 @@ clear:both;
 
 .SelfView {
     height: 100%;
-    width: 100%;    
+    width: 100%;
 }
 .SelfViewSide {
     width: 22%;
@@ -1358,4 +1358,9 @@ clear:both;
 }
 .view-indented {
     padding-left: 4.5em;
+}
+
+.SelfView textarea {
+    width: 100%;
+    height: 5em;
 }

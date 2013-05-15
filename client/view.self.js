@@ -283,10 +283,10 @@ function newSelfSummary(s, user) {
 
     c.append('<br/>');
 
-    c.append('<div id="KnowledgeCodeLabel">Knowedge Code:</div>');
+    /*c.append('<div id="KnowledgeCodeLabel">Knowedge Code:</div>');
     var p = $('<pre>');
     p.html(JSON.stringify(tags));
-    c.append(p);
+    c.append(p);*/
                 
 
     return c;
