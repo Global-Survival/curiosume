@@ -175,7 +175,7 @@ function newSelfTagList(s, user, c) {
         b.append('<br/>');
     }
     var k = _.keys(tags);
-    var pinnedSections = ['ExpertTeacher', 'IntermediateTeacher', 'CollaboratingTeacher', 'IntermediateStudent' ];
+    var pinnedSections = ['ExpertTeacher', 'IntermediateTeacher', 'CollaboratingTeacher', 'CollaboratingStudent', 'IntermediateStudent', 'BeginnerStudent' ];
     for (var i = 0; i < pinnedSections.length; i++) {
         var p = pinnedSections[i];
         if (_.contains(k, p)) {
@@ -184,7 +184,6 @@ function newSelfTagList(s, user, c) {
         }        
     }
     
-    b.append('<hr/>');
     
     //ADD buttons for each tag
     for (var i = 0; i < k.length; i++) {
@@ -202,7 +201,14 @@ function newSelfSummary(s, user) {
 
     var np = $('<div/>');
     np.addClass('NameHeader');
-    np.append('<input type="text" placeholder="Name"/>');
+    
+    var nameInput = $('<input type="text" placeholder="Name"/>');
+    nameInput.val(s.myself().name);
+    np.append(nameInput);
+    np.append('<br/>');
+    var emailInput = $('<input type="text" placeholder="E-Mail"/>');
+    emailInput.val(s.myself().email);
+    np.append(emailInput);
     c.append(np);
 
 
@@ -219,7 +225,10 @@ function newSelfSummary(s, user) {
     var saveButton = $('<button>Save</button>');
     bio.append(saveButton);
     saveButton.click(function() {
-       alert('Feature not available yet'); 
+       var m = s.myself();
+       m.name = nameInput.val();
+       m.email = emailInput.val();
+       s.pub(s.myself());
     });
 
     var cm = $('<div id="SelfMap"/>');

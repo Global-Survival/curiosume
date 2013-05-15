@@ -183,7 +183,8 @@ function initUI(self) {
     }
 
 
-    var msgs = ['Revolutionary', 'Extraordinary', 'Bodacious', 'Scrumptious', 'Delicious'];
+    var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
+    //var msgs = ['Revolutionary', 'Extraordinary', 'Bodacious', 'Scrumptious', 'Delicious'];
     function updatePrompt() {
         var l = msgs[parseInt(Math.random() * msgs.length)];
         $('.nameInput').attr('placeholder', l + '...');
@@ -203,6 +204,7 @@ function _updateView() {
     var s = window.self;
 
     $('.brand').html(s.myself().name);
+    $('#AvatarButton img').attr('src', getAvatarURL(s.myself().email));
 
     s.saveLocal();
 

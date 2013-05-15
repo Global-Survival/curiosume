@@ -1100,8 +1100,10 @@ exports.start = function(host, port, database, init) {
                 }
             }
 
-            if (!util.isSelfObject(objectID))
+            if (!util.isSelfObject(objectID)) {
                 deleteObject(objectID, whenFinished);
+                whenFinished(null);
+            }
             else {
                 whenFinished('Unable to delete user profile');
             }

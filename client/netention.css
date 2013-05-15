@@ -1154,13 +1154,13 @@ clear:both;
 }
 
 .ObjectViewHideButton {
-	height:30px;
+    height:30px;
     position:absolute;
-	bottom:-4px;
-	right:-4px;
-	z-index:2;
-	opacity:0;
-	display:inline-block;
+    bottom:-4px;
+    left:-4px;
+    z-index:2;
+    opacity:0;
+    display:inline-block;
 }
 .ObjectViewHideButton:hover {
 	opacity:1;
@@ -1306,6 +1306,7 @@ clear:both;
     height: 80%;
     overflow:auto;
     background-color: white;
+    width: 40%;
 }
 .WikiBrowser a {
     border: 1px solid gray;
@@ -1358,6 +1359,7 @@ clear:both;
 }
 .view-indented {
     padding-left: 4.5em;
+    padding-right: 4.5em;
 }
 
 .SelfView textarea {

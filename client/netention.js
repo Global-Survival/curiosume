@@ -356,25 +356,26 @@ function netention(f) {
                 if (!localOnly) {
                     var that = this;
                 	this.socket.emit('delete', id, function(err) {
-                        if (!err) {
-                    		that.saveLocal();
-                    		
-                            that.trigger('change:deleted');
-                            that.trigger('change:attention');
-                            
-                            $.pnotify({
-                                title: 'Deleted',
-                                text: id,                        
-                                addclass: "stack-bottomleft",
-                                stack: stack_bottomleft
-                            });   
-                        }
-                        else {
-                            $.pnotify({
-                                title: 'Unable to delete: ' + err,
-                                text: id                        
-                            });                           
-                        }
+                            if (!err) {
+                                that.saveLocal();
+
+                                that.trigger('change:deleted');
+                                that.trigger('change:attention');
+
+                                $.pnotify({
+                                    title: 'Deleted',
+                                    text: id,                        
+                                    addclass: "stack-bottomleft",
+                                    stack: stack_bottomleft
+                                });   
+                            }
+                            else {
+                                console.dir(err);
+                                $.pnotify({
+                                    title: 'Unable to delete: ' + err,
+                                    text: id                        
+                                });                           
+                            }
                 	});
                 }
             	

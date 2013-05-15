@@ -43,9 +43,11 @@ function newPopupObjectView(_x) {
 
 
 function getAvatar(s) {
-    var emailHash = objFirstValue(s, 'email', 'unknown@unknown.com');
-    emailHash = MD5(emailHash);
+    var emailHash = MD5(s.email);
     return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
+}
+function getAvatarURL(email) {
+    return "http://www.gravatar.com/avatar/" + MD5(email) + "&s=200";
 }
 
 function newTagButton(t) {
@@ -658,12 +660,12 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 
 	var hb = $('<div>').addClass('ObjectViewHideButton ui-widget-header ui-corner-tl');
     
-    var favoriteButton = $('<button title="Favorite" class="ui-widget-content ui-button ui-corner-tl"><i class="icon-star"></i></button>');
+    var favoriteButton = $('<button title="Favorite" class="ui-widget-content ui-button ui-corner-tl">*</button>');
     hb.append(favoriteButton);
     
     var replyButton, focusButton, deleteButton;
     if (!mini) {
-        replyButton = $('<button title="Reply" class="ui-widget-content ui-button"><i class="icon-share"></i></button>');
+        replyButton = $('<button title="Reply" class="ui-widget-content ui-button">r</button>');
         replyButton.click(function() {
             
             newReply.show();
@@ -701,14 +703,14 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         });
         hb.append(replyButton);
 
-        focusButton = $('<button title="Focus" class="ui-widget-content ui-button"><i class="icon-zoom-in"></i></button>');
+        focusButton = $('<button title="Focus" class="ui-widget-content ui-button">f</button>');
     	focusButton.click(function() {
             var oid = x.id;
             Backbone.history.navigate('/object/' + oid + '/focus', {trigger: true});
     	});
     }
     
-	deleteButton = $('<button title="Delete" class="ui-widget-content ui-button" style="padding-right:8px;"><i class="icon-remove"></i></button>');
+	deleteButton = $('<button title="Delete" class="ui-widget-content ui-button" style="padding-right:8px;">x</button>');
 	deleteButton.click(function() {
         if (!x.author) {
             //don't confirm delete if no author is specified
