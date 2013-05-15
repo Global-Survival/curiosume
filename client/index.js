@@ -120,11 +120,6 @@ function initUI(self) {
         });
     });
 
-    $('#FocusToggleButton').click(function() {
-        var focusShown = $('#FocusEdit').is(':visible');
-        expandEditor(!focusShown);
-        updateView();
-    });
 
     $('#ViewMenu a').click(function(x) {
         var b = $(this);
@@ -457,6 +452,12 @@ $(document).ready(function() {
                 $(this).removeClass('ui-state-hover');
             }
     );
+    $('#FocusToggleButton').click(function() {
+        var focusShown = $('#FocusEdit').is(':visible');
+        expandEditor(!focusShown);        
+    });
+
+    /*
     $('#FocusToggleButton').hover(
             function() {
                 $(this).addClass('ui-state-hover');
@@ -465,6 +466,7 @@ $(document).ready(function() {
                 $(this).removeClass('ui-state-hover');
             }
     );
+    */
 
     $('#AvatarButton').click(function() {
        var am = $('#AvatarMenu');

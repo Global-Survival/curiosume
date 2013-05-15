@@ -66,7 +66,7 @@
                 <a class="brand" href="#"></a>
                 <div>
                         <!-- <li><a href="/tests.html"><img alt="system tests" src="icon/vote.png"/>System Tests</a></li> -->
-                        <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="icon/workflow.png"/>Plugins</a></li>
+                        <a href="/plugins.html" target="_blank"><img alt="plugins" src="icon/workflow.png"/>Plugins</a>
                         <!-- <li><a href="/#/team"><img alt="team" src="icon/user-group.png"/>Team</a></li> -->
                         <!--<li><a href="/#/new">New</a></li><br/>-->
                         <!-- <li><a href="/#/tags"><img alt="tags: src="icon/back-to-ou.png"/>Tags</a></li> -->
@@ -117,9 +117,9 @@
                         <br/>
                         <div id="ViewSelect" class="ViewSelectNormal"></div>
                         <br/>
-                        <li><a href="/login.html">Login</a></li>
-                        <li><a href="/logout">Logout</a></li>
-                        <li><a href="/#/help">Help</a></li>
+                        <a href="/login.html">Login</a>
+                        <a href="/logout">Logout</a>
+                        <a href="/#/help">Help</a>
 
                     <!-- <a class="btn" href="#">Location</a> -->
                 </div>
@@ -141,22 +141,17 @@
 
                 <div id="FocusEdit" class="ui-corner-all" refactorToID="FocusEdit">
                     <div id="FocusMainMenu">
-                        <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
-                        <div class="btn-group">
-                            <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
-                            <button title="Add Description" id="AddDescriptionButton"><i class="icon-pencil"></i></button>                
-                            <button title="Add Location" id="AddLocationButton"><i class="icon-globe"></i></button>
-                            <button title="Upload" type="button" data-toggle="modal" data-target="#UploadModal"><i class="icon-file"></i></button>                
-                            <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                                <li><a href="javascript:">Save Privately...</a></li>
-                                <li class="divider"></li>
-                                <li><a href="javascript:showEditedFocus();">Export...</a></li>
-                                <li><a href="javascript:cloneFocus();">Clone...</a></li>
-                                <li><a href="javascript:deleteFocus();">Delete</a></li>
-                            </ul>
-                        </div>
+                        <button id="ClearButton" title="Clear">Clear</button>
+                        <button title="Tag Tree">Tag Tree</button>
+                        <button title="Add Description" id="AddDescriptionButton">Add Description</button>
+                        <button title="Add Location" id="AddLocationButton">Add Location</button>
+                        <button title="Upload">Upload File</button>                
+                        <button id='SaveButton' title="Save">Save</button>                            
+                        <br/>
+                        <button>Save Privately...</button>
+                        <button onclick="javascript:showEditedFocus();">Export...</button>
+                        <button onclick="javascript:cloneFocus();">Clone...</button>
+                        <button onclick="javascript:deleteFocus();">Delete</button>
                     </div>
                     <div id="Focus" class="ui-widget-content"></div>
                 </div>
