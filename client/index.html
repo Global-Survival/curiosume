@@ -1,192 +1,183 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-    <meta charset="utf-8">
-    <title>Netention Redux alpha v.007</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="application-name" content="Netention Alpha"/>
-    <meta name="description" content="">
-    <meta name="author" content="SeH / Jim 'rezn8d' Lee / Revlin">
-    <meta name="robots" content="noindex, nofollow, noarchive">
+        <meta charset="utf-8">
+        <title>Netention Redux alpha v.007</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="application-name" content="Netention Alpha"/>
+        <meta name="description" content="">
+        <meta name="author" content="SeH / Jim 'rezn8d' Lee / Revlin">
+        <meta name="robots" content="noindex, nofollow, noarchive">
 
-    <!-- CSS -->
-	<style type="text/css">
-      @import url("lib/bootstrap/2.3.1/css/bootstrap.min.css");
-      @import url("lib/bootstrap/2.3.1/css/bootstrap-responsive.min.css");
-      @import url("lib/jquery-ui/1.10.3/themes/base/minified/jquery-ui.min.css");
-    </style>
-    
-    <link href="lib/jquery-ui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
-    
-	<style type="text/css">
-      @import url("netention.css");
-    </style>
-    
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-    <![endif]-->
+        <!-- CSS -->
+        <style type="text/css">
+            @import url("lib/jquery-ui/1.10.3/themes/base/minified/jquery-ui.min.css");
+        </style>
 
-    
+        <link href="lib/jquery-ui/1.10.3/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+
+        <style type="text/css">
+            @import url("netention.css");
+        </style>
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="assets/js/html5shiv.js"></script>
+        <![endif]-->
+
+
         <script src="lib/jquery/jquery.js" type="text/javascript"></script>
         <script src="lib/jquery-ui/1.10.3/ui/minified/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="lib/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-        
+
         <script src="netention.js" type="text/javascript"></script> 
         <script src="index.js" type="text/javascript"></script> 
-        
-
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="icon/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="icon/favicon.png">
-  </head>
-
-<body>
-  
-<!-- Fixed navbar -->
-
-     <div class="container">
-      <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner ui-widget-header">
-            <button type="button" class="btn btn-navbar ui-widget-content" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-              <ul class="nav ui-widget-content ui-corner-all">
-                <li id="MainMenu" class="dropdown">
-                              <a id="ToggleMainMenuDrop" class="ui-button dropdown-toggle ui-corner-left" data-toggle="dropdown" href="#" title="Main"><b class="icon-user"></b></a>
-                              <ul id="MainMenuDrop" class="dropdown-menu" aria-labelledby="dLabel">
-                                <li><a href="/#/me"><img alt="me" src="icon/ID-clip.png"/>Me</a></li>
-                                <li><a href="/#/example"><img alt="example" src="icon/chipcard-active.png"/>Example Object</a></li>
-                                <li><a href="/tests.html"><img alt="system tests" src="icon/vote.png"/>System Tests</a></li>
-                                <li><a href="/#/trends"><img alt="trends" src="icon/report.png"/>Trends</a></li>
-                                <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="icon/workflow.png"/>Plugins</a></li>
-                                    <!-- <li><a href="/#/team"><img alt="team" src="icon/user-group.png"/>Team</a></li> -->
-                                    <!--<li><a href="/#/new">New</a></li><br/>-->
-                                    <!-- <li><a href="/#/tags"><img alt="tags: src="icon/back-to-ou.png"/>Tags</a></li> -->
-                               <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="theme" src="icon/function.png"/>Theme</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="javascript:setTheme('black-tie')">Black Tie</a></li>
-                                        <li><a href="javascript:setTheme('blitzer')">Blitzer</a></li>
-                                        <li><a href="javascript:setTheme('cupertino')">Cupertino</a></li>
-                                        <li><a href="javascript:setTheme('dark-hive')">Dark Hive</a></li>
-                                        <li><a href="javascript:setTheme('dot-luv')">Dot Luv</a></li>
-                                        <li><a href="javascript:setTheme('eggplant')">Eggplant</a></li>
-                                        <li><a href="javascript:setTheme('excite-bike')">Excite Bike</a></li>
-                                        <li><a href="javascript:setTheme('flick')">Flick</a></li>
-                                        <li><a href="javascript:setTheme('hot-sneaks')">Hot Sneaks</a></li>
-                                        <li><a href="javascript:setTheme('humanity')">Humanity</a></li>
-                                        <li><a href="javascript:setTheme('le-frog')">Le Frog</a></li>
-                                        <li><a href="javascript:setTheme('mint-choc')">Mint Chocolate</a></li>
-                                        <li><a href="javascript:setTheme('overcast')">Overcast</a></li>
-                                        <li><a href="javascript:setTheme('pepper-grinder')">Pepper Grinder</a></li>
-                                        <li><a href="javascript:setTheme('redmond')">Redmond</a></li>
-                                        <li><a href="javascript:setTheme('smoothness')">Smoothness</a></li>
-                                        <li><a href="javascript:setTheme('south-street')">South Street</a></li>
-                                        <li><a href="javascript:setTheme('start')">Start</a></li>
-                                        <li><a href="javascript:setTheme('sunny')">Sunny</a></li>
-                                        <li><a href="javascript:setTheme('swanky-purse')">Swanky Purse</a></li>
-                                        <li><a href="javascript:setTheme('trontastic')">Trontastic</a></li>
-                                        <li><a href="javascript:setTheme('ui-darkness')">UI Darkness</a></li>
-                                        <li><a href="javascript:setTheme('ui-lightness')">UI Lightness</a></li>
-                                        <li><a href="javascript:setTheme('vader')">Vader</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><img alt="options" src="icon/manage.png"/>Options</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Listen to all Channels</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Silence</a></li>
-                                        <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
-                                    </ul>
-                                </li>
-                                <li class="divider"></li>
-                                <li><div id="ViewOptions"></div></li>
-                                <li><div id="ViewSelect" class="ViewSelectNormal"></div></li>
-                                <li class="divider"></li>
-                                <li><a href="/login.html">Login</a></li>
-                                <li><a href="/logout">Logout</a></li>
-                                <li class="divider"></li>
-                                <li><a href="/#/help">Help</a></li>
-                                
-                              </ul>
-                              <!-- <a class="btn" href="#">Location</a> -->
-                	</li>
-                	<li><a class="ui-button ui-corner-right" id='FocusToggleButton' title="Add Content" href="#" ><b class="icon-plus"></b></a></li>
-                </ul>
-            <a class="brand" href="#"></a>
-            <div class="nav-collapse collapse" style="z-index:999998">
-              <ul id="display-menu" class="nav ui-widget-content ui-corner-all">
-                    <li class="viz"><a class="ui-button ui-corner-left" id="map" title="Map" href="#"><b class="icon-globe"></b><span class="display-menu-collapse">Map</span></a></li>
-                    <li class="viz"><a class="ui-button" id="grid" title="Grid" href="#"><b class="icon-th"></b><span class="display-menu-collapse">Grid</span></a></li>
-                    <li class="viz"><a class="ui-button" id="list" title="List" href="#"><b class="icon-th-list"></b><span class="display-menu-collapse">List</span></a></li>
-                    <!-- <li class="viz"><a class="ui-button" id="time" title="Timeline" href="#"><b class="icon-time"></b><span class="display-menu-collapse">Timeline</span></a></li> -->
-                    <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
-                    <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
-                    <li class="viz"><a class="ui-button" id="graph" title="Graph" href="#"><b class="icon-random"></b><span class="display-menu-collapse">Graph</span></a></li>
-                    <li class="viz"><a class="ui-button" id="trends" title="Trends" href="#"><b class="icon-signal"></b><span class="display-menu-collapse">Trends</span></a></li>
-                    <li class="viz"><a class="ui-button ui-corner-right" id="self" title="Self" href="#"><b class="icon-home"></b><span class="display-menu-collapse">Home</span></a></li>
-                  </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
-      </div>
-
-<!-- HIDDEN UNTIL LOADED -->
-
-<div id="ContentArea" class="container" style="display:none">
- 
-<!-- ADD CONTENT PANEL -->
 
 
-<!-- DISPLAY LAYERS -->
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="icon/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="icon/favicon.png">
+    </head>
 
-    	    <div id="DataTarget" class="ui-widget-content">
-            <div id="FocusEdit" class="ui-corner-all" refactorToID="FocusEdit">
-               <div id="FocusMainMenu">
-                    <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
-                    <div class="btn-group">
-                        <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
-                        <button title="Add Description" id="AddDescriptionButton"><i class="icon-pencil"></i></button>                
-                        <button title="Add Location" id="AddLocationButton"><i class="icon-globe"></i></button>
-                        <button title="Upload" type="button" data-toggle="modal" data-target="#UploadModal"><i class="icon-file"></i></button>                
-                        <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
-                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="javascript:">Save Privately...</a></li>
-                            <li class="divider"></li>
-                            <li><a href="javascript:showEditedFocus();">Export...</a></li>
-                            <li><a href="javascript:cloneFocus();">Clone...</a></li>
-                            <li><a href="javascript:deleteFocus();">Delete</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="Focus" class="ui-widget-content"></div>
-            </div>
-            	<div id="View" class="ui-widget-content"></div>
-    	    </div>
+    <body>
+
+        <!-- Fixed navbar -->
+
+        <div class="container">
             
-<!-- END HIDDEN UNTIL LOADED -->
-</div>
+            <div id="ViewMenu">
+                <div>
+                    <a id="map" title="Map" href="#">Map</a>
+                    <a id="grid" title="Grid" href="#">Grid</a>
+                    <a id="list" title="List" href="#">List</a>
+                    <a id="self" title="Self" href="#">Self</a>
+                </div>
+                <div>
+                    <a id='FocusToggleButton' title="Add Content" href="#">+</a>
+                    <a id="graph" title="Graph" href="#">Graph</a>
+                    <a id="trends" title="Trends" href="#">Trends</a>
+                </div>
+                <!-- <li class="viz"><a class="ui-button" id="time" title="Timeline" href="#"><b class="icon-time"></b><span class="display-menu-collapse">Timeline</span></a></li> -->
+                <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
+                <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
+            </div>
+            <div id="AvatarMenu">
+                <a class="brand" href="#"></a>
+                <div>
+                        <!-- <li><a href="/tests.html"><img alt="system tests" src="icon/vote.png"/>System Tests</a></li> -->
+                        <li><a href="/plugins.html" target="_blank"><img alt="plugins" src="icon/workflow.png"/>Plugins</a></li>
+                        <!-- <li><a href="/#/team"><img alt="team" src="icon/user-group.png"/>Team</a></li> -->
+                        <!--<li><a href="/#/new">New</a></li><br/>-->
+                        <!-- <li><a href="/#/tags"><img alt="tags: src="icon/back-to-ou.png"/>Tags</a></li> -->
+                        
+                            Theme:
+                            <select id="themeSelect">
+                                <option id="ui-lightness">Bright</option>
+                                <option id="ui-darkness">Dark</option>
+                                <option id="_space">Space</option>
+                                <option id="_cybernetic">Cybernetic</option>
+                                <option id="_notebook">Notebook</option>
+                                <option id="_rainforest">Rainforest</option>
+                                <option id="black-tie">Black Tie</option>
+                                <option id="blitzer">Blitzer</option>
+                                <option id="cupertino">Cupertino</option>
+                                <option id="dark-hive">Dark Hive</option>
+                                <option id="dot-luv">Dot Luv</option>
+                                <option id="excite-bike">Excite Bike</option>
+                                <option id="flick">Flick</option>
+                                <option id="hot-sneaks">Hot Sneaks</option>
+                                <option id="humanity">Humanity</option>
+                                <option id="le-frog">Le Frog</option>
+                                <option id="mint-choc">Mint Chocolate</option>
+                                <option id="overcast">Overcast</option>
+                                <option id="pepper-grinder">Pepper Grinder</option>
+                                <option id="redmond">Redmond</option>
+                                <option id="smoothness">Smoothness</option>
+                                <option id="south-street">South Street</option>
+                                <option id="start">Start</option>
+                                <option id="sunny">Sunny</option>
+                                <option id="swanky-purse">Swanky Purse</option>
+                                <option id="trontastic">Trontastic</option>
+                                <option id="vader">Vader</option>
+                            </select>
+                        
+                        <!--
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#"><img alt="options" src="icon/manage.png"/>Options</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Listen to all Channels</a></li>
+                                <li><a href="#">Silence</a></li>
+                                <li><a href="javascript:confirmClear()">Clear Local Memory</a></li>
+                            </ul>
+                        </li>
+                        -->
+                        <br/>
+                        <div id="ViewOptions"></div>
+                        <br/>
+                        <div id="ViewSelect" class="ViewSelectNormal"></div>
+                        <br/>
+                        <li><a href="/login.html">Login</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/#/help">Help</a></li>
 
-<!-- LOADING SCREEN -->
+                    <!-- <a class="btn" href="#">Location</a> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- HIDDEN UNTIL LOADED -->
+
+        <div id="AvatarButton">
+            <img src="https://lh3.googleusercontent.com/-OVl3fj7KV60/AAAAAAAAAAI/AAAAAAAAAAA/LY-YSfC_xcI/s90-c-k-no/photo.jpg"/>
+        </div>
+        
+        <div id="ContentArea" class="container" style="display:none">
+
+            <!-- ADD CONTENT PANEL -->
+
+
+            <!-- DISPLAY LAYERS -->
+
+                <div id="FocusEdit" class="ui-corner-all" refactorToID="FocusEdit">
+                    <div id="FocusMainMenu">
+                        <button id="ClearButton" title="New"><i class="icon-remove"></i></button>
+                        <div class="btn-group">
+                            <button title="Tag" type="button" data-toggle="modal" data-target="#TypeSelectModal"><i class="icon-tag"></i></button>
+                            <button title="Add Description" id="AddDescriptionButton"><i class="icon-pencil"></i></button>                
+                            <button title="Add Location" id="AddLocationButton"><i class="icon-globe"></i></button>
+                            <button title="Upload" type="button" data-toggle="modal" data-target="#UploadModal"><i class="icon-file"></i></button>                
+                            <button id='SaveButton' class="btn" title="Save"><i class="icon-check" title="Save"></i></button>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="javascript:">Save Privately...</a></li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:showEditedFocus();">Export...</a></li>
+                                <li><a href="javascript:cloneFocus();">Clone...</a></li>
+                                <li><a href="javascript:deleteFocus();">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="Focus" class="ui-widget-content"></div>
+                </div>
+                <div id="View" class="ui-widget-content"></div>
+
+            <!-- END HIDDEN UNTIL LOADED -->
+        </div>
+
+        <!-- LOADING SCREEN -->
 
         <div id="LoadingSplash">        
             <p style="font-size: 48px; text-align: center; margin-top: 50px;"><img alt="Loading... please wait a moment." src="/icon/load.gif" ></p>
         </div>
 
-<!-- UI LAYERS -->
+        <!-- UI LAYERS -->
 
         <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
 
             <h2>Select Tags</h2>
             <div id="TypeSelectModalTree"></div>
-            
+
             <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
         <div id="UploadModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
@@ -203,8 +194,8 @@
                 <div class="FocusUploadPercent">0%</div>
             </div>
             <div id="FocusUploadStatus"></div>        
-            
+
             <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
-  </body>
+    </body>
 </html>

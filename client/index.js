@@ -97,7 +97,7 @@ function initUI(self) {
 
     self.on('change:attention', function() {
         later(function() {
-            updateView();
+            updateView();   
         });
     });
 
@@ -126,10 +126,11 @@ function initUI(self) {
         updateView();
     });
 
-    $('.viz a').click(function(x) {
+    $('#ViewMenu a').click(function(x) {
         var b = $(this);
         var v = b.attr('id');
-        self.set('currentView', v);
+        if (v!='FocusToggleButton') //HACK
+            self.set('currentView', v);
     });
 
 
@@ -223,13 +224,17 @@ function _updateView() {
     v.html('');
     o.html('');
 
+    v.removeClass('view-indented');
+    
     if (view === 'list') {
+        v.addClass('view-indented');
         renderList(s, o, v);
     }
     else if (view === 'map') {
         renderMap(s, o, v);
     }
     else if (view === 'trends') {
+        v.addClass('view-indented');
         renderTrends(s, o, v);
     }
     else if (view == 'graph') {
@@ -239,9 +244,11 @@ function _updateView() {
         renderSlides(s, o, v);
     }
     else if (view == 'grid') {
+        v.addClass('view-indented');
         renderGrid(s, o, v);
     }
     else if (view == 'self') {
+        v.addClass('view-indented');
         renderSelf(s, o, v);
     }
     else {
@@ -293,7 +300,16 @@ function setTheme(t) {
     }
 
     $('#themecss').remove();
-    $('head').append('<link id="themecss" href="lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css" type="text/css" rel="stylesheet"/>');
+    
+    var themeURL;
+    if (t[0] == '_') {
+        t = t.substring(1);
+        themeURL = 'theme/' + t + '.css';
+    }
+    else {
+        themeURL = 'lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css';        
+    }
+    $('head').append('<link id="themecss" href="' + themeURL + '" type="text/css" rel="stylesheet"/>');
 }
 
 function confirmClear() {
@@ -450,5 +466,24 @@ $(document).ready(function() {
             }
     );
 
+    $('#AvatarButton').click(function() {
+       var am = $('#AvatarMenu');
+       var vm = $('#ViewMenu');
+       var shown = am.is(':visible');
+       if (shown) {
+           am.fadeOut();
+           vm.fadeOut();
+       }
+       else {
+           am.fadeIn();
+           vm.fadeIn();
+       }
+    });
+    
+    $('#themeSelect').change(function() {
+        var t = $(this).children(":selected").attr("id");
+        setTheme(t);
+    });
 });
+
 

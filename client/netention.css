@@ -1,5 +1,5 @@
 /* CSS Document */
-body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; }
+body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; }
 a, a:hover, a:active, a:focus { outline: none; }
 .brand {margin-top:2px;}
 .navbar .brand { margin-left: 0px; }
@@ -1051,8 +1051,6 @@ bottom:0;
 height: 100%;
 width:100%;
 z-index:1;
-margin-top:50px;
-margin-bottom:-50px;
 padding:0;
 overflow: hidden;
 }
@@ -1062,8 +1060,6 @@ position: relative;
 height: 100%;
 width:100%;
 z-index:1;
-padding:0;
-margin:0;
 overflow-y: visible;
 overflow-x: hidden;
 }
@@ -1113,12 +1109,12 @@ clear:both;
     width: 100%;    
 }
 .SelfViewSide {
-    width: 25%;
+    width: 22%;
     float: left;
     padding: 1.0em;
 }
 .SelfViewContent {
-    width: 70%;
+    width: 68%;
     float: right;
     padding:1.0em;
 }
@@ -1154,7 +1150,7 @@ clear:both;
     margin: 5px;
     overflow: none;
 	z-index:2;
-	-moz-border-radius-topleft:10px;-webkit-border-top-left-radius:10px;-khtml-border-top-left-radius:10px;border-top-left-radius:10px; -moz-border-radius-topright:10px;-webkit-border-top-right-radius:10px;-khtml-border-top-right-radius:10px;border-top-right-radius:10px;-moz-border-radius-bottomleft:10px;-webkit-border-bottom-left-radius:10px;-khtml-border-bottom-left-radius:10px;border-bottom-left-radius:10px;-moz-border-radius-bottomright:10px;-webkit-border-bottom-right-radius:10px;-khtml-border-bottom-right-radius:10px;border-bottom-right-radius:10px;
+	-moz-border-radius-topleft:6px;-webkit-border-top-left-radius:6px;-khtml-border-top-left-radius:6px;border-top-left-radius:6px; -moz-border-radius-topright:6px;-webkit-border-top-right-radius:6px;-khtml-border-top-right-radius:6px;border-top-right-radius:6px;-moz-border-radius-bottomleft:6px;-webkit-border-bottom-left-radius:6px;-khtml-border-bottom-left-radius:6px;border-bottom-left-radius:6px;-moz-border-radius-bottomright:6px;-webkit-border-bottom-right-radius:6px;-khtml-border-bottom-right-radius:6px;border-bottom-right-radius:6px;
 }
 
 .ObjectViewHideButton {
@@ -1324,4 +1320,42 @@ clear:both;
     clear: both;
     padding-bottom: 2.5em;
     border-bottom: 1px solid gray;
+}
+
+#AvatarMenu, #ViewMenu, #AvatarButton {
+    position: fixed;    
+    z-index:10;
+}
+#AvatarMenu {
+    top: 4.1em;
+    left: 0.3em;
+    background-color: rgba(255,255,255,0.8);
+}
+#ViewMenu {
+    left: 4.1em;
+    top: 0.3em;
+    background-color: rgba(255,255,255,0.8);
+}
+#AvatarButton {
+    top: 0.3em;
+    left: 0.3em;
+}
+#AvatarButton img {
+    border: 2px solid gray;    
+    cursor: crosshair;
+    width: 3.5em;
+    max-height: 3.5em;
+}
+#ViewMenu a {
+    border: 1px solid gray;
+    background-color: white;    
+}
+#ViewMenu div {
+    margin-bottom: 0.3em;
+}
+#ThemeList {
+    font-size: 60%;
+}
+.view-indented {
+    padding-left: 4.5em;
 }
