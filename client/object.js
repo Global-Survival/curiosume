@@ -43,7 +43,10 @@ function newPopupObjectView(_x) {
 
 
 function getAvatar(s) {
-    var e = s.email || '';
+    var e = '';
+    if (s)
+        if (s.email)
+             e = s.email;
     var emailHash = MD5(e);
     return $("<img>").attr("src","http://www.gravatar.com/avatar/" + emailHash + "&s=200");
 }
