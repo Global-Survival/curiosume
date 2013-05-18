@@ -743,9 +743,10 @@ exports.start = function(host, port, database, init) {
                         PREFIX zertify: <http://zertify.org/>\
                         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\
                         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
-                        PREFIX : <' + Server.host + '/>\
-                        INSERT DATA {';
+                        //PREFIX : <' + Server.host + '/>\
+                        INSERT DATA {\n';
 
+                var skills = 0;
                 for (var i = 0; i < objects.length; i++) {
                     var oo = objects[i];
                     var t = util.objTags(oo);
@@ -760,17 +761,23 @@ exports.start = function(host, port, database, init) {
                         }
                     }
                     if ((skillLevel) && (object)) {
+                        skills++;
                         query += 'n:' + oo.author + ' zertify:' + skillLevel + ' d:' + object + '.\n'; 
                     }
                 }
                                      
                 query += '}';
-                     
-               store.execute(query, function(success, results) {
-                    store.graph(function(success,graph){            
-                        sendRDF(res, graph);
-                    });
-               });
+
+                console.log(query);
+               if (skills > 0)
+                store.execute(query, function(success, results) {
+                     store.graph(function(success,graph){            
+                         sendRDF(res, graph);
+                     });
+                });
+               else {
+                   sendJSON(res, "empty");
+               }
 
             });
             

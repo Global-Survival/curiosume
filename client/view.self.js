@@ -94,7 +94,9 @@ s
             b.click(function() {
                 if (currentTag==null) return;
                 
-                var o = objNew();
+                
+                var id = s.id() + '-' + currentTag;
+                var o = objNew(id, currentTag);
                 o.author = s.id();
                 objAddTag(o, currentTag);
                 objAddTag(o, tag);

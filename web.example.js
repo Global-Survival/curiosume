@@ -12,7 +12,7 @@ web.start('siteurl' /* include :port if necessary */,
     'databaseURL', /* ex: 'localhost/test' */
 
     /* after initialized, calls this: */
-    function() {	
+    function(server) {	
         //CONFIGURATION OPTIONS        
         /*
         server.permissions['authenticate_to_configure_plugins'] = false;

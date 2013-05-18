@@ -1306,12 +1306,14 @@ clear:both;
     height: 80%;
     overflow:auto;
     background-color: white;
+    color: black;
     width: 40%;
 }
 .WikiBrowser a {
     border: 1px solid gray;
     padding: 1px;
     cursor: crosshair;
+    color:black;
 }
 .SelfAddTagButton {
     float: right;
