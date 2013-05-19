@@ -28,73 +28,11 @@ function later(f) {
     setTimeout(f, 0);
 }
 
-
-function loadScripts(f) {
-    /*loadCSS('http://code.jquery.com/ui/1.8.23/themes/base/jquery-ui.css');
-    loadCSS('http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css');
-
-	//loadCSS('http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css');
-	    
-	loadCSS('http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css');    
-            
-    
-    //loadCSS('/lib/wysihtml5/bootstrap-wysihtml5.css');
-    
-    loadCSS('/lib/dynatree/skin/ui.dynatree.css');
-
-    loadCSS('/map.css');
-    loadCSS('/object.css');
-    
-    loadCSS('/index.css', 'only screen and (min-device-width: 641px)');*/
-
-    loadCSS('lib/pnotify/jquery.pnotify.default.css');
- 
-    //https://github.com/rgrove/lazyload/
-	$.getScript('lib/lazyload.js', function() {
-		
-	var scripts = [     'socket.io/socket.io.js', 
-                        'http://openlayers.org/dev/OpenLayers.js',
-		                'http://code.jquery.com/ui/jquery-ui-git.js',
-		                'lib/jQuery-URL-Parser/purl.js',
-                        'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js',
-                        'http://cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js',
-                        'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js',
-                        'lib/pnotify/jquery.pnotify.min.js',
-		                'util.js', 'map.js', 'object.js', 'icons.js', 'ontosearch.js', 'example_object.js',
-                        'lib/timeago/timeago.js',
-                        'lib/jquery-form/jquery.form.js',
-                        "lib/dynatree/jquery.dynatree.min.js",
-                        'view.map.js',
-                        'view.grid.js',
-                        'view.list.js',
-                        'view.trends.js',
-                        'view.slides.js',
-                        'view.graph.js',
-                        'view.self.js',
-						//'http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjpkAC9ePGem0lIq5XcMiuhR_wWLPFku8Ix9i2SXYRVK3e45q1BQUd_beF8dtzKET_EteAjPdGDwqpQ',
-                        //"/lib/wysihtml5/wysihtml5-0.4.0pre.min.js",
-                        //"http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js",
-                        //'/view.map.cesium.js',
-                        //"/lib/wysihtml5/bootstrap-wysihtml5.js",
-		                ];
-		
-		LazyLoad.js(scripts, f);
-	});
-
-    
- 
-}
-
 var stack_bottomleft = {"dir1": "right", "dir2": "up", "push": "top"};
-
 
 var Self;
 
 function netention(f) {
-		
-	console.log('Loading scripts...');
-	
-	loadScripts(function(data, textStatus) {
         		
         Self = Backbone.Model.extend({
             
@@ -232,7 +170,7 @@ function netention(f) {
                      that.saveLocal();
                      $.pnotify({
                         title: 'Connected',
-                        text: cid + '@' + (key ? key : '?') + ', ' + that.myself().name
+                        text: that.myself().name
                      });
                 });
                 
@@ -573,7 +511,6 @@ function netention(f) {
             f(s);	    
         });
 		
-    });
 	
 }
 

@@ -19,6 +19,8 @@ web.start('siteurl' /* include :port if necessary */,
         server.permissions['authenticate_to_create_objects'] = false;
         server.permissions['authenticate_to_delete_objects'] = false;
         server.permissions['authenticate_to_proxy_http'] = false;
+        
+        server.permissions['twitter_key'] = 'CONSUMER_KEY:CONSUMER_SECRET';
         */
     }
 );

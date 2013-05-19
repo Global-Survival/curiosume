@@ -219,33 +219,37 @@ function renderGraphFocus(s, o, v) {
 var maxPermitedVerticalRange = { top: -10000000, bottom: 10000000 };
 
 
+var _chronozoomloaded = false;
+
 function initCZ(f) {
-    //$.getScript('/lib/lazyload.js', function() {
-		
-		var scripts = [ 
-		               "/lib/chronozoom/Scripts/rx.js",
-		               "/lib/chronozoom/Scripts/rx.jQuery.js",
-		               
-//		               "/lib/chronozoom/Scripts/axis.js",
-		               "/lib/chronozoom/Scripts/common.js",
-		               "/lib/chronozoom/Scripts/cz.settings.js",
-		               "/lib/chronozoom/Scripts/vccontent.js",
-		               "/lib/chronozoom/Scripts/viewport.js",
-		               "/lib/chronozoom/Scripts/virtualCanvas.js",
-		               "/lib/chronozoom/Scripts/mouseWheelPlugin.js",
-		               "/lib/chronozoom/Scripts/gestures.js",
-		               "/lib/chronozoom/Scripts/viewportAnimation.js",
-		               "/lib/chronozoom/Scripts/viewportController.js",
-                       
+    if (_chronozoomloaded) {
+        f();
+    }
+    else {
+        _chronozoomloaded = true;
+
+        var scripts = [ 
+                       "/lib/chronozoom/Scripts/rx.js",
+                       "/lib/chronozoom/Scripts/rx.jQuery.js",
+                       "/lib/chronozoom/Scripts/common.js",
+                       "/lib/chronozoom/Scripts/cz.settings.js",
+                       "/lib/chronozoom/Scripts/vccontent.js",
+                       "/lib/chronozoom/Scripts/viewport.js",
+                       "/lib/chronozoom/Scripts/virtualCanvas.js",
+                       "/lib/chronozoom/Scripts/mouseWheelPlugin.js",
+                       "/lib/chronozoom/Scripts/gestures.js",
+                       "/lib/chronozoom/Scripts/viewportAnimation.js",
+                       "/lib/chronozoom/Scripts/viewportController.js",
+
                        '/lib/arbor/arbor.js'
-                       
-		               
-		];
-		
-		LazyLoad.js(scripts, f);
-	//});
-    
-    loadCSS('/lib/chronozoom/Styles/cz.css');
+        ];
+        
+        loadCSS('/lib/chronozoom/Styles/cz.css');
+        
+
+        LazyLoad.js(scripts, f);
+
+    }
 	
 }
 

@@ -88,34 +88,53 @@ s
         var tagBar = $('<div/>');
         
         function tbutton( tag) {
-            var b = $('<button/>');
+            var b = $('<input/>');
+            b.attr('type', 'checkbox');            
             b.attr('style','background-color:' + tagColorPresets[tag]);
             b.html(tag);
             b.click(function() {
-                if (currentTag==null) return;
-                
-                
-                var id = s.id() + '-' + currentTag;
-                var o = objNew(id, currentTag);
-                o.author = s.id();
-                objAddTag(o, currentTag);
-                objAddTag(o, tag);
-                
-                s.notice(o);
-                s.pub(o);
             });
             return b;            
         }
         
-        tagBar.append(tbutton('BeginnerStudent'));
-        tagBar.append(tbutton('IntermediateStudent'));
-        tagBar.append(tbutton('CollaboratingStudent'));        
-        tagBar.append(tbutton('CollaboratingTeacher'));
-        tagBar.append(tbutton('IntermediateTeacher'));
-        tagBar.append(tbutton('ExpertTeacher'));
+        //http://jqueryui.com/button/#checkbox
+        
+        var skillSet = $('<div/>');
+        {
+            skillSet.append(tbutton('BeginnerStudent'));
+            skillSet.append(tbutton('IntermediateStudent'));
+            skillSet.append(tbutton('CollaboratingStudent'));        
+            skillSet.append(tbutton('CollaboratingTeacher'));
+            skillSet.append(tbutton('IntermediateTeacher'));
+            skillSet.append(tbutton('ExpertTeacher'));    
+        }
+        tagBar.append(skillSet);
+        
+        skillSet.buttonset();
+        
         tagBar.append('<br/>');
         tagBar.append(tbutton('Can'));
         tagBar.append(tbutton('Need'));
+        tagBar.append('<br/>');
+        
+        var saveButton = $('<button>Save</button>');
+        saveButton.click(function() {
+            if (currentTag==null) return;
+
+
+            var id = s.id() + '-' + currentTag;
+            var o = objNew(id, currentTag);
+            o.author = s.id();
+            objAddTag(o, currentTag);
+
+            //get selected tags
+            //objAddTag(o, tag);
+
+            //s.notice(o);
+            //s.pub(o);            
+        });
+        tagBar.append(saveButton);
+        
         b.prepend(tagBar);
     }
     
