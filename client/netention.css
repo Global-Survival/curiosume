@@ -1138,10 +1138,11 @@ clear:both;
 .WikiBrowser h1 {
     margin-top: 0;
 }
-.WikiBrowser a {
+.WikiBrowser a, .WikiBrowser a:visited {
     border: 1px solid gray;
     padding: 1px;
     cursor: crosshair;
+    color: black !important;
 }
 .WikiTagSave {
     margin-top: 5px;

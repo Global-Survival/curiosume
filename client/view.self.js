@@ -9,7 +9,9 @@ var tagColorPresets = {
     'CollaboratingStudent': '#EFBB11',
     'CollaboratingTeacher': '#F48E1A',
     'IntermediateTeacher': '#F96324',
-    'ExpertTeacher': '#FF3B2E'                
+    'ExpertTeacher': '#FF3B2E',
+    'Can': 'fuchsia',
+    'Need': 'blue'
 };
     
 function newTagBrowser(s) {
@@ -101,12 +103,6 @@ s
                        }
                     });
                     target.buttonset('refresh');
-                    /*
-                    target.children('label').each(function() {
-                       var x = $(this);
-                       x.removeClass('ui-state-active');
-                        
-                    });*/
                 }
             });
             target.append(b);
@@ -143,19 +139,38 @@ s
         var saveButton = $('<button>Save</button>');
         saveButton.addClass('WikiTagSave');
         saveButton.click(function() {
-            if (currentTag==null) return;
+            if (currentTag==null) {
+                alert('Choose a wikitag.');                
+                return;                
+            }
 
-
-            var id = s.id() + '-' + currentTag;
-            var o = objNew(id, currentTag);
-            o.author = s.id();
-            objAddTag(o, currentTag);
-
-            //get selected tags
-            //objAddTag(o, tag);
-
-            //s.notice(o);
-            //s.pub(o);            
+            var selTags = [];
+            
+            console.dir(tagBar.find('div input'));
+            tagBar.find('div input').each(function() {
+               var x = $(this);
+               var c = x[0].checked;
+               if (c) {
+                   var i = x.attr('id').substring(/*skill_*/6);
+                   selTags.push(i);
+               }
+            });
+            if (selTags.length > 0) {
+                var id = s.id() + '-' + currentTag;
+                var o = objNew(id, currentTag);
+                o.author = s.id();
+                objAddTag(o, currentTag);
+            
+                for (var i = 0; i < selTags.length; i++) {
+                    objAddTag(o, selTags[i]);
+                }
+                
+                s.notice(o);
+                s.pub(o);                            
+            }
+            else {
+                alert('Choose 1 or more tags to combine with the wikitag.');
+            }
         });
         b.append(saveButton);
         
