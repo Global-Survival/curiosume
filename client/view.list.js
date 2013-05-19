@@ -146,11 +146,13 @@ function renderItems(s, o, v, maxItems, perItems) {
 
 function renderList(s, o, v) {
     renderItems(s, o, v, 75, function(s, v, xxrr) {
+        var elements = [];
         for (var i = 0; i < xxrr.length; i++) {
             var x = xxrr[i][0];
             var r = xxrr[i][1];
-            v.append(renderObjectSummary(s, x, function() { }, r, 1 ));
+            elements.push(renderObjectSummary(s, x, function() { }, r, 1 ));
         }
+        v.append(elements);
     });
     
     $('body').timeago('refresh');

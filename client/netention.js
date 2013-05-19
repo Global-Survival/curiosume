@@ -224,7 +224,7 @@ function netention(f) {
                 }*/
                 ty[t.uri] = tt;
 	
-	            if (xx) {
+	        if (xx) {
                     var propertyIDs = xx;
                     if (!_.isArray(xx)) {
                         //hash-array mode
@@ -237,7 +237,7 @@ function netention(f) {
                     }
                     
                     t.properties = propertyIDs;
-	            }
+	        }
             },
             
             geolocate : function(ex) {
@@ -503,13 +503,8 @@ function netention(f) {
         var s = new Self();
         s.loadLocal();
         
-        $.getJSON('/schema/json', function(schema) {
-            s.addProperties(schema['tags']);
-            s.addTags(schema['properties']);
-            
-            s.connect();
-            f(s);	    
-        });
+        s.connect();
+        f(s);	    
 		
 	
 }
@@ -578,3 +573,8 @@ function addMenu(afterLoaded) {
 	$('body').prepend(hw);            	
 }
 */
+
+
+function newDiv() {
+    return $(document.createElement('div'));
+}

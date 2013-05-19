@@ -48,23 +48,25 @@ function renderTrends(s, o, v) {
                 Backbone.history.navigate(url, true);  
             });
             
+            var vv = $('<p/>');
+            
             d.append(ab);
             d.addClass('trendTagLabel');
-            v.append(d);
+            vv.append(d);
             
             var f = $('<div>' + _n(selfTagCount[ti]) + '</div>' );
             f.addClass('trendTagCount');
-            v.append(f);
+            vv.append(f);
 
             var e = $('<div>' + _n(localTagCount[ti]) + '</div>' );
             e.addClass('trendTagCount');
-            v.append(e);            
+            vv.append(e);            
             
             var g = $('<div>' + _n(serverTagCount[ti]) + '</div>' );
             g.addClass('trendTagCount');
-            v.append(g);
+            vv.append(g);
             
-            v.append('<br/>');
+            v.append(vv);
             
     	}
         

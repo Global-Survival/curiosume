@@ -71,7 +71,7 @@ function initUI(self) {
 
     self.on('change:attention', function() {
         later(function() {
-            updateView();   
+            updateView();
         });
     });
 
@@ -92,10 +92,11 @@ function initUI(self) {
     $('#ViewMenu input').click(function(x) {
         var b = $(this);
         var v = b.attr('id');
-		$('#ViewControls').buttonset('refresh');
-        if (v!='profile') //HACK
+        $('#ViewControls').buttonset('refresh');
+        if (v != 'profile') //HACK
             self.set('currentView', v);
     });
+
 
     //TODO move this to focus.semantic.js when dynamically generating the focus UI
     $('#SaveButton').click(function() {
@@ -151,7 +152,7 @@ function initUI(self) {
     }
 
 
-    var msgs = [ 'I think', 'I feel', 'I wonder', 'I know', 'I want' ];
+    var msgs = ['I think', 'I feel', 'I wonder', 'I know', 'I want'];
     //var msgs = ['Revolutionary', 'Extraordinary', 'Bodacious', 'Scrumptious', 'Delicious'];
     function updatePrompt() {
         var l = msgs[parseInt(Math.random() * msgs.length)];
@@ -190,7 +191,7 @@ function _updateView() {
     o.html('');
 
     v.removeClass('view-indented');
-    
+
     if (view === 'list') {
         v.addClass('view-indented');
         renderList(s, o, v);
@@ -265,14 +266,14 @@ function setTheme(t) {
     }
 
     $('#themecss').remove();
-    
+
     var themeURL;
     if (t[0] == '_') {
         t = t.substring(1);
         themeURL = 'theme/' + t + '.css';
     }
     else {
-        themeURL = 'lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css';        
+        themeURL = 'lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css';
     }
     $('head').append('<link id="themecss" href="' + themeURL + '" type="text/css" rel="stylesheet"/>');
 }
@@ -290,114 +291,121 @@ $(document).ready(function() {
         window.self = self;
 
         self.clear();
-        self.getLatestObjects(MAX_INITIAL_OBJECTS, function() {
 
-            self.listenAll(true);
+        $.getJSON('/schema/json', function(schema) {
+            self.addProperties(schema['properties']);
+            self.addTags(schema['tags']);
 
-            //SETUP ROUTER
-            var Workspace = Backbone.Router.extend({
-                routes: {
-                    "new": "new",
-                    "me": "me", // #help
-                    "help": "help", // #help
-                    "query/:query": "query", // #search/kiwis
-                    "object/:id": "object",
-                    "object/:id/focus": "focus",
-                    "tag/:tag": "tag",
-                    //"new/with/tags/:t":     "newWithTags",
-                    "example": "completeExample"
-                            //"search/:query/:page":  "query"   // #search/kiwis/p7
-                },
-                'new': function() {
-                    clearFocus();
-                },
-                /*
-                 newWithTags : function(ts) {                              
-                 //'/new/with/tags/' + ts
-                 ts = ts.split(',');
-                 var tss = [];
-                 for (var i = 0; i < ts.length; i++)
-                 tss.push(1.0);
-                 
-                 commitFocus({
-                 id: uuid(),
-                 tag: ts,
-                 tagStrength: tss
-                 });
-                 },*/
 
-                me: function() {
-                    commitFocus(self.myself());
-                },
-                completeExample: function() {
-                    commitFocus(exampleObject);
-                },
-                /*
-                 help: function() {
-                 commitFocus({
-                 uri: uuid(),
-                 tag: [ 'help '], tagStrength: [ 1.0 ]
-                 });
-                 },*/
+            self.getLatestObjects(MAX_INITIAL_OBJECTS, function() {
 
-                tag: function(tag) {
-                    self.set('list-semantic', 'Relevant');
-                    commitFocus(objAddTag(objNew(), tag));
-                },
-                query: function(query) {
-                    commitFocus({
-                        id: uuid(),
-                        name: query
-                    });
-                },
-                object: function(id) {
-                    var x = self.getObject(id);
-                    if (x) {
-                        newPopupObjectView(x);
-                    }
-                    else {
-                        $.pnotify({
-                            title: 'Unknown object',
-                            text: id.substring(0,4) + '...'
+                self.listenAll(true);
+
+                //SETUP ROUTER
+                var Workspace = Backbone.Router.extend({
+                    routes: {
+                        "new": "new",
+                        "me": "me", // #help
+                        "help": "help", // #help
+                        "query/:query": "query", // #search/kiwis
+                        "object/:id": "object",
+                        "object/:id/focus": "focus",
+                        "tag/:tag": "tag",
+                        //"new/with/tags/:t":     "newWithTags",
+                        "example": "completeExample"
+                                //"search/:query/:page":  "query"   // #search/kiwis/p7
+                    },
+                    'new': function() {
+                        clearFocus();
+                    },
+                    /*
+                     newWithTags : function(ts) {                              
+                     //'/new/with/tags/' + ts
+                     ts = ts.split(',');
+                     var tss = [];
+                     for (var i = 0; i < ts.length; i++)
+                     tss.push(1.0);
+                     
+                     commitFocus({
+                     id: uuid(),
+                     tag: ts,
+                     tagStrength: tss
+                     });
+                     },*/
+
+                    me: function() {
+                        commitFocus(self.myself());
+                    },
+                    completeExample: function() {
+                        commitFocus(exampleObject);
+                    },
+                    /*
+                     help: function() {
+                     commitFocus({
+                     uri: uuid(),
+                     tag: [ 'help '], tagStrength: [ 1.0 ]
+                     });
+                     },*/
+
+                    tag: function(tag) {
+                        self.set('list-semantic', 'Relevant');
+                        commitFocus(objAddTag(objNew(), tag));
+                    },
+                    query: function(query) {
+                        commitFocus({
+                            id: uuid(),
+                            name: query
                         });
-                    }
-                },
-                focus: function(id) {
-                    self.set('list-semantic', 'Relevant');
-                    commitFocus(self.getObject(id));
-                    updateView();
+                    },
+                    object: function(id) {
+                        var x = self.getObject(id);
+                        if (x) {
+                            newPopupObjectView(x);
+                        }
+                        else {
+                            $.pnotify({
+                                title: 'Unknown object',
+                                text: id.substring(0, 4) + '...'
+                            });
+                        }
+                    },
+                    focus: function(id) {
+                        self.set('list-semantic', 'Relevant');
+                        commitFocus(self.getObject(id));
+                        updateView();
 
+                    }
+
+                });
+
+
+                setTheme(self.get('theme'));
+
+
+                initUI(self);
+
+                var w = new Workspace();
+                Backbone.history.start();
+
+
+                if (!self.get('currentView')) {
+                    self.set('currentView', 'grid');
+                }
+                else {
+                    updateView();
                 }
 
+                //select the current view in the ViewControls
+                $('#ViewControls #' + self.get('currentView')).attr('checked', true);
+                $('#ViewControls').buttonset('refresh');
+
+
+                //updateFocus();
+                if (!self.focus())
+                    clearFocus();
+                else
+                    updateFocus();
             });
-
-
-            setTheme(self.get('theme'));
-
-
-            initUI(self);
-
-            var w = new Workspace();
-            Backbone.history.start();
-
-
-            if (!self.get('currentView')) {
-                self.set('currentView', 'grid');
-            }
-            else {
-                updateView();
-            }
-            
-            //select the current view in the ViewControls
-            $('#ViewControls #' + self.get('currentView')).attr('checked', true);
-            $('#ViewControls').buttonset('refresh');
-
-
-            //updateFocus();
-            if (!self.focus())
-                clearFocus();
-            else
-                updateFocus();
         });
 
 
@@ -407,43 +415,45 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-	
+
 
     $('#AvatarButton').click(function() {
-       var vm = $('#ViewMenu');
-       var shown = vm.is(':visible');
-       if (shown) {
-           setTimeout(function() { vm.toggle("scale", { direction: "both", origin: "top" }); }, 0);
-		   $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
-	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');
-       }
-       else {
-           vm.toggle("slide");
-		   $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
-	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');
-       }
+        var vm = $('#ViewMenu');
+        var shown = vm.is(':visible');
+        if (shown) {
+            setTimeout(function() {
+                vm.toggle("scale", {direction: "both", origin: "top"});
+            }, 0);
+            $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
+            $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');
+        }
+        else {
+            vm.toggle("slide");
+            $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
+            $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');
+        }
     });
-    
+
     $('#themeSelect').change(function() {
         var t = $(this).children(":selected").attr("id");
         setTheme(t);
     });
-	
 
-	$('#FocusEdit button').button();
-	$( "#ViewControls" ).buttonset();
-	
+
+    $('#FocusEdit button').button();
+    $("#ViewControls").buttonset();
+
     $('#profile').click(function() {
-		$( "#AvatarMenu" ).dialog({
-			modal: true
-		});
-	});
+        $("#AvatarMenu").dialog({
+            modal: true
+        });
+    });
 
     $('.lightbox-close').click(function() {
-		$('#lightbox, #lightbox-shade').hide();
-	});
-        
-    
+        $('#lightbox, #lightbox-shade').hide();
+    });
+
+
 });
 
 

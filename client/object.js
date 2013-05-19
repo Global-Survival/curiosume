@@ -648,7 +648,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 		}
 	}
 
-    var replies = $('<div></div>');    
+    var replies = newDiv();
     
     function refreshReplies() {
         var r = self.getReplies(x.id);        
@@ -665,7 +665,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         }
     }
 
-	var hb = $('<div>').addClass('ObjectViewHideButton ui-widget-header ui-corner-tl');
+    var hb = newDiv().addClass('ObjectViewHideButton ui-widget-header ui-corner-tl');
     
     var favoriteButton = $('<button title="Favorite" class="ui-widget-content ui-button ui-corner-tl">*</button>');
     hb.append(favoriteButton);
@@ -784,7 +784,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 		d.append(haxn);
 	}
 	
-    var mdline = $('<div></div>');
+    var mdline = newDiv();
     mdline.addClass('MetadataLine');
 
     var ot = objTags(x);
@@ -865,7 +865,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         replies.hide();
         d.append(replies);
     	
-        var newReply = $('<div></div>');    
+        var newReply = newDiv();
         newReply.addClass('ObjectReply objectView');
         newReply.hide();
         d.append(newReply);
