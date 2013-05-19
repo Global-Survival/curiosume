@@ -1126,18 +1126,26 @@ clear:both;
 }
 
 .WikiBrowser {
-    /*max-height: 450px;
-    height: 450px;*/
-    position: absolute;
-    height: 80%;
+    max-height: 450px;
+    height: 450px;
     overflow:auto;
     background-color: white;
-    width: 40%;
+    color: black;
+    width: 90%;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+}
+.WikiBrowser h1 {
+    margin-top: 0;
 }
 .WikiBrowser a {
     border: 1px solid gray;
     padding: 1px;
     cursor: crosshair;
+}
+.WikiTagSave {
+    margin-top: 5px;
+    font-size: 150%;
 }
 .SelfAddTagButton {
     float: right;

@@ -15,8 +15,8 @@ var tagColorPresets = {
 function newTagBrowser(s) {
     var b = $('<div/>');
     
-    var searchInput = $('<input placeholder="search"/>');
-    var searchInputButton = $('<button>..</button>');
+    var searchInput = $('<input placeholder="Search Wikipedia"/>');
+    var searchInputButton = $('<button>&gt;&gt;&gt;</button>');
     searchInputButton.click(function() {
        gotoTag(searchInput.val(), true); 
     });
@@ -53,6 +53,10 @@ s
                     currentTag = $('.WIKIPAGEREDIRECTOR').html();
                }
                
+               br.find('#top').remove();
+               br.find('#siteSub').remove();
+               br.find('#contentSub').remove();
+               br.find('#jump-to-nav').remove();
                br.find('a').each(function(){
                    var t = $(this);
                    var h = t.attr('href');
@@ -60,20 +64,10 @@ s
                    if (h) {
                     if (h.indexOf('/wiki') == 0) {
                          t.click(function() {
-
                              gotoTag(h.substring(6)); 
                          });
                     }
                    }
-                   /*if (h) {
-                       if (h.indexOf('/wiki/')==0) {
-                           var tt = h.substring(5);
-                           t.click(function() {
-                                alert(h);
-                                gotoTag(tt);
-                           });
-                       }
-                   }*/
                });
             });
             
@@ -86,38 +80,68 @@ s
     
     {
         var tagBar = $('<div/>');
+
+        //http://jqueryui.com/button/#checkbox
+        var skillSet = $('<div/>');
+        var canNeedSet = $('<div/>');
         
-        function tbutton( tag) {
+        function tbutton( tag, target) {
             var b = $('<input/>');
+            var cid = 'skill_' + tag;
+            b.attr('id', cid);
             b.attr('type', 'checkbox');            
-            b.attr('style','background-color:' + tagColorPresets[tag]);
             b.html(tag);
-            b.click(function() {
+            b.click(function(event) {
+                var t = event.target;
+                if (t.checked) {
+                    target.children('input').each(function() {
+                       var x = $(this);
+                       if (x.attr('id')!=t.id) {
+                           x.attr('checked', false);
+                       }
+                    });
+                    target.buttonset('refresh');
+                    /*
+                    target.children('label').each(function() {
+                       var x = $(this);
+                       x.removeClass('ui-state-active');
+                        
+                    });*/
+                }
             });
-            return b;            
+            target.append(b);
+            
+            var l = $('<label for="' + cid + '">' + tag + '</label>');
+            l.attr('style','color:' + tagColorPresets[tag]);
+            target.append(l);
+            return b;
         }
         
-        //http://jqueryui.com/button/#checkbox
         
-        var skillSet = $('<div/>');
         {
-            skillSet.append(tbutton('BeginnerStudent'));
-            skillSet.append(tbutton('IntermediateStudent'));
-            skillSet.append(tbutton('CollaboratingStudent'));        
-            skillSet.append(tbutton('CollaboratingTeacher'));
-            skillSet.append(tbutton('IntermediateTeacher'));
-            skillSet.append(tbutton('ExpertTeacher'));    
+            tbutton('BeginnerStudent', skillSet);
+            tbutton('IntermediateStudent', skillSet);
+            tbutton('CollaboratingStudent', skillSet);
+            tbutton('CollaboratingTeacher', skillSet);
+            tbutton('IntermediateTeacher', skillSet);
+            tbutton('ExpertTeacher', skillSet);
         }
         tagBar.append(skillSet);
-        
         skillSet.buttonset();
         
         tagBar.append('<br/>');
-        tagBar.append(tbutton('Can'));
-        tagBar.append(tbutton('Need'));
+        
+        {
+            tbutton('Can', canNeedSet);
+            tbutton('Need', canNeedSet);            
+        }
+        tagBar.append(canNeedSet);                
+        canNeedSet.buttonset();        
+        
         tagBar.append('<br/>');
         
         var saveButton = $('<button>Save</button>');
+        saveButton.addClass('WikiTagSave');
         saveButton.click(function() {
             if (currentTag==null) return;
 
@@ -133,7 +157,7 @@ s
             //s.notice(o);
             //s.pub(o);            
         });
-        tagBar.append(saveButton);
+        b.append(saveButton);
         
         b.prepend(tagBar);
     }
