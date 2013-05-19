@@ -1117,8 +1117,10 @@ clear:both;
 }
 
 .view-indented {
-    padding-left:0;
-    padding-right:0;
+    width: 95% !important;
+    right: 0 !important;
+    left: auto !important;
+    border-left: none !important;
 }
 
 .SelfView textarea {
@@ -1218,13 +1220,15 @@ margin: 0 auto;
 #ViewMenu, #AvatarButton, #AddMenu {
     position: absolute;    
 }
-#AvatarButton { top: 0px; left: 0px; z-index:20; }
-	#AvatarButton img {
-		border: none;    
-		cursor: crosshair;
-		z-index:20;
-	}
-	.avatar-inactive {
+#AvatarButton { top: 8px; left: 8px; z-index:20; }
+
+#AvatarButton img {
+        border: none;    
+        cursor: crosshair;
+        z-index:20;
+}
+
+.avatar-inactive {
     width: 50px !important;
     height: 50px !important;
 	}
@@ -1328,3 +1332,6 @@ font-size:.8em;
 
 div.olControlZoom { top:auto !important; bottom:8px !important; }
 
+#ViewControls {
+	margin-top:10px;
+}

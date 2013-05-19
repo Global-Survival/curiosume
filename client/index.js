@@ -93,7 +93,7 @@ function initUI(self) {
         var b = $(this);
         var v = b.attr('id');
 		$('#ViewControls').buttonset('refresh');
- //       if (v!='FocusToggleButton') //HACK
+        if (v!='profile') //HACK
             self.set('currentView', v);
     });
 
@@ -381,11 +381,16 @@ $(document).ready(function() {
             Backbone.history.start();
 
 
-            if (!self.get('currentView'))
+            if (!self.get('currentView')) {
                 self.set('currentView', 'grid');
+            }
             else {
                 updateView();
             }
+            
+            //select the current view in the ViewControls
+            $('#ViewControls #' + self.get('currentView')).attr('checked', true);
+            $('#ViewControls').buttonset('refresh');
 
 
             //updateFocus();
@@ -408,12 +413,12 @@ $(document).ready(function() {
        var vm = $('#ViewMenu');
        var shown = vm.is(':visible');
        if (shown) {
-           setTimeout(function() { vm.toggle("slide", { direction: "left" }); }, 400);
+           setTimeout(function() { vm.toggle("scale", { direction: "both", origin: "top" }); }, 0);
 		   $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
 	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');
        }
        else {
-           vm.toggle("slide", { direction: "left" });
+           vm.toggle("slide");
 		   $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
 	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');
        }
@@ -437,7 +442,8 @@ $(document).ready(function() {
     $('.lightbox-close').click(function() {
 		$('#lightbox, #lightbox-shade').hide();
 	});
-
+        
+    
 });
 
 
