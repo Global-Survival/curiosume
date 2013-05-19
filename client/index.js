@@ -63,36 +63,10 @@ function initDescriptionRichText() {
 
 var updateView;
 
-function expandEditor(b) {
-    if (!b) {
-        //hide it
-        $('#FocusEdit').hide();
-        $('#FocusMainMenu').hide();
-    }
-    else {
-        //show it
-        $('#FocusEdit').show();
-        $('#FocusMainMenu').show();
-    }
-}
-;
-
-function setMainMenuVisible(b) {
-    if (!b) {
-        //hide it
-        $('#MainMenuDrop').hide();
-    }
-    else {
-        //show it
-        $('#MainMenuDrop').show();
-    }
-}
-;
 
 function initUI(self) {
 
     $('body').timeago();
-    expandEditor(false);
     updateView = _.throttle(_updateView, 150);
 
     self.on('change:attention', function() {
@@ -100,12 +74,6 @@ function initUI(self) {
             updateView();   
         });
     });
-
-    $('#ToggleMainMenuDrop').click(function() {
-        var mainMenuVisible = $('#MainMenuDrop').is(':visible');
-        setMainMenuVisible(!mainMenuVisible);
-    });
-    setMainMenuVisible(false);
 
     self.on('change:currentView', function() {
         later(function() {
@@ -121,13 +89,13 @@ function initUI(self) {
     });
 
 
-    $('#ViewMenu a').click(function(x) {
+    $('#ViewMenu input').click(function(x) {
         var b = $(this);
         var v = b.attr('id');
-        if (v!='FocusToggleButton') //HACK
+		$('#ViewControls').buttonset('refresh');
+ //       if (v!='FocusToggleButton') //HACK
             self.set('currentView', v);
     });
-
 
     //TODO move this to focus.semantic.js when dynamically generating the focus UI
     $('#SaveButton').click(function() {
@@ -390,7 +358,7 @@ $(document).ready(function() {
                     else {
                         $.pnotify({
                             title: 'Unknown object',
-                            text: id
+                            text: id.substring(0,4) + '...'
                         });
                     }
                 },
@@ -413,9 +381,6 @@ $(document).ready(function() {
             Backbone.history.start();
 
 
-            $('#LoadingSplash').fadeOut();
-            $('#ContentArea').fadeIn();
-
             if (!self.get('currentView'))
                 self.set('currentView', 'grid');
             else {
@@ -437,50 +402,20 @@ $(document).ready(function() {
 
 
 $(document).ready(function() {
-    
-    $('ul#display-menu li a').hover(
-            function() {
-                $(this).addClass('ui-state-hover');
-            },
-            function() {
-                $(this).removeClass('ui-state-hover');
-            }
-    );
-    $('#ToggleMainMenuDrop').hover(
-            function() {
-                $(this).addClass('ui-state-hover');
-            },
-            function() {
-                $(this).removeClass('ui-state-hover');
-            }
-    );
-    $('#FocusToggleButton').click(function() {
-        var focusShown = $('#FocusEdit').is(':visible');
-        expandEditor(!focusShown);        
-    });
-
-    /*
-    $('#FocusToggleButton').hover(
-            function() {
-                $(this).addClass('ui-state-hover');
-            },
-            function() {
-                $(this).removeClass('ui-state-hover');
-            }
-    );
-    */
+	
 
     $('#AvatarButton').click(function() {
-       var am = $('#AvatarMenu');
        var vm = $('#ViewMenu');
-       var shown = am.is(':visible');
+       var shown = vm.is(':visible');
        if (shown) {
-           am.fadeOut();
-           vm.fadeOut();
+           setTimeout(function() { vm.toggle("slide", { direction: "left" }); }, 400);
+		   $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
+	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');
        }
        else {
-           am.fadeIn();
-           vm.fadeIn();
+           vm.toggle("slide", { direction: "left" });
+		   $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
+	  	   $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');
        }
     });
     
@@ -488,6 +423,21 @@ $(document).ready(function() {
         var t = $(this).children(":selected").attr("id");
         setTheme(t);
     });
+	
+
+	$('#FocusEdit button').button();
+	$( "#ViewControls" ).buttonset();
+	
+    $('#profile').click(function() {
+		$( "#AvatarMenu" ).dialog({
+			modal: true
+		});
+	});
+
+    $('.lightbox-close').click(function() {
+		$('#lightbox, #lightbox-shade').hide();
+	});
+
 });
 
 

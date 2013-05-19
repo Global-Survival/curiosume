@@ -11,7 +11,7 @@ var tagColorPresets = {
     'IntermediateTeacher': '#F96324',
     'ExpertTeacher': '#FF3B2E',
     'Can': 'fuchsia',
-    'Need': 'blue'
+    'Need': '#88f'
 };
     
 function newTagBrowser(s) {

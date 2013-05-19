@@ -1,5 +1,5 @@
 /* CSS Document */
-body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; }
+body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; }
 a, a:hover, a:active, a:focus { outline: none !important; }
 .shadow {	moz-box-shadow: 0px 0px 24px #000000; -webkit-box-shadow: 0px 0px 24px #000000; box-shadow:0px 0px 24px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444'); }
 
@@ -930,27 +930,6 @@ div.olMapViewport {
 
 #ontop {z-index:50000 !important; }
 
-#ContentArea {
-position: absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-height: 100%;
-width:100%;
-z-index:1;
-padding:0;
-overflow: hidden;
-}
-
-#View { 
-position: relative;
-height: 100%;
-width:100%;
-z-index:1;
-overflow-y: visible;
-overflow-x: hidden;
-}
 
 #DataTarget {
 position: relative;
@@ -960,25 +939,6 @@ z-index:1;
 padding:0;
 margin:0;
 overflow: hidden;
-}
-
-#FocusEdit {
-border: 1px solid gray;
-position: fixed;
-bottom:20px;
-left:40px;
-text-align:center;
-width:100%;
-height:auto;
-padding:15px;
-margin:0;
-display:block;
-max-width:500px !important;
-max-height:500px !important;
-overflow-y: auto;
-overflow-x: hidden;
-z-index:3;
-background:#FFF;
 }
 
 #SelfTarget h1 {
@@ -1019,8 +979,6 @@ clear:both;
     height: 250px;
     float: right;
 }
-.navbar, .navbar-inner {z-index:20000 !important;}
-.nav-collapse, .collapse {z-index:20000 !important;}
 
 .objectView {
 	position: relative;
@@ -1159,8 +1117,8 @@ clear:both;
 }
 
 .view-indented {
-    padding-left: 4.5em;
-    padding-right: 4.5em;
+    padding-left:0;
+    padding-right:0;
 }
 
 .SelfView textarea {
@@ -1257,10 +1215,10 @@ margin: 0 auto;
 	max-width:200px !important;
 	background:#F00;
 }
-#AvatarMenu, #ViewMenu, #AvatarButton, #AddMenu {
+#ViewMenu, #AvatarButton, #AddMenu {
     position: absolute;    
 }
-#AvatarButton { top: 10px; left: 10px; z-index:20; }
+#AvatarButton { top: 0px; left: 0px; z-index:20; }
 	#AvatarButton img {
 		border: none;    
 		cursor: crosshair;
@@ -1275,18 +1233,21 @@ margin: 0 auto;
     z-index:15;
 	padding: 4px 4px 4px 20px;
 }
-	#AvatarMenu {
-		padding:10px;
-		z-index:10;
-	}
-
-#AddMenu {
-    z-index:16;
+#View { 
+	position: fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	height: 100%;
+	width:100%;
+	z-index:1;
+	display:block;
+	clear:both;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
-.addmenu-active #AddMenuIcon { display:none !important; margin:0; }
-.addmenu-inactive #AddMenuIcon { display:block !important; margin:15px 5px 5px 5px; }
-.addmenu-active #FocusToggleButton { display:block; margin:5px; }
-.addmenu-inactive #FocusToggleButton { display:none; }
 
 /*!
  * RedNET Responsive v1.1
@@ -1296,84 +1257,39 @@ margin: 0 auto;
 /* Smartphones (portrait and landscape) ----------- */
 @media (min-width : 100px) {
 /* Styles */
-#ViewMenu a { font-size:6px; }
-#AddMenu a { font-size:6px; }
 .avatar-active { width: 50px; height: 50px; }
-#AvatarMenu { bottom: 5px; left: 0px;  width:100%; height:200px; overflow-y:auto; overflow-x:hidden; padding:0px; margin:0px;}
 #ViewMenu { left: 10px; top: 15px; padding-left:60px; }
-.addmenu-active { left: 10px; top: 15px; padding: 50px 2px 2px 2px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 3px 3px 3px; }
 }
 @media (min-width : 320px) {
 /* Styles */
-#ViewMenu a { font-size:12px; }
-#AddMenu a { font-size:8px; }
 .avatar-active { width: 80px; height: 80px; }
-#AvatarMenu { top: 65px; left: 90px; width:200px; height:300px; overflow-y:auto; overflow-x:hidden; padding:5px; margin:5px;}
 #ViewMenu { left: 28px; top: 15px; padding-left:80px; }
-.addmenu-active { left: 10px; top: 15px; padding: 80px 2px 2px 2px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 3px 3px 3px; }
 }
 @media (min-width : 480px) {
 /* Styles */
-#ViewMenu a { font-size:12px; }
-#AddMenu a { font-size:8px; }
 .avatar-active { width: 80px; height: 80px; }
-#AvatarMenu { top: 45px; left: 100px; width:300px; height:240px;  overflow-y:auto; overflow-x:hidden; }
 #ViewMenu { left: 28px; top: 15px; padding-left:80px; }
-.addmenu-active { left: 10px; top: 15px; padding: 80px 2px 2px 2px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 3px 3px 3px; }
 }
 
 /* iPads (portrait and landscape) ----------- */
 @media (min-width : 768px) {
 /* Styles */
-#ViewMenu a, #AddMenu a { font-size:12px; }
 .avatar-active { width: 120px; height: 120px; }
-#AvatarMenu { top: 45px; left: 150px; width:300px; height:300px; overflow-y:auto; overflow-x:hidden;  }
 #ViewMenu { left: 28px; top: 15px; padding-left:110px; }
-.addmenu-active { left: 15px; top: 15px; padding: 120px 2px 2px 2px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 3px 3px 3px; }
 }
 
 /* Desktops and laptops ----------- */
 @media (min-width : 1025px) {
 /* Styles */
-#ViewMenu a, #AddMenu a { font-size:14px; }
 .avatar-active { width: 140px; height: 140px; }
-#AvatarMenu { top: 45px; left: 175px; width:350px; height:350px; overflow-y:auto; overflow-x:hidden;  }
 #ViewMenu { left: 28px; top: 15px; padding-left:130px; }
-.addmenu-active { left: 15px; top: 15px; padding: 140px 2px 2px 2px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 3px 3px 3px; }
 }
 
 /* Large screens ----------- */
 @media (min-width : 1440px) {
 /* Styles */
-#ViewMenu a, #AddMenu a { font-size:16px; }
 .avatar-active { width: 160px; height: 160px; }
-#AvatarMenu { top:auto; left:auto; bottom: 0px; right: 5px; width:380px; height:380px; overflow-y:auto; overflow-x:hidden; margin:0;  }
-#ViewMenu { left: 28px; top: 15px; padding-left:150px; }
-.addmenu-active { left: 15px; top: 15px; padding:160px 4px 4px 4px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 4px 4px 4px; }
-}
-
-div.olControlZoom { top:auto !important; bottom:8px !important; }
-
-.black_overlay{
-	display: none;
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	width: 100%;
-	height: 100%;
-	background-color: black;
-	z-index:1001;
-	-moz-opacity: 0.8;
-	opacity:.80;
-	filter: alpha(opacity=80);
-}
-.white_content {
+.lightbox {
 	display: none;
 	position: absolute;
 	top: 0;
@@ -1382,12 +1298,33 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 	height: 80%;
 	margin:auto;
 	padding: 16px;
-	border: 16px solid orange;
-	background-color: white;
 	z-index:1002;
-	overflow: auto;
+	overflow-x: hidden;
+	overflox-y: auto;
 }
-.lightbox-close {
-	top:10px;
-	right: 10px;
+#ViewMenu { left: 28px; top: 15px; padding-left:150px; }
+.addmenu-active { left: 15px; top: 15px; padding:160px 4px 4px 4px; }
+.addmenu-inactive {	left: 18px; top: 15px; padding:40px 4px 4px 4px; }
 }
+
+#ViewMenu ul li { float:left; list-style-type:none; }
+#ViewMenu ul { margin:0; }
+#FocusEdit {
+bottom:5px;
+right:5px;
+text-align:center;
+height:auto;
+padding:15px;
+margin:10px 0px;
+display:block;
+max-width:500px !important;
+max-height:500px !important;
+overflow-y: auto;
+overflow-x: hidden;
+}
+#FocusEdit button {
+font-size:.8em;
+}
+
+div.olControlZoom { top:auto !important; bottom:8px !important; }
+
