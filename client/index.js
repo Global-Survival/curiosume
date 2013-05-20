@@ -93,8 +93,8 @@ function initUI(self) {
         var b = $(this);
         var v = b.attr('id');
         $('#ViewControls').buttonset('refresh');
-        if (v != 'profile') //HACK
-            self.set('currentView', v);
+        self.set('currentView', v);
+        showAvatarMenu(false);
     });
 
 
@@ -283,6 +283,22 @@ function confirmClear() {
         window.self.clear();
 }
 
+function showAvatarMenu(b) {
+    var vm = $('#ViewMenu');
+    if (!b) {
+        setTimeout(function() {
+            vm.toggle("scale", {direction: "both", origin: "top"});
+        }, 0);
+        $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
+        $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');        
+    }
+    else {
+        vm.fadeIn();
+        $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
+        $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');        
+    }
+}
+
 
 $(document).ready(function() {
 
@@ -414,24 +430,13 @@ $(document).ready(function() {
 });
 
 
-$(document).ready(function() {
 
+$(document).ready(function() {
 
     $('#AvatarButton').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
-        if (shown) {
-            setTimeout(function() {
-                vm.toggle("scale", {direction: "both", origin: "top"});
-            }, 0);
-            $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
-            $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');
-        }
-        else {
-            vm.toggle("slide");
-            $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
-            $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');
-        }
+        showAvatarMenu(!shown);
     });
 
     $('#themeSelect').change(function() {
@@ -452,7 +457,6 @@ $(document).ready(function() {
     $('.lightbox-close').click(function() {
         $('#lightbox, #lightbox-shade').hide();
     });
-
 
 });
 

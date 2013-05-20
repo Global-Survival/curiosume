@@ -52,7 +52,7 @@ function netention(f) {
                 this.set('deleted', { });    
                 this.set('replies', { });
                 this.set('focus', null);    
-                this.socket.emit('connectSelf', this.get('clientID'));
+                //this.socket.emit('connectSelf', this.get('clientID'));
             },
             
             id : function() { return this.get('clientID'); },
