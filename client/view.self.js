@@ -107,7 +107,10 @@ s
             });
             target.append(b);
             
-            var l = $('<label for="' + cid + '">' + tag + '</label>');
+            var tt = s.tag(tag);
+            
+            var tagname = tt ? tt.name : tag;
+            var l = $('<label for="' + cid + '">' + tagname + '</label>');
             l.attr('style','color:' + tagColorPresets[tag]);
             target.append(l);
             return b;
@@ -226,7 +229,8 @@ function newSelfTagList(s, user, c) {
         
         var color = tagColorPresets[x] || 'gray';
         
-        b.append('<div><h4><span style="padding-right: 0.2em; background-color: ' + color + '">&nbsp;&nbsp;</span>&nbsp;' + x + '</h4></div>');
+        var xn = s.tag(x).name;
+        b.append('<div><h4><span style="padding-right: 0.2em; background-color: ' + color + '">&nbsp;&nbsp;</span>&nbsp;' + xn + '</h4></div>');
         
         for (var i = 0; i < cl.length; i++) {
             b.append(newTagWidget(x, cl[i]));
