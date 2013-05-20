@@ -326,7 +326,7 @@ function newSelfSummary(s, user) {
 
     var kc = $('<div id="KnowledgeChart"/>');
 
-    var st = _.groupBy(_.without(_.keys(tags), '@'), function(t) { return tags[t]; });                
+    /*var st = _.groupBy(_.without(_.keys(tags), '@'), function(t) { return tags[t]; });                
 
     function displayKnowledgeSection(n, t) {
         kc.append('<span class="KnowledgeSectionLabel" style="background-color: ' + levelColor[n] + '">&nbsp;&nbsp;</span>&nbsp;');
@@ -346,7 +346,7 @@ function newSelfSummary(s, user) {
     if (st[1]) displayKnowledgeSection(1, st[1]);
     if (st[-1]) displayKnowledgeSection(-1, st[-1]);
     if (st[-2]) displayKnowledgeSection(-2, st[-2]);
-    if (st[-3]) displayKnowledgeSection(-3, st[-3]);
+    if (st[-3]) displayKnowledgeSection(-3, st[-3]);*/
 
     c.append(kc);
 
