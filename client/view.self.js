@@ -31,6 +31,7 @@ function newTagBarSaveButton(s, currentTag, tagBar) {
            var c = x[0].checked;
            if (c) {
                var i = x.attr('id').substring(/*skill_*/6);
+               var i = i.split('_')[0];
                selTags.push(i);
            }
         });
@@ -53,7 +54,7 @@ function newTagBarSaveButton(s, currentTag, tagBar) {
     });
     return saveButton;
 }
-function newTagBar(s) {
+function newTagBar(s, currentTag) {
     var tagBar = $('<div/>');
 
     //http://jqueryui.com/button/#checkbox
@@ -62,7 +63,7 @@ function newTagBar(s) {
 
     function tbutton( tag, target) {
         var b = $('<input/>');
-        var cid = 'skill_' + tag;
+        var cid = 'skill_' + tag + '_' + currentTag;
         b.attr('id', cid);
         b.attr('type', 'checkbox');            
         b.html(tag);
@@ -173,7 +174,11 @@ s
                         var p = $('<a href="#" title="Popup">+</a>');
                         p.click(function() {
                             var d = newPopup(target);
-                            d.append('tag');
+                            var tagBar = newTagBar(s, target);
+                            var saveButton = newTagBarSaveButton(s, target, tagBar);
+
+                            d.append(saveButton);        
+                            d.prepend(tagBar);
                             
                         });
                         t.after(p);
@@ -191,7 +196,7 @@ s
     
     
     {
-        var tagBar = newTagBar(s);
+        var tagBar = newTagBar(s, currentTag);
         var saveButton = newTagBarSaveButton(s, currentTag, tagBar);
         
         b.append(saveButton);        
