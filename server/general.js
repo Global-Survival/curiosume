@@ -152,6 +152,9 @@ var generalTags = [
         { uri: 'IntermediateTeacher', name: 'Intermediate Teacher', tag: ['Skill'] },
         { uri: 'ExpertTeacher', name: 'Expert Teacher', tag: ['Skill'] },
 
+        { uri: 'Can', name: 'Can' },
+        { uri: 'Need', name: 'Need' },
+
     //Pledge = Promise
     //  
     { uri: 'Promise', name: 'Promise',

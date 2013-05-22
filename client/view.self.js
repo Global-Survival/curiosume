@@ -13,7 +13,107 @@ var tagColorPresets = {
     'Can': 'fuchsia',
     'Need': '#88f'
 };
-    
+
+function newTagBarSaveButton(s, currentTag, tagBar) {
+    var saveButton = $('<button>Save</button>');
+    saveButton.addClass('WikiTagSave');
+    saveButton.click(function() {
+        if (currentTag==null) {
+            alert('Choose a wikitag.');                
+            return;                
+        }
+
+        var selTags = [];
+
+        console.dir(tagBar.find('div input'));
+        tagBar.find('div input').each(function() {
+           var x = $(this);
+           var c = x[0].checked;
+           if (c) {
+               var i = x.attr('id').substring(/*skill_*/6);
+               selTags.push(i);
+           }
+        });
+        if (selTags.length > 0) {
+            var id = s.id() + '-' + currentTag;
+            var o = objNew(id, currentTag);
+            o.author = s.id();
+            objAddTag(o, currentTag);
+
+            for (var i = 0; i < selTags.length; i++) {
+                objAddTag(o, selTags[i]);
+            }
+
+            s.notice(o);
+            s.pub(o);                            
+        }
+        else {
+            alert('Choose 1 or more tags to combine with the wikitag.');
+        }
+    });
+    return saveButton;
+}
+function newTagBar(s) {
+    var tagBar = $('<div/>');
+
+    //http://jqueryui.com/button/#checkbox
+    var skillSet = $('<div/>');
+    var canNeedSet = $('<div/>');
+
+    function tbutton( tag, target) {
+        var b = $('<input/>');
+        var cid = 'skill_' + tag;
+        b.attr('id', cid);
+        b.attr('type', 'checkbox');            
+        b.html(tag);
+        b.click(function(event) {
+            var t = event.target;
+            if (t.checked) {
+                target.children('input').each(function() {
+                   var x = $(this);
+                   if (x.attr('id')!=t.id) {
+                       x.attr('checked', false);
+                   }
+                });
+                target.buttonset('refresh');
+            }
+        });
+        target.append(b);
+
+        var tt = s.tag(tag);
+
+        var tagname = tt ? tt.name : tag;
+        var l = $('<label for="' + cid + '">' + tagname + '</label>');
+        l.attr('style','color:' + tagColorPresets[tag]);
+        target.append(l);
+        return b;
+    }
+
+
+    {
+        tbutton('BeginnerStudent', skillSet);
+        tbutton('IntermediateStudent', skillSet);
+        tbutton('CollaboratingStudent', skillSet);
+        tbutton('CollaboratingTeacher', skillSet);
+        tbutton('IntermediateTeacher', skillSet);
+        tbutton('ExpertTeacher', skillSet);
+    }
+    tagBar.append(skillSet);
+    skillSet.buttonset();
+
+    tagBar.append('<br/>');
+
+    {
+        tbutton('Can', canNeedSet);
+        tbutton('Need', canNeedSet);            
+    }
+    tagBar.append(canNeedSet);                
+    canNeedSet.buttonset();        
+
+    tagBar.append('<br/>');        
+    return tagBar;
+}
+
 function newTagBrowser(s) {
     var b = $('<div/>');
     
@@ -65,9 +165,18 @@ s
                    t.attr('href', '#');
                    if (h) {
                     if (h.indexOf('/wiki') == 0) {
-                         t.click(function() {
-                             gotoTag(h.substring(6)); 
-                         });
+                        var target = h.substring(6);
+                        t.click(function() {
+                             gotoTag(target); 
+                        });
+                         
+                        var p = $('<a href="#" title="Popup">+</a>');
+                        p.click(function() {
+                            var d = newPopup(target);
+                            d.append('tag');
+                            
+                        });
+                        t.after(p);
                     }
                    }
                });
@@ -80,103 +189,12 @@ s
         
     b.append(br);
     
+    
     {
-        var tagBar = $('<div/>');
-
-        //http://jqueryui.com/button/#checkbox
-        var skillSet = $('<div/>');
-        var canNeedSet = $('<div/>');
+        var tagBar = newTagBar(s);
+        var saveButton = newTagBarSaveButton(s, currentTag, tagBar);
         
-        function tbutton( tag, target) {
-            var b = $('<input/>');
-            var cid = 'skill_' + tag;
-            b.attr('id', cid);
-            b.attr('type', 'checkbox');            
-            b.html(tag);
-            b.click(function(event) {
-                var t = event.target;
-                if (t.checked) {
-                    target.children('input').each(function() {
-                       var x = $(this);
-                       if (x.attr('id')!=t.id) {
-                           x.attr('checked', false);
-                       }
-                    });
-                    target.buttonset('refresh');
-                }
-            });
-            target.append(b);
-            
-            var tt = s.tag(tag);
-            
-            var tagname = tt ? tt.name : tag;
-            var l = $('<label for="' + cid + '">' + tagname + '</label>');
-            l.attr('style','color:' + tagColorPresets[tag]);
-            target.append(l);
-            return b;
-        }
-        
-        
-        {
-            tbutton('BeginnerStudent', skillSet);
-            tbutton('IntermediateStudent', skillSet);
-            tbutton('CollaboratingStudent', skillSet);
-            tbutton('CollaboratingTeacher', skillSet);
-            tbutton('IntermediateTeacher', skillSet);
-            tbutton('ExpertTeacher', skillSet);
-        }
-        tagBar.append(skillSet);
-        skillSet.buttonset();
-        
-        tagBar.append('<br/>');
-        
-        {
-            tbutton('Can', canNeedSet);
-            tbutton('Need', canNeedSet);            
-        }
-        tagBar.append(canNeedSet);                
-        canNeedSet.buttonset();        
-        
-        tagBar.append('<br/>');
-        
-        var saveButton = $('<button>Save</button>');
-        saveButton.addClass('WikiTagSave');
-        saveButton.click(function() {
-            if (currentTag==null) {
-                alert('Choose a wikitag.');                
-                return;                
-            }
-
-            var selTags = [];
-            
-            console.dir(tagBar.find('div input'));
-            tagBar.find('div input').each(function() {
-               var x = $(this);
-               var c = x[0].checked;
-               if (c) {
-                   var i = x.attr('id').substring(/*skill_*/6);
-                   selTags.push(i);
-               }
-            });
-            if (selTags.length > 0) {
-                var id = s.id() + '-' + currentTag;
-                var o = objNew(id, currentTag);
-                o.author = s.id();
-                objAddTag(o, currentTag);
-            
-                for (var i = 0; i < selTags.length; i++) {
-                    objAddTag(o, selTags[i]);
-                }
-                
-                s.notice(o);
-                s.pub(o);                            
-            }
-            else {
-                alert('Choose 1 or more tags to combine with the wikitag.');
-            }
-        });
-        b.append(saveButton);
-        
+        b.append(saveButton);        
         b.prepend(tagBar);
     }
     

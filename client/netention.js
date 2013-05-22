@@ -575,6 +575,16 @@ function addMenu(afterLoaded) {
 */
 
 
+//apparently is faster than $('<div/>');
 function newDiv() {
     return $(document.createElement('div'));
+}
+
+function newPopup(title) {
+    var d = newDiv();
+    d.attr('title', title);
+    
+    $('body').append(d);
+    d.dialog();
+    return d;    
 }

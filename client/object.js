@@ -22,7 +22,6 @@ function getTagIcon(t) {
     
 
 
-
 function newPopupObjectView(_x) {
     var x;
     if (typeof(_x) == "string") 
@@ -34,11 +33,11 @@ function newPopupObjectView(_x) {
         console.log('Unknown object: ' + _x);
         return;
     }
-    var d = $('<div></div>');
-    d.attr('title', x.name);
+    
+    var d = newPopup(x.name);
     d.append(renderObjectSummary(window.self, x, null, 1.0, 4));
-    $('body').append(d);
-    d.dialog();
+    return d;
+    
 }
 
 
