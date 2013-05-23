@@ -168,6 +168,7 @@ function initUI(self) {
 }
 
 var lastView = null;
+var currentView = null;
 
 function _updateView() {
     var s = window.self;
@@ -181,44 +182,52 @@ function _updateView() {
     /*if (lastView==view)
      return;*/
 
-    lastView = view;
-
-
     var o = $('#ViewOptions');
     var v = $('#View');
 
+
+    if ((currentView) && (view === lastView))  {
+        if (currentView.onChange) {
+            currentView.onChange();
+            return;
+        }
+    }
+    
     v.html('');
     o.html('');
+    
+    lastView = view;
 
     v.removeClass('view-indented');
-
+    
     if (view === 'list') {
         v.addClass('view-indented');
-        renderList(s, o, v);
+        currentView = renderList(s, o, v);
     }
     else if (view === 'map') {
-        renderMap(s, o, v);
+        currentView = renderMap(s, o, v);
     }
     else if (view === 'trends') {
         v.addClass('view-indented');
-        renderTrends(s, o, v);
+        currentView = renderTrends(s, o, v);
     }
     else if (view == 'graph') {
-        renderGraphFocus(s, o, v);
+        currentView = renderGraphFocus(s, o, v);
     }
     else if (view == 'slides') {
-        renderSlides(s, o, v);
+        currentView = renderSlides(s, o, v);
     }
     else if (view == 'grid') {
         v.addClass('view-indented');
-        renderGrid(s, o, v);
+        currentView = renderGrid(s, o, v);
     }
     else if (view == 'self') {
         v.addClass('view-indented');
-        renderSelf(s, o, v);
+        currentView = renderSelf(s, o, v);        
     }
     else {
         v.html('Unknown view: ' + view);
+        currentView = null;
     }
 
 }

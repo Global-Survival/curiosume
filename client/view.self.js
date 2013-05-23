@@ -289,7 +289,9 @@ function newSelfTagList(s, user, c) {
 
 function newSelfSummary(s, user) {
     var c = $('<div/>');        
-    c.html('');                
+    $.get('/self.header.html', function(d) {
+        c.prepend(d);        
+    });
 
     var tags = { };
 
@@ -405,11 +407,21 @@ function renderSelf(s, o, v) {
     
     frame.append(sidebar);
     frame.append(content);
+
+    function updateSidebar() {
+        sidebar.html(newSelfTagList(s, s.myself(), content));        
+    }
     
-    sidebar.append(newSelfTagList(s, s.myself(), content));
     content.append(newSelfSummary(s, s.myself()));
+    updateSidebar();
     
     v.append(frame);
+        
+    frame.onChange = function() {
+        updateSidebar();
+    };
+    
+    return frame;
     
 }
 
