@@ -14,7 +14,7 @@ var tagColorPresets = {
     'Need': '#88f'
 };
 
-function newTagBarSaveButton(s, currentTag, tagBar) {
+function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
     var saveButton = $('<button>Save</button>');
     saveButton.addClass('WikiTagSave');
     saveButton.click(function() {
@@ -47,10 +47,15 @@ function newTagBarSaveButton(s, currentTag, tagBar) {
 
             s.notice(o);
             s.pub(o);                            
+            
+            if (onSave)
+                onSave();
         }
         else {
             alert('Choose 1 or more tags to combine with the wikitag.');
         }
+        
+        
     });
     return saveButton;
 }
@@ -175,7 +180,9 @@ s
                         p.click(function() {
                             var d = newPopup(target);
                             var tagBar = newTagBar(s, target);
-                            var saveButton = newTagBarSaveButton(s, target, tagBar);
+                            var saveButton = newTagBarSaveButton(s, target, tagBar, function() {
+                                d.dialog('close');
+                            });
 
                             d.append(saveButton);        
                             d.prepend(tagBar);
