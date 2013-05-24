@@ -125,8 +125,8 @@ function getKnowledgeCode(s) {
     
     for (var k in tags) {
         var l = tags[k];
-        for (var i = 0; i < l.length; i++)
-            l[i] = l[i].split('-')[1];
+        for (var i = 0; i < l.length; i++)            
+            l[i] = l[i].substring(l[i].indexOf('-')+1, l[i].length);
     }
     
     tags['@'] = s.myself().geolocation;
