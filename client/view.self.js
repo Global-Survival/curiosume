@@ -151,7 +151,22 @@ s
         }
         else {
             var url = search ? '/wiki/search/' + t : '/wiki/' + t + '/html';
-            
+
+            function newPopupButton(target) {
+                var p = $('<a href="#" title="Popup">+</a>');
+                p.click(function() {
+                    var d = newPopup(target);
+                    var tagBar = newTagBar(s, target);
+                    var saveButton = newTagBarSaveButton(s, target, tagBar, function() {
+                        d.dialog('close');
+                    });
+
+                    d.append(saveButton);        
+                    d.prepend(tagBar);
+
+                });
+                return p;
+            }
             
             $.get(url, function(d) {
                br.html('');
@@ -176,22 +191,12 @@ s
                              gotoTag(target); 
                         });
                          
-                        var p = $('<a href="#" title="Popup">+</a>');
-                        p.click(function() {
-                            var d = newPopup(target);
-                            var tagBar = newTagBar(s, target);
-                            var saveButton = newTagBarSaveButton(s, target, tagBar, function() {
-                                d.dialog('close');
-                            });
-
-                            d.append(saveButton);        
-                            d.prepend(tagBar);
-                            
-                        });
-                        t.after(p);
+                        t.after(newPopupButton(target));
                     }
                    }
                });
+               var lt = newPopupButton(currentTag);
+               br.find('#firstHeading').append(lt);
             });
             
             //..
@@ -202,13 +207,13 @@ s
     b.append(br);
     
     
-    {
+    /*{
         var tagBar = newTagBar(s, currentTag);
         var saveButton = newTagBarSaveButton(s, currentTag, tagBar);
         
         b.append(saveButton);        
         b.prepend(tagBar);
-    }
+    }*/
     
     return b;    
 }
