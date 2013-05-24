@@ -980,6 +980,10 @@ clear:both;
     height: 250px;
     float: right;
 }
+.SelfCode {
+    width: 95%;
+    height: 95%;
+}
 .SelfMeta {
     float: left;
 }

@@ -579,11 +579,11 @@ function newDiv() {
     return $(document.createElement('div'));
 }
 
-function newPopup(title) {
+function newPopup(title,p) {
     var d = newDiv();
     d.attr('title', title);
     
     $('body').append(d);
-    d.dialog();
+    d.dialog(p);
     return d;    
 }

@@ -255,8 +255,8 @@ function newSelfTagList(s, user, c) {
     
     var exportButton = $('<button>Export..</button>');
     exportButton.click(function() {
-        var p = newPopup('Code @ ' + Date.now());
-        p.html(getKnowledgeCode(s));
+        var p = newPopup('Code @ ' + Date.now(), {width: 400, height: 400});
+        p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s) + '</textarea>');
     });
     svbp.append(exportButton);
     
