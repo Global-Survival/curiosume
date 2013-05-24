@@ -67,7 +67,7 @@ function newTagButton(t) {
 }
 
 function newReplyWidget(onReply, onCancel) {
-    var w = $('<div></div>');
+    var w = newDiv();
     w.addClass('ReplyWidget');
     
     var ta = $('<textarea/>');
@@ -107,7 +107,7 @@ function newReplyWidget(onReply, onCancel) {
  *  commitFocus - a function that takes as parameter the next focus to save
  */
 function renderObject(x, editable, focus, commitFocus) {
-    var d = $('<div/>');
+    var d = newDiv();
     
     var whenSaved = [];
             
@@ -212,11 +212,11 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
     var tag = t.id;
     var strength = t.strength;
     
-    var d = $('<div/>').addClass('tagSection');
+    var d = newDiv().addClass('tagSection');
     
     if (!strength) strength = 1.0;
     
-    var tagLabel = $('<div>' + tag + '</div>').addClass('tagLabel');
+    var tagLabel = newDiv().html(tag).addClass('tagLabel');
     
     applyTagStrengthClass(d, strength);
     
@@ -224,7 +224,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
 
         
     if (editable) {
-        var tagButtons = $('<div/>').addClass('tagButtons');
+        var tagButtons = newDiv().addClass('tagButtons');
         
         if (index > 0) {
             var upButton = $('<a href="#">^</a>');
@@ -294,7 +294,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
             });
         }
         else {
-            var dd = $('<div/>');
+            var dd = newDiv();
             if (t.value)
                 dd.html(t.value);
             d.append(dd);
@@ -328,7 +328,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
 
         }
         else {
-            var dd = $('<div/>');
+            var dd = newDiv();
             if (t.value)
                 dd.html(t.value);
             d.append(dd);
@@ -355,9 +355,9 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
         }
 	}    
     else if (type == 'spacepoint') {
-        var ee = $('<div/>');
+        var ee = newDiv();
         
-        var dd = $('<div/>');
+        var dd = newDiv();
         var de = uuid();
         dd.attr('id', de);
         dd = dd.addClass('focusMap');
@@ -626,7 +626,7 @@ function newPropertyView(self, vv) {
 function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 
     if (!x) {
-        return $('<div>Object missing</div>');
+        return newDiv().html('Object Missing');
     }
     
     var mini = (depthRemaining == 0);
@@ -895,7 +895,7 @@ function updateTypeTree(a, onSelectionChange) {
     var self = window.self;
     
     a.html('');    
-    var dt = $('<div></div>');
+    var dt = newDiv();
     dt.addClass('TagTree');
     
     var tree = $('<ul></ul>').css('display','none');

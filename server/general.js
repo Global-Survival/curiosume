@@ -103,6 +103,9 @@ var generalTags = [
 	{ uri: 'Report', name: 'Report'}, //Report=Incident
 		//NewsSourceLink (url)
 		//see: Ushahidi.com
+                
+    { uri: 'Arrive', name: 'Arrive'},
+    { uri: 'Depart', name: 'Depart'},
     
     { uri: 'Problem', name: 'Problem'},
     { uri: 'Solution', name: 'Solution'},
