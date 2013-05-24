@@ -120,6 +120,20 @@ function newTagBar(s, currentTag) {
     return tagBar;
 }
 
+function getKnowledgeCode(s) {
+    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));                 
+    
+    for (var k in tags) {
+        var l = tags[k];
+        for (var i = 0; i < l.length; i++)
+            l[i] = l[i].split('-')[1];
+    }
+    
+    tags['@'] = s.myself().geolocation;
+    
+    return JSON.stringify(tags,null,0);
+}
+
 function newTagBrowser(s) {
     var b = $('<div/>');
     
@@ -239,6 +253,13 @@ function newSelfTagList(s, user, c) {
         c.html(newTagBrowser(s));        
     });
     
+    var exportButton = $('<button>Export..</button>');
+    exportButton.click(function() {
+        var p = newPopup('Code @ ' + Date.now());
+        p.html(getKnowledgeCode(s));
+    });
+    svbp.append(exportButton);
+    
     b.append(svbp);
 
     function newTagWidget(x, i) {
@@ -301,7 +322,7 @@ function newSelfSummary(s, user) {
     var tags = { };
 
     var np = $('<div/>');
-    np.addClass('NameHeader');
+    np.addClass('SelfMeta');
     
     var nameInput = $('<input type="text" placeholder="Name"/>');
     nameInput.val(s.myself().name);
@@ -318,22 +339,37 @@ function newSelfSummary(s, user) {
 
     //http://en.wikipedia.org/wiki/HResume
 
-    var objarea = $('<textarea id="BioText"></textarea>');
-    objarea.html('objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications ');
+    var objarea = $('<div id="BioText"></div>');
+    objarea.attr('contenteditable', 'true');
+    var biotext = objDescription(self.myself());
+    if (!biotext) {
+        objarea.html('<h1>Biography</h1>objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications');
+    }
+    else {
+        objarea.html(biotext);
+    }
+    
     bio.append(objarea);
-    c.append(bio);
 
+    var resetButton = $('<button>Reset</button>');
+    
     var saveButton = $('<button>Save</button>');
     bio.append(saveButton);
+    bio.append(resetButton);
+
     saveButton.click(function() {
        var m = s.myself();
        m.name = nameInput.val();
        m.email = emailInput.val();
-       s.pub(s.myself());
+       objRemoveDescription(self.myself());
+       objAddDescription(self.myself(), objarea.html());
+       s.notice(m);
+       s.pub(m);
     });
 
     var cm = $('<div id="SelfMap"/>');
     c.append(cm);
+    c.append(bio);
 
     var location = tags['@'];
     if (location) {
@@ -347,17 +383,18 @@ function newSelfSummary(s, user) {
         
         var lmap = initLocationChooserMap('SelfMap', location);
         cm.append('<br/>');
-        var locAnon = $('<select><option>Exact Location</option><option>Anonymize 1km</option><option>Anonymize 5km</option><option>No Location</option></select>');
+        var locAnon = $('<select><option>Exact Location</option><option>Anonymize 1km</option><option>Anonymize 10km</option><option>No Location</option></select>');
         locAnon.change(function() {
+            //0.1 = ~10km
+            //0.01 = ~1km
            alert('Feature not available yet'); 
         });
 
-        cm.append(locAnon);
+        //cm.append(locAnon);
 
         lmap.onClicked = function(l) {
             tags['@'] = [ l.lon, l.lat ];
-            saveTags();
-            myself();
+            s.myself().geolocation = [ l.lon, l.lat ];
         };
     });
 

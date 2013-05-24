@@ -972,7 +972,7 @@ clear:both;
     margin: 0.3em;
 }
 #Bio {
-    width: 50%;
+    width: 100%;
     float: left;
 }
 #SelfMap  {
@@ -980,7 +980,12 @@ clear:both;
     height: 250px;
     float: right;
 }
-
+.SelfMeta {
+    float: left;
+}
+.SelfMeta input {
+    font-size: 150%;
+}
 .objectView {
 	position: relative;
 	padding: 0.25em;
@@ -1096,6 +1101,10 @@ clear:both;
 }
 .WikiBrowser h1 {
     margin-top: 0;
+}
+#BioText {
+    border: 1px solid gray;
+    width: 100%;
 }
 .WikiBrowser a, .WikiBrowser a:visited {
     border: 1px solid gray;

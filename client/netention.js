@@ -128,8 +128,7 @@ function netention(f) {
             focus : function() { 
                 return this.get('focus');
             },            
-            
-            
+                                
             myself: function() { 
                 var o = this.getSelf(this.id()); 
                 if (!o) {

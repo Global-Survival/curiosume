@@ -114,6 +114,14 @@ function objAddDescription(x, desc) {
 }
 exports.objAddDescription = objAddDescription;
 
+function objRemoveDescription(x) {
+    for (var i = 0; i < x.value.length; i++) {
+        if (x.value[i].id == 'textarea')
+            return objRemoveDescription(objRemoveValue(x, i));
+    }
+}
+exports.objRemoveDescription = objRemoveDescription;
+
 function objDescription(x) {
     /* concatenates all 'description' tag values */
     var c = '';
