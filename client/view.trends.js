@@ -68,8 +68,8 @@ function renderTrends(s, o, v) {
             g.addClass('trendTagCount');
             vv.append(g);*/
             
-            var total = selfTagCount[ti]+localTagCount[ti]+serverTagCount[ti];
-            d.attr('style', 'font-size:' + 100.0 * (1.0 + Math.log( total ))*0.4 + '%')
+            var total = (selfTagCount[ti]||0) + (localTagCount[ti] || 0) + (serverTagCount[ti] || 0);
+            d.attr('style', 'font-size:' + 100.0 * (1.0 + Math.log( total + 1 ))*0.5 + '%')
             
             v.append(vv);
             
