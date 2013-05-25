@@ -451,7 +451,7 @@ $(document).ready(function() {
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
     });
-    $('#close-menu').click(function() {
+    $('.close-menu').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);

@@ -796,6 +796,7 @@ div.olMapViewport {
 }
 #toggle-menu {
     max-width: 45px;
+    cursor: crosshair;
 }
 
 #ViewSelect {
