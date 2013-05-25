@@ -677,6 +677,7 @@ div.olMapViewport {
 
 .tagDescription {
     width: 95%;
+    height: 5em;
 }
 
 .tagLabel {
@@ -1373,4 +1374,36 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 
 #ViewControls {
 	margin-top:10px;
+}
+
+
+.PluginID {
+    width: 14%;
+    left: auto;
+    float: left;
+    margin: 0.25em;
+    padding: 0.25em;
+    min-height: 5em;
+}
+.PluginSettings {
+    width: 50%;
+    float: right;
+}
+.PluginID h3 {
+    font-size: 17px;
+    line-height: 15px;
+}
+.PluginID span {
+}
+.PluginEnabled {
+    background-color: rgba(128,255,128,0.4);
+    border: 5px solid gray;
+}
+.PluginDisabled {
+    background-color: rgba(255,128,128,0.4);
+    border: 5px solid gray;
+}
+.PluginInvalid {
+    color: gray;
+    border: 5px solid #ddd;
 }

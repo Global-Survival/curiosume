@@ -233,6 +233,10 @@ function _updateView() {
         v.addClass('view-indented');
         currentView = renderSelf(s, o, v);        
     }
+    else if (view == 'options') {
+        v.addClass('view-indented');
+        currentView = renderOptions(s, o, v);        
+    }
     else {
         v.html('Unknown view: ' + view);
         currentView = null;
@@ -453,21 +457,13 @@ $(document).ready(function() {
         showAvatarMenu(!shown);
     });
 
-    $('#themeSelect').change(function() {
-        var t = $(this).children(":selected").attr("id");
-        setTheme(t);
-    });
+    
 
 
     $('#close-menu').button();
     $('#FocusEdit button').button();
     $("#ViewControls").buttonset();
 
-    $('#profile').click(function() {
-        $("#AvatarMenu").dialog({
-            modal: true
-        });
-    });
 
 });
 

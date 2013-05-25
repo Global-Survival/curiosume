@@ -323,11 +323,13 @@ function netention(f) {
             	
             },
             
-            getPlugins: function() {
+            getPlugins: function(withPlugins) {
                 var that = this;
                 this.socket.emit('getPlugins', function(p) {
                     that.unset('plugins');
                     that.set('plugins', p);
+                    if (withPlugins)
+                        withPlugins(p);
             	});            
             },
             
