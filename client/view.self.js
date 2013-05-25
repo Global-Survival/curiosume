@@ -11,7 +11,17 @@ var tagColorPresets = {
     'IntermediateTeacher': '#F96324',
     'ExpertTeacher': '#FF3B2E',
     'Can': 'fuchsia',
-    'Need': '#88f'
+    'Need': '#bbf',
+    'Not': '#fff'
+};
+
+var tagAlias = {
+    'BeginnerStudent': 'α',
+    'IntermediateStudent': 'β',
+    'CollaboratingStudent': 'γ',
+    'CollaboratingTeacher': 'δ',
+    'IntermediateTeacher': 'ε',
+    'ExpertTeacher': 'ζ'
 };
 
 function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
@@ -71,6 +81,7 @@ function newTagBar(s, currentTag) {
         var cid = 'skill_' + tag + '_' + currentTag;
         b.attr('id', cid);
         b.attr('type', 'checkbox');            
+        
         b.html(tag);
         b.click(function(event) {
             var t = event.target;
@@ -87,9 +98,19 @@ function newTagBar(s, currentTag) {
         target.append(b);
 
         var tt = s.tag(tag);
-
-        var tagname = tt ? tt.name : tag;
+        
+        var tagname;
+        var tooltip;
+        if (tagAlias[tag]) {
+            tagname = tagAlias[tag];            
+            if (tt)
+                tooltip = tt.name;
+        }
+        else 
+            tagname = tt ? tt.name : tag;
+        
         var l = $('<label for="' + cid + '">' + tagname + '</label>');
+        l.attr('title', tooltip);
         l.attr('style','color:' + tagColorPresets[tag]);
         target.append(l);
         return b;
@@ -111,7 +132,8 @@ function newTagBar(s, currentTag) {
 
     {
         tbutton('Can', canNeedSet);
-        tbutton('Need', canNeedSet);            
+        tbutton('Need', canNeedSet);
+        tbutton('Not', canNeedSet);
     }
     tagBar.append(canNeedSet);                
     canNeedSet.buttonset();        
