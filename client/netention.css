@@ -954,7 +954,6 @@ clear:both;
 .ui-dialog { z-index:2000 !important; }
 
 .SelfView {
-    height: 100%;
     width: 100%;
 }
 .SelfViewSide {
@@ -965,7 +964,6 @@ clear:both;
 .SelfViewContent {
     width: 68%;
     float: right;
-    padding:1.0em;
 }
 .SelfViewSide button {    
     float: left;
@@ -1094,12 +1092,12 @@ clear:both;
 }
 
 .WikiBrowser {
-    max-height: 450px;
-    height: 450px;
+    position: absolute;
+    height: 90%;
     overflow:auto;
     background-color: white;
     color: black;
-    width: 100%;
+    width: 65%;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
 }
@@ -1109,6 +1107,13 @@ clear:both;
 #BioText {
     border: 1px solid gray;
     width: 100%;
+    height: 16em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: left;
+}
+#Bio {
+    text-align: right;
 }
 .WikiBrowser a, .WikiBrowser a:visited {
     border: 1px solid gray;
@@ -1252,6 +1257,7 @@ margin: 0 auto;
 	padding: 4px 4px 4px 20px;
 }
 #View { 
+        border: none;
 	position: fixed;
 	top:0;
 	right:0;
