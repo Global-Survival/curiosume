@@ -12,7 +12,7 @@ var tagColorPresets = {
     'ExpertTeacher': '#FF3B2E',
     'Can': 'fuchsia',
     'Need': '#bbf',
-    'Not': '#fff'
+    'Not': 'gray'
 };
 
 var tagAlias = {
@@ -191,7 +191,7 @@ s
             function newPopupButton(target) {
                 var p = $('<a href="#" title="Popup">+</a>');
                 p.click(function() {
-                    var d = newPopup(target);
+                    var d = newPopup(target, {width: 400});
                     var tagBar = newTagBar(s, target);
                     var saveButton = newTagBarSaveButton(s, target, tagBar, function() {
                         d.dialog('close');
