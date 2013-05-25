@@ -466,6 +466,7 @@ $(document).ready(function() {
 
     });
 
+    $('#FocusTabs').tabs();
     $('#toggle-menu').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
