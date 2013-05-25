@@ -35,16 +35,16 @@ function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
 
         var selTags = [];
 
-        console.dir(tagBar.find('div input'));
         tagBar.find('div input').each(function() {
            var x = $(this);
            var c = x[0].checked;
            if (c) {
-               var i = x.attr('id').substring(/*skill_*/6);
-               var i = i.split('_')[0];
+               var i = x.attr('id');
+               var i = i.split('_')[1];
                selTags.push(i);
            }
         });
+        console.log(selTags);
         if (selTags.length > 0) {
             var id = s.id() + '-' + currentTag;
             var o = objNew(id, currentTag);
@@ -78,7 +78,7 @@ function newTagBar(s, currentTag) {
 
     function tbutton( tag, target) {
         var b = $('<input/>');
-        var cid = 'skill_' + tag + '_' + currentTag;
+        var cid = uuid() + 'skill_' + tag + '_' + currentTag;
         b.attr('id', cid);
         b.attr('type', 'checkbox');            
         
