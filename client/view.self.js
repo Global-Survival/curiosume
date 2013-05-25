@@ -44,7 +44,6 @@ function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
                selTags.push(i);
            }
         });
-        console.log(selTags);
         if (selTags.length > 0) {
             var id = s.id() + '-' + currentTag;
             var o = objNew(id, currentTag);

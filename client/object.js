@@ -808,18 +808,20 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
 	var spacepoint = objSpacePoint(x);        
 	if (spacepoint) {
-        var lat = _n(spacepoint.lat);
-        var lon = _n(spacepoint.lon);
-        if (self.myself().geolocation) {
-    		var dist = '?';
-    		if (self.myself().geolocation)
-    			dist = geoDist(x.geolocation, self.myself().geolocation);
-    		
-    		mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
-        }
-        else {
-        	mdline.append('&nbsp;<span>[' + lat + ',' + lon + ']</span>');        
-        }
+            var lat = _n(spacepoint.lat);
+            var lon = _n(spacepoint.lon);
+            if (self.myself().geolocation) {
+                    var dist = '?';
+                    //TODO check planet
+                    var sx = [spacepoint.lat, spacepoint.lon] ;
+                    if (self.myself().geolocation)
+                            dist = geoDist(sx, self.myself().geolocation);
+
+                    mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
+            }
+            else {
+                    mdline.append('&nbsp;<span>[' + lat + ',' + lon + ']</span>');        
+            }
 	}
     
     var ww = x.modifiedAt || x.createdAt || null;null
@@ -845,18 +847,18 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 	
     var desc = objDescription(x);
     if (desc) {
-		d.append('<p>' + desc + '</p>');		
-	}
+	d.append('<p>' + desc + '</p>');		
+    }
 	
     if (x.value) {
-		var ud = $('<ul>');
-		d.append(ud);
-		for (var vi = 0; vi < x.value.length; vi++) {
-			var vv = x.value[vi];
+	var ud = $('<ul>');
+	d.append(ud);
+	for (var vi = 0; vi < x.value.length; vi++) {
+            var vv = x.value[vi];
             if (self.isProperty(vv.id))
                 ud.append(newPropertyView(self, vv));
-		}
-	}
+            }
+    }
     
     if (!mini) {
 
@@ -872,7 +874,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
         refreshReplies();
     }
     
-	return d;
+    return d;
 }
 
 
