@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Netention Tiamat v.03</title>
+        <title>Netention Tiamat v.04</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="application-name" content="Netention Alpha"/>
         <meta name="description" content="">
@@ -40,12 +40,13 @@
 
 <body>
 <div id="View" class="ui-widget-content"></div>
-
+<img id="toggle-menu" title="Click here to expand the control panel" style="display:none" class="ui-corner-all" alt="toggle menu button" src="icon/netention-button.png" />
+<div id="close-menu" title="Click here to close the control panel"><span class="ui-icon ui-icon-closethick"></span></div>
  <!-- Fixed navbar -->
-    <div id="ViewMenu" class="ui-widget-header ui-corner-all shadow">
-    <span>Welcome <a class="brand" href="#"></a></span>
-                <form>
-                <div id="ViewControls" class="shadow">
+    <div id="ViewMenu" class="ui-widget ui-widget-header shadow">
+    <div class="viewmenu-container">
+            <form>
+                <div id="ViewControls">
                     <input type="radio" id="map" name="ViewControls" /><label for="map">Map</label>
                     <input type="radio" id="grid" name="ViewControls" /><label for="grid">Grid</label>
                     <input type="radio" id="list" name="ViewControls" /><label for="list">List</label>
@@ -53,37 +54,43 @@
                     <input type="radio" id="graph" name="ViewControls" /><label for="graph">Graph</label>
                     <input type="radio" id="trends" name="ViewControls" /><label for="trends">Trends</label>
                 </div>
-                <button  id="profile">Settings</button>
             </form>
-
             <!-- <li class="viz"><a class="ui-button" id="time" title="Timeline" href="#"><b class="icon-time"></b><span class="display-menu-collapse">Timeline</span></a></li> -->
             <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
             <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
-        <ul>
-        <li><div id="FocusEdit" class="ui-corner-all" refactorToID="FocusEdit">
-            <div id="FocusMainMenu">
-                <button id="ClearButton" title="Clear">Clear</button>
-                <button title="Tag Tree">Tag Tree</button>
-                <button title="Add Description" id="AddDescriptionButton">Add Description</button>
-                <button title="Add Location" id="AddLocationButton">Add Location</button>
-                <button title="Upload">Upload File</button>                
-                <button id='SaveButton' title="Save">Save</button>                            
-                <br/>
-                <button>Save Privately...</button>
-                <button onclick="javascript:showEditedFocus();">Export...</button>
-                <button onclick="javascript:cloneFocus();">Clone...</button>
-                <button onclick="javascript:deleteFocus();">Delete</button>
+
+             <div id="identity" class="ui-widget-content ">
+                <ul class="ui-widget-header">
+                    <li id="AvatarButton" class="avatar-active ui-widget-content ui-corner-all">
+                            <img class="avatar-active ui-corner-all" alt="avatar image" src="icon/load.gif" />
+                    </li>
+                    <li>Welcome <a class="brand" href="#"></a></li>
+                    <li><a class="login" href="login.html">Login</a></li>
+                    <li><a class="logout" href="logout">Logout</a></li>
+                    <li><a id="profile" href="#">Settings</a></li>
+                </ul>
             </div>
-            <div id="Focus" class="ui-widget-content"></div>
-        </div></li>
-            </ul>
+    
+        <div id="FocusEdit" class="ui-widget-content ui-corner-all" refactorToID="FocusEdit">
+           <div id="FocusMainMenu">
+                <button title="Tag Tree"><span class="FocusButtonIcon ui-icon ui-icon-disk"></span><span class="FocusButtonLabel">Tag</span></button>
+                <button title="Add Description" id="AddDescriptionButton"><span class="FocusButtonIcon ui-icon ui-icon-disk"></span><span class="FocusButtonLabel">Description</span></button>
+                <button title="Add Location" id="AddLocationButton"><span class="FocusButtonIcon ui-icon ui-icon-disk"></span><span class="FocusButtonLabel">Location</span></button>
+                <button title="Upload"><span class="FocusButtonIcon ui-icon ui-icon-folder-open"></span><span class="FocusButtonLabel">Upload</span></button>                
+                <!--<button>Save Privately...</button>-->
+                <button onclick="javascript:showEditedFocus();" title="Export"><span class="FocusButtonIcon ui-icon ui-icon-extlink"></span><span class="FocusButtonLabel">Export</span></button>
+                <button onclick="javascript:cloneFocus();" title="Clone"><span class="FocusButtonIcon ui-icon ui-icon-newwin"></span><span class="FocusButtonLabel">Clone</span></button>
+                <!-- <button onclick="javascript:deleteFocus();" title="Delete"><span class="FocusButtonIcon ui-icon ui-icon-trash"></span><span class="FocusButtonLabel">Delete</span></button> -->
+                <button id="ClearButton" title="Clear"><span class="FocusButtonIcon ui-icon ui-icon-close"></span><span class="FocusButtonLabel">Clear</span></button>
+                <button id='SaveButton' title="Save"><span style="margin:5px;" class="FocusButtonIcon ui-icon ui-icon-disk"></span><span class="FocusButtonLabel">Save</span></button>                            
+			</div>
+            <div id="Focus" class="ui-corner-all"></div>
+        </div>
+   </div>
     </div>
 
 <!-- HIDDEN UNTIL LOADED -->
 
-    <div id="AvatarButton" class="avatar-active ui-widget-content ui-corner-br shadow">
-        <img class="avatar-active ui-corner-all" alt="avatar image" src="icon/load.gif" />
-    </div>
         <!-- END HIDDEN UNTIL LOADED -->
         
         <!-- LOADING SCREEN -->
@@ -118,7 +125,7 @@
         </div>
 
 <!-- LiGHTBoX -->
-            <div id="AvatarMenu" class="lightbox ui-widget-content" style="display:none">
+            <div id="AvatarMenu" class="ui-widget-content" style="display:none">
                 <h3>Welcome <a class="brand" href="#"></a></h3>
                 <hr>
                 <div>                        
@@ -169,8 +176,6 @@
                         <!-- <li><a href="/#/team"><img alt="team" src="icon/user-group.png"/>Team</a></li> -->
                         <!--<li><a href="/#/new">New</a></li><br/>-->
                         <!-- <li><a href="/#/tags"><img alt="tags: src="icon/back-to-ou.png"/>Tags</a></li> -->
-                        <a href="/login.html">Login</a>
-                        <a href="/logout">Logout</a>
                         <a href="/#/help">Help</a>
                         
                         <br/>

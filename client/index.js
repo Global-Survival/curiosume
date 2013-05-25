@@ -1,3 +1,8 @@
+/*!
+ * index.js v1.1
+ * Reconfigurated by @automenta and @rezn8d
+ */
+
 "use strict";
 
 var MAX_INITIAL_OBJECTS = 1024;
@@ -174,7 +179,10 @@ function _updateView() {
     var s = window.self;
 
     $('.brand').html(s.myself().name);
-    $('#AvatarButton img').attr('src', getAvatarURL(s.myself().email));
+    
+    var avatarURL = getAvatarURL(s.myself().email);
+    $('#AvatarButton img').attr('src', avatarURL);	
+    $('#toggle-menu').attr('src', avatarURL);	
 
     s.saveLocal();
 
@@ -295,16 +303,14 @@ function confirmClear() {
 function showAvatarMenu(b) {
     var vm = $('#ViewMenu');
     if (!b) {
-        setTimeout(function() {
-            vm.toggle("scale", {direction: "both", origin: "top"});
-        }, 0);
-        $('#AvatarButton, #AvatarButton img').addClass('avatar-inactive');
-        $('#AvatarButton, #AvatarButton img').removeClass('avatar-active');        
+		$('#close-menu').hide();
+        vm.fadeOut();
+		$('#toggle-menu').show();
     }
     else {
+		$('#toggle-menu').hide();
         vm.fadeIn();
-        $('#AvatarButton, #AvatarButton img').addClass('avatar-active');
-        $('#AvatarButton, #AvatarButton img').removeClass('avatar-inactive');        
+		$('#close-menu').show();
     }
 }
 
@@ -436,13 +442,12 @@ $(document).ready(function() {
 
     });
 
-});
-
-
-
-$(document).ready(function() {
-
-    $('#AvatarButton').click(function() {
+    $('#toggle-menu').click(function() {
+        var vm = $('#ViewMenu');
+        var shown = vm.is(':visible');
+        showAvatarMenu(!shown);
+    });
+    $('#close-menu').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
@@ -454,6 +459,7 @@ $(document).ready(function() {
     });
 
 
+    $('#close-menu').button();
     $('#FocusEdit button').button();
     $("#ViewControls").buttonset();
 
@@ -461,10 +467,6 @@ $(document).ready(function() {
         $("#AvatarMenu").dialog({
             modal: true
         });
-    });
-
-    $('.lightbox-close').click(function() {
-        $('#lightbox, #lightbox-shade').hide();
     });
 
 });

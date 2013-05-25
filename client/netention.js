@@ -1,3 +1,7 @@
+/*!
+ * netention.js v1.1
+ * Attentionated by @automenta and @rezn8d
+ */
 //Measurement types:
 //<select class="ucw_selector" id="ucw_cs"><option value="Temperature">Temperature</option><option value="Length">Length</option><option value="Mass">Mass</option><option value="Speed">Speed</option><option value="Volume">Volume</option><option value="Area">Area</option><option value="Fuel consumption">Fuel consumption</option><option value="Time">Time</option><option value="Digital Storage">Digital Storage</option></select>
 
@@ -128,7 +132,8 @@ function netention(f) {
             focus : function() { 
                 return this.get('focus');
             },            
-                                
+            
+            
             myself: function() { 
                 var o = this.getSelf(this.id()); 
                 if (!o) {

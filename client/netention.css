@@ -1,4 +1,7 @@
-/* CSS Document */
+/*!
+ * netention.css v1.1
+ * Discombobulated by @rezn8d
+ */
 body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; }
 a, a:hover, a:active, a:focus { outline: none !important; }
 .shadow {	moz-box-shadow: 0px 0px 24px #000000; -webkit-box-shadow: 0px 0px 24px #000000; box-shadow:0px 0px 24px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444'); }
@@ -790,6 +793,9 @@ div.olMapViewport {
 .ViewSelectIndented {
     padding-left: 50px;
 }
+#toggle-menu {
+    max-width: 45px;
+}
 
 #ViewSelect {
     float: left;
@@ -800,9 +806,7 @@ div.olMapViewport {
     padding-top: 0.5em;
     width: 60%;
 }
-#Focus {
-    width: 98%;
-}
+
 .FocusSection {
     padding: 0.2em;
     border-right: 5px solid rgba(125,25,0,0.5);
@@ -949,7 +953,6 @@ display:block;
 clear:both;
 }
 
-#FocusMainMenu {margin: 0px auto 10px auto; display:block;}
 
 .ui-dialog { z-index:2000 !important; }
 
@@ -1253,8 +1256,17 @@ margin: 0 auto;
 	}
 
 #ViewMenu {
+    position: absolute;    
     z-index:15;
-	padding: 4px 4px 4px 20px;
+	top:0;
+	left:0;
+	width:600px;
+	height:100%;
+	margin:0;
+	padding:0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 #View { 
         border: none;
@@ -1268,67 +1280,75 @@ margin: 0 auto;
 	z-index:1;
 	display:block;
 	clear:both;
+	overflow: auto;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch;
 }
+#ViewControls {
+	margin-bottom:10px; display:block; clear:both;
+}
+
+
+.nameInput { padding:3px; text-indent:15px; }
+
+div.olControlZoom { top:auto !important; bottom:8px !important; }
+
+.login, .logout { margin-left:5px; color:inherit; }
+#profile { margin-left:5px; }
+.viewmenu-container { 
+	position: relative;
+	display:block;
+	padding: 10px;
+	overflow: visible;
+}
+
+
+#identity { display:block;clear:both; margin:20px 0px; padding:0; }
+	#identity ul { margin:0; padding:0; list-style-type:none;  }
+	#identity li { text-align:center; vertical-align: middle; padding: 5px; float:left; list-style-type:none; }
+	#AvatarButton { margin:0; padding:0; position:relative; top: -15px; left:-2px;}
+	#AvatarButton img { border: none;  cursor: crosshair; }
+
+#FocusEdit { text-align:center; height:auto; padding:15px; margin:10px 0px; display:block; clear:both; }
+	#FocusEdit button { font-size:.8em; }
+	#FocusMainMenu { clear:both; width:100%; margin:0px; padding:0;  }
+#Focus { width: 98%; border:none; margin:20px 0px; }
+
+#toggle-menu {position:absolute; top:3px; left:3px; z-index:25; } 
+#close-menu span { position: relative; }
 
 /*!
- * RedNET Responsive v1.1
- * Designed and built with all the love in the world @rezn8d
+ * less than 640 = mobile mode 
  */
 
-/* Smartphones (portrait and landscape) ----------- */
-@media (min-width : 100px) {
-/* Styles */
-.avatar-active { width: 50px; height: 50px; }
-#ViewMenu { left: 10px; top: 15px; padding-left:60px; }
-}
-@media (min-width : 320px) {
-/* Styles */
-.avatar-active { width: 80px; height: 80px; }
-#ViewMenu { left: 28px; top: 15px; padding-left:80px; }
-}
-@media (min-width : 480px) {
-/* Styles */
-.avatar-active { width: 80px; height: 80px; }
-#ViewMenu { left: 28px; top: 15px; padding-left:80px; }
+@media (max-width : 699px) {
+.avatar-active { width: 60px; height: 60px; }
+#ViewControls .ui-button-text { font-size:10px; }
+#ViewMenu { width:100%; }
+#close-menu {position: absolute; top:5px; right:5px; left: auto; z-index:25;}
+#FocusMainMenu button { display:block; width:100%; margin:0; }
+			.FocusButtonLabel { display:inline-block !important; }
+			.FocusButtonIcon  { display:none !important; }
 }
 
-/* iPads (portrait and landscape) ----------- */
-@media (min-width : 768px) {
-/* Styles */
-.avatar-active { width: 120px; height: 120px; }
-#ViewMenu { left: 28px; top: 15px; padding-left:110px; }
+@media (min-width : 700px) {
+.avatar-active { width: 80px; height: 80px; }
+#ViewControls .ui-button-text { font-size:13px; }
+#ViewMenu { width:600px; }
+#close-menu { position: absolute; top:5px; left:598px; right:auto; z-index:14;}
+#FocusMainMenu button { width:auto; margin:0; }
+			.FocusButtonLabel { display:none !important; }
+			.FocusButtonIcon  { display:inline-block !important; }
 }
 
-/* Desktops and laptops ----------- */
 @media (min-width : 1025px) {
-/* Styles */
-.avatar-active { width: 140px; height: 140px; }
-#ViewMenu { left: 28px; top: 15px; padding-left:130px; }
+.avatar-active { width: 100px; height: 100px; }
+#ViewControls .ui-button-text { font-size:14px; }
 }
 
-/* Large screens ----------- */
 @media (min-width : 1440px) {
-/* Styles */
-.avatar-active { width: 160px; height: 160px; }
-.lightbox {
-	display: none;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 80%;
-	height: 80%;
-	margin:auto;
-	padding: 16px;
-	z-index:1002;
-	overflow-x: hidden;
-	overflox-y: auto;
-}
-#ViewMenu { left: 28px; top: 15px; padding-left:150px; }
-.addmenu-active { left: 15px; top: 15px; padding:160px 4px 4px 4px; }
-.addmenu-inactive {	left: 18px; top: 15px; padding:40px 4px 4px 4px; }
+#ViewControls .ui-button-text { font-size:16px; }
 }
 
 #ViewMenu ul li { float:left; list-style-type:none; }
@@ -1342,7 +1362,6 @@ padding:15px;
 margin:10px 0px;
 display:block;
 max-width:500px !important;
-max-height:500px !important;
 overflow-y: auto;
 overflow-x: hidden;
 }
