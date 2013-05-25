@@ -53,10 +53,11 @@
             <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
 
          <div id="identity" class="ui-widget-content">
-            <ul id="identity-header" class="ui-widget-header">Welcome <a class="brand" href="#"></a> <a class="login" href="login.html">Login</a><a class="logout" href="logout">Logout</a>
+            <ul id="identity-header" class="ui-widget-header">Now: <a class="brand" href="#"></a> <a class="login" href="login.html">Login</a><a class="logout" href="logout">Logout</a>
                 <li id="AvatarButton" class="avatar-active ui-corner-all left">
                         <img class="avatar-active ui-corner-all shadow" alt="avatar image" src="icon/load.gif" />
                 </li>
+                <a id="SwitchPersonaButton" title="Switch Persona" href="javascript:alert('Persona switching features are not available yet.');"><img src="/icon/rrze/categories/user-partner.png"/></a>
             </ul>
         </div>
         <div id="ViewControls">
@@ -74,18 +75,21 @@
         <div id="FocusEdit" class="ui-widget-content ui-corner-all" refactorToID="FocusEdit">
            <div id="Focus" class="ui-corner-all"></div>
            <div id="FocusMainMenu">
-                <button title="Who?" id="AddDescriptionButton"><span class="FocusButtonIcon ui-icon ui-icon-person"></span><span class="FocusButtonLabel">Who?</span></button>
-                <button title="What?"><span class="FocusButtonIcon ui-icon ui-icon-home"></span><span class="FocusButtonLabel">What?</span></button>
-                <button title="When?" ><span class="FocusButtonIcon ui-icon ui-icon-clock"></span><span class="FocusButtonLabel">When?</span></button>
-                <button title="Where?" id="AddLocationButton"><span class="FocusButtonIcon ui-icon ui-icon-calculator"></span><span class="FocusButtonLabel">Where?</span></button>
-                <button title="How, Why?" id="AddDescriptionButton"><span class="FocusButtonIcon ui-icon ui-icon-help"></span><span class="FocusButtonLabel">How, Why?</span></button>
-                <button title="Upload"><span class="FocusButtonIcon ui-icon ui-icon-folder-open"></span><span class="FocusButtonLabel">Upload</span></button>                
+                
+                <button title="What?"><img src="/icon/rrze/emblems/information.png"></button>
+                <button title="How/Why?" id="AddDescriptionButton"><img src="/icon/rrze/actions/quote.png"></button>
+                <button title="When?" ><img src="/icon/clock.png"></button>
+                <button title="Where?" id="AddLocationButton"><img src="/icon/rrze/emblems/globe.png"></button>
+                <button title="Who?" id="AddWhoButton"><img src="/icon/rrze/categories/user-group.png"></button>
+                
+                
+                <button title="Upload"><img src="/icon/rrze/actions/dial-in.png"/></button>                
                 <!--<button>Save Privately...</button>-->
-                <button onclick="javascript:showEditedFocus();" title="Export"><span class="FocusButtonIcon ui-icon ui-icon-extlink"></span><span class="FocusButtonLabel">Export</span></button>
+                <button onclick="javascript:showEditedFocus();" title="Export"><img src="/icon/rrze/actions/print.png"/></button>
                 <!-- <button onclick="javascript:cloneFocus();" title="Clone"><span class="FocusButtonIcon ui-icon ui-icon-newwin"></span><span class="FocusButtonLabel">Clone</span></button> -->
                 <!-- <button onclick="javascript:deleteFocus();" title="Delete"><span class="FocusButtonIcon ui-icon ui-icon-trash"></span><span class="FocusButtonLabel">Delete</span></button> -->
-                <button id="ClearButton" title="Clear"><span class="FocusButtonIcon ui-icon ui-icon-close-thick"></span><span class="FocusButtonLabel">Clear</span></button>
-                <button id='SaveButton' title="Save/Submit"><span style="margin:5px;" class="FocusButtonIcon ui-icon ui-icon-circle-check"></span><span class="FocusButtonLabel">Submit</span></button>                            
+                <button id="ClearButton" title="Clear"><img src="/icon/rrze/actions/refuse.png"/></button>
+                <button id='SaveButton' title="Save/Share"><img src="/icon/vote.png"/></button>                            
 			</div>
 
 <div class="jstree-header ui-widget ui-widget-header">
@@ -792,7 +796,7 @@ Ionosphere Model</a>
         <script src="lib/timeago/timeago.js" type="text/javascript"></script> 
         <script src="lib/jquery-form/jquery.form.js" type="text/javascript"></script> 
         <script src="lib/dynatree/jquery.dynatree.min.js" type="text/javascript"></script> 
-        <script src="lib/masonry/jquery.masonry.min.js" type="text/javascript"></script> 
+        <!-- <script src="lib/masonry/jquery.masonry.min.js" type="text/javascript"></script>  -->
         <script src="view.map.js" type="text/javascript"></script> 
         <script src="view.grid.js" type="text/javascript"></script> 
         <script src="view.list.js" type="text/javascript"></script> 

@@ -1456,3 +1456,19 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
     color: gray;
     border: 5px solid #ddd;
 }
+
+#FocusMainMenu button span  {
+    padding: 5px;
+    margin: 0;
+}
+#FocusMainMenu button img {
+    width: 2em;
+    padding: 0;
+}
+#SaveButton span img {
+    width: 2.5em;
+}
+
+#SwitchPersonaButton img {
+    margin-bottom: -5px;
+}
