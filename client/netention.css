@@ -1474,3 +1474,7 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 #SwitchPersonaButton img {
     margin-bottom: -5px;
 }
+
+.olControlAttribution {
+    display:none !important;
+}

@@ -219,7 +219,7 @@ function _updateView() {
     v.removeClass('view-indented');
     
     if (view === 'list') {
-        v.addClass('overflow-scroll ui-widget-content');
+        v.addClass('overflow-scroll ui-widget-content view-indented');
         currentView = renderList(s, o, v);
     }
     else if (view === 'map') {
