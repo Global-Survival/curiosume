@@ -32,7 +32,8 @@ function renderTrends(s, o, v) {
                 name = ti;                
             
             var d = $('<div/>');
-            var url = '#/tag/' + ti;            
+            //var url = '#/tag/' + ti;            
+            var url = '#';
             //var fs = 3.0 + Math.log(1+tagCount[k])*0.2;            
             //var ab = $('<a href="' + url + '" style="font-size:' + (100.0 * fs) +'%">' + name + '</a>');
             
@@ -54,6 +55,7 @@ function renderTrends(s, o, v) {
             d.addClass('trendTagLabel');
             vv.append(d);
             
+            /*
             var f = $('<div>' + _n(selfTagCount[ti]) + '</div>' );
             f.addClass('trendTagCount');
             vv.append(f);
@@ -64,7 +66,10 @@ function renderTrends(s, o, v) {
             
             var g = $('<div>' + _n(serverTagCount[ti]) + '</div>' );
             g.addClass('trendTagCount');
-            vv.append(g);
+            vv.append(g);*/
+            
+            var total = selfTagCount[ti]+localTagCount[ti]+serverTagCount[ti];
+            d.attr('style', 'font-size:' + 100.0 * (1.0 + Math.log( total ))*0.4 + '%')
             
             v.append(vv);
             
