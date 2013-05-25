@@ -1,5 +1,5 @@
 /*!
- * index.js v1.1
+ * index.js v1.2
  * Reconfigurated by @automenta and @rezn8d
  */
 
@@ -179,10 +179,10 @@ function _updateView() {
     var s = window.self;
 
     $('.brand').html(s.myself().name);
-    
+
     var avatarURL = getAvatarURL(s.myself().email);
-    $('#AvatarButton img').attr('src', avatarURL);	
-    $('#toggle-menu').attr('src', avatarURL);	
+    $('#AvatarButton img').attr('src', avatarURL);
+    $('#toggle-menu').attr('src', avatarURL);
 
     s.saveLocal();
 
@@ -194,48 +194,50 @@ function _updateView() {
     var v = $('#View');
 
 
-    if ((currentView) && (view === lastView))  {
+    if ((currentView) && (view === lastView)) {
         if (currentView.onChange) {
             currentView.onChange();
             return;
         }
     }
-    
+
     v.html('');
     o.html('');
-    
+
     lastView = view;
 
-    v.removeClass('view-indented');
-    
+    v.removeClass('ui-widget-content');
+
     if (view === 'list') {
-        v.addClass('view-indented');
+        v.addClass('overflow-scroll ui-widget-content');
         currentView = renderList(s, o, v);
     }
     else if (view === 'map') {
+        v.addClass('overflow-hidden');
         currentView = renderMap(s, o, v);
     }
     else if (view === 'trends') {
-        v.addClass('view-indented');
+        v.addClass('overflow-scroll ui-widget-content view-indented');
         currentView = renderTrends(s, o, v);
     }
     else if (view == 'graph') {
+        v.addClass('overflow-hidden');
         currentView = renderGraphFocus(s, o, v);
     }
     else if (view == 'slides') {
         currentView = renderSlides(s, o, v);
     }
     else if (view == 'grid') {
-        v.addClass('view-indented');
+        v.addClass('overflow-scroll ui-widget-content view-indented');
         currentView = renderGrid(s, o, v);
     }
     else if (view == 'self') {
-        v.addClass('view-indented');
-        currentView = renderSelf(s, o, v);        
+        v.addClass('overflow-scroll ui-widget-content view-indented');
+        currentView = renderSelf(s, o, v);
     }
     else if (view == 'options') {
-        v.addClass('view-indented');
-        currentView = renderOptions(s, o, v);        
+        v.addClass('overflow-scroll ui-widget-content view-indented');
+        currentView = renderOptions(s, o, v);
     }
     else {
         v.html('Unknown view: ' + view);
@@ -307,14 +309,14 @@ function confirmClear() {
 function showAvatarMenu(b) {
     var vm = $('#ViewMenu');
     if (!b) {
-		$('#close-menu').hide();
+        $('#close-menu').hide();
         vm.fadeOut();
-		$('#toggle-menu').show();
+        $('#toggle-menu').show();
     }
     else {
-		$('#toggle-menu').hide();
+        $('#toggle-menu').hide();
         vm.fadeIn();
-		$('#close-menu').show();
+        $('#close-menu').show();
     }
 }
 
@@ -456,13 +458,87 @@ $(document).ready(function() {
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
     });
+    $('.avatar-active').click(function() {
+        showAvatarMenu(false);
+    });
 
-    
+
 
 
     $('#close-menu').button();
     $('#FocusEdit button').button();
     $("#ViewControls").buttonset();
+
+
+    /* THIS NEEDS EDIT TO CONTROLS LAYERS, NOT IFRAME EMBED */
+    $("#layer-tree").jstree({"plugins": ["html_data", "ui", "themeroller"]});
+
+    $("#layer-tree").delegate("a", "click", function(e) {
+        if ($(e.currentTarget).blur().attr('href').match('^#$')) {
+            $("#layer-tree").jstree("open_node", this);
+            return false;
+        } else {
+            var embedLocation = (this).href;
+            $('#View').html('');
+            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
+            $("#View").removeClass("ui-widget-content");
+            var vm = $('#ViewMenu');
+            var shown = vm.is(':visible');
+            showAvatarMenu(!shown);
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $("#expand-layer-tree").click(function() {
+        $("#layer-tree").jstree("open_all");
+    });
+
+    $("#close-layer-tree").click(function() {
+        $("#layer-tree").jstree("close_all");
+    });
+
+    /* IFRAME EMBED */
+
+    $("#url-tree").jstree({"plugins": ["html_data", "ui", "themeroller"]});
+
+    $("#url-tree").delegate("a", "click", function(e) {
+        if ($(e.currentTarget).blur().attr('href').match('^#$')) {
+            $("#url-tree").jstree("open_node", this);
+            return false;
+        } else {
+
+            var embedLocation = (this).href;
+            $('#View').html('');
+            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
+            $("#View").removeClass("ui-widget-content");
+            var vm = $('#ViewMenu');
+
+            var shown = vm.is(':visible');
+            showAvatarMenu(!shown);
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $("#expand-url-tree").click(function() {
+        $("#url-tree").jstree("open_all");
+    });
+
+    $("#close-url-tree").click(function() {
+        $("#url-tree").jstree("close_all");
+    });
+
+
+    $('.ext-link').click(function() {
+        var linkLocation = (this).value;
+        $('#View').html('');
+        $('#View').html('<iframe src="' + linkLocation + '" frameBorder="0" id="embed-frame"></iframe>');
+        var vm = $('#ViewMenu');
+        var shown = vm.is(':visible');
+        showAvatarMenu(!shown);
+    });
+
 
 
 });
