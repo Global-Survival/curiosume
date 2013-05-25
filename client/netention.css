@@ -1363,7 +1363,6 @@ height:auto;
 padding:15px;
 margin:10px 0px;
 display:block;
-max-width:500px !important;
 overflow-y: auto;
 overflow-x: hidden;
 }
