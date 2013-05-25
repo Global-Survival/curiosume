@@ -121,6 +121,15 @@ function initUI(self) {
         commitFocus(objAddValue(renderedFocus.getEditedFocus(), 'spacepoint', ''));
     });
 
+    $("#AddWhatButton").click(function() {
+       alert('Tag selection widget not available yet.'); 
+    });
+    $("#AddWhenButton").click(function() {
+       alert('Timepoint selection widget not available yet.'); 
+    });
+    $("#AddWhoButton").click(function() {
+       alert('Agent selection widget not available yet.'); 
+    });
 
     {
 
@@ -207,7 +216,8 @@ function _updateView() {
     lastView = view;
 
     v.removeClass('ui-widget-content');
-
+    v.removeClass('view-indented');
+    
     if (view === 'list') {
         v.addClass('overflow-scroll ui-widget-content');
         currentView = renderList(s, o, v);
@@ -288,17 +298,25 @@ function setTheme(t) {
         window.self.saveLocal();
     }
 
-    $('#themecss').remove();
+    $('.themecss').remove();
 
     var themeURL;
+    var inverse = false;
     if (t[0] == '_') {
         t = t.substring(1);
         themeURL = 'theme/' + t + '.css';
+        if (t === 'Dark') inverse = true;
     }
     else {
         themeURL = 'lib/jquery-ui/1.10.3/themes/' + t + '/jquery-ui.min.css';
+        if (t === 'ui-darkness') inverse = true;
     }
-    $('head').append('<link id="themecss" href="' + themeURL + '" type="text/css" rel="stylesheet"/>');
+    
+    $('head').append('<link class="themecss" href="' + themeURL + '" type="text/css" rel="stylesheet"/>');
+    if (inverse) {
+        $('head').append('<link class="themecss" href="/theme/black-background.css" type="text/css" rel="stylesheet"/>');
+    }
+    
 }
 
 function confirmClear() {

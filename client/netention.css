@@ -2,7 +2,9 @@
  * netention.css v1.2
  * Discombobulated by @rezn8d
  */
-body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; }
+body { 
+    width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; 
+}
 a, a:hover, a:active, a:focus { outline: none !important; }
 .shadow {	moz-box-shadow: 0px 0px 24px #000000; -webkit-box-shadow: 0px 0px 24px #000000; box-shadow:0px 0px 24px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444'); }
 
@@ -1458,15 +1460,15 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 }
 
 #FocusMainMenu button span  {
-    padding: 5px;
+    padding: 3px;
     margin: 0;
 }
 #FocusMainMenu button img {
-    width: 2em;
+    width: 1.5em;
     padding: 0;
 }
 #SaveButton span img {
-    width: 2.5em;
+    width: 2.0em;
 }
 
 #SwitchPersonaButton img {

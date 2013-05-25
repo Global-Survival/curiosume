@@ -1,7 +1,6 @@
 @import url('/lib/jquery-ui/1.10.3/themes/vader/jquery-ui.min.css');
 
 body {
-    background-color: #222;
     color: white;
 }
 h1, .objectView h1, h3, .objectView h3 {
@@ -29,4 +28,8 @@ a {
 
 #View  {
     background: none !important;
+}
+#ViewMenu {
+    background-color: #555;
+    opacity: 0.9;
 }
