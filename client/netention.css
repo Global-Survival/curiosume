@@ -1148,6 +1148,7 @@ clear:both;
     clear: both;
     padding-bottom: 2.5em;
     border-bottom: 1px solid gray;
+    margin-bottom: 1.0em;
 }
 
 .view-indented {
@@ -1741,4 +1742,32 @@ a.openModal:focus {
 }
 .ui-pnotify {
     display: none;
+}
+#FocusTabs {
+    font-size: 75%;
+}
+#Layer {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.focusButton {
+    width: 15px;
+    height: 15px;
+    cursor: crosshair;
+    float: left;
+}
+
+.focusIncludeButtonActive {
+    background-color: #86b226;
+}
+.focusExcludeButtonActive {
+    background-color: #f66;
+}
+.focusLabel {
+    padding-left: 5px;
+    float: left;
+}
+.focusClear {
+    clear: both;
 }

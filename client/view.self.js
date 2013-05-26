@@ -340,9 +340,8 @@ function newSelfTagList(s, user, c) {
     }
     else {
         b.append('Click ');
-        console.log(k);
         
-        var addLink = $('<a href="#">here</a>' );
+        var addLink = $('<button>+</button>' );
         addLink.click(function() {
             c.html(newTagBrowser(s));           
         });

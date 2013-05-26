@@ -912,15 +912,83 @@ function updateTypeTree(a, onSelectionChange) {
     var stc = self.getTagCount();
                     
     function subtree(root, i) {
-        var name = i.name;// + ' (' + i.uri + ')';
-        var xi = i.uri;
+        var name, xi;
+        if (i.name) {
+            name = i.name;
+            xi = i.uri;
+        }
+        else 
+            name = xi = i;
+        
         var label = name;
         if (stc[xi])
             if (stc[xi] > 0)
                 label += ' (' + _n(stc[xi]) + ')';
                 
-        var n = $('<li id="' + xi + '"><a href="#">' + label + '</a></li>');
+        var l = self.layer();
+        if (!l.include) {
+            l.include = { };
+            l.exclude = { };
+        }        
         
+        var w = newDiv(); //$('<a href="#">' + label + '</a>
+        {
+            var included = l.include[xi];
+            var excluded = l.exclude[xi];
+            
+            var includeButton = newDiv();
+            includeButton.addClass('focusButton');
+            var fiba = 'focusIncludeButtonActive';
+            if (included) {
+                includeButton.addClass(fiba);
+            }
+            
+            var excludeButton = newDiv();
+            excludeButton.addClass('focusButton');
+            var feba = 'focusExcludeButtonActive';
+            if (excluded) {
+                excludeButton.addClass(feba);
+            }
+            includeButton.click(function() {
+                if (includeButton.hasClass(fiba)) {
+                    includeButton.removeClass(fiba);
+                    delete l.include[xi];
+                }
+                else {
+                    includeButton.addClass(fiba);
+                    l.include[xi] = true;
+                    
+                    if (excludeButton.hasClass(feba))
+                        excludeButton.click();
+                }
+            });
+            excludeButton.click(function() {
+                if (excludeButton.hasClass(feba)) {
+                    excludeButton.removeClass(feba);
+                    delete l.exclude[xi];
+                }
+                else {
+                    excludeButton.addClass(feba);
+                    l.exclude[xi] = true;
+                    
+                    if (includeButton.hasClass(fiba))
+                        includeButton.click();
+                }
+            });
+            
+            var labelButton = newDiv().html(label); //cycle through include/external/neither states
+            labelButton.addClass('focusLabel');
+            w.append(includeButton);
+            w.append(excludeButton);
+            w.append(labelButton);
+            
+            var clear = newDiv();
+            clear.addClass('focusClear');
+            w.append(clear);
+        }
+        
+        var n = $('<li id="' + xi + '"></li>');
+        n.append(w);
         root.append(n);
         
         var children = self.subtags(i.uri);
@@ -934,11 +1002,31 @@ function updateTypeTree(a, onSelectionChange) {
         }
     }
     
+    function othersubtree(t) {
+        var others = [];
+        for (var c in stc) {
+            if (!self.tag(c))
+                others.push(c);
+        }
+        
+        if (others.length == 0)
+            return;
+        
+        var n = $('<li id="OtherTgs"><a href="#">Other</a></li>');
+        t.append(n);
+        
+        var nu = $('<ul></ul>');            
+        n.append(nu);
+        _.each(others, function(c) {
+            subtree(nu, c);
+        });                            
+    }
+    
     var roots = self.tagRoots();
     _.each(roots, function(t) {
        subtree(tree, self.tag(t));
     });
-    
+    othersubtree(tree);
     
     //a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
     a.delegate("a", "click", function(e) {

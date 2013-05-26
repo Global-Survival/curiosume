@@ -55,7 +55,8 @@ function netention(f) {
                 attention: { },
                 deleted: { },
                 replies: { }, //reply index
-                focus: null
+                layer: { },
+                focus: { }
             },
             
             clear : function() {
@@ -64,7 +65,8 @@ function netention(f) {
                 this.set('attention', { });    
                 this.set('deleted', { });    
                 this.set('replies', { });
-                this.set('focus', null);    
+                this.set('layer', { });
+                this.set('focus', null );    
                 //this.socket.emit('connectSelf', this.get('clientID'));
             },
             
@@ -140,6 +142,9 @@ function netention(f) {
             
             focus : function() { 
                 return this.get('focus');
+            },            
+            layer : function() { 
+                return this.get('layer');
             },            
             
             
