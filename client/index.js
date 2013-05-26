@@ -53,11 +53,18 @@ function updateTagTree() {
 function saveObject(p) {
     p.author = self.id();
     objTouch(p);
-    self.notice(p);
-    self.pub(p);
-    $.pnotify({
-        title: 'Saved',
-        text: p.uri
+    self.pub(p, function(err) {
+        $.pnotify({
+            title: 'Unable to save.',
+            text: p.name,
+            type: 'Error'            
+        });                
+    }, function() {
+        $.pnotify({
+            title: 'Saved (' + p.id.substring(0,6) + ')' ,
+            text: p.name
+        });        
+        self.notice(p);
     });
 }
 
@@ -424,10 +431,10 @@ $(document).ready(function() {
                             newPopupObjectView(x);
                         }
                         else {
-                            $.pnotify({
+                            /*$.pnotify({
                                 title: 'Unknown object',
                                 text: id.substring(0, 4) + '...'
-                            });
+                            });*/
                         }
                     },
                     focus: function(id) {

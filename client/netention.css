@@ -985,6 +985,9 @@ clear:both;
     width: 100%;
     float: left;
 }
+#Bio button {
+    font-size: 150%;
+}
 #SelfMap  {
     width: 40%;
     height: 250px;
@@ -1469,6 +1472,8 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 }
 #SaveButton span img {
     width: 2.0em;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
 }
 
 #SwitchPersonaButton img {

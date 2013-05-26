@@ -54,8 +54,13 @@ function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
                 objAddTag(o, selTags[i]);
             }
 
-            s.notice(o);
-            s.pub(o);                            
+            
+            s.pub(o, function(err) {
+                $.pnotify({title: 'Error saving:', text: err, type:'error'});
+            }, function() {
+                s.notice(o);
+                $.pnotify({title: 'Saved', text: currentTag});
+            });                            
             
             if (onSave)
                 onSave();
@@ -316,19 +321,34 @@ function newSelfTagList(s, user, c) {
         b.append('<br/>');
     }
     var k = _.keys(tags);
-    var pinnedSections = ['ExpertTeacher', 'IntermediateTeacher', 'CollaboratingTeacher', 'CollaboratingStudent', 'IntermediateStudent', 'BeginnerStudent' ];
-    for (var i = 0; i < pinnedSections.length; i++) {
-        var p = pinnedSections[i];
-        if (_.contains(k, p)) {
-            addTagSection(p);
-            k = _.without(k, p);
-        }        
+    if (k.length > 0) {
+
+        var pinnedSections = ['ExpertTeacher', 'IntermediateTeacher', 'CollaboratingTeacher', 'CollaboratingStudent', 'IntermediateStudent', 'BeginnerStudent' ];
+        for (var i = 0; i < pinnedSections.length; i++) {
+            var p = pinnedSections[i];
+            if (_.contains(k, p)) {
+                addTagSection(p);
+                k = _.without(k, p);
+            }        
+        }
+
+
+        //ADD buttons for each tag
+        for (var i = 0; i < k.length; i++) {
+            addTagSection(k[i]);
+        }
     }
-    
-    
-    //ADD buttons for each tag
-    for (var i = 0; i < k.length; i++) {
-        addTagSection(k[i]);
+    else {
+        b.append('Click ');
+        console.log(k);
+        
+        var addLink = $('<a href="#">here</a>' );
+        addLink.click(function() {
+            c.html(newTagBrowser(s));           
+        });
+        b.append(addLink);
+        b.append(' to add some tags.');
+        
     }
     
     return b;
@@ -374,9 +394,9 @@ function newSelfSummary(s, user) {
 
     var resetButton = $('<button>Reset</button>');
     
-    var saveButton = $('<button>Save</button>');
-    bio.append(saveButton);
+    var saveButton = $('<button><b>Save</b></button>');
     bio.append(resetButton);
+    bio.append(saveButton);
 
     saveButton.click(function() {
        var m = s.myself();
@@ -384,11 +404,19 @@ function newSelfSummary(s, user) {
        m.email = emailInput.val();
        objRemoveDescription(self.myself());
        objAddDescription(self.myself(), objarea.html());
-       s.notice(m);
-       s.pub(m);
-       $.pnotify({
-            title: 'Self Saved.'            
+       
+       s.pub(m, function(err) {
+           $.pnotify({
+              title: 'Unable to save Self.',
+              type: 'Error'
+           });           
+       }, function() {
+           s.notice(m);
+           $.pnotify({
+              title: 'Self Saved.'            
+           });           
        });
+       
     });
 
     var cm = $('<div id="SelfMap"/>');

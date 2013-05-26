@@ -179,7 +179,7 @@ function netention(f) {
                 
                 if (isAuthenticated()) {
                       $.pnotify({
-                        title: 'Authorized.',
+                        title: 'Authorized',
                         text: that.myself().name
                      });
                 }
@@ -465,10 +465,12 @@ function netention(f) {
             	//socket.off ??
             },
             
-            pub: function(message) {
-                this.socket.emit('pub', message, function(err) {
-                    $.pnotify({title: 'Error publishing:', text: err, type:'error'});
-                });
+            pub: function(object, onErr, onSuccess) {
+                this.socket.emit('pub', object, function(err) {
+                    if (onErr)
+                        onErr(object);
+                    $.pnotify({title: 'Error saving:', text: err, type:'error'});
+                }, onSuccess);
             },
             
             //THIS NEEDS UPDATED

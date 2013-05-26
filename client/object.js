@@ -690,14 +690,22 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
                         createdAt: Date.now()
                     };
                     
-                    self.notice(rr);
                     
-                    console.log('replying');
-                    console.log(rr);
                     
-                    self.pub(rr);
+                    self.pub(rr, function (err) {
+                        $.pnotify({
+                            title: 'Error replying (' + x.id.substring(0,6) + ')',
+                            text: err,
+                            type: 'Error'
+                        })                        
+                    }, function() {
+                        self.notice(rr);
+                        refreshReplies();
+                        $.pnotify({
+                            title: 'Replied (' + x.id.substring(0,6) + ')'
+                        })
+                    });
                     
-                    refreshReplies();
                 },
                 
                 //on cancel
