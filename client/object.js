@@ -910,6 +910,13 @@ function updateTypeTree(a, onSelectionChange) {
     var tree = $('<ul></ul>');
     tree.addClass('tree');
     var stc = self.getTagCount();
+    
+    var l = self.layer();
+    console.dir(self.layer());
+    if (!l.include) {
+        l.include = { };
+        l.exclude = { };
+    }        
                     
     function subtree(root, i) {
         var name, xi;
@@ -925,11 +932,6 @@ function updateTypeTree(a, onSelectionChange) {
             if (stc[xi] > 0)
                 label += ' (' + _n(stc[xi]) + ')';
                 
-        var l = self.layer();
-        if (!l.include) {
-            l.include = { };
-            l.exclude = { };
-        }        
         
         var w = newDiv(); //$('<a href="#">' + label + '</a>
         {
@@ -958,8 +960,13 @@ function updateTypeTree(a, onSelectionChange) {
                     includeButton.addClass(fiba);
                     l.include[xi] = true;
                     
-                    if (excludeButton.hasClass(feba))
-                        excludeButton.click();
+                    if (excludeButton.hasClass(feba)) {
+                        l.exclude[xi] = false;
+                        excludeButton.click();                        
+                    }
+                    
+                    self.set('layer', l);
+                    self.saveLocal();
                 }
             });
             excludeButton.click(function() {
@@ -971,8 +978,13 @@ function updateTypeTree(a, onSelectionChange) {
                     excludeButton.addClass(feba);
                     l.exclude[xi] = true;
                     
-                    if (includeButton.hasClass(fiba))
+                    if (includeButton.hasClass(fiba)) {
+                        l.include[xi] = false;
                         includeButton.click();
+                    }
+                    
+                    self.set('layer', l);
+                    self.saveLocal();
                 }
             });
             

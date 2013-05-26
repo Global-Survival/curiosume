@@ -65,7 +65,6 @@ function netention(f) {
                 this.set('attention', { });    
                 this.set('deleted', { });    
                 this.set('replies', { });
-                this.set('layer', { });
                 this.set('focus', null );    
                 //this.socket.emit('connectSelf', this.get('clientID'));
             },
