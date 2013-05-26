@@ -6,11 +6,42 @@ function getRelevant(sort, scope, semantic, s, o, maxItems) {
     var relevance = { };
     var focus = s.focus();
     
+    var ii = _.keys(self.layer().include);
+    var ee = _.keys(self.layer().exclude);
+    
     for (var k in s.get('attention')) {
         
         var x = s.getObject(k);
         
         if (x.replyTo)
+            continue;
+        
+        //TAG filter
+        var allowed = true;
+        var tags = objTags(x);
+        {
+            if (ii.length > 0) {
+                allowed = false;
+                for (var i = 0; i < ii.length; i++) {
+                    var inc = ii[i];
+                    if (_.contains(tags, inc)) {
+                        allowed = true;
+                        break;
+                    }                    
+                }
+            }
+            if (ee.length > 0) {
+                for (var i = 0; i < ee.length; i++) {
+                    var exc = ee[i];
+                    if (_.contains(tags, exc)) {
+                        allowed = false;
+                        break;
+                    }                    
+                }            
+            }
+        }    
+        
+        if (!allowed)
             continue;
         
         //scope prefilter

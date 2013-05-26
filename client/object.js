@@ -912,7 +912,6 @@ function updateTypeTree(a, onSelectionChange) {
     var stc = self.getTagCount();
     
     var l = self.layer();
-    console.dir(self.layer());
     if (!l.include) {
         l.include = { };
         l.exclude = { };
@@ -951,10 +950,18 @@ function updateTypeTree(a, onSelectionChange) {
             if (excluded) {
                 excludeButton.addClass(feba);
             }
+            
+            function commitChange() {
+                self.set('layer', l);
+                self.saveLocal();
+                self.trigger('change:layer');                
+            }
+            
             includeButton.click(function() {
                 if (includeButton.hasClass(fiba)) {
                     includeButton.removeClass(fiba);
                     delete l.include[xi];
+                    commitChange();
                 }
                 else {
                     includeButton.addClass(fiba);
@@ -965,14 +972,15 @@ function updateTypeTree(a, onSelectionChange) {
                         excludeButton.click();                        
                     }
                     
-                    self.set('layer', l);
-                    self.saveLocal();
+                    commitChange();
                 }
             });
             excludeButton.click(function() {
                 if (excludeButton.hasClass(feba)) {
                     excludeButton.removeClass(feba);
                     delete l.exclude[xi];
+                    
+                    commitChange();                    
                 }
                 else {
                     excludeButton.addClass(feba);
@@ -983,8 +991,7 @@ function updateTypeTree(a, onSelectionChange) {
                         includeButton.click();
                     }
                     
-                    self.set('layer', l);
-                    self.saveLocal();
+                    commitChange();
                 }
             });
             

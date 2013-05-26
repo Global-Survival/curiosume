@@ -1282,6 +1282,7 @@ margin: 0 auto;
 	-webkit-overflow-scrolling: touch;
 }
 #View { 
+        display: none;
         border: none;
 	position: fixed;
 	top:0;
@@ -1290,8 +1291,7 @@ margin: 0 auto;
 	left:0;
 	height: 100%;
 	width:100%;
-	z-index:1;
-	display:block;
+	z-index:1;	
 	clear:both;
 }
 

@@ -87,9 +87,14 @@ var updateView;
 function initUI(self) {
 
     $('body').timeago();
-    updateView = _.throttle(_updateView, 150);
+    updateView = _.throttle(_updateView, 650);
 
     self.on('change:attention', function() {
+        later(function() {
+            updateView();
+        });
+    });
+    self.on('change:layer', function() {
         later(function() {
             updateView();
         });
@@ -102,9 +107,9 @@ function initUI(self) {
     });
 
     self.on('change:tags', function() {
-
         later(function() {
             updateFocus();
+            updateLayers();
         });
     });
 
@@ -218,7 +223,9 @@ function _updateView() {
 
     var o = $('#ViewOptions');
     var v = $('#View');
-
+    if (v.is(':visible')) {    }
+    else
+        return;
 
     if ((currentView) && (view === lastView)) {
         if (currentView.onChange) {
@@ -343,7 +350,6 @@ function confirmClear() {
 
 function showAvatarMenu(b) {
     var vm = $('#ViewMenu');
-    $('#View').show();
     if (!b) {
         $('#close-menu').hide();
         vm.fadeOut();
@@ -498,6 +504,7 @@ $(document).ready(function() {
                 
                 initUI(self);
                 
+                $('#View').show();
                 $('#LoadingSplash2').hide();                
                 /*if (isAuthenticated()) {
                       $.pnotify({
