@@ -905,10 +905,10 @@ function updateTypeTree(a, onSelectionChange) {
     var self = window.self;
     
     a.html('');    
-    var dt = newDiv();
-    dt.addClass('TagTree');
     
-    var tree = $('<ul></ul>').css('display','none');
+    
+    var tree = $('<ul></ul>');
+    tree.addClass('tree');
     var stc = self.getTagCount();
                     
     function subtree(root, i) {
@@ -919,14 +919,13 @@ function updateTypeTree(a, onSelectionChange) {
             if (stc[xi] > 0)
                 label += ' (' + _n(stc[xi]) + ')';
                 
-        var n = $('<li id="' + xi + '">' + label + '</li>');
+        var n = $('<li id="' + xi + '"><a href="#">' + label + '</a></li>');
         
         root.append(n);
         
         var children = self.subtags(i.uri);
         
         if (children.length > 0) {
-            n.addClass('folder');
             var nu = $('<ul></ul>');            
             n.append(nu);
             _.each(children, function(c) {
@@ -940,9 +939,26 @@ function updateTypeTree(a, onSelectionChange) {
        subtree(tree, self.tag(t));
     });
     
+    
+    //a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
+    a.delegate("a", "click", function(e) {
+        /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
+            $("#layer-tree").jstree("open_node", this);
+            return false;
+        } else {
+            var embedLocation = (this).href;
+            $('#View').html('');
+            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
+            $("#View").removeClass("ui-widget-content");
+            var vm = $('#ViewMenu');
+            var shown = vm.is(':visible');
+            showAvatarMenu(!shown);
+            e.preventDefault();
+            return false;
+        }*/
+    });
                    
-    tree.appendTo(dt);
-    dt.appendTo(a);
+    tree.appendTo(a);
     
     
 
@@ -956,33 +972,33 @@ function updateTypeTree(a, onSelectionChange) {
     */
     
     //http://wwwendt.de/tech/dynatree/doc/dynatree-doc.html
-    dt.dynatree({
-        checkbox: true,
-        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
-        debugLevel: 0,
-        onActivate: function(node) {
-            //alert("You activated " + node);
-        },
-        onSelect: function(flag, node) {
-            /*if( ! flag )
-                alert("You deselected node with title " + node.data.title);*/
-            var selectedNodes = node.tree.getSelectedNodes();
-            var selectedKeys = $.map(selectedNodes, function(node){
-                return node.data.key;
-            });
-                        
-            if (onSelectionChange)
-                onSelectionChange(selectedKeys);            
-            
-            dt.currentSelection = selectedKeys;
-        }
-        /*
-        onRender: function(dtnode, nodeSpan)
-        onExpand : function() {
-            updateTypeCounts();  
-        }*/
-    });
+//    dt.dynatree({
+//        checkbox: true,
+//        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
+//        debugLevel: 0,
+//        onActivate: function(node) {
+//            //alert("You activated " + node);
+//        },
+//        onSelect: function(flag, node) {
+//            /*if( ! flag )
+//                alert("You deselected node with title " + node.data.title);*/
+//            var selectedNodes = node.tree.getSelectedNodes();
+//            var selectedKeys = $.map(selectedNodes, function(node){
+//                return node.data.key;
+//            });
+//                        
+//            if (onSelectionChange)
+//                onSelectionChange(selectedKeys);            
+//            
+//            dt.currentSelection = selectedKeys;
+//        }
+//        /*
+//        onRender: function(dtnode, nodeSpan)
+//        onExpand : function() {
+//            updateTypeCounts();  
+//        }*/
+//    });
     
-    return dt;
+    return tree;
     
 }

@@ -23,9 +23,17 @@ function focus() {
 var renderedFocus;
 function updateFocus() {
 
-    renderedFocus = renderObject(focus(), true, focus, commitFocus);
-    $('#Focus').html(renderedFocus);
+    var ff = focus();
+    if (ff) {
+        renderedFocus = renderObject(focus(), true, focus, commitFocus);
+        $('#Focus').html(renderedFocus);
+    }    
+}
 
+function updateLayers() {
+    updateTypeTree($('#Layer'), function(x) {
+        
+    });
 }
 
 function commitFocus(f) {
@@ -34,7 +42,7 @@ function commitFocus(f) {
     updateFocus();
 }
 
-function updateTagTree() {
+/*function initFocus() {
     var tt = $('#TypeSelectModalTree');
 
     updateTypeTree(tt, function(s) {
@@ -48,7 +56,7 @@ function updateTagTree() {
         commitFocus(e);
 
     });
-}
+}*/
 
 function saveObject(p) {
     p.author = self.id();
@@ -96,7 +104,7 @@ function initUI(self) {
     self.on('change:tags', function() {
 
         later(function() {
-            updateTagTree();
+            updateFocus();
         });
     });
 
@@ -185,8 +193,9 @@ function initUI(self) {
         updatePrompt();
     }
 
-    updateTagTree();
+    updateFocus(); //DEPR?
     
+    updateLayers();
 }
 
 var lastView = null;
@@ -464,7 +473,6 @@ $(document).ready(function() {
 
 
 
-                initUI(self);
 
                 var w = new Workspace();
                 Backbone.history.start();
@@ -474,7 +482,7 @@ $(document).ready(function() {
                     self.set('currentView', 'grid');
                 }
                 else {
-                    updateView();
+                    //updateView();
                 }
 
                 //select the current view in the ViewControls
@@ -487,6 +495,8 @@ $(document).ready(function() {
                     clearFocus();
                 else
                     updateFocus();
+                
+                initUI(self);
                 
                 $('#LoadingSplash2').hide();                
                 /*if (isAuthenticated()) {
@@ -533,25 +543,6 @@ $(document).ready(function() {
     $("#ViewControls").buttonset();
     
 
-    /* THIS NEEDS EDIT TO CONTROLS LAYERS, NOT IFRAME EMBED */
-    $("#layer-tree").jstree({"plugins": ["html_data", "ui", "themeroller"]});
-
-    $("#layer-tree").delegate("a", "click", function(e) {
-        if ($(e.currentTarget).blur().attr('href').match('^#$')) {
-            $("#layer-tree").jstree("open_node", this);
-            return false;
-        } else {
-            var embedLocation = (this).href;
-            $('#View').html('');
-            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
-            $("#View").removeClass("ui-widget-content");
-            var vm = $('#ViewMenu');
-            var shown = vm.is(':visible');
-            showAvatarMenu(!shown);
-            e.preventDefault();
-            return false;
-        }
-    });
 
     $("#expand-layer-tree").click(function() {
         $("#layer-tree").jstree("open_all");
