@@ -556,6 +556,7 @@ exports.start = function(host, port, database, init) {
             , OpenIDStrategy = require('passport-openid').Strategy
             , GoogleStrategy = require('passport-google').Strategy;
 
+    /*
     var users = { };
     
     passport.serializeUser(function(user, done) {
@@ -572,6 +573,7 @@ exports.start = function(host, port, database, init) {
         }
         done(null, i);
     });
+    */
 
     express.configure(function() {
         express.use(cookieParser);
@@ -671,14 +673,13 @@ exports.start = function(host, port, database, init) {
         });
     });
     
-    function getClientID(session) {
+   function getClientID(session) {
         var cid = '';
         var key;
         if (session)
             if (session.passport)
                 if (session.passport.user) {
-                    key = session.passport.user.id;
-                    email = session.passport.user.email;
+                    key = session.passport.user;
                }
        if (key)
            cid = util.MD5(key);
@@ -691,7 +692,7 @@ exports.start = function(host, port, database, init) {
         res.cookie('clientID', getClientID(req.session));
         res.sendfile('./client/index.html');
     });
-
+    
     /*
      express.get('/http/:url', function (req, res) {
      if (Server.permissions['authenticate_to_proxy_http']!=false) {
