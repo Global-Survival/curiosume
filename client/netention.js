@@ -177,12 +177,6 @@ function netention(f) {
                      init();
                 });                
                 
-                if (isAuthenticated()) {
-                      $.pnotify({
-                        title: 'Authorized',
-                        text: that.myself().name
-                     });
-                }
                 
                 socket.on('setClientID', function (cid, key) {
                      that.set('authorized', key);

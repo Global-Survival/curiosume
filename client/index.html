@@ -761,12 +761,16 @@
 
         <!-- END HIDDEN UNTIL LOADED -->
 
+        <div id="LoadingSplash2">
+            &nbsp;
+        </div>
+        
         <!-- LOADING SCREEN -->
         <div id="LoadingSplash">        
             <div id="login-prompt" class="logon">
                 <div>
-                <img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" />
-		            <h3 style="text-align:center;">Welcome, please choose your login:</h3>
+                <a href="javascript:popupAboutDialog()"><img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" /></a>
+                    <h3 style="text-align:center;">Login</h3>
                     <ul>
                     	<li><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
                     	<li><img src="icon/facebook.png" alt="Facebook Login" title="Login with your Facebook Account" /></li>
@@ -774,7 +778,7 @@
                     	<li><a href="/auth/twitter"><img src="icon/twitter.png" alt="Twitter Login" title="Login with your Twitter Account" /></a></li>
                     	<li><a href="#openid-login" class="openModal"><img src="icon/openid.png" alt="Open ID Login" title="Login with your Open ID" id="openid-toggle" /></a></li>
                     </ul>
-                    <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
+                    
                     <div id="openid-login" class="modal">
                         <div>
                             <img id="openid-img" src="icon/open-id.png" alt="Open ID Login" title="Login with your Open ID" />

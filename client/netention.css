@@ -1304,7 +1304,21 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
  * everything above this line needs cleaning and moved below ~ @rezn8d
  */
  
-#LoadingSplash { background: url('/theme/cybernetic/p2p_banner.jpg') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; z-index:100; }
+#LoadingSplash { 
+    background: url('/theme/cybernetic/p2p_banner.jpg') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; z-index:100; 
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+#LoadingSplash2 { 
+    background-color: white; 
+    webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; 
+    z-index:99; 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
 	#LoadingSplash ul { margin:0;padding:0;width:100%; list-style-type:none; height:100px; } 
 	#LoadingSplash ul li { float:left; outline:none; border:none; margin:0;padding:0;width:20%; list-style-type:none; text-align:center; } 
 	#LoadingSplash ul li span { clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
@@ -1720,4 +1734,11 @@ a.openModal {
 
 a.openModal:hover,
 a.openModal:focus {
+}
+
+#View, #ViewMenu, #close-menu {
+    display: none;
+}
+.ui-pnotify {
+    display: none;
 }

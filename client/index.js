@@ -186,6 +186,7 @@ function initUI(self) {
     }
 
     updateTagTree();
+    
 }
 
 var lastView = null;
@@ -333,6 +334,7 @@ function confirmClear() {
 
 function showAvatarMenu(b) {
     var vm = $('#ViewMenu');
+    $('#View').show();
     if (!b) {
         $('#close-menu').hide();
         vm.fadeOut();
@@ -342,9 +344,16 @@ function showAvatarMenu(b) {
         $('#toggle-menu').hide();
         vm.fadeIn();
         $('#close-menu').show();
+        vm.show();        
     }
 }
 
+function popupAboutDialog() {
+    $.get('/about.html', function(d) {
+        var p = newPopup('About'); 
+        p.html(d);
+    });
+}
 
 $(document).ready(function() {
 
@@ -353,10 +362,16 @@ $(document).ready(function() {
     }
     
     $('#LoadingSplash').hide();
+    //$('#LoadingSplash2').show();
+    
+    $('#View').hide();
+    $('#ViewMenu').hide();
     
     netention(function(self) {
 
         window.self = self;
+        
+        setTheme(self.get('theme'));
 
         self.clear();
 
@@ -447,7 +462,6 @@ $(document).ready(function() {
                 });
 
 
-                setTheme(self.get('theme'));
 
 
                 initUI(self);
@@ -473,6 +487,15 @@ $(document).ready(function() {
                     clearFocus();
                 else
                     updateFocus();
+                
+                $('#LoadingSplash2').hide();                
+                /*if (isAuthenticated()) {
+                      $.pnotify({
+                        title: 'Authorized',
+                        text: self.myself().name
+                     });
+                }*/
+                
             });
         });
 
@@ -508,7 +531,7 @@ $(document).ready(function() {
     $('#close-menu').button();
     $('#FocusEdit button').button();
     $("#ViewControls").buttonset();
-
+    
 
     /* THIS NEEDS EDIT TO CONTROLS LAYERS, NOT IFRAME EMBED */
     $("#layer-tree").jstree({"plugins": ["html_data", "ui", "themeroller"]});
@@ -582,6 +605,7 @@ $(document).ready(function() {
         showAvatarMenu(!shown);
     });
 
+    showAvatarMenu(true);
 
 });
 
