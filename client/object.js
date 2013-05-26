@@ -972,8 +972,8 @@ function updateTypeTree(a, onSelectionChange) {
                     l.include[xi] = true;
                     
                     if (excludeButton.hasClass(feba)) {
-                        l.exclude[xi] = false;
-                        excludeButton.click();                        
+                        delete l.exclude[xi];
+                        excludeButton.removeClass(feba);
                     }
                     
                     commitChange();
@@ -991,8 +991,8 @@ function updateTypeTree(a, onSelectionChange) {
                     l.exclude[xi] = true;
                     
                     if (includeButton.hasClass(fiba)) {
-                        l.include[xi] = false;
-                        includeButton.click();
+                        delete l.include[xi];
+                        includeButton.removeClass(fiba);
                     }
                     
                     commitChange();

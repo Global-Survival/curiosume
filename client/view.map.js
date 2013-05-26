@@ -28,6 +28,8 @@ function getKMLLayer(kmlurl) {
 
 
 function renderMap(s, o, v) {
+    var MAX_ITEMS = 500;
+    
     var e = uuid();
     $('<div style="width: 100%; height: 100%"/>').attr('id', e).appendTo(v);
     
@@ -71,6 +73,7 @@ function renderMap(s, o, v) {
     var markers =  new OpenLayers.Layer.Markers( "Markers" );
     
     m.vector = vector;
+    m.marker = markers;
     
     m.addLayers([
         aerial, mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
@@ -287,16 +290,28 @@ function renderMap(s, o, v) {
         }        
     }
     
+    function updateMap() {
+        m.marker.clearMarkers();
+        m.vector.removeAllFeatures();
+        
+        renderItems(s, o, v, MAX_ITEMS, function(s, v, xxrr) {
+            for (var i = 0; i < xxrr.length; i++) {
+                var x = xxrr[i][0];
+                var r = xxrr[i][1];
+                renderMapFeature(x, r);
+            }
+        });
+        
+    }
     
-    renderItems(s, o, v, 500, function(s, v, xxrr) {
-        for (var i = 0; i < xxrr.length; i++) {
-            var x = xxrr[i][0];
-            var r = xxrr[i][1];
-            renderMapFeature(x, r);
-        }
-    });
+    updateMap();    
 
+
+    m.onChange = function() {
+        updateMap();
+    };
     
+    return m;
 }
 
 

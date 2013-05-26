@@ -26,7 +26,7 @@ exports.plugin = {
     					 'eqDepth': { name: 'Depth (m)', type: 'real' }
                     }
                 }
-            ], ['environment']);
+            ]);
             
             rss.RSSFeed('http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M5.xml', function(eq, a) {
 
