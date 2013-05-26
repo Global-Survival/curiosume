@@ -45,6 +45,8 @@ var Self;
 
 function netention(f) {
         		
+        window.clientID = getCookie('clientID');
+                
         Self = Backbone.Model.extend({
             
             defaults: {
@@ -183,12 +185,11 @@ function netention(f) {
                 }
                 
                 socket.on('setClientID', function (cid, key) {
-                     that.set('clientID', cid);
                      that.set('authorized', key);
                      that.saveLocal();
                      $.pnotify({
                         title: 'Connected',
-                        text: that.myself().name
+                        text: that.myself().name + ' (' + that.get('clientID').substring(0,4) + ')'
                      });
                 });
                 
@@ -513,6 +514,8 @@ function netention(f) {
 		
         var s = new Self();
         s.loadLocal();
+        
+        s.set('clientID', window.clientID === '' ? uuid() : window.clientID);
         
         s.connect();
         f(s);	    

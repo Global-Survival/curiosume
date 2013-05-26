@@ -386,6 +386,9 @@ function newSelfSummary(s, user) {
        objAddDescription(self.myself(), objarea.html());
        s.notice(m);
        s.pub(m);
+       $.pnotify({
+            title: 'Self Saved.'            
+       });
     });
 
     var cm = $('<div id="SelfMap"/>');

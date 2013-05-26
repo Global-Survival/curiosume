@@ -670,9 +670,25 @@ exports.start = function(host, port, database, init) {
 
         });
     });
+    
+    function getClientID(session) {
+        var cid = '';
+        var key;
+        if (session)
+            if (session.passport)
+                if (session.passport.user) {
+                    key = session.passport.user.id;
+                    email = session.passport.user.email;
+               }
+       if (key)
+           cid = util.MD5(key);
+       return cid;
+    }                
+    
 
     express.get('/', function(req, res) {
         res.cookie('authenticated', isAuthenticated(req.session));
+        res.cookie('clientID', getClientID(req.session));
         res.sendfile('./client/index.html');
     });
 
@@ -1046,6 +1062,7 @@ exports.start = function(host, port, database, init) {
             else if (!cid) {
                 cid = util.uuid();
             }
+            cid = getClientID(session);
 
             nlog('connect: ' + cid + ', ' + key);
             socket.set('clientID', cid);
