@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Netention Tiamat v.05</title>
+        <title>Netention Tiamat v.06</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="application-name" content="Netention Alpha"/>
         <meta name="description" content="">
@@ -57,7 +57,7 @@
                         <li id="AvatarButton" class="avatar-active ui-corner-all left">
                             <img class="avatar-active ui-corner-all shadow" alt="avatar image" src="icon/load.gif" />
                         </li>
-                        <a id="SwitchPersonaButton" title="Switch Persona" href="javascript:alert('Persona switching features are not available yet.');"><img src="/icon/rrze/categories/user-partner.png"/></a>
+                        <a id="SwitchPersonaButton" title="Switch Persona" href="javascript:alert('Persona switching features are not available yet.');"><img alt="user" src="/icon/rrze/categories/user-partner.png"/></a>
                     </ul>
                 </div>
                 <div id="ViewControls">
@@ -104,7 +104,7 @@
 
                             <div class="jstree-header ui-widget ui-widget-header">
                                 <span>Data Layers</span>
-                                <div id="expandor">
+                                <div class="expandor">
                                     <div id="close-layer-tree" title="Collapse Menu" class="ui-state-default ui-corner-right"><span class="ui-icon ui-icon-carat-1-n"></span></div>
                                     <div id="expand-layer-tree" title="Expand Menu" class="ui-state-default ui-corner-left"><span class="ui-icon ui-icon-carat-1-s"></span></div>
                                 </div>
@@ -124,7 +124,7 @@
 
                             <div class="jstree-header ui-widget ui-widget-header">
                                 <span class="labelz">External Links</span>
-                                <div id="expandor">
+                                <div class="expandor">
                                     <div id="close-url-tree" title="Collapse Menu" class="ui-state-default ui-corner-right"><span class="ui-icon ui-icon-carat-1-n"></span></div>
                                     <div id="expand-url-tree" title="Expand Menu" class="ui-state-default ui-corner-left"><span class="ui-icon ui-icon-carat-1-s"></span></div>
                                 </div>
@@ -763,30 +763,32 @@
 
         <!-- LOADING SCREEN -->
         <div id="LoadingSplash">        
-            <p style="font-size: 48px; text-align: center; margin-top: 50px;"><img alt="Loading... please wait a moment." src="/icon/load.gif" ></p>
+            <div id="login-prompt" class="logon">
+                <div>
+                <img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" />
+		            <h3 style="text-align:center;">Welcome, please choose your login:</h3>
+                    <ul>
+                    	<li><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
+                    	<li><img src="icon/facebook.png" alt="Facebook Login" title="Login with your Facebook Account" /></li>
+                    	<li><a href="/auth/google"><img src="icon/google.png" alt="Google Login" title="Login with your Google Account" /></a></li>
+                    	<li><a href="/auth/twitter"><img src="icon/twitter.png" alt="Twitter Login" title="Login with your Twitter Account" /></a></li>
+                    	<li><a href="#openid-login" class="openModal"><img src="icon/openid.png" alt="Open ID Login" title="Login with your Open ID" id="openid-toggle" /></a></li>
+                    </ul>
+                    <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
+                    <div id="openid-login" class="modal">
+                        <div>
+                            <img id="openid-img" src="icon/open-id.png" alt="Open ID Login" title="Login with your Open ID" />
+                            <p>Surprise! You may already have an OpenID. Find out, <a href="http://openid.net/get-an-openid/" target="_blank">click here</a>.</p>
+                            <form action="/auth/openid" method="post">
+                              <label>OpenID:</label>
+                              <input type="text" name="openid_identifier"/><input type="submit" value="OpenID Login"/>
+                              <a href="#close" title="Close">Close</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>           
             
-            <h1>Identify Yourself</h1>
-            
-            <a href="/anonymous"><h2>Anonymous</h2></a>
-            
-            <h2>OpenID</h2>
-                <form action="/auth/openid" method="post">
-            <div>
-                <label>OpenID:</label>
-                <input type="text" name="openid_identifier"/><br/>
-            </div>
-            <div>
-                <input type="submit" value="OpenID Login"/>
-            </div>
-
-            <hr/>
-                <h2>Google</h2>
-                <a href="/auth/google">Login</a> with Google account.
-
-            <hr/>
-
-            <h2>Twitter</h2>
-                <a href="/auth/twitter">Login</a> with Twitter account.
             
             
         </div> 
@@ -801,12 +803,10 @@
         </div>
         <div id="UploadModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
             <form id="FocusUploadForm" action="/upload" method="post" enctype="multipart/form-data">
-                <p>File:
+                <div>File:
                     <input type="file" name="uploadfile" />
-                </p>
-                <p>
                     <input type="submit" value="Upload" />
-                </p>
+                </div>
             </form>
             <div class="FocusUploadProgress">
                 <div class="FocusUploadBar"></div>
@@ -817,7 +817,6 @@
             <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
         </div>
 
-    </div>
     <script src="lib/lazyload.js" type="text/javascript"></script> 
     <script src="socket.io/socket.io.js" type="text/javascript"></script> 
     <script src="http://openlayers.org/dev/OpenLayers.js" type="text/javascript"></script>

@@ -1,5 +1,5 @@
 /*!
- * netention.css v1.2
+ * netention.css v1.3
  * Discombobulated by @rezn8d
  */
 body { 
@@ -1303,6 +1303,17 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
  * Properly formatted CSS section
  * everything above this line needs cleaning and moved below ~ @rezn8d
  */
+ 
+#LoadingSplash { background: url('/theme/cybernetic/p2p_banner.jpg') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; z-index:100; }
+	#LoadingSplash ul { margin:0;padding:0;width:100%; list-style-type:none; height:100px; } 
+	#LoadingSplash ul li { float:left; outline:none; border:none; margin:0;padding:0;width:20%; list-style-type:none; text-align:center; } 
+	#LoadingSplash ul li span { clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
+	#LoadingSplash ul li span:hover { display:block;clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
+	#LoadingSplash ul li img { margin:5px 0 0 0;padding:0;width:90%;height:auto; filter: gray; filter: url(filters.svg#grayscale); -webkit-filter: grayscale(1); } 
+	#LoadingSplash ul li img:hover { margin:0;padding:0;width:100%;height:auto; filter: none !important; -webkit-filter: none !important; } 
+	#openid-img { width:80%;height:auto;clear:both;display:block; margin:10px auto; }
+	#login-prompt-img { width:80%; height:auto; margin:10px auto; display:block; clear:both; }
+	
 .overflow-scroll {	overflow: auto !important;	overflow-x: hidden !important;	overflow-y: scroll  !important; -webkit-overflow-scrolling: touch !important; }
 .overflow-hidden { overflow:hidden !important; }
 
@@ -1482,4 +1493,231 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 
 .olControlAttribution {
     display:none !important;
+}
+
+
+.logon {
+
+    /* Overlay page content */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: none;
+    z-index: 10000;
+
+    /* Transition opacity on open */
+    -webkit-transition: opacity 500ms ease-in;
+    -moz-transition: opacity 500ms ease-in;
+    transition: opacity 500ms ease-in;
+
+    /* Hide for now */
+    opacity: 100;
+}
+
+/* Show modal */
+
+.logon > div > div { z-index:200000;
+}
+	
+/* Content */
+.logon > div {
+    max-width: 500px;
+    min-width: 250px;
+    background: #fff;
+    position: relative;
+    margin: 10% auto;
+	z-index:200000;
+	/* Default minimise animation */
+    -webkit-animation: maximise 500ms linear;
+    -moz-animation: maximise 500ms linear;
+
+    /* Prettify */
+    padding: 30px;
+    border-radius: 7px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #ccc);
+    background: -webkit-linear-gradient(#fff, #ccc);
+    background: -o-linear-gradient(#fff, #ccc);
+    text-shadow: 0 1px 0 #fff;
+}
+
+/*
+* Perfect Modal
+* http://www.paulrhayes.com/2011-03/css-modal/
+*/
+
+/* Container */
+.modal {
+
+    /* Overlay page content */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+
+    /* Transition opacity on open */
+    -webkit-transition: opacity 500ms ease-in;
+    -moz-transition: opacity 500ms ease-in;
+    transition: opacity 500ms ease-in;
+
+    /* Hide for now */
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Show modal */
+.modal:target {
+    opacity: 1;
+    pointer-events: auto;
+    /* at time of writing (Feb 2012), pointer-events not supported by Opera or IE */
+}
+
+/* Content */
+.modal > div {
+    width: 500px;
+    background: #fff;
+    position: relative;
+    margin: 10% auto;
+
+    /* Default minimise animation */
+    -webkit-animation: minimise 500ms linear;
+    -moz-animation: minimise 500ms linear;
+
+    /* Prettify */
+    padding: 30px;
+    border-radius: 7px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #ccc);
+    background: -webkit-linear-gradient(#fff, #ccc);
+    background: -o-linear-gradient(#fff, #ccc);
+    text-shadow: 0 1px 0 #fff;
+}
+
+/* Override animation on modal open */
+.modal:target > div {
+    -webkit-animation-name: bounce;
+    -moz-animation-name: bounce;
+}
+
+.modal h2 {
+    font-size: 36px;
+    padding: 0 0 20px;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: scale3d(0.1,0.1,1);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+  55% {
+    -webkit-transform: scale3d(1.08,1.08,1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0);
+  }
+  75% {
+    -webkit-transform: scale3d(0.95,0.95,1);
+    box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  }
+  100% {
+    -webkit-transform: scale3d(1,1,1);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+}
+
+@-webkit-keyframes minimise {
+  0% {
+    -webkit-transform: scale3d(1,1,1);
+  }
+  100% {
+    -webkit-transform: scale3d(0.1,0.1,1);
+  }
+}
+
+@-moz-keyframes bounce {
+  0% {
+    -moz-transform: scale3d(0.1,0.1,1);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+  55% {
+    -moz-transform: scale3d(1.08,1.08,1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0);
+  }
+  75% {
+    -moz-transform: scale3d(0.95,0.95,1);
+    box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  }
+  100% {
+    -moz-transform: scale3d(1,1,1);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+}
+
+@-moz-keyframes minimise {
+  0% {
+    -moz-transform: scale3d(1,1,1);
+  }
+  100% {
+    -moz-transform: scale3d(0.1,0.1,1);
+  }
+}
+
+/* Modal close link */
+.modal a[href="#close"] {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: transparent;
+}
+
+/* Reset native styles */
+.modal a[href="#close"]:focus {
+    outline: none;
+}
+
+/* Create close button */
+.modal a[href="#close"]:after {
+    content: 'X';
+    display: block;
+
+    /* Position */
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 1.5em;
+    padding: 1px 1px 1px 2px;
+
+    /* Style */
+    text-decoration: none;
+    text-shadow: none;
+    text-align: center;
+    font-weight: bold;
+    background: #000;
+    color: #fff;
+    border: 3px solid #fff;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .modal a[href="#close"]:focus:after,
+    .modal a[href="#close"]:hover:after {
+    -webkit-transform: scale(1.1,1.1);
+    -moz-transform: scale(1.1,1.1);
+}
+
+.modal a[href="#close"]:focus:after {
+    outline: 1px solid #000;
+}
+
+/* Open modal */
+a.openModal {
+}
+
+a.openModal:hover,
+a.openModal:focus {
 }

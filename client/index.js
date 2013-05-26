@@ -1,5 +1,5 @@
 /*!
- * index.js v1.2
+ * index.js v1.3
  * Reconfigurated by @automenta and @rezn8d
  */
 
@@ -567,6 +567,9 @@ $(document).ready(function() {
 
     $("#close-url-tree").click(function() {
         $("#url-tree").jstree("close_all");
+    });
+    $("#openid-toggle").click(function() {
+        $("#openid-login").show();
     });
 
 
