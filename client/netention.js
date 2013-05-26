@@ -6,7 +6,7 @@
 //<select class="ucw_selector" id="ucw_cs"><option value="Temperature">Temperature</option><option value="Length">Length</option><option value="Mass">Mass</option><option value="Speed">Speed</option><option value="Volume">Volume</option><option value="Area">Area</option><option value="Fuel consumption">Fuel consumption</option><option value="Time">Time</option><option value="Digital Storage">Digital Storage</option></select>
 
 
-window.authenticated = getCookie('authenticated') === 'true';
+window.authenticated = getCookie('authenticated') !== 'false';
 function isAuthenticated() {
     return window.authenticated;
 }

@@ -341,6 +341,12 @@ function showAvatarMenu(b) {
 
 $(document).ready(function() {
 
+    if (!isAuthenticated()) {        
+        return;
+    }
+    
+    $('#LoadingSplash').hide();
+    
     netention(function(self) {
 
         window.self = self;

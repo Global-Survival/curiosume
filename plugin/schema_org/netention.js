@@ -56,7 +56,10 @@ exports.plugin = {
             }));
             
         },
-		stop: function(netention) { }
+                
+	stop: function(netention) { 
+            //TODO remove any schema.org tags that may have been created
+        }
 };
 /*var schema, code;
 var types = {};

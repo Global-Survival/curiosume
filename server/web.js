@@ -623,6 +623,15 @@ exports.start = function(host, port, database, init) {
         // });
     }
     ));
+        
+    express.get('/anonymous', function(req,res) {
+        res.cookie('authenticated', 'anonymous');
+        res.cookie('clientID', util.uuid());
+        req.session.cookie.expires = false;
+        //res.redirect('/');  
+        
+        res.sendfile('./client/index.html');
+    });
 
     // Accept the OpenID identifier and redirect the user to their OpenID
     // provider for authentication.  When complete, the provider will redirect
@@ -698,7 +707,16 @@ exports.start = function(host, port, database, init) {
     
 
     express.get('/', function(req, res) {
-        res.cookie('authenticated', isAuthenticated(req.session));
+        //console.log('auth cookie', res.cookie('authenticated'));
+        
+        var anonymous = false;
+        if (req.headers.cookie)
+            if (res.cookie('authenticated') === 'anonymous')
+                anonymous = true;
+        
+        if (!anonymous)
+            res.cookie('authenticated', isAuthenticated(req.session));
+        
         res.cookie('clientID', getClientID(req.session));
         res.sendfile('./client/index.html');
     });
@@ -981,10 +999,10 @@ exports.start = function(host, port, database, init) {
     }
     that.pub = pub;
 
-    function isAuthenticated(session) {
-        if (session)
-            if (session.passport)
-                if (session.passport.user) {
+    function isAuthenticated(ses) {           
+        if (ses)
+            if (ses.passport)
+                if (ses.passport.user) {
                     return true;
                 }
         return false;

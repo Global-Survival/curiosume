@@ -762,9 +762,34 @@
         <!-- END HIDDEN UNTIL LOADED -->
 
         <!-- LOADING SCREEN -->
-        <!--<div id="LoadingSplash">        
+        <div id="LoadingSplash">        
             <p style="font-size: 48px; text-align: center; margin-top: 50px;"><img alt="Loading... please wait a moment." src="/icon/load.gif" ></p>
-        </div> -->
+            
+            <h1>Identify Yourself</h1>
+            
+            <a href="/anonymous"><h2>Anonymous</h2></a>
+            
+            <h2>OpenID</h2>
+                <form action="/auth/openid" method="post">
+            <div>
+                <label>OpenID:</label>
+                <input type="text" name="openid_identifier"/><br/>
+            </div>
+            <div>
+                <input type="submit" value="OpenID Login"/>
+            </div>
+
+            <hr/>
+                <h2>Google</h2>
+                <a href="/auth/google">Login</a> with Google account.
+
+            <hr/>
+
+            <h2>Twitter</h2>
+                <a href="/auth/twitter">Login</a> with Twitter account.
+            
+            
+        </div> 
         <!-- UI LAYERS -->
 
         <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
