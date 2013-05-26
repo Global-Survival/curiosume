@@ -671,7 +671,8 @@ exports.start = function(host, port, database, init) {
         });
     });
 
-    express.get('/#', function(req, res) {
+    express.get('/', function(req, res) {
+        res.cookie('authenticated', isAuthenticated(req.session));
         res.sendfile('./client/index.html');
     });
 

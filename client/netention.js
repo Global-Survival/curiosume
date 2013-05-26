@@ -6,6 +6,13 @@
 //<select class="ucw_selector" id="ucw_cs"><option value="Temperature">Temperature</option><option value="Length">Length</option><option value="Mass">Mass</option><option value="Speed">Speed</option><option value="Volume">Volume</option><option value="Area">Area</option><option value="Fuel consumption">Fuel consumption</option><option value="Time">Time</option><option value="Digital Storage">Digital Storage</option></select>
 
 
+window.authenticated = getCookie('authenticated') === 'true';
+function isAuthenticated() {
+    return window.authenticated;
+}
+            
+
+
 function loadCSS(url, med) {
     $(document.head).append(
         $("<link/>")
@@ -168,7 +175,7 @@ function netention(f) {
                      init();
                 });                
                 
-                if (this.isAuthorized()) {
+                if (isAuthenticated()) {
                       $.pnotify({
                         title: 'Authorized.',
                         text: that.myself().name
@@ -468,15 +475,6 @@ function netention(f) {
             	this.socket.emit('getClientInterests', f);
             },
             
-            isAuthorized: function() {
-            	if (this.get('authorized')) {
-            		if (this.get('authorized').length > 0) {
-            			return true;
-            		}
-            	}	
-            	return false;
-            },
-            
             getTagCount : function(onlySelf) {
                                 
                 var tagCount = { };
@@ -600,4 +598,15 @@ function newPopup(title,p) {
     $('body').append(d);
     d.dialog(p);
     return d;    
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
 }

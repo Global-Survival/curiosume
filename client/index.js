@@ -483,6 +483,14 @@ $(document).ready(function() {
 
 
 
+    if (isAuthenticated()) {
+        $('.logout').show();
+        $('.login').hide();
+    }
+    else {
+        $('.logout').hide();
+        $('.login').show();        
+    }
 
     $('#close-menu').button();
     $('#FocusEdit button').button();
@@ -557,7 +565,6 @@ $(document).ready(function() {
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
     });
-
 
 
 });
