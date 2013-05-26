@@ -174,8 +174,12 @@ function renderObject(x, editable, focus, commitFocus) {
     var lastValue = null;
     function search() {   
         if (!ts.is(':visible')) {
-            clearInterval(ontoSearcher);
+            //clearInterval(ontoSearcher);
             return;
+        }
+        if (!d.is(':visible')) {
+            clearInterval(ontoSearcher);
+            return;            
         }
         
         //skip suggestions when editing a Tag
