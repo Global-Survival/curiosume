@@ -402,13 +402,15 @@ function newSelfSummary(s, user) {
        var m = s.myself();
        m.name = nameInput.val();
        m.email = emailInput.val();
-       objRemoveDescription(self.myself());
-       objAddDescription(self.myself(), objarea.html());
+       objRemoveDescription(m);
+       objAddDescription(m, objarea.html());
+       objTouch(m);
        
        s.pub(m, function(err) {
            $.pnotify({
               title: 'Unable to save Self.',
-              type: 'Error'
+              type: 'Error',
+              text: err
            });           
        }, function() {
            s.notice(m);
