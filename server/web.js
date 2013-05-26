@@ -583,7 +583,17 @@ exports.start = function(host, port, database, init) {
         express.use(passport.session());
         express.use(express.router);
     });
+    
+    var users = { };
+    
 
+    passport.serializeUser(function(user, done) {
+      done(null, user.id);
+    });
+
+    passport.deserializeUser(function(id, done) {
+      done(null, { 'id': id });
+    });
 
     passport.use(new OpenIDStrategy({
         returnURL: 'http://' + Server.host + '/auth/openid/return',
