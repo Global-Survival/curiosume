@@ -168,6 +168,13 @@ function netention(f) {
                      init();
                 });                
                 
+                if (this.isAuthorized()) {
+                      $.pnotify({
+                        title: 'Authorized.',
+                        text: that.myself().name
+                     });
+                }
+                
                 socket.on('setClientID', function (cid, key) {
                      that.set('clientID', cid);
                      that.set('authorized', key);

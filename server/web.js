@@ -556,12 +556,21 @@ exports.start = function(host, port, database, init) {
             , OpenIDStrategy = require('passport-openid').Strategy
             , GoogleStrategy = require('passport-google').Strategy;
 
+    var users = { };
+    
     passport.serializeUser(function(user, done) {
-        done(null, user);
+        done(null, user.id);
     });
 
-    passport.deserializeUser(function(obj, done) {
-        done(null, obj);
+    passport.deserializeUser(function(id, done) {
+        var i = users[id];
+        if (!i) {
+            i = {
+                'id': id
+            };
+            users[id] = i;
+        }
+        done(null, i);
     });
 
     express.configure(function() {
@@ -614,7 +623,6 @@ exports.start = function(host, port, database, init) {
     express.get('/auth/openid/return',
             passport.authenticate('openid', {successRedirect: '/#/reconnect',
         failureRedirect: '/login.html'}));
-
 
     express.get('/auth/google', passport.authenticate('google'));
     express.get('/auth/google/return',
