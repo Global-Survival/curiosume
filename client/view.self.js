@@ -155,7 +155,7 @@ function getKnowledgeCode(s) {
             l[i] = l[i].substring(l[i].indexOf('-')+1, l[i].length);
     }
     
-    tags['@'] = s.myself().geolocation;
+    tags['@'] = objSpacePointLatLng(s.myself());;
     
     return JSON.stringify(tags,null,0);
 }
@@ -279,12 +279,6 @@ function newSelfTagList(s, user, c) {
         c.html(newTagBrowser(s));        
     });
     
-    var exportButton = $('<button>Export..</button>');
-    exportButton.click(function() {
-        var p = newPopup('Code @ ' + new Date(), {width: 400, height: 400});
-        p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s) + '</textarea>');
-    });
-    svbp.append(exportButton);
     
     b.append(svbp);
 
@@ -353,7 +347,7 @@ function newSelfTagList(s, user, c) {
     return b;
 }
 
-function newSelfSummary(s, user) {
+function newSelfSummary(s, user, content) {
     var c = $('<div/>');        
     $.get('/self.header.html', function(d) {
         c.prepend(d);        
@@ -371,6 +365,23 @@ function newSelfSummary(s, user) {
     var emailInput = $('<input type="text" placeholder="E-Mail"/>');
     emailInput.val(s.myself().email);
     np.append(emailInput);
+    
+    np.append('<br/><br/>');
+    
+    var exportButton = $('<button>Export..</button>');
+    exportButton.click(function() {
+        var p = newPopup('Code @ ' + new Date(), {width: 400, height: 400});
+        p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s) + '</textarea>');
+    });
+    np.append(exportButton);
+
+    var tagButton = $('<button title="Add tags to describe your self"><b>+ Tag</b></button>');
+    tagButton.click(function() {
+        content.html(newTagBrowser(s));
+    });
+    
+    np.append(tagButton);
+
     c.append(np);
 
 
@@ -383,7 +394,7 @@ function newSelfSummary(s, user) {
     objarea.attr('contenteditable', 'true');
     var biotext = objDescription(self.myself());
     if (!biotext) {
-        objarea.html('<h1>Biography</h1>objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications');
+        objarea.html('<h2>Biography</h2>objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications');
     }
     else {
         objarea.html(biotext);
@@ -447,7 +458,7 @@ function newSelfSummary(s, user) {
 
         lmap.onClicked = function(l) {
             tags['@'] = [ l.lon, l.lat ];
-            s.myself().geolocation = [ l.lon, l.lat ];
+            objSetFirstValue( s.myself(), 'spacepoint', {lat: l.lat, lon: l.lon, planet: 'Earth'} );
         };
     });
 
@@ -492,28 +503,34 @@ function newSelfSummary(s, user) {
     return c;
 }
 
+
+function newRoster(s) {
+    
+}
+
 function renderSelf(s, o, v) {
        
     var frame = $('<div/>').attr('class','SelfView');
     
+    var roster = newRoster(s);
     
-    var sidebar = $('<div/>').attr('class', 'SelfViewSide');
+    var contentTags = $('<div/>').attr('class', 'SelfViewTags');
     var content = $('<div/>').attr('class', 'SelfViewContent');
     
-    frame.append(sidebar);
     frame.append(content);
 
-    function updateSidebar() {
-        sidebar.html(newSelfTagList(s, s.myself(), content));        
+    function updateTags() {
+        contentTags.html(newSelfTagList(s, s.myself(), content));        
     }
     
-    content.append(newSelfSummary(s, s.myself()));
-    updateSidebar();
+    content.append(newSelfSummary(s, s.myself(), content));
+    content.append(contentTags);
+    updateTags();
     
     v.append(frame);
         
     frame.onChange = function() {
-        updateSidebar();
+        updateTags();
     };
     
     return frame;

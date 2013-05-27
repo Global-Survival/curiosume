@@ -278,6 +278,15 @@ function objSpacePoint(x) {
 }
 exports.objSpacePoint = objSpacePoint;
 
+function objSpacePointLatLng(x) {
+    var osp = objSpacePoint(x);
+    if (osp) {
+        return [osp.lat, osp.lon];
+    }
+    return null;
+}
+exports.objSpacePointLatLng = objSpacePointLatLng;
+
 function objAddGeoLocation(x, lat, lon) {
     return objAddValue(x, 'spacepoint', {lat: lat, lon: lon, planet: 'Earth'});
 }

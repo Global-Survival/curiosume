@@ -145,15 +145,9 @@ function initLocationChooserMap(target, location, zoom) {
             m.zoomToExtent(vector.getDataExtent());
             m.targetLocation = targetLocation;
     
-            if (window.self.mylocation) {
-                if (!window.self.myself().geolocation) {
 
-                    unproject(e.point);
-                    window.self.geolocate( [ e.point.y, e.point.x ])
-
-                }
-            }
-    
+            unproject(e.point);
+            window.self.geolocate( [ e.point.y, e.point.x ])    
     
         });
     }

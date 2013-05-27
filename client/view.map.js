@@ -47,7 +47,7 @@ function renderMap(s, o, v) {
     }*/
     
     var target = e;
-    var location = s.myself().geolocation;
+    var location = objSpacePointLatLng(s.myself());
     if (!location)
         location = [0,0];
     

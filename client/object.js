@@ -823,12 +823,13 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 	if (spacepoint) {
             var lat = _n(spacepoint.lat);
             var lon = _n(spacepoint.lon);
-            if (self.myself().geolocation) {
+            var mll = objSpacePointLatLng(self.myself());
+            if (mll) {
                     var dist = '?';
                     //TODO check planet
                     var sx = [spacepoint.lat, spacepoint.lon] ;
-                    if (self.myself().geolocation)
-                            dist = geoDist(sx, self.myself().geolocation);
+                    if (mll)
+                         dist = geoDist(sx, mll);
 
                     mdline.append('&nbsp;<span>[' + lat + ',' + lon + '] ' + _n(dist) + ' km away</span>');
             }

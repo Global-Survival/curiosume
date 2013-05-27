@@ -524,9 +524,8 @@ clear:both;
 .SelfView {
     width: 100%;
 }
-.SelfViewSide {
-    width: 22%;
-    float: left;
+.SelfViewTags {
+    width: 100%;
     padding: 1.0em;
 }
 .SelfViewContent {
@@ -556,7 +555,7 @@ clear:both;
 .SelfMeta {
     float: left;
 }
-.SelfMeta input {
+.SelfMeta input, .SelfMeta button {
     font-size: 150%;
 }
 

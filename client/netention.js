@@ -258,15 +258,23 @@ function netention(f) {
             },
             
             geolocate : function(ex) {
-                this.myself().geolocation = ex;
-                $.pnotify({
-                    title: 'Geolocated.',
-                    text: this.myself().geolocation
-                });              
+                objSetFirstValue(this.myself(), 'spacepoint', {lat: ex[0], lon: ex[1], planet: 'Earth'} );
                 
-                this.saveLocal();
-                this.pub(this.myself());
-    
+                this.pub(this.myself(), function(err) {
+                    $.pnotify({
+                        title: 'Unable to share location.',
+                        text: err,
+                        type: 'Error'                        
+                    });              
+                    
+                }, function() {
+                    $.pnotify({
+                        title: 'Geolocated.',
+                        text: this.myself().geolocation
+                    });              
+                    this.saveLocal();
+                    
+                });    
             },
             
             addProperties : function(ap) {
