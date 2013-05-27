@@ -669,6 +669,9 @@ exports.start = function(host, port, database, init) {
         maxAge: 0
     };
     
+    //Gzip compression
+    express.use(connect.compress());
+    express.use(expressm.staticCache());
     express.use("/", expressm.static('./client' , staticContentConfig));        
     express.use("/plugin", expressm.static('./plugin' , staticContentConfig ));
 
