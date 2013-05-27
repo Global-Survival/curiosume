@@ -661,12 +661,13 @@ exports.start = function(host, port, database, init) {
 
 
     var oneDay = 86400000;
+    var oneWeek = 606876923;
     var oneYear = 31557600000;
     
     
     var staticContentConfig = {
         //PRODUCTION: oneYear
-        maxAge: 0
+        maxAge: oneWeek
     };
     
     //Gzip compression
