@@ -241,6 +241,7 @@ function _updateView() {
 
     v.removeClass('ui-widget-content');
     v.removeClass('view-indented');
+    v.removeClass('overflow-hidden');
     
     if (view === 'list') {
         v.addClass('overflow-scroll ui-widget-content view-indented');

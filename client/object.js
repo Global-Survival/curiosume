@@ -1051,7 +1051,6 @@ function updateTypeTree(a, onSelectionChange) {
     });
     othersubtree(tree);
     
-    //a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
     a.delegate("a", "click", function(e) {
         /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
             $("#layer-tree").jstree("open_node", this);
@@ -1070,6 +1069,7 @@ function updateTypeTree(a, onSelectionChange) {
     });
                    
     tree.appendTo(a);
+    //a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
     
     
 
