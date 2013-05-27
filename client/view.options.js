@@ -1,6 +1,11 @@
+/* version 1.1 - 05-26-2013 */
+
 var themes = {
     "ui-lightness":'Bright',
     "ui-darkness":'Dark',
+    "_matrix-green":'Matrix (green)',
+    "_matrix-red":'Matrix (red)',
+    "_matrix-blue":'Matrix (blue)',
     "_space": 'Space',
     "_cybernetic": 'Cybernetic',
     "_notebook": 'Notebook',
@@ -41,11 +46,10 @@ function renderOptions(s, o, v) {
         setTheme(t);
     });
 
-    v.append('Theme:');
+    v.append('<h1>Theme</h1>');
     v.append(themeSelect);
     
-    v.append('<br/>');
-    v.append('Plugins:');
+    v.append('<h1>Plugins</h1>');
     
     var plugins = newDiv();
    
@@ -91,7 +95,7 @@ function renderOptions(s, o, v) {
                             var pu = pl[k];
 
 
-                            var pd = $('<div class="PluginID"></div>');
+                            var pd = $('<div class="PluginID ui-widget-header"></div>');
                             pd.append('<h3><a target="_blank" href="/plugin/' + pu.filename + '">' + k + '</a></h3>');
 
                             if (pu.description)

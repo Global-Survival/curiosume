@@ -1,6 +1,5 @@
 /*!
- * index.js v1.3
- * Reconfigurated by @automenta and @rezn8d
+ * index.js v1.31 - 5-26-2013
  */
 
 "use strict";
@@ -619,7 +618,8 @@ $(document).ready(function() {
         showAvatarMenu(!shown);
         
         
-    });*/
+    });
+*/
 
     showAvatarMenu(true);
 

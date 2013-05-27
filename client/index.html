@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Netention Tiamat v.06</title>
+        <title>Netention Tiamat v.07</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="application-name" content="Netention Alpha"/>
         <meta name="description" content="">
@@ -10,7 +10,6 @@
 
         <!-- CSS -->
         <style type="text/css">
-
             @import url("lib/jstree/jstree-master/dist/themes/default/style.css");
         </style>
 
@@ -117,7 +116,6 @@
                                 <span class="labelz">External Links</span>
                             </div> -->
                                 <div class="expandor">
-                                    
                                     <div id="close-url-tree" title="Collapse Menu" class="ui-state-default ui-corner-right"><span class="ui-icon ui-icon-carat-1-n"></span></div>
                                     <div id="expand-url-tree" title="Expand Menu" class="ui-state-default ui-corner-left"><span class="ui-icon ui-icon-carat-1-s"></span></div>
                                     <div id="close-iframe" title="Close I-Frame" class="ui-state-default ui-corner-left"><span class="ui-icon ui-icon-closethick"></span></div>
@@ -762,7 +760,7 @@
         <div id="LoadingSplash">        
             <div id="login-prompt" class="logon">
                 <div>
-                <a href="javascript:popupAboutDialog()"><img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" /></a>
+                <a href="#about"><img alt="Welcome" title="Click here to learn about this project" id="login-prompt-img" src="icon/netention-logo.png" /></a>
                     <h3 style="text-align:center;">Login</h3>
                     <ul>
                     	<li><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
@@ -781,6 +779,13 @@
                               <input type="text" name="openid_identifier"/><input type="submit" value="OpenID Login"/>
                               <a href="#close" title="Close">Close</a>
                             </form>
+                        </div>
+                    </div>
+                    <div id="about" class="modal">
+                        <div>
+                 			<img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" />
+                             <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
+                              <a href="#close" title="Close">Close</a>
                         </div>
                     </div>
                 </div>

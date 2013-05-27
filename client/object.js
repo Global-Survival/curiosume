@@ -1,3 +1,4 @@
+/* version 1.1 5-26-2013 */
 
 //t is either a tag ID, or an object with zero or more tags
 function getTagIcon(t) {
@@ -637,7 +638,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
 	var fs = (1.0 + r/2.0)*100.0 + '%';
 	
-	var d = $('<div class="objectView ui-widget-content" style="font-size:' + fs + '">');
+	var d = $('<div class="objectView ui-widget-content ui-corner-all" style="font-size:' + fs + '">');
 	var xn = x.name;
 	var authorID = x.author;
 	
@@ -769,7 +770,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
 	
     (function() {
 	    //d.hover(function(){ hb.fadeIn(200);}, function() { hb.fadeOut(200);});
-        d.hover(function(){ hb.show();}, function() { hb.hide();});        
+        d.hover(function(){ hb.show(); }, function() { hb.hide(); });        
     })();
     hb.hide();
 
