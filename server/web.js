@@ -762,7 +762,7 @@ exports.start = function(host, port, database, init) {
     express.get('/users/json', function(req, res) {
        res.redirect('/tag/User/json');        
     });
-    express.get('/users/skill/rdf', function(req, res) {
+    express.get('/users/tag/rdf', function(req, res) {
         var rdfstore = require('rdfstore');
         rdfstore.create(function(store) {
              /*var exampleQuery = 
@@ -809,7 +809,8 @@ exports.start = function(host, port, database, init) {
                         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\
                         INSERT DATA {\n';*/
 
-                var skills = 0;
+                var skills = 0; //TODO rename this 'tags'
+                var authors = { };
                 for (var i = 0; i < objects.length; i++) {
                     var oo = objects[i];
                     var t = util.objTags(oo);
@@ -827,7 +828,22 @@ exports.start = function(host, port, database, init) {
                         skills++;
                         query += '<http://netention.org/' + oo.author + '> <http://zertify.com/' + skillLevel + '> <http://dbpedia.org/resource/' + object + '> .\n'; 
                     }
-                }                                     
+                    if (authors[oo.author])
+                        continue;
+                    
+                    var authorName = attention.object('Self-'+oo.author);
+                    if (authorName) {
+                        authorName = authorName.name + (' ' + (authorName.email ? ('<' + authorName.email + '>') : '')); 
+                    }
+                    else {
+                        authorName = "Anonymous";
+                    }
+                    authors[oo.author] = authorName;
+                }
+                for (var aid in authors) {
+                    var aname = authors[aid];
+                    query += '<http://netention.org/' + aid + '> <foaf:name> "' + aname + '".\n';
+                }
 
                 sendText(res, query);
 
@@ -1282,6 +1298,9 @@ exports.start = function(host, port, database, init) {
         console.error(err.stack);
     });
 
+    getObjectsByTag('User', function(to) {
+        notice(to);
+    });
 
 
     //setInterval(attention.update, Server.memoryUpdatePeriodMS);

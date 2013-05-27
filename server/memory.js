@@ -6,17 +6,22 @@ function Attention(memoryMomentum) {
 	var that = {
 			momentum: memoryMomentum,
 			since: { },
+                        objects: { },
 			values: { },
 			totals: { },
 			remove: function(objectID) {
 				delete that.since[objectID];
 				delete that.values[objectID];
 				delete that.totals[objectID];
+                                delete that.objects[objectID];
 			},
+                        object : function(id) { return that.objects[id]; },
 			summary: function() { return [ that.values, that.totals ]; },
 			notice : function(o, strength) {
-				var i = o.uri;
+				var i = o.id;
 				
+                                that.objects[i] = o;
+                                
 				var prevStrength = that.values[i];				
 				var prevSince = that.since[i];
 				
