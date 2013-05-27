@@ -262,12 +262,10 @@ s
 }
 
 function newSelfTagList(s, user, c) {
-    
+
     var b = $('<div/>');
-    var person = s.getSelf(s.id());
-    var name = person.name;
-    
-    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));            
+         
+    var tags = s.getIncidentTags(user.id.substring(5), _.keys(tagColorPresets));            
     
     //var svbp = $('<div/>').attr('class', 'SelfViewButtonPanel');
     
@@ -587,7 +585,7 @@ function renderSelf(s, o, v) {
     v.append(frame);
         
     frame.onChange = function() {
-        updateTags();
+        updateTags(currentUser);
         //update user summary?
     };
     
