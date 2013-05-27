@@ -261,6 +261,7 @@ function netention(f) {
             geolocate : function(ex) {
                 objSetFirstValue(this.myself(), 'spacepoint', {lat: ex[0], lon: ex[1], planet: 'Earth'} );
                 
+                var that = this;
                 this.pub(this.myself(), function(err) {
                     $.pnotify({
                         title: 'Unable to share location.',
@@ -271,9 +272,9 @@ function netention(f) {
                 }, function() {
                     $.pnotify({
                         title: 'Geolocated.',
-                        text: this.myself().geolocation
+                        text: that.myself().geolocation
                     });              
-                    this.saveLocal();
+                    that.saveLocal();
                     
                 });    
             },

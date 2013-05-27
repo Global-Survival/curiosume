@@ -23,8 +23,11 @@ function setGeolocatedLocation(map, onUpdated) {
 }
 
 
-function initLocationChooserMap(target, location, zoom) {
+function initLocationChooserMap(target, location, zoom, geolocate) {
     var defaultZoomLevel = zoom || 7;
+    
+    if ((!location) && (geolocate!=false))
+        geolocate = true;
     
     var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
     var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
@@ -120,36 +123,38 @@ function initLocationChooserMap(target, location, zoom) {
         createMarker();
     }
     else {
-        setGeolocatedLocation(m, function(e) {
-    
-            var t = e.point;
-            var rad = 10;
-            var opacity = 0.5;
-    
-            var targetLocation = new OpenLayers.Feature.Vector(
-            OpenLayers.Geometry.Polygon.createRegularPolygon(
-            t,
-            rad,
-            6,
-            0), {}, {
-                fillColor: '#f00',
-                strokeColor: '#f00',
-                fillOpacity: opacity,
-                strokeOpacity: opacity,
-                strokeWidth: 1
-                //view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
-    
-            });
-            m.vector.addFeatures([targetLocation]);
-    
-            m.zoomToExtent(vector.getDataExtent());
-            m.targetLocation = targetLocation;
-    
+        if (geolocate) {
+            setGeolocatedLocation(m, function(e) {
 
-            unproject(e.point);
-            window.self.geolocate( [ e.point.y, e.point.x ])    
-    
-        });
+                var t = e.point;
+                var rad = 10;
+                var opacity = 0.5;
+
+                var targetLocation = new OpenLayers.Feature.Vector(
+                OpenLayers.Geometry.Polygon.createRegularPolygon(
+                t,
+                rad,
+                6,
+                0), {}, {
+                    fillColor: '#f00',
+                    strokeColor: '#f00',
+                    fillOpacity: opacity,
+                    strokeOpacity: opacity,
+                    strokeWidth: 1
+                    //view-source:http://openlayers.org/dev/examples/vector-features-with-text.html
+
+                });
+                m.vector.addFeatures([targetLocation]);
+
+                m.zoomToExtent(vector.getDataExtent());
+                m.targetLocation = targetLocation;
+
+
+                unproject(e.point);
+                window.self.geolocate( [ e.point.y, e.point.x ])    
+
+            });
+        }
     }
 
     m.location = function() {

@@ -146,8 +146,11 @@ function newTagBar(s, currentTag) {
     return tagBar;
 }
 
-function getKnowledgeCode(s) {
-    var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));                 
+function getKnowledgeCode(s, userid) {
+    if (userid.indexOf('Self-'))
+        userid = userid.substring(5);
+    
+    var tags = s.getIncidentTags(userid, _.keys(tagColorPresets));                 
     
     for (var k in tags) {
         var l = tags[k];
@@ -155,7 +158,7 @@ function getKnowledgeCode(s) {
             l[i] = l[i].substring(l[i].indexOf('-')+1, l[i].length);
     }
     
-    tags['@'] = objSpacePointLatLng(s.myself());;
+    tags['@'] = objSpacePointLatLng(user);;
     
     return JSON.stringify(tags,null,0);
 }
@@ -330,14 +333,16 @@ function newSelfTagList(s, user, c) {
         }
     }
     else {
-        b.append('Click ');
-        
-        var addLink = $('<button><b>+ Tag</b></button>' );
-        addLink.click(function() {
-            c.html(newTagBrowser(s));           
-        });
-        b.append(addLink);
-        b.append(' to add tags to describe yourself.');
+        if (user) {
+            b.append('Click ');
+
+            var addLink = $('<button><b>+ Tag</b></button>' );
+            addLink.click(function() {
+                c.html(newTagBrowser(s));           
+            });
+            b.append(addLink);
+            b.append(' to add tags to describe ' + ((user.id === s.myself().id) ? 'yourself' : user.name));
+        }
         
     }
     
@@ -345,6 +350,8 @@ function newSelfTagList(s, user, c) {
 }
 
 function newSelfSummary(s, user, content) {
+    var editable = (user.id === s.myself().id);
+    
     var c = $('<div/>');        
     $.get('/self.header.html', function(d) {
         c.prepend(d);        
@@ -356,40 +363,55 @@ function newSelfSummary(s, user, content) {
     np.addClass('SelfMeta');
     
     var nameInput = $('<input type="text" placeholder="Name"/>');
-    nameInput.val(s.myself().name);
+    nameInput.val(user.name);
     np.append(nameInput);
     np.append('<br/>');
     var emailInput = $('<input type="text" placeholder="E-Mail"/>');
-    emailInput.val(s.myself().email);
+    emailInput.val(user.email);
     np.append(emailInput);
+
+    if (!editable) {
+        nameInput.attr('readonly', true);
+        emailInput.attr('readonly', true);
+    }
     
     np.append('<br/><br/>');
     
     var exportButton = $('<button>Export..</button>');
     exportButton.click(function() {
         var p = newPopup('Code @ ' + new Date(), {width: 400, height: 400});
-        p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s) + '</textarea>');
+        p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s, user.id) + '</textarea>');
     });
     np.append(exportButton);
 
-    var tagButton = $('<button title="Add tags to describe your self"><b>+ Tag</b></button>');
-    tagButton.click(function() {
-        content.html(newTagBrowser(s));
-    });
+    if (editable) {
+        var tagButton = $('<button title="Add tags to describe your self"><b>+ Tag</b></button>');
+        tagButton.click(function() {
+            content.html(newTagBrowser(s));
+        });
+        np.append(tagButton);
+    }
+    else {
+        var tagButton = $('<button title="Add tags to describe ' + user.name + '"><b>+ Tag</b></button>');        
+        tagButton.click(function() {
+            alert('Feature not available yet.');
+        });
+        np.append(tagButton);
+    }
     
-    np.append(tagButton);
 
     c.append(np);
 
-
-
     var bio = $('<div id="Bio"/>');
+    bio.html('');
 
     //http://en.wikipedia.org/wiki/HResume
 
-    var objarea = $('<div id="BioText"></div>');
-    objarea.attr('contenteditable', 'true');
-    var biotext = objDescription(self.myself());
+    var objarea = $('<div id="BioText"></div>');        
+    if (editable)
+        objarea.attr('contenteditable', 'true');
+    
+    var biotext = objDescription(user);
     if (!biotext) {
         objarea.html('<h2>Biography</h2>objective / summary / contact method / experience / achievements / eduction / skills / qualifications / affiliations / publications');
     }
@@ -398,51 +420,46 @@ function newSelfSummary(s, user, content) {
     }
     
     bio.append(objarea);
-
-    var resetButton = $('<button>Reset</button>');
+ 
+    if (editable) {
+        var resetButton = $('<button>Reset</button>');    
+        bio.append(resetButton);
     
-    var saveButton = $('<button><b>Save</b></button>');
-    bio.append(resetButton);
-    bio.append(saveButton);
+        var saveButton = $('<button><b>Save</b></button>');
+        bio.append(saveButton);
 
-    saveButton.click(function() {
-       var m = s.myself();
-       m.name = nameInput.val();
-       m.email = emailInput.val();
-       objRemoveDescription(m);
-       objAddDescription(m, objarea.html());
-       objTouch(m);
-       
-       s.pub(m, function(err) {
-           $.pnotify({
-              title: 'Unable to save Self.',
-              type: 'Error',
-              text: err
-           });           
-       }, function() {
-           s.notice(m);
-           $.pnotify({
-              title: 'Self Saved.'            
-           });           
-       });
-       
-    });
+        saveButton.click(function() {
+           var m = s.myself();
+           m.name = nameInput.val();
+           m.email = emailInput.val();
+           objRemoveDescription(m);
+           objAddDescription(m, objarea.html());
+           objTouch(m);
+
+           s.pub(m, function(err) {
+               $.pnotify({
+                  title: 'Unable to save Self.',
+                  type: 'Error',
+                  text: err
+               });           
+           }, function() {
+               s.notice(m);
+               $.pnotify({
+                  title: 'Self Saved.'            
+               });           
+           });
+
+        });
+    }
 
     var cm = $('<div id="SelfMap"/>');
     c.append(cm);
     c.append(bio);
 
-    var location = tags['@'];
-    if (location) {
-        //HACK swap lat/lon
-        var m = location[0];
-        location[0] = location[1];
-        location[1] = m;                    
-    }
+    var location = objSpacePointLatLng(user);
 
-    later(function() {
-        
-        var lmap = initLocationChooserMap('SelfMap', location);
+    later(function() {        
+        var lmap = initLocationChooserMap('SelfMap', location, 7, editable ? undefined : false );
         cm.append('<br/>');
         var locAnon = $('<select><option>Exact Location</option><option>Anonymize 1km</option><option>Anonymize 10km</option><option>No Location</option></select>');
         locAnon.change(function() {
@@ -459,10 +476,8 @@ function newSelfSummary(s, user, content) {
     });
 
     c.append('<div style="clear: both"/>');
-    c.append('<br/>');
-    c.append('<br/>');
 
-    var kc = $('<div id="KnowledgeChart"/>');
+    //var kc = $('<div id="KnowledgeChart"/>');
 
     /*var st = _.groupBy(_.without(_.keys(tags), '@'), function(t) { return tags[t]; });                
 
@@ -486,9 +501,8 @@ function newSelfSummary(s, user, content) {
     if (st[-2]) displayKnowledgeSection(-2, st[-2]);
     if (st[-3]) displayKnowledgeSection(-3, st[-3]);*/
 
-    c.append(kc);
+    //c.append(kc);
 
-    c.append('<br/>');
 
     /*c.append('<div id="KnowledgeCodeLabel">Knowedge Code:</div>');
     var p = $('<pre>');
@@ -500,24 +514,40 @@ function newSelfSummary(s, user, content) {
 }
 
 
-function newRoster(s) {
+function newRoster(s, selectUser) {
     var users = s.objectsWithTag('User');
+
     var d = newDiv();
+
     var anonymous = [];
+    
+    function h(x) {
+        var sx = renderObjectSummary(s, x, null, 0.5, 0);        
+        if (x.id === s.myself().id) {
+            sx.find('h1 a').append(' (me)');
+            d.prepend(sx);            
+        }
+        else {
+            d.append(sx);
+        }
+        sx.click(function() {
+            if (selectUser)
+                selectUser(x); 
+        });        
+    }
+    
     for (var i = 0; i < users.length; i++) {
         var x = s.object(users[i]);
         if (x.name === 'Anonymous') {
             anonymous.push(x);
             continue;
         }
-        var sx = renderObjectSummary(s, x, null, 0.5, 0);
-        d.append(sx);
+        h(x);
     }
     
     for (var i = 0; i < anonymous.length; i++) {
         var x = anonymous[i];
-        var sx = renderObjectSummary(s, x, null, 0.05, 0);
-        d.append(sx);        
+        h(x);
     }
     return d;
 }
@@ -527,7 +557,7 @@ function renderSelf(s, o, v) {
     var frame = $('<div/>').attr('class','SelfView');
     
     var roster = newRoster(s);
-    roster.addClass('SelfRoster');    
+    roster.addClass('SelfRoster');
     
     var contentTags = $('<div/>').attr('class', 'SelfViewTags');
     var content = $('<div/>').attr('class', 'SelfViewContent');
@@ -535,18 +565,30 @@ function renderSelf(s, o, v) {
     frame.append(roster);
     frame.append(content);
 
-    function updateTags() {
-        contentTags.html(newSelfTagList(s, s.myself(), content));        
+    var currentUser = self.myself();
+    
+    function summaryUser(x) {
+        currentUser = x;
+        content.html('');
+        content.append(newSelfSummary(s, x, content));
+        content.append(contentTags);       
+        updateTags(x);
     }
     
-    content.append(newSelfSummary(s, s.myself(), content));
-    content.append(contentTags);
-    updateTags();
+    function updateTags(x) {
+        contentTags.html(newSelfTagList(s, x, content));
+        roster.html(newRoster(s, function(x) {
+            summaryUser(x);
+        }));
+    }
+    
+    summaryUser(currentUser);
     
     v.append(frame);
         
     frame.onChange = function() {
         updateTags();
+        //update user summary?
     };
     
     return frame;
