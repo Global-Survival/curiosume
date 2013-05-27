@@ -667,7 +667,7 @@ exports.start = function(host, port, database, init) {
     
     var staticContentConfig = {
         //PRODUCTION: oneYear
-        maxAge: oneWeek
+        maxAge: oneYear
     };
     
     //Gzip compression
