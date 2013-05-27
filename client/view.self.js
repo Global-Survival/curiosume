@@ -332,14 +332,22 @@ function newSelfTagList(s, user, c) {
     }
     else {
         if (user) {
+            var own = (user.id === s.myself().id);
             b.append('Click ');
 
             var addLink = $('<button><b>+ Tag</b></button>' );
-            addLink.click(function() {
-                c.html(newTagBrowser(s));           
-            });
+            if (own) {
+                addLink.click(function() {
+                    c.html(newTagBrowser(s));           
+                });
+            }
+            else {
+                addLink.click(function() {
+                    alert('Feature not available yet.');
+                });
+            }
             b.append(addLink);
-            b.append(' to add tags to describe ' + ((user.id === s.myself().id) ? 'yourself' : user.name));
+            b.append(' to add tags to describe ' + (own ? 'yourself' : user.name));
         }
         
     }
@@ -390,7 +398,7 @@ function newSelfSummary(s, user, content) {
         np.append(tagButton);
     }
     else {
-        var tagButton = $('<button title="Add tags to describe ' + user.name + '"><b>+ Tag</b></button>');        
+        var tagButton = $('<button title="Add tags to describe ' + user.name + '"><b>+ Tag</b></button>');
         tagButton.click(function() {
             alert('Feature not available yet.');
         });
