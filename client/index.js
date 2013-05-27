@@ -117,6 +117,8 @@ function initUI(self) {
     $('#ViewMenu input').click(function(x) {
         var b = $(this);
         var v = b.attr('id');
+        if (b.attr('type')==='text')
+            return;
         $('#ViewControls').buttonset('refresh');
         self.set('currentView', v);
         showAvatarMenu(false);
@@ -199,6 +201,8 @@ function initUI(self) {
     }
 
     updateFocus(); //DEPR?
+    
+    updateView();
     
     updateLayers();
 }

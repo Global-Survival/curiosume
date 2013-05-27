@@ -1343,7 +1343,6 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 	display:block;
 	padding: 10px;
 	overflow: visible;
-	text-align:center;
 }
 
 #identity { display:block; clear:both; margin:15px 0 5px 0; padding:0;}
