@@ -16,7 +16,7 @@ exports.plugin = {
         author: 'http://netention.org',
         //depends on: 'climate'
         
-		start: function(netention, util) { 
+	start: function(netention, util) { 
             
             netention.addTags([
                 {
@@ -48,6 +48,6 @@ exports.plugin = {
             
         },
         
-		stop: function(netention) {
-		}
+	stop: function(netention) {
+	}
 };

@@ -573,6 +573,10 @@ $(document).ready(function() {
             $('#View').html('');
             $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
             $("#View").removeClass("ui-widget-content");
+            $('#View').addClass('view-indented');
+            
+            $('#close-iframe').show();
+            
             var vm = $('#ViewMenu');
 
             var shown = vm.is(':visible');
@@ -582,6 +586,10 @@ $(document).ready(function() {
         }
     });
 
+    $('#close-iframe').click(function() {
+        updateView();
+        $('#close-iframe').hide();
+    });
     $("#expand-url-tree").click(function() {
         $("#url-tree").jstree("open_all");
     });
@@ -594,14 +602,17 @@ $(document).ready(function() {
     });
 
 
-    $('.ext-link').click(function() {
+/*
+    $('.ext-link').click(function(e) {
         var linkLocation = (this).value;
         $('#View').html('');
         $('#View').html('<iframe src="' + linkLocation + '" frameBorder="0" id="embed-frame"></iframe>');
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
-    });
+        
+        
+    });*/
 
     showAvatarMenu(true);
 

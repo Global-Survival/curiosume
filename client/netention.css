@@ -1295,6 +1295,10 @@ margin: 0 auto;
 	clear:both;
 }
 
+#close-iframe {
+    display: none;
+}
+
 
 .nameInput { padding:3px; text-indent:15px; }
 
