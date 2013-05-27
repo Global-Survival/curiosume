@@ -206,7 +206,7 @@ function initUI(self) {
 var lastView = null;
 var currentView = null;
 
-function _updateView() {
+function _updateView(force) {
     var s = window.self;
 
     $('.brand').html(s.myself().name);
@@ -227,10 +227,12 @@ function _updateView() {
     else
         return;
 
-    if ((currentView) && (view === lastView)) {
-        if (currentView.onChange) {
-            currentView.onChange();
-            return;
+    if (!force) {
+        if ((currentView) && (view === lastView)) {
+            if (currentView.onChange) {
+                currentView.onChange();
+                return;
+            }
         }
     }
 
@@ -588,7 +590,7 @@ $(document).ready(function() {
     });
 
     $('#close-iframe').click(function() {
-        updateView();
+        updateView(true);
         $('#close-iframe').hide();
     });
     $("#expand-url-tree").click(function() {
