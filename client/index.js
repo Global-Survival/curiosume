@@ -201,9 +201,11 @@ function initUI(self) {
 
     updateFocus(); //DEPR?
     
-    updateView();
-    
     updateLayers();
+    
+    later(function() {
+        updateView();
+    });
 }
 
 var lastView = null;
