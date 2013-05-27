@@ -266,12 +266,9 @@ function newSelfTagList(s, user, c) {
     
     var tags = s.getIncidentTags(s.id(), _.keys(tagColorPresets));            
     
-    var ownButton, addButton;
-    var svbp = $('<div/>').attr('class', 'SelfViewButtonPanel');
-
-    svbp.append(ownButton = $('<button>' + name + '</button>'));    
+    //var svbp = $('<div/>').attr('class', 'SelfViewButtonPanel');
     
-    svbp.append(addButton = $('<button class="SelfAddTagButton">+</button>'));
+    /*svbp.append(addButton = $('<button class="SelfAddTagButton">+</button>'));
     ownButton.click(function() {
         c.html(newSelfSummary(s, user));
     });
@@ -280,7 +277,7 @@ function newSelfTagList(s, user, c) {
     });
     
     
-    b.append(svbp);
+    b.append(svbp);*/
 
     function newTagWidget(x, i) {
         var name
@@ -335,12 +332,12 @@ function newSelfTagList(s, user, c) {
     else {
         b.append('Click ');
         
-        var addLink = $('<button>+</button>' );
+        var addLink = $('<button><b>+ Tag</b></button>' );
         addLink.click(function() {
             c.html(newTagBrowser(s));           
         });
         b.append(addLink);
-        b.append(' to add some tags.');
+        b.append(' to add tags to describe yourself.');
         
     }
     
@@ -453,7 +450,6 @@ function newSelfSummary(s, user, content) {
             //0.01 = ~1km
            alert('Feature not available yet'); 
         });
-
         //cm.append(locAnon);
 
         lmap.onClicked = function(l) {
@@ -505,7 +501,25 @@ function newSelfSummary(s, user, content) {
 
 
 function newRoster(s) {
+    var users = s.objectsWithTag('User');
+    var d = newDiv();
+    var anonymous = [];
+    for (var i = 0; i < users.length; i++) {
+        var x = s.object(users[i]);
+        if (x.name === 'Anonymous') {
+            anonymous.push(x);
+            continue;
+        }
+        var sx = renderObjectSummary(s, x, null, 0.5, 0);
+        d.append(sx);
+    }
     
+    for (var i = 0; i < anonymous.length; i++) {
+        var x = anonymous[i];
+        var sx = renderObjectSummary(s, x, null, 0.05, 0);
+        d.append(sx);        
+    }
+    return d;
 }
 
 function renderSelf(s, o, v) {
@@ -513,10 +527,12 @@ function renderSelf(s, o, v) {
     var frame = $('<div/>').attr('class','SelfView');
     
     var roster = newRoster(s);
+    roster.addClass('SelfRoster');    
     
     var contentTags = $('<div/>').attr('class', 'SelfViewTags');
     var content = $('<div/>').attr('class', 'SelfViewContent');
     
+    frame.append(roster);
     frame.append(content);
 
     function updateTags() {

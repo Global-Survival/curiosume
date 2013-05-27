@@ -105,7 +105,8 @@ function netention(f) {
             
             objects : function() { return this.get('attention'); },
             
-            objectURIsWithTag : function(t) {
+            /* returns a list of object id's */
+            objectsWithTag : function(t) {
                 //TODO support subtags
                 var r = [];
                 for (var k in this.objects()) {

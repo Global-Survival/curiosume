@@ -524,6 +524,15 @@ clear:both;
 .SelfView {
     width: 100%;
 }
+.SelfRoster {
+    float: left;
+    width: 25%;
+    padding-right: 1em;
+    max-height: 95%;
+    position: fixed;
+    overflow: scroll;
+    margin-top: 1em;
+}
 .SelfViewTags {
     width: 100%;
     padding: 1.0em;
@@ -531,6 +540,7 @@ clear:both;
 .SelfViewContent {
     width: 68%;
     float: right;
+    margin-right: 1em;
 }
 .SelfViewSide button {    
     float: left;
@@ -792,11 +802,11 @@ margin: 0 auto;
 	.ObjectViewHideButton { height:30px;   position:absolute;  bottom:-4px; left:-4px; z-index:2; opacity:0; display:inline-block; }
 		.ObjectViewHideButton:hover { opacity:1; }
 		.ObjectViewHideButton button { position:relative; padding:5px; margin:0px; }
-	.objectView h1 { font-size: 18px; font-weight: bold; line-height: 20px; margin: 2px 0px; z-index:2; }
-	.objectView h2 { font-size: 16px; font-weight: normal; margin: 0; line-height: 18px; z-index:2; }
-	.objectView h3 { font-size: 14px; font-weight: normal; color: #333; margin: 0; line-height: 16px; z-index:2; }
+	.objectView h1 { font-size: 120%; font-weight: bold;  margin: 2px 0px; z-index:2; }
+	.objectView h2 { font-size: 105%; font-weight: bold; margin: 0; z-index:2; }
+	.objectView h3 { font-weight: normal; color: #333; margin: 0;  z-index:2; }
 	.objectView ul { list-style-type: none; margin-bottom: 0.2em; padding-left: 0; margin-left: 0; z-index:2; }
-	.objectView ul li { padding: 0.3em; font-size: 110%; font-weight: bold; z-index:2; }
+	.objectView ul li { padding: 0.3em;  font-weight: bold; z-index:2; }
 	.objectView h3, .objectView p, .objectView time { padding-left: 10px; padding-top: 5px; z-index:2; }
 	.objectView img { max-height: 12em;	z-index:2; }
 	.MessageSubject { width: 100%; font-size: 125%;	z-index:2; }

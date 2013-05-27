@@ -636,7 +636,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
     var mini = (depthRemaining == 0);
     
-	var fs = (1.0 + r/2.0)*100.0 + '%';
+	var fs = (0.5 + r)*100.0 + '%';
 	
 	var d = $('<div class="objectView ui-widget-content ui-corner-all" style="font-size:' + fs + '">');
 	var xn = x.name;
@@ -859,19 +859,21 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
 	//d.append('<h3>Relevance:' + parseInt(r*100.0)   + '%</h3>');
 	
-    var desc = objDescription(x);
-    if (desc) {
-	d.append('<p>' + desc + '</p>');		
-    }
+    if (!mini) {
+        var desc = objDescription(x);
+        if (desc) {
+            d.append('<p>' + desc + '</p>');		
+        }
 	
-    if (x.value) {
-	var ud = $('<ul>');
-	d.append(ud);
-	for (var vi = 0; vi < x.value.length; vi++) {
-            var vv = x.value[vi];
-            if (self.isProperty(vv.id))
-                ud.append(newPropertyView(self, vv));
-            }
+        if (x.value) {
+            var ud = $('<ul>');
+            d.append(ud);
+            for (var vi = 0; vi < x.value.length; vi++) {
+                var vv = x.value[vi];
+                if (self.isProperty(vv.id))
+                    ud.append(newPropertyView(self, vv));
+                }
+        }
     }
     
     if (!mini) {
