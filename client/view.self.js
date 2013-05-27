@@ -147,10 +147,10 @@ function newTagBar(s, currentTag) {
 }
 
 function getKnowledgeCode(s, userid) {
-    if (userid.indexOf('Self-'))
-        userid = userid.substring(5);
+    userid = userid.substring(5);
     
     var tags = s.getIncidentTags(userid, _.keys(tagColorPresets));                 
+        
     
     for (var k in tags) {
         var l = tags[k];
@@ -158,7 +158,7 @@ function getKnowledgeCode(s, userid) {
             l[i] = l[i].substring(l[i].indexOf('-')+1, l[i].length);
     }
     
-    tags['@'] = objSpacePointLatLng(user);;
+    tags['@'] = objSpacePointLatLng(self.object('Self-' + userid));    
     
     return JSON.stringify(tags,null,0);
 }
