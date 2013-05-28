@@ -1151,12 +1151,44 @@ function updateTypeTree(a, onSelectionChange) {
 	autoOpen: 2
     });
     
+    function commitLayer() {
+        self.set('layer', l);
+        self.trigger('change:layer');
+        updateLayers();
+    }
+    
     $('.TagLayer').each(function(x) {
         var t = $(this);
         var id = t.attr('id');
-        var included = _.contains(l.include, id); 
-        var excluded = _.contains(l.exclude, id);
+        var included = l.include[id]; 
+        var excluded = l.exclude[id];
+        
+        if (included) {
+            t.addClass('TagLayerInclude');
+        }
+        else if (excluded) {
+            t.addClass('TagLayerExclude');
+        }
+        
         t.click(function() {
+            if ((!included) && (!excluded)) {
+                //make included
+                l.include[id] = true;
+                delete l.exclude[id];
+                commitLayer();
+            }
+            else if (included) {
+                //make excluded
+                delete l.include[id];
+                l.exclude[id] = true;
+                commitLayer();
+            }
+            else {
+                //make neither
+                delete l.include[id];
+                delete l.exclude[id];
+                commitLayer();
+            }
         });
     });
     $('.KMLLayer').each(function(x) {

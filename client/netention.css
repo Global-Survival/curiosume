@@ -1202,6 +1202,12 @@ a.openModal:focus {
 .TagLayer, .KMLLayer, .ExtLayer {
     cursor: crosshair;
 }
+.TagLayerInclude {
+    color: #44ff44;
+}
+.TagLayerExclude {
+    color: #ff4444;
+}
 
 .focusButton {
     width: 15px;
