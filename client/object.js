@@ -958,8 +958,8 @@ function updateTypeTree(a, onSelectionChange) {
         }
                 
         
-        var w = newDiv(); //$('<a href="#">' + label + '</a>
-        {
+        //var w = newDiv(); //$('<a href="#">' + label + '</a>
+        
             var included = l.include[xi];
             var excluded = l.exclude[xi];
             
@@ -1021,19 +1021,20 @@ function updateTypeTree(a, onSelectionChange) {
                 }
             });
             
-            var labelButton = newDiv().html(label); //cycle through include/external/neither states
-            labelButton.addClass('focusLabel');
-            w.append(includeButton);
-            w.append(excludeButton);
-            w.append(labelButton);
+            //var labelButton = newDiv().html(label); //cycle through include/external/neither states
+            //labelButton.addClass('focusLabel');
+            //w.append(includeButton);
+            //w.append(excludeButton);
+            //w.append(labelButton);
             
-            var clear = newDiv();
-            clear.addClass('focusClear');
-            w.append(clear);
-        }
+            //var clear = newDiv();
+            //clear.addClass('focusClear');
+            //w.append(clear);
+        
         
         var n = $('<li id="' + xi + '"></li>');
-        n.append(w);
+        n.html(label);
+        
         root.append(n);
         
         var children = self.subtags(i.uri);
@@ -1091,7 +1092,7 @@ function updateTypeTree(a, onSelectionChange) {
     });
                    
     tree.appendTo(a);
-    //a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
+    a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
     
     
 

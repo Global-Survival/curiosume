@@ -528,8 +528,17 @@ function netention(f) {
 		
         var s = new Self();
         s.loadLocal();
+        //console.log('loaded clientID: ' + s.get('clientID'));
+        var oldCID = s.get('clientID');
+        var nextCID = window.clientID;
+        if (nextCID === '')
+            nextCID = oldCID;
+        if (nextCID === '')
+            nextCID = uuid();
         
-        s.set('clientID', window.clientID === '' ? uuid() : window.clientID);
+        s.set('clientID', nextCID);
+        s.saveLocal();
+        //console.log('saved clientID: ' + s.get('clientID'));
         
         s.connect();
         f(s);	    

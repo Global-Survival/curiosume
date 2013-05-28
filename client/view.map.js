@@ -14,7 +14,8 @@ function getKMLLayer(kmlurl) {
             url: kmlurl,
             format: new OpenLayers.Format.KML({
                 extractStyles: true,
-                extractAttributes: true
+                extractAttributes: true,
+                maxDepth: 2
             })            
         });
         

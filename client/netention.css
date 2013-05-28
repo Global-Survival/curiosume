@@ -1162,8 +1162,8 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
     box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
-    .modal a[href="#close"]:focus:after,
-    .modal a[href="#close"]:hover:after {
+.modal a[href="#close"]:focus:after,
+.modal a[href="#close"]:hover:after {
     -webkit-transform: scale(1.1,1.1);
     -moz-transform: scale(1.1,1.1);
 }
@@ -1208,8 +1208,7 @@ a.openModal:focus {
     background-color: #f66;
 }
 .focusLabel {
-    padding-left: 5px;
-    float: left;
+    
 }
 .focusClear {
     clear: both;

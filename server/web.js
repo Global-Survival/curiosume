@@ -626,7 +626,7 @@ exports.start = function(host, port, database, init) {
         
     express.get('/anonymous', function(req,res) {
         res.cookie('authenticated', 'anonymous');
-        res.cookie('clientID', util.uuid());
+        res.cookie('clientID', '');
         req.session.cookie.expires = false;
         //res.redirect('/');  
         
