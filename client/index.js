@@ -249,6 +249,7 @@ function _updateView(force) {
     v.removeClass('ui-widget-content');
     v.removeClass('view-indented');
     v.removeClass('overflow-hidden');
+    $('body').removeClass('nobg');
     
     if (view === 'list') {
         v.addClass('overflow-scroll ui-widget-content view-indented');
@@ -256,6 +257,7 @@ function _updateView(force) {
     }
     else if (view === 'map') {
         v.addClass('overflow-hidden');
+        $('body').addClass('nobg');
         currentView = renderMap(s, o, v);
     }
     else if (view === 'trends') {

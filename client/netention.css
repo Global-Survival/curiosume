@@ -13,7 +13,10 @@ a, a:hover, a:active, a:focus { outline: none !important; }
 div.olMapViewport {
      z-index: 1;
 }
-
+.nobg {
+    background: black !important;
+    background-image: none !important;
+}
 .focusMap {
     width: 98%;
     height: 18em;
