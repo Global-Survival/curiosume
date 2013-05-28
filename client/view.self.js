@@ -476,8 +476,10 @@ function newSelfSummary(s, user, content) {
         //cm.append(locAnon);
 
         lmap.onClicked = function(l) {
-            tags['@'] = [ l.lon, l.lat ];
-            objSetFirstValue( s.myself(), 'spacepoint', {lat: l.lat, lon: l.lon, planet: 'Earth'} );
+            if (editable) {
+                tags['@'] = [ l.lon, l.lat ];
+                objSetFirstValue( s.myself(), 'spacepoint', {lat: l.lat, lon: l.lon, planet: 'Earth'} );            
+            }
         };
     });
 

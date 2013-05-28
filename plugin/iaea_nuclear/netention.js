@@ -11,7 +11,7 @@ exports.plugin = {
             
             netention.addTags([ {
                 uri: 'NuclearFacility', name: 'Nuclear Facility',
-                tag: [ 'environment' /* 'Pollution' */ ],
+                //tag: [ 'environment' /* 'Pollution' */ ],
                 properties: {
             			 'reactorsActive': { name: 'Active Reactors', type: 'integer' },
                          'reactorsUnderConstruction': { name: 'Reactors Under Construction', type: 'integer' },
