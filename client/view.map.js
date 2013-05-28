@@ -5,20 +5,21 @@ function getProxyURL(u) {
 function getKMLLayer(kmlurl) {
     //use an layer cache with explicit expiration,
     //so that when this function gets here again, it doesn't need to re-fetch unless its past the explicit expiration
-    if (!window.kmlLayer) window.kmlLayer = { };
+    //if (!window.kmlLayer) window.kmlLayer = { };
     
-    var kml = window.kmlLayer[kmlurl];
-    if (!kml) {
-        kml =new OpenLayers.Protocol.HTTP({
-            url: getProxyURL(kmlurl),
+    //var kml = window.kmlLayer[kmlurl];
+    //if (!kml) {
+        var kml =new OpenLayers.Protocol.HTTP({
+            //url: getProxyURL(kmlurl),
+            url: kmlurl,
             format: new OpenLayers.Format.KML({
                 extractStyles: true,
                 extractAttributes: true
             })            
         });
         
-        window.kmlLayer[kmlurl] = kml;
-    }
+//        window.kmlLayer[kmlurl] = kml;
+//    }
     
     return new OpenLayers.Layer.Vector("KML", {
         strategies: [new OpenLayers.Strategy.Fixed()],
@@ -216,11 +217,19 @@ function renderMap(s, o, v) {
         }
     };
 
+    var kmllayers = [];
+    
     function addKMLLayer(url) {
+        
         var kml = getKMLLayer(url);
-        m.addLayer(kml);        
-        var nl = select.layers;
-        nl.push(kml);
+        m.addLayer(kml);      
+        
+        kmllayers.push(kml);
+        
+        //var nl = select.layers;
+        //nl.push(kml);
+        
+        /*
         select.setLayer(nl);        
         
         kml.events.on({
@@ -238,6 +247,7 @@ function renderMap(s, o, v) {
               //'<div class="markerContent">'+feature.attributes.description+'</div>',
             }
         });
+        */
         
     }
     
@@ -292,6 +302,18 @@ function renderMap(s, o, v) {
     function updateMap() {
         m.marker.clearMarkers();
         m.vector.removeAllFeatures();
+        
+        for (var i = 0; i < kmllayers.length; i++) {
+            kmllayers[i].destroy();
+        }
+        kmllayers = [];
+                         
+        var layer = s.layer();                
+        if (layer.kml) {
+            for (var i = 0; i < layer.kml.length; i++) {
+                addKMLLayer(layer.kml[i]);                
+            }
+        }
         
         renderItems(s, o, v, MAX_ITEMS, function(s, v, xxrr) {
             for (var i = 0; i < xxrr.length; i++) {

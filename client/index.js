@@ -254,7 +254,7 @@ function _updateView(force) {
     v.removeClass('ui-widget-content');
     v.removeClass('view-indented');
     v.removeClass('overflow-hidden');
-    $('body').removeClass('nobg');
+    v.removeClass('nobg');
     
     if (view === 'list') {
         v.addClass('overflow-scroll ui-widget-content view-indented');
@@ -262,7 +262,7 @@ function _updateView(force) {
     }
     else if (view === 'map') {
         v.addClass('overflow-hidden');
-        $('body').addClass('nobg');
+        v.addClass('nobg');
         currentView = renderMap(s, o, v);
     }
     else if (view === 'trends') {
@@ -574,6 +574,32 @@ $(document).ready(function() {
         $("#layer-tree").jstree("close_all");
     });
 
+    //KML
+    {        
+        delete self.layer().kml;
+        
+        $("#KMLLayers input").change(function() {
+           var t = $(this);
+           var url = t.attr('url');
+           var checked = t.is(':checked');
+           
+           var l = self.layer();
+           
+           if (!l.kml) l.kml = [];
+           
+           if (checked) {
+               l.kml.push(url);
+               l.kml = _.unique( l.kml );
+           }
+           else {
+               l.kml = _.without( l.kml, url);
+           }                      
+           
+           self.set('layer', l);
+           self.trigger('change:layer');
+        });
+    }
+
     /* IFRAME EMBED */
 
     $("#url-tree").jstree({"plugins": ["html_data", "ui", "themeroller"]});
@@ -631,6 +657,7 @@ $(document).ready(function() {
 */
 
     showAvatarMenu(true);
+    
 
 });
 
