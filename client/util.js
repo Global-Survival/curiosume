@@ -278,6 +278,13 @@ function objSpacePoint(x) {
 }
 exports.objSpacePoint = objSpacePoint;
 
+function objGeographic(x) {
+    //TODO check for planet
+    var sp = objSpacePoint(x);
+    return sp!=null;        
+}
+exports.objGeographic = objGeographic;
+
 function objSpacePointLatLng(x) {
     var osp = objSpacePoint(x);
     if (osp) {
@@ -374,7 +381,11 @@ exports.uuid = uuid;
 }
 exports.setTheProperty = setTheProperty;*/
 
-function isSelfObject(u) {    return (u.indexOf('Self-')==0);  }
+function isSelfObject(u) {  
+    if (!u) 
+        return false;
+    return (u.indexOf('Self-')==0);  
+}
 exports.isSelfObject = isSelfObject;
 
 /*

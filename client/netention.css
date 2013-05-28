@@ -1204,9 +1204,11 @@ a.openModal:focus {
 }
 .TagLayerInclude {
     color: #44ff44;
+    opacity:1.0;
 }
 .TagLayerExclude {
     color: #ff4444;
+    opacity:1.0;
 }
 .TagLayerFaded {
     opacity: 0.7;

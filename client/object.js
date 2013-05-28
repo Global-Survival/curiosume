@@ -915,17 +915,10 @@ function updateTypeTree(a, onSelectionChange) {
     
     a.html('');    
     
-    
-    var tree = newDiv();
-    
+    var tree = newDiv();    
     
     var isGeographic = $('#GeographicToggle').is(':checked');
-    
-    function objGeographic(x) {
-        var sp = objSpacePoint(x);
-        return sp!=null;        
-    }
-    
+        
     var stc;
     if (isGeographic) {
         stc = self.getTagCount(false, objGeographic);
@@ -935,11 +928,12 @@ function updateTypeTree(a, onSelectionChange) {
     }
     
     var l = self.layer();
-    if (!l.include) {
+    if (!l.include) 
         l.include = { };
+    if (!l.exclude)
         l.exclude = { };
+    if (!l.kml)
         l.kml = [ ];
-    }        
                     
     var T = [
 /*        {
@@ -987,81 +981,6 @@ function updateTypeTree(a, onSelectionChange) {
                 return;
         }
                 
-        
-        //var w = newDiv(); //$('<a href="#">' + label + '</a>
-        
-            var included = l.include[xi];
-            var excluded = l.exclude[xi];
-            
-//            var includeButton = newDiv();
-//            includeButton.addClass('focusButton');
-//            var fiba = 'focusIncludeButtonActive';
-//            if (included) {
-//                includeButton.addClass(fiba);
-//            }
-//            
-//            var excludeButton = newDiv();
-//            excludeButton.addClass('focusButton');
-//            var feba = 'focusExcludeButtonActive';
-//            if (excluded) {
-//                excludeButton.addClass(feba);
-//            }
-//            
-//            function commitChange() {
-//                self.set('layer', l);
-//                self.saveLocal();
-//                self.trigger('change:layer');                
-//            }
-//            
-//            includeButton.click(function() {
-//                if (includeButton.hasClass(fiba)) {
-//                    includeButton.removeClass(fiba);
-//                    delete l.include[xi];
-//                    commitChange();
-//                }
-//                else {
-//                    includeButton.addClass(fiba);
-//                    l.include[xi] = true;
-//                    
-//                    if (excludeButton.hasClass(feba)) {
-//                        delete l.exclude[xi];
-//                        excludeButton.removeClass(feba);
-//                    }
-//                    
-//                    commitChange();
-//                }
-//            });
-//            excludeButton.click(function() {
-//                if (excludeButton.hasClass(feba)) {
-//                    excludeButton.removeClass(feba);
-//                    delete l.exclude[xi];
-//                    
-//                    commitChange();                    
-//                }
-//                else {
-//                    excludeButton.addClass(feba);
-//                    l.exclude[xi] = true;
-//                    
-//                    if (includeButton.hasClass(fiba)) {
-//                        delete l.include[xi];
-//                        includeButton.removeClass(fiba);
-//                    }
-//                    
-//                    commitChange();
-//                }
-//            });
-            
-            //var labelButton = newDiv().html(label); //cycle through include/external/neither states
-            //labelButton.addClass('focusLabel');
-            //w.append(includeButton);
-            //w.append(excludeButton);
-            //w.append(labelButton);
-            
-            //var clear = newDiv();
-            //clear.addClass('focusClear');
-            //w.append(clear);
-        
-        
         var b = newTagLayerDiv(xi, label);
         
         if (children.length > 0) {     
@@ -1158,7 +1077,6 @@ function updateTypeTree(a, onSelectionChange) {
     }
     
     if (_.size(l.include) > 0) {
-        //console.err($('.TagLayer'));
         $('.TagLayer').addClass('TagLayerFaded');
     }
     
@@ -1197,9 +1115,24 @@ function updateTypeTree(a, onSelectionChange) {
         });
     });
     $('.KMLLayer').each(function(x) {
-        var t = $(this);
+        var t = $(this);        
+        var url = t.attr('url');
+        
+        var included = _.contains(l.kml, url);
+        if (included) {
+            t.addClass('TagLayerInclude');
+        }
         t.click(function() {
-           alert(t.attr('url')); 
+            if (included) {
+                //uninclude
+                l.kml = _.without(l.kml, url);
+                commitLayer();
+            }
+            else {
+                //include
+                l.kml.push(url);
+                commitLayer();
+            }
         });
     });
     
