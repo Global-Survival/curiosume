@@ -292,8 +292,11 @@ function renderMap(s, o, v) {
     }
     
     function updateMap() {
-        if (select)
+        if (select) {
+            select.deactivate();
             m.removeControl(select);
+            select.destroy();
+        }
 
         m.marker.clearMarkers();
         m.vector.removeAllFeatures();
