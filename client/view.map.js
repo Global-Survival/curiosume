@@ -105,12 +105,8 @@ function renderMap(s, o, v) {
 
     m.addControl( new OpenLayers.Control.LayerSwitcher() );
 
-    var select = new OpenLayers.Control.SelectFeature([vector], {
-        toggle: true,
-        clickout: true
-    });
-    m.addControl(select);
-    select.activate();
+    var select;
+    
     vector.events.on({
         featureselected: function(event) {
             var feature = event.feature;
@@ -226,11 +222,6 @@ function renderMap(s, o, v) {
         
         kmllayers.push(kml);
         
-        //var nl = select.layers;
-        //nl.push(kml);
-        
-        /*
-        select.setLayer(nl);        
         
         kml.events.on({
             featureselected: function(event) {
@@ -247,8 +238,8 @@ function renderMap(s, o, v) {
               //'<div class="markerContent">'+feature.attributes.description+'</div>',
             }
         });
-        */
         
+        return kml;
     }
     
     var now = Date.now();
@@ -300,6 +291,9 @@ function renderMap(s, o, v) {
     }
     
     function updateMap() {
+        if (select)
+            m.removeControl(select);
+
         m.marker.clearMarkers();
         m.vector.removeAllFeatures();
         
@@ -307,11 +301,14 @@ function renderMap(s, o, v) {
             kmllayers[i].destroy();
         }
         kmllayers = [];
+        
+        var ollayers  = [vector];
                          
         var layer = s.layer();                
         if (layer.kml) {
             for (var i = 0; i < layer.kml.length; i++) {
-                addKMLLayer(layer.kml[i]);                
+                var l = addKMLLayer(layer.kml[i]);                
+                ollayers.push(l);
             }
         }
         
@@ -320,9 +317,15 @@ function renderMap(s, o, v) {
                 var x = xxrr[i][0];
                 var r = xxrr[i][1];
                 renderMapFeature(x, r);
-            }
+            }        
         });
         
+        select = new OpenLayers.Control.SelectFeature(ollayers, {
+            toggle: true,
+            clickout: true
+        });
+        m.addControl(select);    
+        select.activate();
     }
     
     updateMap();    
