@@ -257,7 +257,7 @@ function _updateView(force) {
     v.removeClass('nobg');
     
     if (view === 'list') {
-        v.addClass('overflow-scroll ui-widget-content view-indented');
+        v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderList(s, o, v);
     }
     else if (view === 'map') {
@@ -266,7 +266,7 @@ function _updateView(force) {
         currentView = renderMap(s, o, v);
     }
     else if (view === 'trends') {
-        v.addClass('overflow-scroll ui-widget-content view-indented');
+        v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderTrends(s, o, v);
     }
     else if (view == 'graph') {
@@ -277,15 +277,15 @@ function _updateView(force) {
         currentView = renderSlides(s, o, v);
     }
     else if (view == 'grid') {
-        v.addClass('overflow-scroll ui-widget-content view-indented');
+        v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderGrid(s, o, v);
     }
     else if (view == 'self') {
-        v.addClass('overflow-scroll ui-widget-content view-indented');
+        v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderSelf(s, o, v);
     }
     else if (view == 'options') {
-        v.addClass('overflow-scroll ui-widget-content view-indented');
+        v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderOptions(s, o, v);
     }
     else {

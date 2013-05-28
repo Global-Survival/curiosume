@@ -957,9 +957,12 @@ function updateTypeTree(a, onSelectionChange) {
         } */
     ];
 
-    function newTagLayerDiv(id, label) {
+    function newTagLayerDiv(id, content) {
+        var ti = getTagIcon(id);
+        if (ti)
+            content = '<img style="height: 1em" src="' + ti + '"/>' + content;
         return {
-            label: ('<span id="layer_' + id + '" class="TagLayer">' + label + '</span>')
+            label: ('<span id="' + id + '" class="TagLayer">' + content + '</span>')
         };
     }
     
@@ -1092,11 +1095,76 @@ function updateTypeTree(a, onSelectionChange) {
         root.push(otherFolder);
     }
     
+    function kmlsubtree(root) {
+        var kmlFolder = {
+            label: 'Map Layer',
+            children: []
+        };      
+        
+        function addKML(label, url) {
+            kmlFolder.children.push({
+                label: ('<span url="' + url + '" class="KMLLayer">' + label + '</span>'),
+            });
+        }
+        addKML('HAARP', '/kml/haarp.kml');
+        addKML('HPM', '/kml/hpm-worldwide.kml');
+        
+        root.push(kmlFolder);
+    }
+    function externalsubtree(root) {
+        var extFolder = {
+            label: 'External Link',
+            children: []
+        }; 
+        var t = [
+            {
+                label: 'Global Alerts',
+                children: [
+                    {
+                        label: 'ClimateViewer 3D',
+                        url: 'http://climateviewer.com/3D/'
+                    },
+                    {
+                        label: 'RSOE EDIS',
+                        url: 'http://hisz.rsoe.hu/alertmap/index2.php'
+                    }
+                ]
+            }
+        ];
+        root.push(extFolder);        
+    }
+    
     var roots = self.tagRoots();
     _.each(roots, function(t) {
        subtree(T, self.tag(t));
     });
     othersubtree(T);
+    kmlsubtree(T);
+    externalsubtree(T);
+    
+    tree.appendTo(a);   
+    a.tree({
+        data: T,
+	autoEscape: false,
+	selectable: false,
+	slide: false,
+	autoOpen: 2
+    });
+    
+    $('.TagLayer').each(function(x) {
+        var t = $(this);
+        var id = t.attr('id');
+        var included = _.contains(l.include, id); 
+        var excluded = _.contains(l.exclude, id);
+        t.click(function() {
+        });
+    });
+    $('.KMLLayer').each(function(x) {
+        var t = $(this);
+        t.click(function() {
+           alert(t.attr('url')); 
+        });
+    });
     
 //    a.delegate("a", "click", function(e) {
 //        /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
@@ -1115,14 +1183,6 @@ function updateTypeTree(a, onSelectionChange) {
 //        }*/
 //    });
                    
-    tree.appendTo(a);   
-    a.tree({
-        data: T,
-	autoEscape: false,
-	selectable: false,
-	slide: false,
-	autoOpen: 2
-    });
     
     /*
     //update display of type counts and other type metadata

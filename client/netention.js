@@ -182,14 +182,13 @@ function netention(f) {
                      init();
                 });                
                 
-                
                 socket.on('setClientID', function (cid, key) {
                      that.set('authorized', key);
                      that.saveLocal();
-                     $.pnotify({
-                        title: 'Connected',
-                        text: that.myself().name + ' (' + that.get('clientID').substring(0,4) + ')'
-                     });
+                     /*$.pnotify({
+                                title: 'Connected',
+                                text: that.myself().name + ' (' + that.get('clientID').substring(0,4) + ')'
+                            });*/
                 });
                 
                 /*socket.on('reconnect', function () {
