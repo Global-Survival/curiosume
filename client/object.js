@@ -917,7 +917,21 @@ function updateTypeTree(a, onSelectionChange) {
     
     var tree = $('<ul></ul>');
     tree.addClass('tree');
-    var stc = self.getTagCount();
+    
+    var isGeographic = $('#GeographicToggle').is(':checked');
+    
+    function objGeographic(x) {
+        var sp = objSpacePoint(x);
+        return sp!=null;        
+    }
+    
+    var stc;
+    if (isGeographic) {
+        stc = self.getTagCount(false, objGeographic);
+    }
+    else {
+        stc = self.getTagCount();        
+    }
     
     var l = self.layer();
     if (!l.include) {
@@ -935,9 +949,13 @@ function updateTypeTree(a, onSelectionChange) {
             name = xi = i;
         
         var label = name;
-        if (stc[xi])
+        if (stc[xi]) {
             if (stc[xi] > 0)
                 label += ' (' + _n(stc[xi]) + ')';
+        }
+        else {
+            return;
+        }
                 
         
         var w = newDiv(); //$('<a href="#">' + label + '</a>

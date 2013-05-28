@@ -116,11 +116,16 @@ function initUI(self) {
     $('#ViewMenu input').click(function(x) {
         var b = $(this);
         var v = b.attr('id');
-        if (b.attr('type')==='text')
+        if ((b.attr('type')==='text') || (b.attr('type')==='checkbox'))
             return;
         $('#ViewControls').buttonset('refresh');
         self.set('currentView', v);
         showAvatarMenu(false);
+    });
+    
+    $('#GeographicToggle').change(function(e) {
+        var isGeographic = $('#GeographicToggle').is(':checked');
+        updateLayers();
     });
 
 

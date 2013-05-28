@@ -486,7 +486,7 @@ function netention(f) {
             	this.socket.emit('getClientInterests', f);
             },
             
-            getTagCount : function(onlySelf) {
+            getTagCount : function(onlySelf, predicate) {
                                 
                 var tagCount = { };
                 var aa = this.get('attention');                
@@ -494,6 +494,10 @@ function netention(f) {
                 
                 for (var ai in aa) {
                     var oi = aa[ai];
+                    
+                    if (predicate)
+                        if (!predicate(oi))
+                            continue;
                     
                     if (onlySelf)
                         if (oi.author!=myID)
