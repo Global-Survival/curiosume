@@ -1208,6 +1208,9 @@ a.openModal:focus {
 .TagLayerExclude {
     color: #ff4444;
 }
+.TagLayerFaded {
+    opacity: 0.7;
+}
 
 .focusButton {
     width: 15px;

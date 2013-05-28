@@ -1157,6 +1157,11 @@ function updateTypeTree(a, onSelectionChange) {
         updateLayers();
     }
     
+    if (_.size(l.include) > 0) {
+        //console.err($('.TagLayer'));
+        $('.TagLayer').addClass('TagLayerFaded');
+    }
+    
     $('.TagLayer').each(function(x) {
         var t = $(this);
         var id = t.attr('id');
