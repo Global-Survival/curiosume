@@ -1,14 +1,7 @@
 @import url('/lib/jquery-ui/1.10.3/themes/ui-darkness/jquery-ui.min.css');
-body { background: url('/theme/matrix/matrix-green.gif') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; 
-}
+body, .display-window { background: url('/theme/matrix/matrix-green.gif') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; }
 
-#View  {
-    background: url('/theme/matrix/matrix-green.gif') !important;
-}
 #ViewMenu { 
-    background: url('/theme/matrix/matrix-green.gif') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; 
-}
-#LoadingSplash { 
     background: url('/theme/matrix/matrix-green.gif') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; 
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { background: #0C0 !important; border: #060 !important; }

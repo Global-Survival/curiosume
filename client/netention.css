@@ -14,7 +14,7 @@ div.olMapViewport {
      z-index: 1;
 }
 .nobg {
-    background: black !important;
+    background: #000000 !important;
     background-image: none !important;
 }
 .focusMap {

@@ -909,14 +909,15 @@ function withObject(uri, success, failure) {
 	});
 }
 
+
 function updateTypeTree(a, onSelectionChange) {
     var self = window.self;
     
     a.html('');    
     
     
-    var tree = $('<ul></ul>');
-    tree.addClass('tree');
+    var tree = newDiv();
+    
     
     var isGeographic = $('#GeographicToggle').is(':checked');
     
@@ -937,8 +938,31 @@ function updateTypeTree(a, onSelectionChange) {
     if (!l.include) {
         l.include = { };
         l.exclude = { };
+        l.kml = [ ];
     }        
                     
+    var T = [
+        {
+            label: 'node1',
+            children: [
+                { label: '<button>child1</button>' },
+                { label: 'child2' }
+            ]
+        },
+        {
+            label: 'node2',
+            children: [
+                { label: 'child3' }
+            ]
+        }
+    ];
+
+    function newTagLayerDiv(id, label) {
+        return {
+            label: ('<span id="layer_' + id + '" class="TagLayer">' + label + '</span>')
+        };
+    }
+    
     function subtree(root, i) {
         var name, xi;
         if (i.name) {
@@ -954,7 +978,7 @@ function updateTypeTree(a, onSelectionChange) {
                 label += ' (' + _n(stc[xi]) + ')';
         }
         else {
-            return;
+            //return;
         }
                 
         
@@ -963,63 +987,63 @@ function updateTypeTree(a, onSelectionChange) {
             var included = l.include[xi];
             var excluded = l.exclude[xi];
             
-            var includeButton = newDiv();
-            includeButton.addClass('focusButton');
-            var fiba = 'focusIncludeButtonActive';
-            if (included) {
-                includeButton.addClass(fiba);
-            }
-            
-            var excludeButton = newDiv();
-            excludeButton.addClass('focusButton');
-            var feba = 'focusExcludeButtonActive';
-            if (excluded) {
-                excludeButton.addClass(feba);
-            }
-            
-            function commitChange() {
-                self.set('layer', l);
-                self.saveLocal();
-                self.trigger('change:layer');                
-            }
-            
-            includeButton.click(function() {
-                if (includeButton.hasClass(fiba)) {
-                    includeButton.removeClass(fiba);
-                    delete l.include[xi];
-                    commitChange();
-                }
-                else {
-                    includeButton.addClass(fiba);
-                    l.include[xi] = true;
-                    
-                    if (excludeButton.hasClass(feba)) {
-                        delete l.exclude[xi];
-                        excludeButton.removeClass(feba);
-                    }
-                    
-                    commitChange();
-                }
-            });
-            excludeButton.click(function() {
-                if (excludeButton.hasClass(feba)) {
-                    excludeButton.removeClass(feba);
-                    delete l.exclude[xi];
-                    
-                    commitChange();                    
-                }
-                else {
-                    excludeButton.addClass(feba);
-                    l.exclude[xi] = true;
-                    
-                    if (includeButton.hasClass(fiba)) {
-                        delete l.include[xi];
-                        includeButton.removeClass(fiba);
-                    }
-                    
-                    commitChange();
-                }
-            });
+//            var includeButton = newDiv();
+//            includeButton.addClass('focusButton');
+//            var fiba = 'focusIncludeButtonActive';
+//            if (included) {
+//                includeButton.addClass(fiba);
+//            }
+//            
+//            var excludeButton = newDiv();
+//            excludeButton.addClass('focusButton');
+//            var feba = 'focusExcludeButtonActive';
+//            if (excluded) {
+//                excludeButton.addClass(feba);
+//            }
+//            
+//            function commitChange() {
+//                self.set('layer', l);
+//                self.saveLocal();
+//                self.trigger('change:layer');                
+//            }
+//            
+//            includeButton.click(function() {
+//                if (includeButton.hasClass(fiba)) {
+//                    includeButton.removeClass(fiba);
+//                    delete l.include[xi];
+//                    commitChange();
+//                }
+//                else {
+//                    includeButton.addClass(fiba);
+//                    l.include[xi] = true;
+//                    
+//                    if (excludeButton.hasClass(feba)) {
+//                        delete l.exclude[xi];
+//                        excludeButton.removeClass(feba);
+//                    }
+//                    
+//                    commitChange();
+//                }
+//            });
+//            excludeButton.click(function() {
+//                if (excludeButton.hasClass(feba)) {
+//                    excludeButton.removeClass(feba);
+//                    delete l.exclude[xi];
+//                    
+//                    commitChange();                    
+//                }
+//                else {
+//                    excludeButton.addClass(feba);
+//                    l.exclude[xi] = true;
+//                    
+//                    if (includeButton.hasClass(fiba)) {
+//                        delete l.include[xi];
+//                        includeButton.removeClass(fiba);
+//                    }
+//                    
+//                    commitChange();
+//                }
+//            });
             
             //var labelButton = newDiv().html(label); //cycle through include/external/neither states
             //labelButton.addClass('focusLabel');
@@ -1032,23 +1056,25 @@ function updateTypeTree(a, onSelectionChange) {
             //w.append(clear);
         
         
-        var n = $('<li id="' + xi + '"></li>');
-        n.html(label);
+        var b = newTagLayerDiv(xi, label);
         
-        root.append(n);
-        
-        var children = self.subtags(i.uri);
-        
-        if (children.length > 0) {
-            var nu = $('<ul></ul>');            
-            n.append(nu);
+        var children = self.subtags(xi);                
+        if (children.length > 0) {     
+            b.children = [];
             _.each(children, function(c) {
-                subtree(nu, self.tag(c));
+                subtree(b.children, self.tag(c));
             });                            
         }
+        
+        root.push( b );
     }
     
-    function othersubtree(t) {
+    function othersubtree(root) {
+        var otherFolder = {
+            label: 'Other',
+            children: []
+        };
+        
         var others = [];
         for (var c in stc) {
             if (!self.tag(c))
@@ -1057,45 +1083,45 @@ function updateTypeTree(a, onSelectionChange) {
         
         if (others.length == 0)
             return;
-        
-        var n = $('<li id="OtherTgs"><a href="#">Other</a></li>');
-        t.append(n);
-        
-        var nu = $('<ul></ul>');            
-        n.append(nu);
+                
         _.each(others, function(c) {
-            subtree(nu, c);
-        });                            
+            subtree(otherFolder.children, c);
+        });
+        root.push(otherFolder);
     }
     
     var roots = self.tagRoots();
     _.each(roots, function(t) {
-       subtree(tree, self.tag(t));
+       subtree(T, self.tag(t));
     });
-    othersubtree(tree);
+    othersubtree(T);
     
-    a.delegate("a", "click", function(e) {
-        /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
-            $("#layer-tree").jstree("open_node", this);
-            return false;
-        } else {
-            var embedLocation = (this).href;
-            $('#View').html('');
-            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
-            $("#View").removeClass("ui-widget-content");
-            var vm = $('#ViewMenu');
-            var shown = vm.is(':visible');
-            showAvatarMenu(!shown);
-            e.preventDefault();
-            return false;
-        }*/
-    });
+//    a.delegate("a", "click", function(e) {
+//        /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
+//            $("#layer-tree").jstree("open_node", this);
+//            return false;
+//        } else {
+//            var embedLocation = (this).href;
+//            $('#View').html('');
+//            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
+//            $("#View").removeClass("ui-widget-content");
+//            var vm = $('#ViewMenu');
+//            var shown = vm.is(':visible');
+//            showAvatarMenu(!shown);
+//            e.preventDefault();
+//            return false;
+//        }*/
+//    });
                    
-    tree.appendTo(a);
-    a.jstree({"plugins": ["html_data", "ui", "themeroller"]});
+    tree.appendTo(a);   
+    a.tree({
+        data: T,
+	autoEscape: false,
+	selectable: false,
+	slide: false,
+	autoOpen: 2
+    });
     
-    
-
     /*
     //update display of type counts and other type metadata
     function updateTypeCounts() {
@@ -1105,33 +1131,6 @@ function updateTypeTree(a, onSelectionChange) {
     }
     */
     
-    //http://wwwendt.de/tech/dynatree/doc/dynatree-doc.html
-//    dt.dynatree({
-//        checkbox: true,
-//        selectMode: 2, // 1:single, 2:multi, 3:multi-hier
-//        debugLevel: 0,
-//        onActivate: function(node) {
-//            //alert("You activated " + node);
-//        },
-//        onSelect: function(flag, node) {
-//            /*if( ! flag )
-//                alert("You deselected node with title " + node.data.title);*/
-//            var selectedNodes = node.tree.getSelectedNodes();
-//            var selectedKeys = $.map(selectedNodes, function(node){
-//                return node.data.key;
-//            });
-//                        
-//            if (onSelectionChange)
-//                onSelectionChange(selectedKeys);            
-//            
-//            dt.currentSelection = selectedKeys;
-//        }
-//        /*
-//        onRender: function(dtnode, nodeSpan)
-//        onExpand : function() {
-//            updateTypeCounts();  
-//        }*/
-//    });
     
     return tree;
     
