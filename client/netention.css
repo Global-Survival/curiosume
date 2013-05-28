@@ -1192,6 +1192,7 @@ a.openModal:focus {
 #Layer {
     max-height: 400px;
     overflow-y: scroll;
+    text-align: left;
 }
 
 .focusButton {

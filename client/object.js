@@ -942,7 +942,7 @@ function updateTypeTree(a, onSelectionChange) {
     }        
                     
     var T = [
-        {
+/*        {
             label: 'node1',
             children: [
                 { label: '<button>child1</button>' },
@@ -954,7 +954,7 @@ function updateTypeTree(a, onSelectionChange) {
             children: [
                 { label: 'child3' }
             ]
-        }
+        } */
     ];
 
     function newTagLayerDiv(id, label) {
@@ -972,13 +972,16 @@ function updateTypeTree(a, onSelectionChange) {
         else 
             name = xi = i;
         
+        var children = self.subtags(xi);                
+        
         var label = name;
         if (stc[xi]) {
             if (stc[xi] > 0)
                 label += ' (' + _n(stc[xi]) + ')';
         }
         else {
-            //return;
+            if (children.length==0)
+                return;
         }
                 
         
@@ -1058,7 +1061,6 @@ function updateTypeTree(a, onSelectionChange) {
         
         var b = newTagLayerDiv(xi, label);
         
-        var children = self.subtags(xi);                
         if (children.length > 0) {     
             b.children = [];
             _.each(children, function(c) {
