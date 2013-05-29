@@ -22,7 +22,8 @@
 	"underscore":"",
 	"irc":"",
         "cheerio":"",
-        "rdfstore":""
+        "rdfstore":"",
+        "kmeans":""
     },
     "engines": {
 	"node": "0.8.x", 

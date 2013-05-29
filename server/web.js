@@ -794,7 +794,8 @@ exports.start = function(host, port, database, init) {
                 'CollaboratingStudent': '#EFBB11',
                 'CollaboratingTeacher': '#F48E1A',
                 'IntermediateTeacher': '#F96324',
-                'ExpertTeacher': '#FF3B2E'                
+                'ExpertTeacher': '#FF3B2E',
+                'Not' : '', 'Can' : '', 'Need' : ''                
             };
             var st = _.keys(tagMap);
 
@@ -834,7 +835,7 @@ exports.start = function(host, port, database, init) {
                     
                     var authorName = attention.object('Self-'+oo.author);
                     if (authorName) {
-                        authorName = authorName.name + (' ' + (authorName.email ? ('<' + authorName.email + '>') : '')); 
+                        authorName = authorName.name; // + (' ' + (authorName.email ? ('<' + authorName.email + '>') : '')); 
                     }
                     else {
                         authorName = "Anonymous";
