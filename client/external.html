@@ -1,3 +1,10 @@
+<html>
+    <head>
+        <script src="lib/jquery/jquery.js" type="text/javascript"></script>
+        
+    </head>
+    <body>
+        
 <ul class="tree">
     <li>
         <a href="#">Global Alerts</a>
@@ -616,3 +623,15 @@
                     </li><li><a href="http://sgl.arlut.utexas.edu/"> Space Weather Resources </a> (From UT)
                     </li><li><a href="http://hyperion.haystack.edu/mhrobs/links.html">Millstone Hill's Internet Links List</a>
                     </li><li><a href="http://www.lmsal.com/SXT/html2/list.html">Solar Physics Web Guide</a>	</ul></li></ul></li></ul>
+        <script>
+            var m = { };
+            $('.tree').find('a').map(function() {
+                var tt = $(this);
+                var url = tt.attr('href');
+                if (url!='#')
+                    m[url] = { label: tt.text() };
+            });
+            console.log(m);
+        </script>
+    </body>
+</html>   
