@@ -673,8 +673,9 @@ exports.start = function(host, port, database, init) {
     //Gzip compression
     express.use(connect.compress());
     //express.use(expressm.staticCache());
-    express.use("/", expressm.static('./client' , staticContentConfig));        
     express.use("/plugin", expressm.static('./plugin' , staticContentConfig ));
+    express.use("/kml", expressm.static('./client/kml' , staticContentConfig ));
+    express.use("/", expressm.static('./client' , staticContentConfig));        
 
     express.post('/upload', function(req, res) {
         //TODO validate permission to upload

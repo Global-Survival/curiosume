@@ -1233,3 +1233,10 @@ a.openModal:focus {
 .focusClear {
     clear: both;
 }
+
+.MapControl {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 5000;
+}

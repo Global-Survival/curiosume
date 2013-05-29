@@ -28,8 +28,60 @@ function getKMLLayer(kmlurl) {
     });
 }
 
+var map2d = true;
 
 function renderMap(s, o, v) {
+    var mm = { };
+    
+    var typeSelect;
+    
+    function updateMap() {
+        v.html('');
+
+        if (typeSelect)
+            map2d = (typeSelect.val() === '2D');
+        else
+            map2d = true;
+
+        var mapControl = newDiv();
+        typeSelect = $('<select/>');
+        typeSelect.append('<option ' + (map2d ? 'selected' : '') + '>2D</option>');
+        typeSelect.append('<option ' + (!map2d ? 'selected' : '') + '>3D</option>');
+        typeSelect.change(function(x) {
+            later(function() {
+               updateMap();            
+            });
+        });
+
+        var planetSelect = $('<select/>');
+        planetSelect.append('<option>Earth</option>');
+        planetSelect.append('<option>Moon</option>');
+        planetSelect.append('<option>Mars</option>');
+
+        mapControl.append(typeSelect);
+        mapControl.append(planetSelect);
+
+        mapControl.addClass('MapControl');
+        
+        
+        if (map2d) {
+            var m = renderOLMap(s, o, v);
+            mm.onChange = m.onChange;       
+            mm.location = m.location;
+        }
+        else {
+            v.append('TODO: add Cesium');
+        }
+        
+        v.append(mapControl);
+        
+    }
+    updateMap();
+                
+    return mm;
+}
+
+function renderOLMap(s, o, v) {
     var MAX_ITEMS = 500;
     
     var e = uuid();
@@ -77,7 +129,7 @@ function renderMap(s, o, v) {
     m.marker = markers;
     
     m.addLayers([
-        aerial, mapnik, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
+        mapnik, aerial, vector, markers //, gphy, gmap, gsat, ghyb, /*veroad, veaer, vehyb,*/ 
     ]);
 
     
