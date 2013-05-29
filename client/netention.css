@@ -1,22 +1,8 @@
 /*!
- * netention.css v1.3
+ * netention.css v1.5
  * Discombobulated by @rezn8d
  */
-body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; }
-a, a:hover, a:active, a:focus { outline: none !important; }
 
-.shadow {	moz-box-shadow: 0px 0px 24px #000000; -webkit-box-shadow: 0px 0px 24px #000000; box-shadow:0px 0px 24px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444'); }
-.left { float:left; }
-.right { float:right; }
-.ui-widget-header a {color:inherit !important;}
-
-div.olMapViewport {
-     z-index: 1;
-}
-.nobg {
-    background: #000000 !important;
-    background-image: none !important;
-}
 .focusMap {
     width: 98%;
     height: 18em;
@@ -522,225 +508,29 @@ clear:both;
 }
 
 
-.ui-dialog { z-index:2000 !important; }
-
-.SelfView {
-    width: 100%;
-}
-.SelfRoster {
-    float: left;
-    width: 25%;
-    padding-right: 1em;
-    max-height: 95%;
-    position: fixed;
-    overflow: scroll;
-    margin-top: 1em;
-}
-.SelfRoster .objectView {
-    cursor: crosshair;
-}
-.SelfViewTags {
-    width: 100%;
-}
-.SelfViewContent {
-    width: 68%;
-    float: right;
-    margin-right: 1em;
-}
-.SelfViewSide button {    
-    float: left;
-    margin: 0.3em;
-}
-#Bio {
-    width: 100%;
-    float: left;
-}
-#Bio button {
-    font-size: 150%;
-}
-#SelfMap  {
-    width: 40%;
-    height: 250px;
-    float: right;
-}
-.SelfCode {
-    width: 95%;
-    height: 95%;
-}
-.SelfMeta {
-    float: left;
-}
-.SelfMeta input, .SelfMeta button {
-    font-size: 150%;
-}
-
-.WikiBrowser {
-    position: absolute;
-    height: 90%;
-    overflow:auto;
-    background-color: white;
-    color: black;
-    width: 65%;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-}
-.WikiBrowser h1 {
-    margin-top: 0;
-}
-#BioText {
-    border: 1px solid gray;
-    width: 100%;
-    height: 12em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    text-align: left;
-}
-#Bio {
-    text-align: right;
-}
-.WikiBrowser a, .WikiBrowser a:visited {
-    border: 1px solid gray;
-    padding: 1px;
-    cursor: crosshair;
-    color: black !important;
-}
-.WikiTagSave {
-    margin-top: 5px;
-    font-size: 150%;
-}
-.SelfAddTagButton {
-    float: right;
-    width: auto;
-}
-.SelfViewButtonPanel {
-    clear: both;
-    padding-bottom: 2.5em;
-    border-bottom: 1px solid gray;
-    margin-bottom: 1.0em;
-}
-
-.view-indented {
-    width: 95% !important;
-    right: 0 !important;
-    left: auto !important;
-    border-left: none !important;
-}
-
-.SelfView textarea {
-    width: 100%;
-    height: 5em;
-}
-/*
-Document   : jquery.pnotify.default.css
-Created on : Nov 23, 2009, 3:14:10 PM
-Author     : Hunter Perrin
-Version    : 1.2.0
-Link       : http://pinesframework.org/pnotify/
-Description:
-	Default styling for Pines Notify jQuery plugin.
-*/
-/* -- Notice */
-.ui-pnotify {
-	background:#F00;
-position: relative;
-height: auto;
-/* Ensures notices are above everything */
-z-index: 9;
-}
-/* Hides position: fixed from IE6 */
-html > body .ui-pnotify {
-position: fixed;
-}
-.ui-pnotify .ui-pnotify-shadow {
--webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
--moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5);
-}
-.ui-pnotify-container {
-background-position: 0 0;
-padding: .8em;
-height: 100%;
-margin: 0;
-}
-.ui-pnotify-sharp {
--webkit-border-radius: 0;
--moz-border-radius: 0;
-border-radius: 0;
-}
-.ui-pnotify-closer, .ui-pnotify-sticker {
-float: right;
-margin-left: .2em;
-}
-.ui-pnotify-title {
-display: block;
-margin: 0px;
-}
-.ui-pnotify-text {
-display: block;
-overflow:visible;
-text-wrap:normal;
-}
-.ui-pnotify-icon, .ui-pnotify-icon span {
-display: block;
-float: left;
-margin-right: .2em;
-}
-/* -- History Pulldown */
-.ui-pnotify-history-container {
-position: relative;
-background:#F00 !important;
-width: 70px;
-border-top: none;
-padding: 0;
--webkit-border-top-left-radius: 0;
--moz-border-top-left-radius: 0;
-border-top-left-radius: 0;
--webkit-border-top-right-radius: 0;
--moz-border-top-right-radius: 0;
-border-top-right-radius: 0;
-/* Ensures history container is above notices. */
-z-index: 9;
-}
-.ui-pnotify-history-container .ui-pnotify-history-header {
-padding: 2px;
-}
-.ui-pnotify-history-container button {
-cursor: pointer;
-display: block;
-width: 100%;
-}
-.ui-pnotify-history-container .ui-pnotify-history-pulldown {
-display: block;
-margin: 0 auto;
-}
-#close-iframe {
-    display: none;
-}
-
-
-.nameInput { padding:3px; text-indent:15px; }
-
 
 /*!
  * Properly formatted CSS section
  * everything above this line needs cleaning and moved below ~ @rezn8d
  */
  
-#LoadingSplash { 
-    background: url('/theme/cybernetic/p2p_banner.jpg') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; z-index:100; 
-    width: 100%;
-    height: 100%;
-    position: fixed;
-}
-#LoadingSplash2 { 
-    background-color: white; 
-    webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; 
-    z-index:99; 
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
+ /* Global Rules */
+ * { outline:none; }
+body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-family: Arial, sans; z-index:1; }
+		.nobg { background: #000000 !important; background-image: none !important; }
+		.shadow { moz-box-shadow: 0px 0px 24px #000000; -webkit-box-shadow: 0px 0px 24px #000000; box-shadow:0px 0px 24px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444'); }
+		.left { float:left; }
+		.right { float:right; }
+	    /* Overthrow CSS:  Enable overflow: auto on elements with overthrow class when html element has overthrow-enabled class */
+	    .overthrow-enabled .overthrow { overflow: auto; -webkit-overflow-scrolling: touch; }
+		.overthrow-enabled #content.overthrow { height: 100%; }
+
+ /* jQuery UI overrides */
+.ui-widget-header a {color:inherit !important;}
+.ui-dialog { z-index:2000 !important; }
+ 
+ /* Loading Login Screen */
+#LoadingSplash { background: url('/theme/cybernetic/p2p_banner.jpg') no-repeat center center fixed;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;background-attachment:fixed; z-index:100; width: 100%; height: 100%; position: fixed; }
 	#LoadingSplash ul { margin:0;padding:0;width:100%; list-style-type:none; height:100px; } 
 	#LoadingSplash ul li { float:left; outline:none; border:none; margin:0;padding:0;width:20%; list-style-type:none; text-align:center; } 
 	#LoadingSplash ul li span { clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
@@ -748,42 +538,32 @@ margin: 0 auto;
 	#LoadingSplash ul li img { margin:5px 0 0 0;padding:0;width:90%;height:auto; filter: gray; filter: url(filters.svg#grayscale); -webkit-filter: grayscale(1); } 
 	#LoadingSplash ul li img:hover { margin:0;padding:0;width:100%;height:auto; filter: none !important; -webkit-filter: none !important; } 
 	#openid-img { width:80%;height:auto;clear:both;display:block; margin:10px auto; }
-	#login-prompt-img { width:80%; height:auto; margin:10px auto; display:block; clear:both; }
+	#about-toggle { width:80%; height:auto; margin:10px auto; display:block; clear:both; }
 	
-/* .overflow-scroll {	overflow: auto !important; -webkit-overflow-scrolling: touch !important;  }
-.overflow-hidden { overflow:hidden !important; } */
+#LoadingSplash2 { background-color: white; z-index:99; position: fixed; width: 100%; height: 100%; display: none; }
 
-	    /* Overthrow CSS:
-		   Enable overflow: auto on elements with overthrow class when html element has overthrow-enabled class */
-	    .overthrow-enabled .overthrow { overflow: auto; -webkit-overflow-scrolling: touch; }
-		.overthrow-enabled #content.overthrow { height: 100%; }
-
-.well { position: absolute; top:0px !important; right:0px !important; width:200px !important; max-width:200px !important; }
-
-#View { border: none; position: fixed; top:0; right:0; bottom:0; left:0; height: 100%; width:100%; z-index: -10000; clear:both; }
-	#embed-frame { z-index: -10000; position:relative; width:100%; height:100%; min-height:100%; max-height:100%; margin:0; outline:none; border:none; overflow:auto; background:#000; padding:0; display:block;}
+/* View Screen */
+#View { border: none; position: fixed; top:0; right:0; bottom:0; left:0; height: 100%; width:100%; z-index: 1; clear:both; }
+	#embed-frame { z-index: 1; position:relative; width:100%; height:100%; min-height:100%; max-height:100%; margin:0; outline:none; border:none; overflow:auto; background:#000; padding:0; display:block;}
+	div.olMapViewport { z-index: 1 !important;; }
 	div.olControlZoom { top:auto !important; bottom:8px !important; }
+	.view-indented { width: 95% !important; right: 0 !important; left: auto !important; border-left: none !important; }
 
-#toggle-menu {position:absolute; top:3px; left:3px; z-index:25; } 
+/* User Control Panel */
+#toggle-menu {position:absolute; top:5px; left:5px; z-index:25; width: 45px; height: 45px; } 
+#toggle-menu img { width: 45px; height: 45px; margin:0; } 
 
-#ViewMenu, #AvatarButton { position: absolute; }
 #ViewMenu { position: fixed; z-index:15; top:0; left:0; width:600px; height:100%; margin:0; padding:0; }
 	.viewmenu-container { position: relative; display:block; padding: 10px;	overflow: visible; text-align:center; }
-	#AvatarButton { top: 8px; left: 8px; z-index:20; }
-	#AvatarButton img { border: none; cursor: crosshair; z-index:20; }
-	.avatar-inactive { width: 50px !important; height: 50px !important;	}
+	#AvatarButton, #AvatarButton img { width: 70px; height: 70px; margin:0; padding:0; z-index:25;} 
+		#AvatarButton { position:absolute; top:0px; left:0px; margin:0px; padding:0px; }
+		#AvatarButton img { border: none; cursor: crosshair; }
+		#identity { display:block; clear:both; margin:5px 0px; padding:10px;}
+			#logout { margin-left:5px; margin-right:5px; font-size:.8em !important; text-align:center; text-decoration:none; font-weight:lighter; }
+			#logout:hover { text-decoration:underline; font-weight:bolder; }
 
-#identity { display:block; clear:both; margin:15px 0 5px 0; padding:0;}
-	#identity ul { margin:0; padding:7px; list-style-type:none; text-align:left; height:auto; }
-	#identity-header { position:relative;}
-	#identity-header a { position:relative;}
-	#identity li { text-align:center; vertical-align: middle; padding: 5px; list-style-type:none; }
-	#AvatarButton { margin:0; padding:0; position:relative; top: -25px; left:-15px;}
-	#AvatarButton img { border: none; cursor: crosshair; }
-	.login, .logout { float:right; margin-left:5px; margin-right:5px; font-size:.8em !important; text-align:center; }
-
-#ViewControls {	margin:0; display:block; text-align:center;clear:both; position:relative; top:-20px; }
-	#ViewControls label {	max-width:13%; width:13%; }
+#ViewControls {	margin:0; display:block; text-align:center; clear:both; }
+	#ViewControls label {	max-width:12%; width:12%; }
 	#ViewControls .ui-button-text-only .ui-button-text { padding:.3em .1em; }
 
 #FocusEdit { text-align:center; height:auto; padding:15px; margin:0; display:block; clear:both; }
@@ -808,6 +588,7 @@ margin: 0 auto;
 
 #themeSelect {width: 250px; clear:both; font-size:1.2em; padding:3px; }
 
+/* Grid, List View */
 .objectView { position: relative; padding: 0.25em; margin-bottom: 5px; display: block; overflow: hidden; clear: both; font-size:12px; }
 	.objectGridItem { width: 300px;	height: auto; clear: none;  float: left; margin: 5px; overflow: hidden; z-index:2; }
 	.ObjectViewHideButton { height:30px;   position:absolute;  bottom:-4px; left:-4px; z-index:2; opacity:0; display:inline-block; }
@@ -826,67 +607,92 @@ margin: 0 auto;
 	.reply-section { text-align:left; }
 	.object-reply-button { padding:1px 4px !important; }
 
+/* Team/Self Browser */
+.SelfView { width: 100%; }
+	.SelfRoster { float: left; width: 25%; padding-right: 1em; max-height: 95%; position: fixed; overflow: scroll; margin-top: 1em; }
+	.SelfRoster .objectView { cursor: crosshair; }
+	.SelfViewTags { width: 100%;}
+	.SelfViewContent { width: 68%; float: right; margin-right: 1em; }
+	.SelfViewSide button { float: left; margin: 0.3em; }
+	#Bio { width: 100%; float: left; }
+	#Bio button { font-size: 150%; }
+	#SelfMap  { width: 40%; height: 250px; float: right; }
+	.SelfCode { width: 95%; height: 95%; }
+	.SelfMeta { float: left; }
+	.SelfMeta input, .SelfMeta button { font-size: 150%; }
+	.WikiBrowser { position: absolute; height: 90%; overflow:auto; background-color: white; color: black; width: 65%; border-top: 1px solid gray; border-bottom: 1px solid gray; }
+	.WikiBrowser h1 { margin-top: 0; }
+	#BioText { border: 1px solid gray; width: 100%; height: 12em; margin-top: 1em; margin-bottom: 1em; text-align: left; }
+	#Bio { text-align: right; }
+	.WikiBrowser a, .WikiBrowser a:visited { border: 1px solid gray; padding: 1px; cursor: crosshair; color: black !important;}
+	.WikiTagSave { margin-top: 5px; font-size: 150%; }
+	.SelfAddTagButton { float: right; width: auto; }
+	.SelfViewButtonPanel { clear: both; padding-bottom: 2.5em; border-bottom: 1px solid gray; margin-bottom: 1.0em; }
+	.SelfView textarea { width: 100%; height: 5em; }
+
+.nameInput { padding:3px; text-indent:15px; }
+
+/*
+*   pNotify: jquery.pnotify.default.css
+* 	Version: 1.2.0. Link: http://pinesframework.org/pnotify/   
+*/
+.well { position: absolute; top:0px !important; right:0px !important; width:200px !important; max-width:200px !important; }
+.ui-pnotify { background:#F00; position: relative; height: auto; z-index: 20000; }
+.ui-pnotify.stack-bottomleft { bottom: 25px; Left: 25px; top: auto; right: auto; }
+	html > body .ui-pnotify { position: fixed; /* Hides position: fixed from IE6 */ }
+	.ui-pnotify .ui-pnotify-shadow { -webkit-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); -moz-box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); box-shadow: 0px 2px 10px rgba(50, 50, 50, 0.5); }
+	.ui-pnotify-container { background-position: 0 0; padding: .8em; height: 100%; margin: 0; }
+	.ui-pnotify-sharp { -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; }
+	.ui-pnotify-closer, .ui-pnotify-sticker { float: right; margin-left: .2em; }
+	.ui-pnotify-title { display: block; margin: 0px; }
+	.ui-pnotify-text { display: block; overflow:visible; text-wrap:normal; }
+	.ui-pnotify-icon, .ui-pnotify-icon span { display: block; float: left; margin-right: .2em; }
+	/* -- History Pulldown */
+	.ui-pnotify-history-container { position: relative; background:#F00 !important; width: 70px; border-top: none; padding: 0; -webkit-border-top-left-radius: 0; -moz-border-top-left-radius: 0; border-top-left-radius: 0; -webkit-border-top-right-radius: 0; -moz-border-top-right-radius: 0; border-top-right-radius: 0; /* Ensures history container is above notices. */ z-index: 9; }
+	.ui-pnotify-history-container .ui-pnotify-history-header { padding: 2px; }
+	.ui-pnotify-history-container button { cursor: pointer; display: block; width: 100%; }
+	.ui-pnotify-history-container .ui-pnotify-history-pulldown { display: block; margin: 0 auto; }
+
+
+
+/*!
+ * less than 320 = small mobile mode 
+ */
+
+@media (max-width : 320px) {
+}
 
 /*!
  * less than 700 = mobile mode 
  */
 
-@media (max-width : 320px) {
-#ViewMenu, #View { width:auto !important; max-width:100% !important; min-width:100% !important; }
-	#close-menu {position: absolute; top:5px; right:20px; left: auto;}
-	#close-menu, #close-menu span { z-index:20 !important;}
-	#ViewControls .ui-button-text { font-size:10px; }
-	.avatar-active, li#AvatarButton, #AvatarButton, #AvatarButton img { display:none; }
-/*	.avatar-active { width: 30px; height: 30px; }
-	#AvatarButton { width: 30px; height: 30px; margin:0; padding:0; position:relative; top:0px; left:0;} */
-	#identity { display:block; clear:both; margin:30px 0px; padding:0;}
-	#identity ul { padding:0 0 4px 0; }
-	#identity-header { font-size:12px; }
-	.login, .logout { clear:both; width:100%; margin:10px auto; float:none; }
-	#FocusMainMenu button { display:block; width:100%; margin:0; }
-				.FocusButtonLabel { display:inline-block !important; }
-				.FocusButtonIcon  { display:none !important; }
-	.jstree, .jstree input, .jstree-dnd-helper, #vakata-contextmenu { font-size:10px;  }
-	#ViewControls label {	max-width:32%; width:32%; }
-	#options-label { position:relative; left:-3px; }
-    .logon > div, .modal > div { width: 280px; }
-}
 @media (max-width : 699px) {
+	
+	#welcome { width:100%; margin:0px auto; clear:both; display:block; text-align:right; }
+	#logout { width: 80px; margin:10px auto 0px auto; clear:both; display:block; padding:2px 5px; }
 #ViewMenu, #View { width:auto !important; max-width:100% !important; min-width:100% !important; }
-	.login, .logout { clear:both; width:100%; margin:10px auto; float:none; }
-	#identity { display:block; clear:both; margin:30px 0px; padding:0;}
-	#close-menu {position: absolute; top:5px; right:25px; left: auto;}
-	#close-menu, #close-menu span { z-index:20 !important;}
+	#close-menu, #close-menu span {  z-index:-1; display:none;}
+#ViewControls {	margin:5px 0px 10px 0px; display:block; text-align:center; clear:both; }
 	#ViewControls .ui-button-text { font-size:12px; }
-	#ViewControls label {	max-width:32%; width:32%; }
-	.avatar-active { width: 60px; height: 60px; }
+	#ViewControls label { width:32%; min-width:32%; max-width:32%; padding:15px 0px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; }
+		#ViewControls label:last-of-type { position:relative; right:3px; width:95% !important; min-width:95% !important; max-width:95% !important; padding:15px 0px; -moz-border-radius:0px !important; -webkit-border-radius:0px !important; border-radius:0px !important; }
 	#FocusMainMenu button { display:block; width:100%; margin:0; }
 				.FocusButtonLabel { display:inline-block !important; }
 				.FocusButtonIcon  { display:none !important; }
-	.jstree, .jstree input, .jstree-dnd-helper, #vakata-contextmenu { font-size:12px;  }
-	#options-label { position:relative; left:-3px; }
-.logon > div, .modal > div { width: 300px; }
+	.logon > div, .modal > div { width: 280px; }
 }
 
 @media (min-width : 700px) {
+	#welcome { text-align:center; }
+	#logout { position:absolute !important; top:5px; right:18px; margin:0; padding:5px 10px; moz-box-shadow: 0px 0px 12px #000000; -webkit-box-shadow: 0px 0px 12px #000000; box-shadow:0px 0px 12px #000000; -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#444444')"; filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#444444'); }
 #ViewMenu { width:600px; }
-	#close-menu { position: absolute; top:5px; left:598px; right:auto; z-index:14;}
+	#close-menu { position: absolute; top:13px; left:598px; right:auto; z-index:14; text-decoration:none;}
+#ViewControls {	margin:20px 0px 10px 0px; display:block; text-align:center; clear:both; }
 	#ViewControls .ui-button-text { font-size:14px; }
-	.avatar-active { width: 60px; height: 60px; }
-	#FocusMainMenu button { width:auto; margin:0; }
-				.FocusButtonLabel { display:none !important; }
-				.FocusButtonIcon  { display:inline-block !important; }
-.jstree, .jstree input, .jstree-dnd-helper, #vakata-contextmenu { font-size:14px;  }
+	#ViewControls label { padding:2px 3px; }
 .logon > div, .modal > div { width: 500px; }
 }
 
-@media (min-width : 1025px) {
-#ViewControls .ui-button-text { font-size:14px; }
-.logon > div, .modal > div { width: 500px; }
-
-@media (min-width : 1440px) {
-.logon > div, .modal > div { width: 500px; }
-}
 
 #FocusEdit {
 bottom:5px;
@@ -958,6 +764,55 @@ div.olControlZoom { top:auto !important; bottom:8px !important; }
 
 .olControlAttribution {
     display:none !important;
+}
+
+#View, #ViewMenu, #close-menu {
+    display: none;
+}
+.ui-pnotify {
+    display: none;
+}
+#FocusTabs {
+    font-size: 75%;
+}
+#Layer {
+    max-height: 400px;
+    overflow-y: scroll;
+    text-align: left;
+}
+.TagLayer, .KMLLayer, .ExtLayer {
+    cursor: crosshair;
+}
+.TagLayerInclude {
+    color: #44ff44;
+    opacity:1.0;
+}
+.TagLayerExclude {
+    color: #ff4444;
+    opacity:1.0;
+}
+.TagLayerFaded {
+    opacity: 0.7;
+}
+
+.focusButton {
+    width: 15px;
+    height: 15px;
+    cursor: crosshair;
+    float: left;
+}
+
+.focusIncludeButtonActive {
+    background-color: #86b226;
+}
+.focusExcludeButtonActive {
+    background-color: #f66;
+}
+.focusLabel {
+    
+}
+.focusClear {
+    clear: both;
 }
 
 
@@ -1183,60 +1038,4 @@ a.openModal {
 
 a.openModal:hover,
 a.openModal:focus {
-}
-
-#View, #ViewMenu, #close-menu {
-    display: none;
-}
-.ui-pnotify {
-    display: none;
-}
-#FocusTabs {
-    font-size: 75%;
-}
-#Layer {
-    max-height: 400px;
-    overflow-y: scroll;
-    text-align: left;
-}
-.TagLayer, .KMLLayer, .ExtLayer {
-    cursor: crosshair;
-}
-.TagLayerInclude {
-    color: #44ff44;
-    opacity:1.0;
-}
-.TagLayerExclude {
-    color: #ff4444;
-    opacity:1.0;
-}
-.TagLayerFaded {
-    opacity: 0.7;
-}
-
-.focusButton {
-    width: 15px;
-    height: 15px;
-    cursor: crosshair;
-    float: left;
-}
-
-.focusIncludeButtonActive {
-    background-color: #86b226;
-}
-.focusExcludeButtonActive {
-    background-color: #f66;
-}
-.focusLabel {
-    
-}
-.focusClear {
-    clear: both;
-}
-
-.MapControl {
-    position: fixed;
-    right: 5px;
-    bottom: 5px;
-    z-index: 5000;
 }

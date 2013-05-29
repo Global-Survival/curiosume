@@ -222,8 +222,8 @@ function _updateView(force) {
     $('.brand').html(s.myself().name);
 
     var avatarURL = getAvatarURL(s.myself().email);
-    $('#AvatarButton img').attr('src', avatarURL);
-    $('#toggle-menu').attr('src', avatarURL);
+    $('#avatar-img').attr('src', avatarURL);
+    $('#toggle-img').attr('src', avatarURL);
 
     s.saveLocal();
 
@@ -367,6 +367,7 @@ function showAvatarMenu(b) {
     var vm = $('#ViewMenu');
     if (!b) {
         $('#close-menu').hide();
+        $('#AvatarButton').hide();
         vm.fadeOut();
         $('#toggle-menu').show();
     }
@@ -374,6 +375,7 @@ function showAvatarMenu(b) {
         $('#toggle-menu').hide();
         vm.fadeIn();
         $('#close-menu').show();
+        $('#AvatarButton').show();
         vm.show();        
     }
 }
@@ -386,6 +388,14 @@ function popupAboutDialog() {
 }
 
 $(document).ready(function() {
+	
+	$('#about-toggle').click(function() {
+		$('#about-netention').fadeIn();
+	});
+	$('#openid-toggle').click(function() {
+		$('#openid-login').fadeIn();
+	});
+
 
     if (!isAuthenticated()) {        
         return;
@@ -534,22 +544,26 @@ $(document).ready(function() {
 
     });
 
+
     $('#FocusTabs').tabs();
     $('#toggle-menu').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
     });
-    $('.close-menu').click(function() {
+    $('#close-menu').click(function() {
         var vm = $('#ViewMenu');
         var shown = vm.is(':visible');
         showAvatarMenu(!shown);
     });
-    $('.avatar-active').click(function() {
+    $('#AvatarButton').click(function() {
         showAvatarMenu(false);
     });
 
-
+    $('#logout').hover(
+		function() { $(this).addClass('ui-state-hover');$(this).addClass('shadow'); },
+		function() { $(this).removeClass('ui-state-hover');$(this).removeClass('shadow'); }
+	);
 
     if (isAuthenticated()) {
         $('.logout').show();
@@ -646,10 +660,6 @@ $(document).ready(function() {
         $("#url-tree").jstree("close_all");
     });
     */
-   
-    $("#openid-toggle").click(function() {
-        $("#openid-login").show();
-    });
 
 
 /*

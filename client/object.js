@@ -1026,7 +1026,8 @@ function updateTypeTree(a, onSelectionChange) {
             });
         }
         addKML('HAARP', '/kml/haarp.kml');
-        addKML('HPM', '/kml/hpm-worldwide.kml');
+        addKML('HPM', '/kml/hpm-radars.kml');
+        addKML('NUKE', '/kml/nuke-explosions.kml');
         
         root.push(kmlFolder);
     }
@@ -1057,8 +1058,8 @@ function updateTypeTree(a, onSelectionChange) {
     _.each(roots, function(t) {
        subtree(T, self.tag(t));
     });
-    othersubtree(T);
     kmlsubtree(T);
+    othersubtree(T);
     externalsubtree(T);
     
     tree.appendTo(a);   

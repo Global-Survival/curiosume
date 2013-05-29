@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Netention Tiamat v.08</title>
+        <title>Netention Tiamat v.09</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="application-name" content="Netention Alpha"/>
         <meta name="description" content="">
@@ -26,24 +26,56 @@
     </head>
 
     <body>
+        <!-- HIDDEN UNTIL LOADED -->
+
+
+        <div id="LoadingSplash2">
+            &nbsp;
+        </div>
+        
+        <!-- LOADING SCREEN -->
+        <div id="LoadingSplash">        
+            <div id="login-prompt" class="logon overthrow">
+            	<div>
+                	<img alt="Welcome" id="about-toggle" title="Click here to learn about this project" src="icon/netention-logo.png" />
+                    <h3 style="text-align:center;">Login</h3>
+                    <ul>
+                    	<li><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
+                    	<li><img src="icon/facebook.png" alt="Facebook Login" title="Login with your Facebook Account" /></li>
+                    	<li><a href="/auth/google"><img src="icon/google.png" alt="Google Login" title="Login with your Google Account" /></a></li>
+                    	<li><a href="/auth/twitter"><img src="icon/twitter.png" alt="Twitter Login" title="Login with your Twitter Account" /></a></li>
+                    	<li><img src="icon/openid.png" alt="Open ID Login" title="Login with your Open ID" id="openid-toggle" /></li>
+                    </ul>
+                    <div id="openid-login" style="display:none">
+                    <p>Surprise! You may already have an OpenID. Find out, <a href="http://openid.net/get-an-openid/" target="_blank">click here</a>.</p>
+                    <form action="/auth/openid" method="post">
+                      <label>OpenID:</label>
+                      <input type="text" name="openid_identifier"/><input type="submit" value="OpenID Login"/>
+                    </form>
+                    </div>
+                    <div id="about-netention" style="display:none">
+                    <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
+                    </div>
+                </div>    
+            </div>           
+        </div> 
+        
+        <!-- END HIDDEN UNTIL LOADED -->
+        
+        <!-- UI LAYERS -->
+ 
         <div id="View" class="display-window "></div>
-        <img id="toggle-menu" title="Click here to expand the control panel" style="display:none" class="ui-corner-all" alt="toggle menu button" src="icon/netention-button.png" />
-        <div id="close-menu" class="close-menu" title="Click here to close the control panel"><span class="ui-icon ui-icon-closethick"></span></div>
-        <!-- Fixed navbar -->
+            <div id="toggle-menu"><img id="toggle-img" title="Click here to expand the control panel" class="ui-corner-all" alt="toggle menu button" src="icon/netention-button.png" /></div>
+            <div id="close-menu" class="close-menu" title="Click here to close the control panel"><span class="ui-icon ui-icon-closethick"></span></div>
+            <div id="AvatarButton" class="ui-corner-br shadow"><img id="avatar-img" class="ui-corner-br" alt="avatar image" src="icon/load.gif" /></div>
         <div id="ViewMenu" class="ui-widget ui-widget-header shadow overthrow">
             <div class="viewmenu-container">
                 <!-- <li class="viz"><a class="ui-button" id="time" title="Timeline" href="#"><b class="icon-time"></b><span class="display-menu-collapse">Timeline</span></a></li> -->
                 <!-- <li><button id="FocusToggleButton" title="Toggle Fullsize" ><i class="icon-resize-full"></i></button></li> -->
                 <!-- <li><button id='slides'  title="Slides"><i class="icon-play"></i></button></li> -->
 
-                <div id="identity" class="ui-widget-content">
-                    <ul id="identity-header" class="ui-widget-header">Now: <a class="brand" href="#"></a> <a class="login" href="login.html">Login</a><a class="logout" href="logout">Logout</a>
-                        <li id="AvatarButton" class="avatar-active ui-corner-all left">
-                            <img class="avatar-active ui-corner-all shadow" alt="avatar image" src="icon/load.gif" />
-                        </li>
-                        <a id="SwitchPersonaButton" title="Switch Persona" href="javascript:alert('Persona switching features are not available yet.');"><img alt="user" src="/icon/rrze/categories/user-partner.png"/></a>
-                    </ul>
-                </div>
+                <div id="identity" class="ui-widget-content ui-corner-all shadow"><span id="welcome">Welcome&nbsp;<a class="brand" href="#"></a></span> <a id="logout" class="logout ui-widget-content ui-corner-all" href="logout">Logout</a></div>
+
                 <div id="ViewControls">
                     <form>
                         <input type="radio" id="map" name="ViewControls" /><label for="map">Map</label>
@@ -107,53 +139,6 @@
 
         </div>
 
-        <!-- HIDDEN UNTIL LOADED -->
-
-        <!-- END HIDDEN UNTIL LOADED -->
-
-        <div id="LoadingSplash2">
-            &nbsp;
-        </div>
-        
-        <!-- LOADING SCREEN -->
-        <div id="LoadingSplash">        
-            <div id="login-prompt" class="logon">
-                <div>
-                <a href="#about"><img alt="Welcome" title="Click here to learn about this project" id="login-prompt-img" src="icon/netention-logo.png" /></a>
-                    <h3 style="text-align:center;">Login</h3>
-                    <ul>
-                    	<li><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
-                    	<li><img src="icon/facebook.png" alt="Facebook Login" title="Login with your Facebook Account" /></li>
-                    	<li><a href="/auth/google"><img src="icon/google.png" alt="Google Login" title="Login with your Google Account" /></a></li>
-                    	<li><a href="/auth/twitter"><img src="icon/twitter.png" alt="Twitter Login" title="Login with your Twitter Account" /></a></li>
-                    	<li><a href="#openid-login" class="openModal"><img src="icon/openid.png" alt="Open ID Login" title="Login with your Open ID" id="openid-toggle" /></a></li>
-                    </ul>
-                    
-                    <div id="openid-login" class="modal">
-                        <div>
-                            <img id="openid-img" src="icon/open-id.png" alt="Open ID Login" title="Login with your Open ID" />
-                            <p>Surprise! You may already have an OpenID. Find out, <a href="http://openid.net/get-an-openid/" target="_blank">click here</a>.</p>
-                            <form action="/auth/openid" method="post">
-                              <label>OpenID:</label>
-                              <input type="text" name="openid_identifier"/><input type="submit" value="OpenID Login"/>
-                              <a href="#close" title="Close">Close</a>
-                            </form>
-                        </div>
-                    </div>
-                    <div id="about" class="modal">
-                        <div>
-                 			<img alt="Welcome" id="login-prompt-img" src="icon/netention-logo.png" />
-                             <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
-                              <a href="#close" title="Close">Close</a>
-                        </div>
-                    </div>
-                </div>
-            </div>           
-            
-            
-            
-        </div> 
-        <!-- UI LAYERS -->
 
         <div id="TypeSelectModal" data-backdrop="" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none">
 
