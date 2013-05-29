@@ -21,8 +21,15 @@ function getObservations(t, tags) {
     for (var i = 0; i < t.length; i++) {
         var tt = t[i];        
         var l = [ tt[0], tt[1], tt[2] ];
+        var totalContained = 0;
         for (var k = 0; k < tags.length; k++) {
-            l.push(_.contains(tt[3], tags[k]) ? 1.0 : 0.0) 
+            if (_.contains(tt[3], tags[k]))
+                totalContained++;
+        }
+        if (totalContained > 0) {
+            for (var k = 0; k < tags.length; k++) {
+                l.push(_.contains(tt[3], tags[k]) ? (1.0/totalContained) : 0.0) 
+            }
         }
         obs.push(l);
     }
@@ -45,7 +52,7 @@ function normalize(points, index) {
     return [points, min, max];
 }
 
-var centroids = 3;
+var centroids = 2;
 
 var points = [];
 points.push( [ 0, 0, hoursFromNow(0), ['a', 'b'] ] ); 
