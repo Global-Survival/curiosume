@@ -1041,3 +1041,10 @@ a.openModal {
 a.openModal:hover,
 a.openModal:focus {
 }
+
+.MapControl {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 5000;
+}
