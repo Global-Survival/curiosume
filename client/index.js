@@ -253,6 +253,7 @@ function _updateView(force) {
 
     v.removeClass('ui-widget-content');
     v.removeClass('view-indented');
+    v.removeClass('overthrow');
     v.removeClass('overflow-hidden');
     v.removeClass('nobg');
     
@@ -273,9 +274,9 @@ function _updateView(force) {
         v.addClass('overflow-hidden');
         currentView = renderGraphFocus(s, o, v);
     }
-    else if (view == 'slides') {
+/*    else if (view == 'slides') {
         currentView = renderSlides(s, o, v);
-    }
+    }*/
     else if (view == 'grid') {
         v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderGrid(s, o, v);
@@ -389,14 +390,6 @@ function popupAboutDialog() {
 
 $(document).ready(function() {
 	
-	$('#about-toggle').click(function() {
-		$('#about-netention').fadeIn();
-	});
-	$('#openid-toggle').click(function() {
-		$('#openid-login').fadeIn();
-	});
-
-
     if (!isAuthenticated()) {        
         return;
     }
@@ -404,8 +397,6 @@ $(document).ready(function() {
     $('#LoadingSplash').hide();
     //$('#LoadingSplash2').show();
     
-    $('#View').hide();
-    $('#ViewMenu').hide();
     
     netention(function(self) {
 
@@ -680,4 +671,13 @@ $(document).ready(function() {
 
 });
 
+$(document).ready(function() {
+	
+	$('#about-toggle').click(function() {
+		$('#about-netention').fadeIn();
+	});
+	$('#openid-toggle').click(function() {
+		$('#openid-login').fadeIn();
+	});
 
+});

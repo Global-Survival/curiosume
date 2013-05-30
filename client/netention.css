@@ -524,6 +524,8 @@ body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-f
 	    /* Overthrow CSS:  Enable overflow: auto on elements with overthrow class when html element has overthrow-enabled class */
 	    .overthrow-enabled .overthrow { overflow: auto; -webkit-overflow-scrolling: touch; }
 		.overthrow-enabled #content.overthrow { height: 100%; }
+		.overflow-hidden { overflow:hidden !important; }
+		
 
  /* jQuery UI overrides */
 .ui-widget-header a {color:inherit !important;}
