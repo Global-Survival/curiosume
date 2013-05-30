@@ -560,15 +560,66 @@ function newRoster(s, selectUser) {
     return d;
 }
 
+function hoursFromNow(n) {
+    return Date.now() + 60.0 * 60.0 * 1000.0 * n;
+}
+
+function newSelfTimeList(s, x) {
+    var now = Date.now();
+    var d = newDiv();
+    
+    //var plan = self.get('plan');
+    var plan = {
+        
+    };
+    plan[hoursFromNow(4)] = [ 'Learning', 'Knowledge' ];
+    plan[hoursFromNow(7)] = [ 'Math' ];
+    
+    var planTimes = _.keys(plan);
+    
+    var numHours = 72;
+    var time = Date.now();
+    
+    for (var i = 0; i < numHours; i++) {
+        var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
+        var timed = new Date(time);
+        var t = newDiv();
+        t.addClass('SelfTimePeriod');
+        
+        t.html(timed.toLocaleDateString() + ': ' + timed.toLocaleTimeString());
+        
+        var plans = [];
+        for (var k = 0; k < planTimes.length; k++) {
+            var pp = planTimes[k];
+            if ((pp >= time) && (pp <= endtime))
+                plans.push(plan[pp]);
+        }
+        t.append('<br/>');
+        t.append(plans);
+        if (plans.length > 0)
+            t.addClass('SelfTimeFilled');
+        
+        t.click(function() {
+           alert('Setting time for: ' + (time + endtime)/2.0 );
+        });
+        
+        d.append(t);
+        time += 60.0 * 60.0 * 1000.0 * 1.0;
+    }
+    
+    return d;
+}
+
 function renderSelf(s, o, v) {
        
-    var frame = $('<div/>').attr('class','SelfView');
+    var frame = newDiv().attr('class','SelfView');
     
     var roster = newRoster(s);
     roster.addClass('SelfRoster');
     
-    var contentTags = $('<div/>').attr('class', 'SelfViewTags');
-    var content = $('<div/>').attr('class', 'SelfViewContent');
+    var contentTags = newDiv().attr('class', 'SelfViewTags');
+    var contentTime = newDiv().attr('class', 'SelfViewTime');
+    var content = newDiv().attr('class', 'SelfViewContent');
     
     frame.append(roster);
     frame.append(content);
@@ -580,11 +631,13 @@ function renderSelf(s, o, v) {
         content.html('');
         content.append(newSelfSummary(s, x, content));
         content.append(contentTags);       
+        content.append(contentTime);       
         updateTags(x);
     }
     
     function updateTags(x) {
         contentTags.html(newSelfTagList(s, x, content));
+        contentTime.html(newSelfTimeList(s, x));
         roster.html(newRoster(s, function(x) {
             summaryUser(x);
         }));

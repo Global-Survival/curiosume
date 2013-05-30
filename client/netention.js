@@ -530,9 +530,9 @@ function netention(f) {
         //console.log('loaded clientID: ' + s.get('clientID'));
         var oldCID = s.get('clientID');
         var nextCID = window.clientID;
-        if (nextCID === '')
+        if ((nextCID === '') || (nextCID === undefined))
             nextCID = oldCID;
-        if (nextCID === '')
+        if ((nextCID === '') || (nextCID === undefined))
             nextCID = uuid();
         
         s.set('clientID', nextCID);
