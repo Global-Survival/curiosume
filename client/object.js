@@ -910,7 +910,12 @@ function withObject(uri, success, failure) {
 }
 
 
-function updateTypeTree(a, onSelectionChange, addtoTree) {
+function updateTypeTree(param) {
+    var a = param.target;
+    var onSelectionChange = param.onSelectionChange;
+    var addToTree = param.addtoTree;
+    var newTagLayerDiv = param.newTagDiv;
+    
     var self = window.self;
     
     a.html('');    
@@ -926,14 +931,6 @@ function updateTypeTree(a, onSelectionChange, addtoTree) {
     else {
         stc = self.getTagCount();        
     }
-    
-    var l = self.layer();
-    if (!l.include) 
-        l.include = { };
-    if (!l.exclude)
-        l.exclude = { };
-    if (!l.kml)
-        l.kml = [ ];
                     
     var T = [
 /*        {
@@ -951,14 +948,7 @@ function updateTypeTree(a, onSelectionChange, addtoTree) {
         } */
     ];
 
-    function newTagLayerDiv(id, content) {
-        var ti = getTagIcon(id);
-        if (ti)
-            content = '<img style="height: 1em" src="' + ti + '"/>' + content;
-        return {
-            label: ('<span id="' + id + '" class="TagLayer">' + content + '</span>')
-        };
-    }
+    
     
     function subtree(root, i) {
         var name, xi;
@@ -1020,8 +1010,8 @@ function updateTypeTree(a, onSelectionChange, addtoTree) {
     });    
     othersubtree(T);
     
-    if (addtoTree)
-        addtoTree(T);
+    if (addToTree)
+        addToTree(T);
     
     tree.appendTo(a);   
     a.tree({
@@ -1032,98 +1022,6 @@ function updateTypeTree(a, onSelectionChange, addtoTree) {
 	autoOpen: 2
     });
     
-    function commitLayer() {
-        self.set('layer', l);
-        self.trigger('change:layer');
-        updateLayers();
-    }
-    
-    if (_.size(l.include) > 0) {
-        $('.TagLayer').addClass('TagLayerFaded');
-    }
-    
-    $('.TagLayer').each(function(x) {
-        var t = $(this);
-        var id = t.attr('id');
-        var included = l.include[id]; 
-        var excluded = l.exclude[id];
-        
-        if (included) {
-            t.addClass('TagLayerInclude');
-        }
-        else if (excluded) {
-            t.addClass('TagLayerExclude');
-        }
-        
-        t.click(function() {
-            if ((!included) && (!excluded)) {
-                //make included
-                l.include[id] = true;
-                delete l.exclude[id];
-                commitLayer();
-            }
-            else if (included) {
-                //make excluded
-                delete l.include[id];
-                l.exclude[id] = true;
-                commitLayer();
-            }
-            else {
-                //make neither
-                delete l.include[id];
-                delete l.exclude[id];
-                commitLayer();
-            }
-        });
-    });
-    $('.KMLLayer').each(function(x) {
-        var t = $(this);        
-        var url = t.attr('url');
-        
-        var included = _.contains(l.kml, url);
-        if (included) {
-            t.addClass('TagLayerInclude');
-        }
-        t.click(function() {
-            if (included) {
-                //uninclude
-                l.kml = _.without(l.kml, url);
-                commitLayer();
-            }
-            else {
-                //include
-                l.kml.push(url);
-                commitLayer();
-            }
-        });
-    });
-    
-//    a.delegate("a", "click", function(e) {
-//        /*if ($(e.currentTarget).blur().attr('href').match('^#$')) {
-//            $("#layer-tree").jstree("open_node", this);
-//            return false;
-//        } else {
-//            var embedLocation = (this).href;
-//            $('#View').html('');
-//            $('#View').html('<iframe src="' + embedLocation + '" frameBorder="0" id="embed-frame"></iframe>');
-//            $("#View").removeClass("ui-widget-content");
-//            var vm = $('#ViewMenu');
-//            var shown = vm.is(':visible');
-//            showAvatarMenu(!shown);
-//            e.preventDefault();
-//            return false;
-//        }*/
-//    });
-                   
-    
-    /*
-    //update display of type counts and other type metadata
-    function updateTypeCounts() {
-        for (var t in stc) {
-            $('a:contains("' + t + '")').append(' '+ stc[t]);
-        }    
-    }
-    */
     
     
     return tree;

@@ -23,7 +23,7 @@ function setGeolocatedLocation(map, onUpdated) {
 }
 
 
-function initLocationChooserMap(target, location, zoom, geolocate) {
+function initLocationChooserMap(target, location, zoom, geolocate) {    
     var defaultZoomLevel = zoom || 7;
     
     if ((!location) && (geolocate!=false))
@@ -174,5 +174,8 @@ function geoDist(p1, p2) {
     gp2.lon = p2[1];
     
     //http://dev.openlayers.org/docs/files/OpenLayers/Util-js.html#Util.distVincenty
-    return OpenLayers.Util.distVincenty( gp1, gp2 );
+    if (OpenLayers)
+        return OpenLayers.Util.distVincenty( gp1, gp2 );
+    else
+        return 0;
 }

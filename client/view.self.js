@@ -564,49 +564,91 @@ function hoursFromNow(n) {
     return Date.now() + 60.0 * 60.0 * 1000.0 * n;
 }
 
-function newTagChooserWidget(selected, onClose) {
+function newTagChooserWidget(time, selected, onClose) {
     var d = newDiv();
     
     var e = newDiv();
     e.appendTo(d);
-    updateTypeTree(d, function() { });
+    e.addClass('SelfTimeTagTree');
+    
+    $('.TagChoice').remove();
+    
+    var p = {
+        target: e,
+        newTagDiv: function(id, content) {
+            var ti = getTagIcon(id);
+            if (ti)
+                content = '<img style="height: 1em" src="' + ti + '"/>' + content;
+            return {
+                label: ('<input id="' + id + '" class="TagChoice" type="checkbox"' + (_.contains(selected, id) ? 'selected' : '') + '>' + content + '</input>')
+            };
+        }        
+    };
+    updateTypeTree(p);    
+    
     
     var b = $('<button>Save</button>');
     b.click(function() {
-        onClose();
+        var newTags = [];
+        $('.TagChoice').each(function(x) {
+            var t = $(this);
+            var tag = t.attr('id');
+            if (t.is(':checked'))
+                newTags.push(tag);
+        });
+        onClose(newTags);
     });
-    d.append(b);
+    d.prepend(b);
     
     return d;
 }
 
-function newSelfTimeList(s, x) {
+function newSelfTimeList(s, x, container) {
 
-    var now = Date.now();
-    var d = newDiv();
+    var now = Date.now();    
+    var plan = x.plan;
+    if (!plan)
+        plan = { };
     
-    //var plan = self.get('plan');
-    
-    var plan = x.plan || { };
-//        plan[hoursFromNow(4)] = [ 'Learning', 'Knowledge' ];
-//        plan[hoursFromNow(7)] = [ 'Math' ];
+    var numHours = 72;
 
     function save() {
-        if (x.id === s.myself().id)
+        if (x.id !== s.myself().id)
             return;
         var me = s.myself();
+        plan = { };
+        for (var i = 0; i < numHours; i++) {
+            var tt = planSlotTimes[i];
+            if (planSlots[i].length > 0)
+                plan[tt] = planSlots[i];
+            
+        }
         me.plan = plan;
-        s.notice( me );
-        saveLocal();
+        container.html(newSelfTimeList(s,self.myself(),container));
+        /*s.notice(me);
+        s.pub(me, function(err) {
+            $.pnotify({
+               title: 'Unable to save Self.',
+               type: 'Error',
+               text: err
+            });           
+        }, function() {
+            $.pnotify({
+               title: 'Self Saved.'            
+            });           
+        });*/
     }
     
     var planTimes = _.keys(plan);
     
-    var numHours = 72;
     var time = Date.now();
     
+    var d = newDiv();
+    
+    var planSlotTimes = { };
     var planSlots = { };
     
+    console.log('load: ', plan);
     for (var i = 0; i < numHours; i++) {
         var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
         var timed = new Date(time);
@@ -621,6 +663,7 @@ function newSelfTimeList(s, x) {
             if ((pp >= time) && (pp <= endtime))
                 plans.push(plan[pp]);
         }
+        planSlotTimes[i] = time;
         planSlots[i] = plans;
         
         t.append('<br/>');
@@ -632,11 +675,14 @@ function newSelfTimeList(s, x) {
             (function(i, time, endtime) {
                 t.click(function() {
                     var targetTime = (time + endtime)/2.0;
-                    var d = newPopup("Select Tags for " + new Date(targetTime), {width: 300});
-                    d.append(newTagChooserWidget(planSlots[i], function(results) {
+                    var d = newPopup("Select Tags for " + new Date(targetTime), {width: 300, modal: true});
+                    d.append(newTagChooserWidget(targetTime, planSlots[i], function(results) {
                         planSlots[i] = results;
-                        save();                    
-                        d.dialog('close');
+                        later(function() {
+                            save();                    
+                            d.dialog('close');                        
+                        });
+                        //container.html(newSelfTimeList(s, x, container));
                     }));
                 });
             })(i, time, endtime);
@@ -676,7 +722,7 @@ function renderSelf(s, o, v) {
     
     function updateTags(x) {
         contentTags.html(newSelfTagList(s, x, content));
-        contentTime.html(newSelfTimeList(s, x));
+        contentTime.html(newSelfTimeList(s, x, contentTime));
         roster.html(newRoster(s, function(x) {
             summaryUser(x);
         }));
