@@ -32,6 +32,50 @@ function updateFocus() {
 function updateLayers() {
     updateTypeTree($('#Layer'), function(x) {
         
+    }, function(T) {
+
+        function kmlsubtree(root) {
+            var kmlFolder = {
+                label: 'Map Layer',
+                children: []
+            };      
+
+            function addKML(label, url) {
+                kmlFolder.children.push({
+                    label: ('<span url="' + url + '" class="KMLLayer">' + label + '</span>'),
+                });
+            }
+            addKML('HAARP', '/kml/haarp.kml');
+            addKML('HPM', '/kml/hpm-radars.kml');
+            addKML('NUKE', '/kml/nuke-explosions.kml');
+
+            root.push(kmlFolder);
+        }
+        function externalsubtree(root) {
+            var extFolder = {
+                label: 'External Link',
+                children: []
+            }; 
+            var t = [
+                {
+                    label: 'Global Alerts',
+                    children: [
+                        {
+                            label: 'ClimateViewer 3D',
+                            url: 'http://climateviewer.com/3D/'
+                        },
+                        {
+                            label: 'RSOE EDIS',
+                            url: 'http://hisz.rsoe.hu/alertmap/index2.php'
+                        }
+                    ]
+                }
+            ];
+            root.push(extFolder);        
+        }
+
+        kmlsubtree(T);
+        externalsubtree(T);        
     });
 }
 

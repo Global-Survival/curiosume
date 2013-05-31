@@ -566,7 +566,10 @@ function hoursFromNow(n) {
 
 function newTagChooserWidget(selected, onClose) {
     var d = newDiv();
-    d.append('tag tree: ' + selected);
+    
+    var e = newDiv();
+    e.appendTo(d);
+    updateTypeTree(d, function() { });
     
     var b = $('<button>Save</button>');
     b.click(function() {
@@ -578,15 +581,24 @@ function newTagChooserWidget(selected, onClose) {
 }
 
 function newSelfTimeList(s, x) {
+
     var now = Date.now();
     var d = newDiv();
     
     //var plan = self.get('plan');
-    var plan = {
-        
-    };
-    plan[hoursFromNow(4)] = [ 'Learning', 'Knowledge' ];
-    plan[hoursFromNow(7)] = [ 'Math' ];
+    
+    var plan = x.plan || { };
+//        plan[hoursFromNow(4)] = [ 'Learning', 'Knowledge' ];
+//        plan[hoursFromNow(7)] = [ 'Math' ];
+
+    function save() {
+        if (x.id === s.myself().id)
+            return;
+        var me = s.myself();
+        me.plan = plan;
+        s.notice( me );
+        saveLocal();
+    }
     
     var planTimes = _.keys(plan);
     
@@ -615,16 +627,20 @@ function newSelfTimeList(s, x) {
         t.append(plans);
         if (plans.length > 0)
             t.addClass('SelfTimeFilled');
-                
-        (function(i) {
-            t.click(function() {
-                var targetTime = (time + endtime)/2.0;
-                var d = newPopup("Select Tags for " + new Date(targetTime), {width: 300});
-                d.append(newTagChooserWidget(planSlots[i], function() {
-                    d.dialog('close');
-                }));
-            });
-        })(i);
+
+        if (x.id === s.myself().id) { //only edit own plan
+            (function(i, time, endtime) {
+                t.click(function() {
+                    var targetTime = (time + endtime)/2.0;
+                    var d = newPopup("Select Tags for " + new Date(targetTime), {width: 300});
+                    d.append(newTagChooserWidget(planSlots[i], function(results) {
+                        planSlots[i] = results;
+                        save();                    
+                        d.dialog('close');
+                    }));
+                });
+            })(i, time, endtime);
+        }
         
         d.append(t);
         time += 60.0 * 60.0 * 1000.0 * 1.0;
