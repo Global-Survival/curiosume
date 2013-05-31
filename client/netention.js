@@ -296,26 +296,22 @@ function netention(f) {
             deleteObject: function(x, localOnly) {
                 
                 var id = x.id;
-            	
-                /*
-            	if (isSelfObject(id)) {
-            		alert('Can not delete user profiles');
-            		return;
-            	}
-                */
-            	
-                this.get('deleted')[id] = Date.now();
-            	delete (this.objects())[id];	
-            	
-                //remove from replies
-                for (var k in this.get('replies')) {
-                    this.get('replies')[k] = _.without(this.get('replies')[k], id);
+            	var that = this;
+                
+                function removeLocal() {
+                    that.get('deleted')[id] = Date.now();
+                    delete (that.objects())[id];	
+
+                    //remove from replies
+                    for (var k in that.get('replies')) {
+                        that.get('replies')[k] = _.without(that.get('replies')[k], id);
+                    }
+                    //remove its replies
+                    var replies = that.get('replies')[id];
+                    if (replies)
+                        for (var k = 0; k < replies.length; k++)
+                            that.deleteObject(k, true);
                 }
-                //remove its replies
-                var replies = this.get('replies')[id];
-                if (replies)
-                    for (var k = 0; k < replies.length; k++)
-                        this.deleteObject(k, true);
                 
                 if (!localOnly) {
                     var that = this;
@@ -332,15 +328,20 @@ function netention(f) {
                                     addclass: "stack-bottomleft",
                                     stack: stack_bottomleft
                                 });   
+                                
+                                removeLocal();
                             }
                             else {
-                                console.dir(err);
+                                //console.dir(err);
                                 $.pnotify({
                                     title: 'Unable to delete: ' + err,
                                     text: id                        
                                 });                           
                             }
                 	});
+                }
+                else {
+                    removeLocal();
                 }
             	
             },

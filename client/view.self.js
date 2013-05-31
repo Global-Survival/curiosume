@@ -564,6 +564,19 @@ function hoursFromNow(n) {
     return Date.now() + 60.0 * 60.0 * 1000.0 * n;
 }
 
+function newTagChooserWidget(selected, onClose) {
+    var d = newDiv();
+    d.append('tag tree: ' + selected);
+    
+    var b = $('<button>Save</button>');
+    b.click(function() {
+        onClose();
+    });
+    d.append(b);
+    
+    return d;
+}
+
 function newSelfTimeList(s, x) {
     var now = Date.now();
     var d = newDiv();
@@ -580,6 +593,8 @@ function newSelfTimeList(s, x) {
     var numHours = 72;
     var time = Date.now();
     
+    var planSlots = { };
+    
     for (var i = 0; i < numHours; i++) {
         var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
         var timed = new Date(time);
@@ -594,14 +609,22 @@ function newSelfTimeList(s, x) {
             if ((pp >= time) && (pp <= endtime))
                 plans.push(plan[pp]);
         }
+        planSlots[i] = plans;
+        
         t.append('<br/>');
         t.append(plans);
         if (plans.length > 0)
             t.addClass('SelfTimeFilled');
-        
-        t.click(function() {
-           alert('Setting time for: ' + (time + endtime)/2.0 );
-        });
+                
+        (function(i) {
+            t.click(function() {
+                var targetTime = (time + endtime)/2.0;
+                var d = newPopup("Select Tags for " + new Date(targetTime), {width: 300});
+                d.append(newTagChooserWidget(planSlots[i], function() {
+                    d.dialog('close');
+                }));
+            });
+        })(i);
         
         d.append(t);
         time += 60.0 * 60.0 * 1000.0 * 1.0;
