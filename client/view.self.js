@@ -576,11 +576,12 @@ function newTagChooserWidget(time, selected, onClose) {
     var p = {
         target: e,
         newTagDiv: function(id, content) {
+            //console.log(id, selected, _.contains(selected, id));
             var ti = getTagIcon(id);
             if (ti)
                 content = '<img style="height: 1em" src="' + ti + '"/>' + content;
             return {
-                label: ('<input id="' + id + '" class="TagChoice" type="checkbox"' + (_.contains(selected, id) ? 'selected' : '') + '>' + content + '</input>')
+                label: ('<input id="' + id + '" class="TagChoice" type="checkbox" ' + (_.contains(selected, id) ? 'selected' : '') + '>' + content + '</input>')
             };
         }        
     };
@@ -598,6 +599,12 @@ function newTagChooserWidget(time, selected, onClose) {
         });
         onClose(newTags);
     });
+    
+    var c = $('<button>Other...</button>');
+    c.click(function() {
+        alert('This will eventually popup a Wikitagger');
+    });
+    d.prepend(c);    
     d.prepend(b);
     
     return d;
@@ -648,7 +655,6 @@ function newSelfTimeList(s, x, container) {
     var planSlotTimes = { };
     var planSlots = { };
     
-    console.log('load: ', plan);
     for (var i = 0; i < numHours; i++) {
         var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
         var timed = new Date(time);
@@ -661,10 +667,10 @@ function newSelfTimeList(s, x, container) {
         for (var k = 0; k < planTimes.length; k++) {
             var pp = planTimes[k];
             if ((pp >= time) && (pp <= endtime))
-                plans.push(plan[pp]);
+                plans = plans.concat(plan[pp]);
         }
         planSlotTimes[i] = time;
-        planSlots[i] = plans;
+        planSlots[i] = _.unique(plans);
         
         t.append('<br/>');
         t.append(plans);
