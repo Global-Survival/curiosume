@@ -577,7 +577,6 @@ function newTagChooserWidget(time, selected, onClose) {
     var p = {
         target: e,
         newTagDiv: function(id, content) {
-            console.log(id, selected, _.contains(selected, id));
             var ti = getTagIcon(id);
             if (ti)
                 content = '<img style="height: 1em" src="' + ti + '"/>' + content;
@@ -613,7 +612,6 @@ function newTagChooserWidget(time, selected, onClose) {
 
 function newSelfTimeList(s, x, container) {
 
-    var now = Date.now();    
     var plan = x.plan;
     if (!plan)
         plan = { };
@@ -634,7 +632,9 @@ function newSelfTimeList(s, x, container) {
         me.plan = plan;
         container.html(newSelfTimeList(s,self.myself(),container));
         
-        $('.SelfSaveButton').click(); //HACK
+        later(function() {
+            $('.SelfSaveButton').click(); //HACK            
+        });
         /*s.notice(me);
         s.pub(me, function(err) {
             $.pnotify({
@@ -651,7 +651,11 @@ function newSelfTimeList(s, x, container) {
     
     var planTimes = _.keys(plan);
     
-    var time = Date.now();
+    var time = new Date();
+    time.setMinutes(0);
+    time.setSeconds(0);
+    time.setMilliseconds(0);
+    time = time.getTime();
     
     var d = newDiv();
     
@@ -669,7 +673,7 @@ function newSelfTimeList(s, x, container) {
         var plans = [];
         for (var k = 0; k < planTimes.length; k++) {
             var pp = planTimes[k];
-            if ((pp >= time) && (pp <= endtime))
+            if ((pp >= time) && (pp < endtime))
                 plans = plans.concat(plan[pp]);
         }
         planSlotTimes[i] = time;
@@ -698,7 +702,7 @@ function newSelfTimeList(s, x, container) {
         }
         
         d.append(t);
-        time += 60.0 * 60.0 * 1000.0 * 1.0;
+        time = endtime;
     }
     
     return d;
