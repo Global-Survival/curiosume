@@ -432,6 +432,7 @@ function newSelfSummary(s, user, content) {
         bio.append(resetButton);
     
         var saveButton = $('<button><b>Save</b></button>');
+        saveButton.addClass('SelfSaveButton');
         bio.append(saveButton);
 
         saveButton.click(function() {
@@ -576,7 +577,7 @@ function newTagChooserWidget(time, selected, onClose) {
     var p = {
         target: e,
         newTagDiv: function(id, content) {
-            //console.log(id, selected, _.contains(selected, id));
+            console.log(id, selected, _.contains(selected, id));
             var ti = getTagIcon(id);
             if (ti)
                 content = '<img style="height: 1em" src="' + ti + '"/>' + content;
@@ -632,6 +633,8 @@ function newSelfTimeList(s, x, container) {
         }
         me.plan = plan;
         container.html(newSelfTimeList(s,self.myself(),container));
+        
+        $('.SelfSaveButton').click(); //HACK
         /*s.notice(me);
         s.pub(me, function(err) {
             $.pnotify({
