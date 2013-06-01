@@ -760,12 +760,15 @@ exports.start = function(host, port, database, init) {
         });
     });
     
-    express.get('/users/plan', function(req, res) {
-       var j = { };
-       var allPlan = [];
+    function getPlan(withPlan) {
+        var allPlan = [];
+        var now = Date.now();
         getObjectsByTag('User', function(x) {
             if (x.plan) {
                 for (var t in x.plan) {
+                    var tp = parseInt(t);
+                    if (tp < now) 
+                        continue;
                     var tt = x.plan[t];
                     var geo = util.objSpacePoint(x);
                     var lat = null;
@@ -774,11 +777,23 @@ exports.start = function(host, port, database, init) {
                         lat = geo.lat;
                         lon = geo.lon;
                     }
-                    allPlan.push([parseInt(t), util._n(lat, 4), util._n(lon, 4), x.id, tt]);
+                    allPlan.push([util._n(lat, 4), util._n(lon, 4), tp, tt, x.id]);
                 }
             }                   
         }, function() {
-            sendJSON(res, allPlan);
+            withPlan(allPlan);
+        });        
+    }
+    
+    express.get('/users/plan', function(req, res) {
+        getPlan(function(p) {
+           sendJSON(res, p); 
+        });
+    });
+    express.get('/users/plan/cluster', function(req, res) {
+        getPlan(function(p) {
+           var kmeans = require('./kmeans.js');           
+           sendJSON(res, kmeans.getCentroids(p, 3));
         });
     });
     express.get('/users/json', function(req, res) {

@@ -8,14 +8,20 @@
         
     </head>
     <body>
-        <div id="plan_output">
-            Calculating..
+        <div id="plan">
+            Loading
         </div>
+        <pre id="cluster">
+            Calculating..
+        </pre>
     </body>
     <script>
         $(document).ready(function() {
            $.get('/users/plan', function(d) {
-              $('#plan_output').html(d);
+              $('#plan').text(d);
+              $.get('/users/plan/cluster', function(e) {
+                   $('#cluster').text(JSON.stringify(e, null, 4));
+              });
            });
         });
     </script>
