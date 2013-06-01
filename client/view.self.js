@@ -587,7 +587,6 @@ function newTagChooserWidget(time, selected, onClose) {
     };
     updateTypeTree(p);    
     
-    
     var b = $('<button>Save</button>');
     b.click(function() {
         var newTags = [];
@@ -604,7 +603,12 @@ function newTagChooserWidget(time, selected, onClose) {
     c.click(function() {
         alert('This will eventually popup a Wikitagger');
     });
+    var e = $('<button>Who</button>');
+    e.click(function() {
+        alert('This will eventually popup a person selector');
+    });
     d.prepend(c);    
+    d.prepend(e)
     d.prepend(b);
     
     return d;

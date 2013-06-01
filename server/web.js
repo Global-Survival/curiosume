@@ -760,6 +760,27 @@ exports.start = function(host, port, database, init) {
         });
     });
     
+    express.get('/users/plan', function(req, res) {
+       var j = { };
+       var allPlan = [];
+        getObjectsByTag('User', function(x) {
+            if (x.plan) {
+                for (var t in x.plan) {
+                    var tt = x.plan[t];
+                    var geo = util.objSpacePoint(x);
+                    var lat = null;
+                    var lon = null;
+                    if (geo) {
+                        lat = geo.lat;
+                        lon = geo.lon;
+                    }
+                    allPlan.push([parseInt(t), util._n(lat, 4), util._n(lon, 4), x.id, tt]);
+                }
+            }                   
+        }, function() {
+            sendJSON(res, allPlan);
+        });
+    });
     express.get('/users/json', function(req, res) {
        res.redirect('/tag/User/json');        
     });

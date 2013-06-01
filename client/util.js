@@ -6,9 +6,10 @@ else {
     _ = require('underscore');    
 }
 
-function _n(x) {    
+function _n(x, places) {    
+    if (!places) places = 2;
     if (x == undefined) return '0';
-    return x.toFixed(2);  
+    return x.toFixed(places);  
 }  //formats numbers to string w/ 2 decimal places
 exports._n = _n;
     

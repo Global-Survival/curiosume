@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <script src="lib/jquery/jquery.js" type="text/javascript"></script>
+        
+    </head>
+    <body>
+        <div id="plan_output">
+            Calculating..
+        </div>
+    </body>
+    <script>
+        $(document).ready(function() {
+           $.get('/users/plan', function(d) {
+              $('#plan_output').html(d);
+           });
+        });
+    </script>
+        
+</html>
