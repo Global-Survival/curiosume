@@ -640,21 +640,21 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
     
     var mini = (depthRemaining == 0);
     
-	var fs = (0.5 + r)*100.0 + '%';
-	
-	var d = $('<div class="objectView ui-widget-content ui-corner-all" style="font-size:' + fs + '">');
-	var xn = x.name;
-	var authorID = x.author;
-	
-	if (!isSelfObject(x.id)) { //exclude Self- objects
-		if (x.author) {
-			var a = x.author;
-			var as = self.getSelf(x.author);
-			if (as)
-				a = as.name;
-			xn = a + ': ' + xn;
-		}
-	}
+    var fs = (0.5 + r)*100.0 + '%';
+
+    var d = $('<div class="objectView ui-widget-content ui-corner-all" style="font-size:' + fs + '">');
+    var xn = x.name;
+    var authorID = x.author;
+
+    if (!isSelfObject(x.id)) { //exclude Self- objects
+            if (x.author) {
+                    var a = x.author;
+                    var as = self.getSelf(x.author);
+                    if (as)
+                            a = as.name;
+                    xn = a + ': ' + xn;
+            }
+    }
 
     var replies = newDiv();
     
