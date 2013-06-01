@@ -59,11 +59,15 @@ function getAvatarURL(email) {
 
 function newTagButton(t) {
     var ti = getTagIcon(t.uri);
-    var i = '';
-    if (ti!=null)
-        i = '<img src="' + ti + '"/>';
+    var i = null;
+    if (ti!=null) {
+        i = $(document.createElement('img')).attr('src', ti);
+    }
 
-    var b = $('<a href="/property/' + t.id + '">' + (i) + t.name + '</a>');
+    var b = $(document.createElement('a')).attr('href', '#');
+    if (i)
+        b.append(i);
+    b.append(t.name);
     return b;
 }
 
