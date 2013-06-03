@@ -58,6 +58,9 @@ function newSelfTimeList(x, container) {
     var planSlotTimes = { };
     var planSlots = { };
     
+    var centroidTimes = self.objectsWithTag('PlanCentroid');
+    if (!centroidTimes) centroidTimes = [];
+    
     for (var i = 0; i < numHours; i++) {
         var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
         var timed = new Date(time);
@@ -79,6 +82,15 @@ function newSelfTimeList(x, container) {
         
         
         var plans = [];
+        var centroids = [];
+        for (var k = 0; k < centroidTimes.length; k++) {
+            var pp = centroidTimes[k];
+            var ppo = self.object(pp);
+            var ppw = objWhen(ppo);
+            if ((ppw >= time) && (ppw < endtime))
+                centroids.push(ppo);
+        }
+        
         for (var k = 0; k < planTimes.length; k++) {
             var pp = planTimes[k];
             if ((pp >= time) && (pp < endtime))
@@ -92,6 +104,11 @@ function newSelfTimeList(x, container) {
             t.append(newTagButton(p));
             t.append('&nbsp;');
         });
+        
+        _.each(centroids, function(c) {
+            u.append(renderObjectSummary(c));
+        });
+        
         if (plans.length > 0)
             t.addClass('SelfTimeFilled');
 

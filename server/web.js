@@ -59,7 +59,7 @@ exports.start = function(host, port, database, init) {
         getObjectsByTag('PlanCentroid', function(o) {      
             objs.push(o);
         }, function() {
-            console.log('deleting: ' + objs.length);
+            //TODO create deleteObjects function that does this
             function d() {
                 var n = objs.pop();
                 if (n) {
@@ -75,12 +75,13 @@ exports.start = function(host, port, database, init) {
                 return;
             
             var kmeans = require('./kmeans.js');
-            var centroids = p.length-1;
+            var centroids = Math.round(Math.pow(p.length, 0.75)); //a sub-exponential curve, steeper than log(x) and sqrt(x)
             var c = kmeans.getSpaceTimeTagCentroids(p, centroids);
                 
             
             for (var i = 0; i < c.length; i++) {
                 var cc = c[i];
+                
                 var x = util.objNew();
                 x.name = 'Plan Centroid ' + i;
                 util.objAddGeoLocation(x, parseFloat(cc.location[0]), parseFloat(cc.location[1]));
@@ -209,7 +210,7 @@ exports.start = function(host, port, database, init) {
             db.close();
 
             if (err) {
-                nlog('deleteObject: ' + err);
+                nlog('error deleting ' + objectID + ':' + err);
                 if (whenFinished)
                     whenFinished(err);
             }

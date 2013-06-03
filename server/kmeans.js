@@ -60,7 +60,7 @@ function getSpaceTimeTagCentroids(points, centroids) {
     
     var km = kmeans.create(obs, centroids);
 
-    var maxIterations = 3;
+    var maxIterations = 64;
     var result;
     for (var i = 0; i < maxIterations; i++) {
         if (km._iterate()) {
@@ -73,6 +73,7 @@ function getSpaceTimeTagCentroids(points, centroids) {
         else {
             break;
         }
+        console.log('iteration', i);
         i++;        
     }
 

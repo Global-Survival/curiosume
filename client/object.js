@@ -875,6 +875,7 @@ function renderObjectSummary(x, onRemoved, r, depthRemaining) {
             mdline.append(tt);
         }
         else {            
+            mdline.append('&nbsp;');
             mdline.append(new Date(ww));
         }
         
