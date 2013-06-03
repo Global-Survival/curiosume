@@ -442,6 +442,10 @@ function _updateView(force) {
         v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderSelf(s, o, v);
     }
+    else if (view == 'plan') {
+        v.addClass('overthrow ui-widget-content view-indented');
+        currentView = renderPlan(s, v);
+    }
     else if (view == 'options') {
         v.addClass('overthrow ui-widget-content view-indented');
         currentView = renderOptions(s, o, v);
