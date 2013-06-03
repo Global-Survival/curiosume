@@ -184,7 +184,7 @@ function renderList(s, o, v) {
         for (var i = 0; i < xxrr.length; i++) {
             var x = xxrr[i][0];
             var r = xxrr[i][1];
-            elements.push(renderObjectSummary(s, x, function() { }, r, 1 ));
+            elements.push(renderObjectSummary(x, function() { }, r, 1 ));
         }
         v.append(elements);
     });

@@ -95,7 +95,7 @@ function updateLayers() {
             };
         }        
     };
-    updateTypeTree(p);
+    newTagTree(p);
     
     function commitLayer() {
         self.set('layer', l);
@@ -197,22 +197,6 @@ function commitFocus(f) {
     window.self.trigger('change:focus');
     updateFocus();
 }
-
-/*function initFocus() {
-    var tt = $('#TypeSelectModalTree');
-
-    updateTypeTree(tt, function(s) {
-
-        var e = renderedFocus.getEditedFocus();
-        for (var i = 0; i < s.length; i++) {
-            var m = s[i];
-            if (!objHasTag(e, m))
-                e = objAddTag(e, m);
-        }
-        commitFocus(e);
-
-    });
-}*/
 
 function saveObject(p) {
     p.author = self.id();
@@ -444,7 +428,7 @@ function _updateView(force) {
     }
     else if (view == 'plan') {
         v.addClass('overthrow ui-widget-content view-indented');
-        currentView = renderPlan(s, v);
+        currentView = renderPlan(v);
     }
     else if (view == 'options') {
         v.addClass('overthrow ui-widget-content view-indented');
@@ -556,8 +540,6 @@ $(document).ready(function() {
     }
     
     $('#LoadingSplash').hide();
-    //$('#LoadingSplash2').show();
-    
     
     netention(function(self) {
 
@@ -730,18 +712,6 @@ $(document).ready(function() {
     $('#FocusEdit button').button();
     $("#ViewControls").buttonset();
     
-
-
-    /*
-     * 
-     $("#expand-layer-tree").click(function() {
-        $("#layer-tree").jstree("open_all");
-    });
-
-    $("#close-layer-tree").click(function() {
-        $("#layer-tree").jstree("close_all");
-    });
-     */
 
     //KML
     {        

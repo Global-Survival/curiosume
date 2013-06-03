@@ -531,16 +531,16 @@ function newSelfSummary(s, user, content) {
 }
 
 
-function newRoster(s, selectUser) {
-    var users = s.objectsWithTag('User');
+function newRoster(selectUser) {
+    var users = self.objectsWithTag('User');
 
     var d = newDiv();
 
     var anonymous = [];
     
     function h(x) {
-        var sx = renderObjectSummary(s, x, null, 0.5, 0);        
-        if (x.id === s.myself().id) {
+        var sx = renderObjectSummary(x, null, 0.5, 0);        
+        if (x.id === self.myself().id) {
             sx.find('h1 a').append(' (me)');
             d.prepend(sx);            
         }
@@ -554,7 +554,7 @@ function newRoster(s, selectUser) {
     }
     
     for (var i = 0; i < users.length; i++) {
-        var x = s.object(users[i]);
+        var x = self.object(users[i]);
         if (x.name === 'Anonymous') {
             anonymous.push(x);
             continue;
@@ -593,7 +593,7 @@ function newTagChooserWidget(time, selected, onClose) {
             };
         }        
     };
-    updateTypeTree(p);    
+    newTagTree(p);    
     
     var b = $('<button>Save</button>');
     b.click(function() {
@@ -650,7 +650,7 @@ function renderSelf(s, o, v) {
     
     function updateTags(x) {
         contentTags.html(newSelfTagList(s, x, content));
-        contentTime.html(newSelfTimeList(s, x, contentTime));
+        contentTime.html(newSelfTimeList(x, contentTime));
         roster.html(newRoster(s, function(x) {
             summaryUser(x);
         }));

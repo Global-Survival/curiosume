@@ -7,7 +7,7 @@ function renderGrid(s, o, v) {
         for (var i = 0; i < xxrr.length; i++) {
             var x = xxrr[i][0];
             var r = xxrr[i][1];
-            var o = renderObjectSummary(s, x, function() {
+            var o = renderObjectSummary(x, function() {
             }, r, 1);
             o.addClass('objectGridItem');
             elements.push(o);

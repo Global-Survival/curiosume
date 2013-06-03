@@ -36,7 +36,7 @@ function newPopupObjectView(_x) {
     }
     
     var d = newPopup(x.name);
-    d.append(renderObjectSummary(window.self, x, null, 1.0, 4));
+    d.append(renderObjectSummary(x, null, 1.0, 4));
     return d;
     
 }
@@ -608,7 +608,7 @@ function renderTagSection(x, index, t, editable, whenSaved, onAdd, onRemove, onS
     return d;
 }
 
-function newPropertyView(self, vv) {
+function newPropertyView(vv) {
     var p = self.getProperty(vv.id);
     if (!p)
         return ('<li>' + vv.id + ': ' + vv.value + '</li>');
@@ -647,7 +647,7 @@ function newPropertyView(self, vv) {
 
 
 
-function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
+function renderObjectSummary(x, onRemoved, r, depthRemaining) {
 
     if (!x) {
         return newDiv().html('Object Missing');
@@ -680,7 +680,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
             //TODO sort the replies by age, oldest first
             for (var i = 0; i < r.length; i++) {
                 var p = r[i];
-                replies.append(renderObjectSummary(self, self.getObject(p), null, r*0.618, depthRemaining-1));
+                replies.append(renderObjectSummary(self.getObject(p), null, r*0.618, depthRemaining-1));
             }
         }
         else {
@@ -890,7 +890,7 @@ function renderObjectSummary(self, x, onRemoved, r, depthRemaining) {
             for (var vi = 0; vi < x.value.length; vi++) {
                 var vv = x.value[vi];
                 if (self.isProperty(vv.id))
-                    ud.append(newPropertyView(self, vv));
+                    ud.append(newPropertyView(vv));
                 }
         }
     }
@@ -929,7 +929,7 @@ function withObject(uri, success, failure) {
 }
 
 
-function updateTypeTree(param) {
+function newTagTree(param) {
     var a = param.target;
     var onSelectionChange = param.onSelectionChange;
     var addToTree = param.addtoTree;

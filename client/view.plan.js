@@ -1,11 +1,12 @@
-function renderPlan(s, target) {
-    var d = newSelfTimeList(s, s.myself(), target);
+function renderPlan(target) {
+    var d = newSelfTimeList(self.myself(), target);
     target.append(d);
     return d;
 }
 
-function newSelfTimeList(s, x, container) {
+function newSelfTimeList(x, container) {
 
+    var s = self;
     var plan = x.plan;
     if (!plan)
         plan = { };
@@ -22,7 +23,7 @@ function newSelfTimeList(s, x, container) {
                 plan[tt] = planSlots[i];
             
         }
-        container.html(newSelfTimeList(s,self.myself(),container));
+        container.html(newSelfTimeList(self.myself(),container));
         
         later(function() {
             saveSelf(function(m) {
