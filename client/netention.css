@@ -237,9 +237,13 @@ div.olMapViewport {
     font-weight: bold;
     font-size: 125%;
 }
-.tagLabel img {
+.tagLabel img { /* may not be necessary anymore since adding .TagButtonIcon */
     height: 1em;
     margin-right: 0.25em;
+}
+.TagButtonIcon {
+    height: 1em;
+    margin-right: 0.25em;    
 }
 
 .tag25 { opacity: 0.7; font-size: 70%  }
@@ -632,8 +636,10 @@ body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-f
 	.SelfAddTagButton { float: right; width: auto; }
 	.SelfViewButtonPanel { clear: both; padding-bottom: 2.5em; border-bottom: 1px solid gray; margin-bottom: 1.0em; }
 	.SelfView textarea { width: 100%; height: 5em; }
-        .SelfTimePeriod { border: 1px solid black; margin: 1px; cursor:crosshair; }
-        .SelfTimeFilled { background-color: rgba(1,1,1,0.2); }
+        .SelfTimeRowHeader { width: 25%; float: left; clear: both; text-align: right; vertical-align: top; }
+        .SelfTimeWantToPeriod { width: 25%; float: left; border: 1px solid gray; margin: 1px; cursor:crosshair; vertical-align: top; }
+        .SelfTimeCouldDoPeriod { width: 25%; float: left;  margin: 1px; vertical-align: top; }
+        .SelfTimeFilled { background-color: rgba(125,125,125,0.2); }
         .SelfTimeTagTree { max-height: 400px; overflow: scroll; } 
 .nameInput { padding:3px; text-indent:15px; }
 

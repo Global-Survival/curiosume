@@ -58,16 +58,31 @@ function getAvatarURL(email) {
 }
 
 function newTagButton(t) {
-    var ti = getTagIcon(t.uri);
+    var ti = null;
+    if (!t.uri) {
+        var tagObject = window.self.getTag(t);
+        if (tagObject)        
+            t = tagObject;
+    }
+    if (t.uri) {
+        ti = getTagIcon(t.uri);
+    }
+        
+    
     var i = null;
     if (ti!=null) {
-        i = $(document.createElement('img')).attr('src', ti);
+        i = $(document.createElement('img')).attr('src', ti).attr('class','TagButtonIcon');
     }
 
     var b = $(document.createElement('a')).attr('href', '#');
     if (i)
         b.append(i);
-    b.append(t.name);
+    
+    if (t.name)
+        b.append(t.name);
+    else
+        b.append(t);
+    
     return b;
 }
 

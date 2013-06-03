@@ -59,10 +59,22 @@ function newSelfTimeList(s, x, container) {
     for (var i = 0; i < numHours; i++) {
         var endtime = time + 60.0 * 60.0 * 1000.0 * 1.0;
         var timed = new Date(time);
-        var t = newDiv();
-        t.addClass('SelfTimePeriod');
+        var rowHeader = newDiv();
+        rowHeader.addClass('SelfTimeRowHeader');
         
-        t.html(timed.toLocaleDateString() + ': ' + timed.toLocaleTimeString());
+        if (i % 24 == 0) {
+            rowHeader.html(timed.toLocaleDateString() + ': ' + timed.toLocaleTimeString());            
+        }
+        else {
+            rowHeader.html(timed.toLocaleTimeString());                        
+        }
+        
+        var t = newDiv();
+        t.addClass('SelfTimeWantToPeriod');
+        
+        var u = newDiv();
+        u.addClass('SelfTimeCouldDoPeriod');
+        
         
         var plans = [];
         for (var k = 0; k < planTimes.length; k++) {
@@ -74,7 +86,10 @@ function newSelfTimeList(s, x, container) {
         planSlots[i] = _.unique(plans);
         
         t.append('<br/>');
-        t.append(plans);
+        _.each(plans, function(p) {
+            t.append(newTagButton(p));
+            t.append('&nbsp;');
+        });
         if (plans.length > 0)
             t.addClass('SelfTimeFilled');
 
@@ -95,7 +110,9 @@ function newSelfTimeList(s, x, container) {
             })(i, time, endtime);
         }
         
+        d.append(rowHeader);
         d.append(t);
+        d.append(u);
         time = endtime;
     }
     
