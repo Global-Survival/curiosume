@@ -78,6 +78,8 @@ function getCentroids(points, centroids) {
 
     
     var m = result.means;
+    var cc = result.clusters;
+    
     var results = [];
     for (var i = 0; i < m.length; i++) {
         var mm = m[i];

@@ -52,6 +52,46 @@ exports.start = function(host, port, database, init) {
     var databaseUrl = Server.database || process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
     var collections = ["obj"];
 
+
+    var currentCentroids = [];
+    
+    function _updateCentroids() {
+        getPlan(function(p) {            
+            if (p.length < 2)
+                return;
+            
+            var kmeans = require('./kmeans.js');
+            var centroids = p.length-1;
+            var c = kmeans.getCentroids(p, centroids);
+            
+            //console.log('centroids:');
+            //console.log(c);
+    
+            for (var i = 0; i < currentCentroids.legnth; i++) {
+                var cc = currentCentroids[i];
+                deleteObject(cc.id);
+            }
+            currentCentroids = [];
+            
+            for (var i = 0; i < c.length; i++) {
+                var cc = c[i];
+                var x = util.objNew();
+                x.name = 'Plan Centroid ' + i;
+                util.objAddDescription(x, JSON.stringify(cc, null, 4));
+                util.objAddTag(x, 'Imaginary');
+                
+                console.log(x);
+                pub(x);
+                currentCentroids.push(x.id);
+            }
+        });
+    }
+    var updateCentroids = _.throttle(_updateCentroids, 2000);
+    
+    function onSelfChange(s) {
+        updateCentroids();
+    }
+    
     function plugin(netention, v) {
         var p = require('../plugin/' + v).plugin;
         var filename = v;
@@ -219,6 +259,9 @@ exports.start = function(host, port, database, init) {
 
             db.close();
 
+            if (o.id.indexOf('Self-')==0) {
+                onSelfChange(o);
+            }
             if (whenFinished)
                 whenFinished();
         });
@@ -790,12 +833,12 @@ exports.start = function(host, port, database, init) {
            sendJSON(res, p); 
         });
     });
-    express.get('/users/plan/cluster', function(req, res) {
+    /*express.get('/users/plan/cluster', function(req, res) {
         getPlan(function(p) {
            var kmeans = require('./kmeans.js');           
            sendJSON(res, kmeans.getCentroids(p, 3));
         });
-    });
+    });*/
     express.get('/users/json', function(req, res) {
        res.redirect('/tag/User/json');        
     });
