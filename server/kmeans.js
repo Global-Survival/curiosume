@@ -59,24 +59,23 @@ function getSpaceTimeTagCentroids(points, centroids) {
     
     
     var km = kmeans.create(obs, centroids);
-
-    var maxIterations = 64;
-    var result;
-    for (var i = 0; i < maxIterations; i++) {
-        if (km._iterate()) {
-            var nextResult = km.iteration(i);
-            if (nextResult)
-                result = nextResult;
-            else
+    var maxIterations = 32;
+    km.process = function() {
+        // iterate until generated means converged
+        var ii = 0;
+        while(this._iterate()) {
+            //console.log(this._lastIteration());
+            //console.log('Iteration ' + this.iterationCount() + ' means');
+            //console.log(this._lastIteration().means);
+            //console.log('Iteration ' + this.iterationCount() + ' variances');
+            //console.log(this._lastIteration().variances);
+            if ((ii++) == maxIterations)
                 break;            
         }
-        else {
-            break;
-        }
-        console.log('iteration', i);
-        i++;        
-    }
-
+        return this._lastIteration();
+    };
+    var result = km.process();
+    
     
     var m = result.means;
     var cc = result.clusters;

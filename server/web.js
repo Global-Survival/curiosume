@@ -63,39 +63,43 @@ exports.start = function(host, port, database, init) {
             function d() {
                 var n = objs.pop();
                 if (n) {
-                    console.log('  deleting: ', objs.length);
+                    //console.log('  deleting: ', objs.length);
                     deleteObject(n.id, d);
                 }                
+                else {
+                    getPlan(function(p) {            
+
+                        if (p.length < 2)
+                            return;
+
+                        var kmeans = require('./kmeans.js');
+                        var centroids = Math.floor(Math.pow(p.length, 0.55)); //a sub-exponential curve, steeper than log(x) and sqrt(x)
+                        var c = kmeans.getSpaceTimeTagCentroids(p, centroids);
+
+
+                        for (var i = 0; i < c.length; i++) {
+                            var cc = c[i];
+
+                            var x = util.objNew();
+                            x.name = 'Plan Centroid ' + i;
+                            util.objAddGeoLocation(x, parseFloat(cc.location[0]), parseFloat(cc.location[1]));
+                            util.objSetWhen(x, new Date(cc.time).getTime()); 
+                            util.objAddTag(x, 'Imaginary');
+                            util.objAddTag(x, 'PlanCentroid');
+
+                            delete cc.location;
+                            delete cc.time;
+                            util.objAddDescription(x, JSON.stringify(cc, null, 4));
+
+                            pub(x);
+                        }
+                    });
+                    
+                }
             }
             d();
         });
         
-        getPlan(function(p) {            
-            if (p.length < 2)
-                return;
-            
-            var kmeans = require('./kmeans.js');
-            var centroids = Math.round(Math.pow(p.length, 0.75)); //a sub-exponential curve, steeper than log(x) and sqrt(x)
-            var c = kmeans.getSpaceTimeTagCentroids(p, centroids);
-                
-            
-            for (var i = 0; i < c.length; i++) {
-                var cc = c[i];
-                
-                var x = util.objNew();
-                x.name = 'Plan Centroid ' + i;
-                util.objAddGeoLocation(x, parseFloat(cc.location[0]), parseFloat(cc.location[1]));
-                util.objSetWhen(x, new Date(cc.time).getTime()); 
-                util.objAddTag(x, 'Imaginary');
-                util.objAddTag(x, 'PlanCentroid');
-                                
-                delete cc.location;
-                delete cc.time;
-                util.objAddDescription(x, JSON.stringify(cc, null, 4));
-                
-                pub(x);
-            }
-        });
     }
     var updateCentroids = _.throttle(_updateCentroids, 2000);
     
