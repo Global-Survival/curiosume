@@ -857,21 +857,27 @@ function renderObjectSummary(x, onRemoved, r, depthRemaining) {
             }
 	}
     
-    var ww = x.modifiedAt || x.createdAt || null;null
+    var ww = objWhen(x) || x.modifiedAt || x.createdAt || null;
+    var now = Date.now();
     if (ww) {
-        var tt = $('<time class="timeago"/>');
-        function ISODateString(d){
-            function pad(n){return n<10 ? '0'+n : n}
-            return d.getUTCFullYear()+'-'
-              + pad(d.getUTCMonth()+1)+'-'
-              + pad(d.getUTCDate())+'T'
-              + pad(d.getUTCHours())+':'
-              + pad(d.getUTCMinutes())+':'
-              + pad(d.getUTCSeconds())+'Z'}
+        if (ww < now) {
+            var tt = $('<time class="timeago"/>');
+            function ISODateString(d){
+                function pad(n){return n<10 ? '0'+n : n}
+                return d.getUTCFullYear()+'-'
+                  + pad(d.getUTCMonth()+1)+'-'
+                  + pad(d.getUTCDate())+'T'
+                  + pad(d.getUTCHours())+':'
+                  + pad(d.getUTCMinutes())+':'
+                  + pad(d.getUTCSeconds())+'Z'}
+
+            tt.attr('datetime', ISODateString(new Date(ww)));
+            mdline.append(tt);
+        }
+        else {            
+            mdline.append(new Date(ww));
+        }
         
-        tt.attr('datetime', ISODateString(new Date(ww)));
-        
-        mdline.append(tt);
     }
     
     d.append(mdline);

@@ -52,37 +52,47 @@ exports.start = function(host, port, database, init) {
     var databaseUrl = Server.database || process.env['MongoURL']; //"mydb"; // "username:password@example.com/mydb"
     var collections = ["obj"];
 
-
-    var currentCentroids = [];
     
     function _updateCentroids() {
+        //remove old centroids
+        var objs = [];
+        getObjectsByTag('PlanCentroid', function(o) {      
+            objs.push(o);
+        }, function() {
+            console.log('deleting: ' + objs.length);
+            function d() {
+                var n = objs.pop();
+                if (n) {
+                    console.log('  deleting: ', objs.length);
+                    deleteObject(n.id, d);
+                }                
+            }
+            d();
+        });
+        
         getPlan(function(p) {            
             if (p.length < 2)
                 return;
             
             var kmeans = require('./kmeans.js');
             var centroids = p.length-1;
-            var c = kmeans.getCentroids(p, centroids);
-            
-            //console.log('centroids:');
-            //console.log(c);
-    
-            for (var i = 0; i < currentCentroids.legnth; i++) {
-                var cc = currentCentroids[i];
-                deleteObject(cc.id);
-            }
-            currentCentroids = [];
+            var c = kmeans.getSpaceTimeTagCentroids(p, centroids);
+                
             
             for (var i = 0; i < c.length; i++) {
                 var cc = c[i];
                 var x = util.objNew();
                 x.name = 'Plan Centroid ' + i;
-                util.objAddDescription(x, JSON.stringify(cc, null, 4));
+                util.objAddGeoLocation(x, parseFloat(cc.location[0]), parseFloat(cc.location[1]));
+                util.objSetWhen(x, new Date(cc.time).getTime()); 
                 util.objAddTag(x, 'Imaginary');
+                util.objAddTag(x, 'PlanCentroid');
+                                
+                delete cc.location;
+                delete cc.time;
+                util.objAddDescription(x, JSON.stringify(cc, null, 4));
                 
-                console.log(x);
                 pub(x);
-                currentCentroids.push(x.id);
             }
         });
     }
@@ -208,8 +218,10 @@ exports.start = function(host, port, database, init) {
                 pub(objectRemoved(objectID));
 
                 //remove replies                
-                db.obj.remove({replyTo: objectID}, function(err, docs) {
-
+                var db2 = mongo.connect(databaseUrl, collections);
+                db2.obj.remove({replyTo: objectID}, function(err, docs) {
+                    db2.close();
+                    
                     nlog('deleted ' + objectID);
 
                     if (!err) {
@@ -259,8 +271,12 @@ exports.start = function(host, port, database, init) {
 
             db.close();
 
-            if (o.id.indexOf('Self-')==0) {
-                onSelfChange(o);
+            if (o.id) {
+                if (o.id.indexOf) {
+                    if (o.id.indexOf('Self-')==0) {
+                        onSelfChange(o);
+                    }
+                }
             }
             if (whenFinished)
                 whenFinished();

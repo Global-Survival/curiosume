@@ -9,6 +9,8 @@ else {
 function _n(x, places) {    
     if (!places) places = 2;
     if (x == undefined) return '0';
+    if (!x.toFixed)
+        return x;
     return x.toFixed(places);  
 }  //formats numbers to string w/ 2 decimal places
 exports._n = _n;
@@ -122,6 +124,18 @@ function objRemoveDescription(x) {
     }
 }
 exports.objRemoveDescription = objRemoveDescription;
+
+function objSetWhen(x, time) {
+    x.when = time;
+    objAddValue(x, 'timepoint', time);
+    return x;
+}
+exports.objSetWhen = objSetWhen;
+
+function objWhen(x) {
+    return objFirstValue(x, 'timepoint', null);
+}
+exports.objWhen = objWhen;
 
 function objDescription(x) {
     /* concatenates all 'description' tag values */
@@ -296,7 +310,7 @@ function objSpacePointLatLng(x) {
 exports.objSpacePointLatLng = objSpacePointLatLng;
 
 function objAddGeoLocation(x, lat, lon) {
-    return objAddValue(x, 'spacepoint', {lat: lat, lon: lon, planet: 'Earth'});
+    return objAddValue(x, 'spacepoint', {'lat': lat, 'lon': lon, planet: 'Earth'});
 }
 exports.objAddGeoLocation = objAddGeoLocation;
 
