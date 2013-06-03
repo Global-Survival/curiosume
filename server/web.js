@@ -65,7 +65,8 @@ exports.start = function(host, port, database, init) {
                 if (n) {
                     //console.log('  deleting: ', objs.length);
                     deleteObject(n.id, d);
-                }                
+                }     
+                //whenFinished()
                 else {
                     getPlan(function(p) {            
 

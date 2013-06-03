@@ -627,7 +627,7 @@ function renderSelf(s, o, v) {
        
     var frame = newDiv().attr('class','SelfView');
     
-    var roster = newRoster(s);
+    var roster = newRoster();
     roster.addClass('SelfRoster');
     
     var contentTags = newDiv().attr('class', 'SelfViewTags');
@@ -651,7 +651,7 @@ function renderSelf(s, o, v) {
     function updateTags(x) {
         contentTags.html(newSelfTagList(s, x, content));
         contentTime.html(newSelfTimeList(x, contentTime));
-        roster.html(newRoster(s, function(x) {
+        roster.html(newRoster(function(x) {
             summaryUser(x);
         }));
     }
