@@ -15,7 +15,6 @@ function newSelfTimeList(s, x, container) {
     function save() {
         if (x.id !== s.myself().id)
             return;
-        var me = s.myself();
         plan = { };
         for (var i = 0; i < numHours; i++) {
             var tt = planSlotTimes[i];
@@ -23,11 +22,13 @@ function newSelfTimeList(s, x, container) {
                 plan[tt] = planSlots[i];
             
         }
-        me.plan = plan;
         container.html(newSelfTimeList(s,self.myself(),container));
         
         later(function() {
-            $('.SelfSaveButton').click(); //HACK            
+            saveSelf(function(m) {
+               m.plan = plan; 
+               return m;
+            });
         });
         /*s.notice(me);
         s.pub(me, function(err) {
@@ -62,7 +63,7 @@ function newSelfTimeList(s, x, container) {
         var rowHeader = newDiv();
         rowHeader.addClass('SelfTimeRowHeader');
         
-        if (i % 24 == 0) {
+        if (i % 12 == 0) {
             rowHeader.html(timed.toLocaleDateString() + ': ' + timed.toLocaleTimeString());            
         }
         else {
@@ -85,7 +86,7 @@ function newSelfTimeList(s, x, container) {
         planSlotTimes[i] = time;
         planSlots[i] = _.unique(plans);
         
-        t.append('<br/>');
+        t.append('&nbsp;');
         _.each(plans, function(p) {
             t.append(newTagButton(p));
             t.append('&nbsp;');

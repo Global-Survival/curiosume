@@ -355,6 +355,26 @@ function newSelfTagList(s, user, c) {
     return b;
 }
 
+function saveSelf(editFunction) {
+    var m = self.myself();
+    if (editFunction)
+        m = editFunction(m);
+    objTouch(m);
+
+    self.pub(m, function(err) {
+        $.pnotify({
+           title: 'Unable to save Self.',
+           type: 'Error',
+           text: err
+        });           
+    }, function() {
+        self.notice(m);
+        $.pnotify({
+           title: 'Self Saved.'            
+        });           
+    });    
+}
+
 function newSelfSummary(s, user, content) {
     var editable = (user.id === s.myself().id);
     
@@ -436,26 +456,14 @@ function newSelfSummary(s, user, content) {
         bio.append(saveButton);
 
         saveButton.click(function() {
-           var m = s.myself();
-           m.name = nameInput.val();
-           m.email = emailInput.val();
-           objRemoveDescription(m);
-           objAddDescription(m, objarea.html());
-           objTouch(m);
-
-           s.pub(m, function(err) {
-               $.pnotify({
-                  title: 'Unable to save Self.',
-                  type: 'Error',
-                  text: err
-               });           
-           }, function() {
-               s.notice(m);
-               $.pnotify({
-                  title: 'Self Saved.'            
-               });           
-           });
-
+            saveSelf(function(m) {
+                m.name = nameInput.val();
+                m.email = emailInput.val();
+                objRemoveDescription(m);
+                objAddDescription(m, objarea.html());
+                objTouch(m);
+                return m;
+            });
         });
     }
 
