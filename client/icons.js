@@ -17,5 +17,6 @@ var defaultIcons = {
     'emotion.sad': '/icon/emoticon/sad.svg',
     'emotion.angry': '/icon/emoticon/angry.svg',
     'emotion.surprised': '/icon/emoticon/surprised.svg',
-    'Tweet': '/icon/twitter.png'
+    'Tweet': '/icon/twitter.png',
+    'PlanCentroid': '/icon/rrze/emblems/workflow-cycle.png'
 };
