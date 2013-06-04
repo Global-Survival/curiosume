@@ -35,8 +35,11 @@ function getSpaceTimeTagCentroids(points, centroids) {
         return obs;
     }
 
-    function normalize(points, index) {
+    function normalize(points, index, scale) {
         var min, max;
+        if (!scale)
+            scale = 1.0;
+        
         min = max = points[0][index];
         for (var i = 1; i < points.length; i++) {
             var pp = points[i][index];
@@ -47,31 +50,33 @@ function getSpaceTimeTagCentroids(points, centroids) {
         for (var i = 0; i < points.length; i++) {
             var pp = points[i][index];
             if (min != max) {
-                pp = (pp-min) / (max-min);
+                pp = (pp-min) / (max-min) * scale;
             }
             else {
                 pp = 0.5;
             }
             points[i][index] = pp;
         }    
-        return [points, parseFloat(min), parseFloat(max)];
+        return [points, parseFloat(min), parseFloat(max), scale];
     }
 
     var tags = getUniqueTags(points);
     var obs = getObservations(points, tags);
     
-    var timeNorm = normalize(obs, 2);    
+    
+    var w = 8 * (1 + (tags.length));
+    var timeNorm = normalize(obs, 2, w);    
     obs = timeNorm[0];
-    var latNorm = normalize(obs, 0);
+    var latNorm = normalize(obs, 0, w);
     obs = latNorm[0];
-    var lonNorm = normalize(obs, 1);
+    var lonNorm = normalize(obs, 1, w);
     obs = lonNorm[0];
     
     
     //TODO normalize lat/lon
     
     var km = kmeans.create(obs, centroids);
-    var maxIterations = 64;
+    var maxIterations = 128;
     km.process = function() {
         // iterate until generated means converged
         var ii = 0;
@@ -97,11 +102,14 @@ function getSpaceTimeTagCentroids(points, centroids) {
             return minmax[1];
         }
         
+        var scale = minmax[3];
         if (value < 0) value = 0;
-        if (value > 1.0) value = 1.0;
+        if (value > scale) value = scale;
         
+        value/=scale;
         var v = (minmax[2] > minmax[1]) ? (value * (minmax[2]-minmax[1]) + minmax[1]) :
                 (value * (minmax[1]-minmax[2]) + minmax[2]);
+        
         
         return v;
     }
