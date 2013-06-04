@@ -38,28 +38,40 @@ function getSpaceTimeTagCentroids(points, centroids) {
     function normalize(points, index) {
         var min, max;
         min = max = points[0][index];
-        for (var i = 0; i < points.length; i++) {
+        for (var i = 1; i < points.length; i++) {
             var pp = points[i][index];
             if (pp < min) min = pp;
             if (pp > max) max = pp;
         }
+        
         for (var i = 0; i < points.length; i++) {
             var pp = points[i][index];
-            pp = (pp-min) / (max-min);
+            if (min != max) {
+                pp = (pp-min) / (max-min);
+            }
+            else {
+                pp = 0.5;
+            }
             points[i][index] = pp;
         }    
-        return [points, min, max];
+        return [points, parseFloat(min), parseFloat(max)];
     }
 
     var tags = getUniqueTags(points);
     var obs = getObservations(points, tags);
-    var timeNorm = normalize(obs, 2);
-
-    obs = timeNorm[0];
     
+    var timeNorm = normalize(obs, 2);    
+    obs = timeNorm[0];
+    var latNorm = normalize(obs, 0);
+    obs = latNorm[0];
+    var lonNorm = normalize(obs, 1);
+    obs = lonNorm[0];
+    
+    
+    //TODO normalize lat/lon
     
     var km = kmeans.create(obs, centroids);
-    var maxIterations = 32;
+    var maxIterations = 64;
     km.process = function() {
         // iterate until generated means converged
         var ii = 0;
@@ -80,11 +92,25 @@ function getSpaceTimeTagCentroids(points, centroids) {
     var m = result.means;
     var cc = result.clusters;
     
+    function denormalize(value, minmax) {
+        if (minmax[2] === minmax[1]) {
+            return minmax[1];
+        }
+        
+        if (value < 0) value = 0;
+        if (value > 1.0) value = 1.0;
+        
+        var v = (minmax[2] > minmax[1]) ? (value * (minmax[2]-minmax[1]) + minmax[1]) :
+                (value * (minmax[1]-minmax[2]) + minmax[2]);
+        
+        return v;
+    }
+    
     var results = [];
     for (var i = 0; i < m.length; i++) {
         var mm = m[i];
         var res = { 
-            location: [mm[0], mm[1]], time: new Date((mm[2]*(timeNorm[2]-timeNorm[1]) + timeNorm[1]))
+            location: [denormalize(mm[0],latNorm), denormalize(mm[1],lonNorm)], time: new Date(denormalize(mm[2], timeNorm))
         };
         if (mm.length > 3) {
             for (var k = 3; k < mm.length; k++) {
