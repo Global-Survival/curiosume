@@ -541,7 +541,7 @@ body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-f
 	#LoadingSplash ul li { float:left; outline:none; border:none; margin:0;padding:0;width:20%; list-style-type:none; text-align:center; } 
 	#LoadingSplash ul li span { clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
 	#LoadingSplash ul li span:hover { display:block;clear:both; font-size:.7em; display:none; width:100%; margin-bottom:10px; padding:0; } 
-	#LoadingSplash ul li img { margin:5px 0 0 0;padding:0;width:90%;height:auto; filter: gray; filter: url(filters.svg#grayscale); -webkit-filter: grayscale(1); } 
+	#LoadingSplash ul li img { margin:5px 0 0 0;padding:0;width:90%;height:auto; filter: gray; _filter: url(filters.svg#grayscale); -webkit-filter: grayscale(1); } 
 	#LoadingSplash ul li img:hover { margin:0;padding:0;width:100%;height:auto; filter: none !important; -webkit-filter: none !important; } 
 	#openid-img { width:80%;height:auto;clear:both;display:block; margin:10px auto; }
 	#about-toggle { width:80%; height:auto; margin:10px auto; display:block; clear:both; }
