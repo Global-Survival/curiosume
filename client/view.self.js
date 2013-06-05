@@ -1,3 +1,7 @@
+function getENWikiURL(t) {
+    return 'http://en.wikipedia.org/wiki/' + t;
+}
+
 function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
     var saveButton = $('<button>Save</button>');
     saveButton.addClass('WikiTagSave');
@@ -119,8 +123,7 @@ function newTagBar(s, currentTag) {
     tagBar.append('<br/>');        
     return tagBar;
 }
-
-function getKnowledgeCode(s, userid) {
+function getKnowledgeCodeTags(s, userid) {
     userid = userid.substring(5);
     
     var tags = s.getIncidentTags(userid, _.keys(tagColorPresets));                 
@@ -133,6 +136,40 @@ function getKnowledgeCode(s, userid) {
     }
     
     tags['@'] = objSpacePointLatLng(self.object('Self-' + userid));    
+    return tags;
+}
+
+function getKnowledgeCodeHTML(s, userid) {
+    var tags = getKnowledgeCodeTags(s, userid);
+    var x = '';
+    for (var i in tags) {
+                
+        if (i == '@') {            
+            x += '@: ' + _n(tags[i][0], 3) + ', ' + _n(tags[i][1], 3);
+        }
+        else {
+            var il = i;
+            var stt = self.getTag(i);
+            if (stt)
+                il = stt.name;
+
+            var color = tagColorPresets[i] || 'black'; 
+                
+            x += '<b style="color: ' + color + '">' + il + '</b>: ';
+            for (var y = 0; y < tags[i].length; y++) {
+                var tt = tags[i][y];
+                x += '<a href="' + getENWikiURL(tt) + '">' + tags[i] + '</a>';
+                x += '&nbsp;';
+            }
+        }
+        x += '<br/><br/>';
+    }
+    
+    return x;    
+}
+
+function getKnowledgeCode(s, userid) {
+    var tags = getKnowledgeCodeTags(s, userid);
     
     return JSON.stringify(tags,null,0);
 }
@@ -178,7 +215,7 @@ s
             function newPopupButton(target) {
                 var p = $('<a href="#" title="Popup">+</a>');
                 p.click(function() {
-                    var d = newPopup(target, {width: 400});
+                    var d = newPopup(target, {width: 550});
                     var tagBar = newTagBar(s, target);
                     var saveButton = newTagBarSaveButton(s, target, tagBar, function() {
                         d.dialog('close');
@@ -215,7 +252,8 @@ s
                              gotoTag(target); 
                         });
                          
-                        t.after(newPopupButton(target));
+                        if ((target.indexOf('Portal:')!=0) && (target.indexOf('Special:')!=0))
+                            t.after(newPopupButton(target));
                     }
                    }
                });
@@ -277,7 +315,7 @@ function newSelfTagList(s, user, c) {
             });
             a.appendTo(b);
 
-            var wlinkURL = 'http://en.wikipedia.org/wiki/' + theTag;
+            var wlinkURL = getENWikiURL(theTag);
             var wlink = $('<a href="' + wlinkURL + '" target="_blank" title="Wikipedia Page">[W]</a>');
             b.append('&nbsp;');
             b.append('&nbsp;');
@@ -395,8 +433,14 @@ function newSelfSummary(s, user, content) {
     
     var exportButton = $('<button>Export..</button>');
     exportButton.click(function() {
-        var p = newPopup('Code @ ' + new Date(), {width: 400, height: 400});
+        var p = newPopup('Code @ ' + new Date(), {width: 550, height: 400});
         p.html('<textarea class="SelfCode" readonly="true">' + getKnowledgeCode(s, user.id) + '</textarea>');
+        
+        var htmlButton = $('<button>HTML Version</button>');
+        htmlButton.click(function() {
+           p.html('<div class="SelfCode">' + getKnowledgeCodeHTML(s, user.id) + '</div>');
+        });
+        p.prepend(htmlButton);
     });
     np.append(exportButton);
 

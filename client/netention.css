@@ -625,7 +625,7 @@ body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-f
 	#Bio { width: 100%; float: left; margin-bottom: 1em; }
 	#Bio button { font-size: 150%; }
 	#SelfMap  { width: 40%; height: 250px; float: right; }
-	.SelfCode { width: 95%; height: 95%; }
+	.SelfCode { width: 95%; height: 90%; }
 	.SelfMeta { float: left; }
 	.SelfMeta input, .SelfMeta button { font-size: 150%; }
 	.WikiBrowser { position: absolute; height: 90%; overflow:auto; background-color: white; color: black; width: 65%; border-top: 1px solid gray; border-bottom: 1px solid gray; }
