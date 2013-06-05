@@ -616,7 +616,7 @@ body { width:100%; height:100%; margin:0px; padding:0px; overflow:hidden; font-f
 
 /* Team/Self Browser */
 .SelfView { width: 100%; }
-	.SelfRoster { float: left; width: 25%; padding-right: 1em; max-height: 95%; position: fixed; overflow: scroll; margin-top: 1em; }
+	.SelfRoster { float: left; width: 25%; padding-right: 1em; max-height: 95%; position: fixed; overflow: auto; margin-top: 1em; }
 	.SelfRoster .objectView { cursor: crosshair; }
 	.SelfViewTags { width: 50%; float: left}
         .SelfViewTime { width: 50%; float: left; max-height: 400px; overflow-y: scroll; }
