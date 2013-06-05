@@ -121,24 +121,26 @@ function updateLayers() {
         }
         
         t.click(function() {
-            if ((!included) && (!excluded)) {
-                //make included
-                l.include[id] = true;
-                delete l.exclude[id];
-                commitLayer();
-            }
-            else if (included) {
-                //make excluded
-                delete l.include[id];
-                l.exclude[id] = true;
-                commitLayer();
-            }
-            else {
-                //make neither
-                delete l.include[id];
-                delete l.exclude[id];
-                commitLayer();
-            }
+            later(function() {
+                if ((!included) && (!excluded)) {
+                    //make included
+                    l.include[id] = true;
+                    delete l.exclude[id];
+                    commitLayer();
+                }
+                else if (included) {
+                    //make excluded
+                    delete l.include[id];
+                    l.exclude[id] = true;
+                    commitLayer();
+                }
+                else {
+                    //make neither
+                    delete l.include[id];
+                    delete l.exclude[id];
+                    commitLayer();
+                }                
+            });
         });
     });
     $('.KMLLayer').each(function(x) {

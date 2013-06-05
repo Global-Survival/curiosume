@@ -739,6 +739,7 @@ exports.start = function(host, port, database, init) {
     express.use(connect.compress());
     //express.use(expressm.staticCache());
     express.use("/plugin", expressm.static('./plugin' , staticContentConfig ));
+    express.use("/doc", expressm.static('./doc' , staticContentConfig ));
     express.use("/kml", expressm.static('./client/kml' , staticContentConfig ));
     express.use("/", expressm.static('./client' , staticContentConfig));        
 
@@ -1070,6 +1071,10 @@ exports.start = function(host, port, database, init) {
 
     express.get('/wiki/:tag/html', function(req, rres) {
         var t = req.params.tag;
+        returnWikiPage("http://en.wikipedia.org/wiki/" + t, rres);
+    });
+    express.get('/wiki/:tag1/:tag2/html', function(req, rres) {
+        var t = req.params.tag1 + '/' + req.params.tag2;
         returnWikiPage("http://en.wikipedia.org/wiki/" + t, rres);
     });
 

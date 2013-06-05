@@ -149,13 +149,13 @@ var generalTags = [
             'knowledge': { name: 'Knowledge', type: 'object' }
     }}, 
         
-        { uri: 'BeginnerStudent', name: 'Beginner Student', tag: ['Skill'] },
-        { uri: 'IntermediateStudent', name: 'Intermediate Student', tag: ['Skill'] },
-        { uri: 'CollaboratingStudent', name: 'Collaborating Student', tag: ['Skill'] },
+        { uri: 'BeginnerStudent', name: 'Student', tag: ['Skill'] },
+        { uri: 'IntermediateStudent', name: 'Student Collaborator', tag: ['Skill'] },
+        { uri: 'CollaboratingStudent', name: 'Collaborator Student', tag: ['Skill'] },
         { uri: 'Collaborating', name: 'Collaborating', tag: ['Skill'] },
-        { uri: 'CollaboratingTeacher', name: 'Collaborating Teacher', tag: ['Skill'] },
-        { uri: 'IntermediateTeacher', name: 'Intermediate Teacher', tag: ['Skill'] },
-        { uri: 'ExpertTeacher', name: 'Expert Teacher', tag: ['Skill'] },
+        { uri: 'CollaboratingTeacher', name: 'Collaborator Teacher', tag: ['Skill'] },
+        { uri: 'IntermediateTeacher', name: 'Teacher Collaborator', tag: ['Skill'] },
+        { uri: 'ExpertTeacher', name: 'Teacher', tag: ['Skill'] },
 
         { uri: 'Can', name: 'Can' },
         { uri: 'Need', name: 'Need' },

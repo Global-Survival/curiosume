@@ -1,29 +1,3 @@
-/* http://www.perbang.dk/rgbgradient/
-    6 steps between: AFE500 and FF3B2E
-        AFE500 E9EA08 EFBB11 F48E1A F96324 FF3B2E
-*/
-
-var tagColorPresets = {
-    'BeginnerStudent': '#AFE500',
-    'IntermediateStudent': '#E9EA08',
-    'CollaboratingStudent': '#EFBB11',
-    'CollaboratingTeacher': '#F48E1A',
-    'IntermediateTeacher': '#F96324',
-    'ExpertTeacher': '#FF3B2E',
-    'Can': 'fuchsia',
-    'Need': '#bbf',
-    'Not': 'gray'
-};
-
-var tagAlias = {
-    'BeginnerStudent': 'α',
-    'IntermediateStudent': 'β',
-    'CollaboratingStudent': 'γ',
-    'CollaboratingTeacher': 'δ',
-    'IntermediateTeacher': 'ε',
-    'ExpertTeacher': 'ζ'
-};
-
 function newTagBarSaveButton(s, currentTag, tagBar, onSave) {
     var saveButton = $('<button>Save</button>');
     saveButton.addClass('WikiTagSave');
@@ -133,14 +107,14 @@ function newTagBar(s, currentTag) {
     skillSet.buttonset();
 
     tagBar.append('<br/>');
-
-    {
+    
+    if (viewSelfConfiguration.includeCanNeedNot) {
         tbutton('Can', canNeedSet);
         tbutton('Need', canNeedSet);
         tbutton('Not', canNeedSet);
+        tagBar.append(canNeedSet);                
+        canNeedSet.buttonset();        
     }
-    tagBar.append(canNeedSet);                
-    canNeedSet.buttonset();        
 
     tagBar.append('<br/>');        
     return tagBar;
@@ -166,33 +140,39 @@ function getKnowledgeCode(s, userid) {
 function newTagBrowser(s) {
     var b = $('<div/>');
     
+    var homeButton = $('<button>Home</button>');
+    homeButton.click(function() {
+       gotoTag(viewSelfConfiguration.wikiStartPage);
+    });
     var searchInput = $('<input placeholder="Search Wikipedia"/>');
     var searchInputButton = $('<button>&gt;&gt;&gt;</button>');
     searchInputButton.click(function() {
        gotoTag(searchInput.val(), true); 
     });
+    b.append(homeButton);
     b.append(searchInput);
     b.append(searchInputButton);
     
     var br = $('<div/>');
     br.addClass('WikiBrowser');
     
-    
-    var currentTag = 'Learning';
+        
+    var currentTag = viewSelfConfiguration.wikiStartPage;
     
     function gotoTag(t,search) {        
         br.html('Loading...');
         currentTag = t;
         
-        if (t == null) {
+        /*if (t == null) {
             $.get('/skill-home.html', function(d) {
                br.html('');
                br.append(d); 
 s
             });
             
-        }
-        else {
+            }
+            else */
+        {
             var url = search ? '/wiki/search/' + t : '/wiki/' + t + '/html';
 
             function newPopupButton(target) {
@@ -230,6 +210,7 @@ s
                    if (h) {
                     if (h.indexOf('/wiki') == 0) {
                         var target = h.substring(6);
+                        
                         t.click(function() {
                              gotoTag(target); 
                         });
@@ -239,7 +220,9 @@ s
                    }
                });
                var lt = newPopupButton(currentTag);
-               br.find('#firstHeading').append(lt);
+               
+               if (currentTag.indexOf('Portal:')!=0)
+                    br.find('#firstHeading').append(lt);
             });
             
             //..
