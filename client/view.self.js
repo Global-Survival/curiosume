@@ -112,7 +112,7 @@ function newTagBar(s, currentTag) {
 
     tagBar.append('<br/>');
     
-    if (viewSelfConfiguration.includeCanNeedNot) {
+    if (configuration.includeCanNeedNot) {
         tbutton('Can', canNeedSet);
         tbutton('Need', canNeedSet);
         tbutton('Not', canNeedSet);
@@ -179,7 +179,7 @@ function newTagBrowser(s) {
     
     var homeButton = $('<button>Home</button>');
     homeButton.click(function() {
-       gotoTag(viewSelfConfiguration.wikiStartPage);
+       gotoTag(configuration.wikiStartPage);
     });
     var searchInput = $('<input placeholder="Search Wikipedia"/>');
     var searchInputButton = $('<button>&gt;&gt;&gt;</button>');
@@ -194,7 +194,7 @@ function newTagBrowser(s) {
     br.addClass('WikiBrowser');
     
         
-    var currentTag = viewSelfConfiguration.wikiStartPage;
+    var currentTag = configuration.wikiStartPage;
     
     function gotoTag(t,search) {        
         br.html('Loading...');

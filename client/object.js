@@ -52,7 +52,7 @@ function getAvatar(s) {
 }
 function getAvatarURL(email) {
     if (!email) {
-        return '/icon/netention-160.jpg';
+        return configuration.defaultAvatarIcon;
     }
     return "http://www.gravatar.com/avatar/" + MD5(email);
 }
