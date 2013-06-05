@@ -684,7 +684,8 @@ function renderSelf(s, o, v) {
     
     function updateTags(x) {
         contentTags.html(newSelfTagList(s, x, content));
-        contentTime.html(newSelfTimeList(x, contentTime));
+        if (configuration.showPlanOnSelfPage)
+            contentTime.html(newSelfTimeList(x, contentTime));
         roster.html(newRoster(function(x) {
             summaryUser(x);
         }));
