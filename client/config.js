@@ -1,5 +1,11 @@
 /* Netention Client Configuration */
 
+var configuration = {
+    initialView: 'self',
+    initialDisplayAvatarMenu: false,
+    enableAnonymous: true
+};
+
 var viewSelfConfiguration = {
     includeCanNeedNot: true,
     wikiStartPage: 'Portal:Contents'

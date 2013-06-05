@@ -269,12 +269,19 @@ function newSelfTagList(s, user, c) {
         if (o) {
             var tags = objTags(o);
             var otherTags = _.without(tags, x);  
+            var theTag = otherTags[0];
             var b = $('<div>' +  + '</div>');
-            var a = $('<a href="#">' + otherTags[0] + '</a>');
+            var a = $('<a href="#" title="Tag Instance">' + theTag + '</a>');
             a.click(function() {
                 newPopupObjectView(i);
             });
             a.appendTo(b);
+
+            var wlinkURL = 'http://en.wikipedia.org/wiki/' + theTag;
+            var wlink = $('<a href="' + wlinkURL + '" target="_blank" title="Wikipedia Page">[W]</a>');
+            b.append('&nbsp;');
+            b.append('&nbsp;');
+            wlink.appendTo(b);
         }
         return b;        
     }

@@ -537,6 +537,9 @@ function popupAboutDialog() {
 
 $(document).ready(function() {
 	
+    if (configuration.enableAnonymous)
+        $('#AnonymousLoginButton').show();
+        
     if (!isAuthenticated()) {        
         return;
     }
@@ -645,11 +648,14 @@ $(document).ready(function() {
                 Backbone.history.start();
 
 
-                if (!self.get('currentView')) {
+                /*if (!self.get('currentView')) {
                     self.set('currentView', 'grid');
                 }
                 else {
                     //updateView();
+                }*/
+                if (configuration.initialView) {
+                    self.set('currentView', configuration.initialView);
                 }
 
                 //select the current view in the ViewControls
@@ -799,8 +805,10 @@ $(document).ready(function() {
     });
 */
 
-    showAvatarMenu(true);
-    
+    if (configuration.initialDisplayAvatarMenu)
+        showAvatarMenu(true);
+    else
+        showAvatarMenu(false);
 
 });
 
