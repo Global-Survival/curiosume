@@ -732,7 +732,7 @@ exports.start = function(host, port, database, init) {
     
     var staticContentConfig = {
         //PRODUCTION: oneYear
-        maxAge: oneYear
+        maxAge: 0 //oneYear
     };
     
     //Gzip compression
@@ -1048,10 +1048,12 @@ exports.start = function(host, port, database, init) {
             var page = '';
             res.on("data", function(chunk) {
                 page += chunk;
-            });
+            });			   
+
             res.on('end', function() {
                 var cheerio = require('cheerio');
                 var $ = cheerio.load(page);
+				$('script').remove();
 
                 if (redirector)
                     $('#content').append('<div style="display:none" class="WIKIPAGEREDIRECTOR">' + redirector + '</div>');            

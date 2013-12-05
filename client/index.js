@@ -4,7 +4,7 @@
 
 "use strict";
 
-var MAX_INITIAL_OBJECTS = 1024;
+var MAX_INITIAL_OBJECTS = 2048;
 
 function clearFocus() {
     later(function() {
@@ -478,6 +478,10 @@ function deleteFocus() {
 function setTheme(t) {
     if (!t)
         t = '_cybernetic';
+    
+    if (!_.contains(_.keys(themes), t)) {
+        t = '_cybernetic';
+    }
 
     var oldTheme = window.self.get('theme');
     if (oldTheme !== t) {

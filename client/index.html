@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
         <meta charset="utf-8">
-        <title>Netention Voltron v.10</title>
+        <title>Curiosumé : Knowledge Inventory</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="application-name" content="Netention Alpha"/>
         <meta name="description" content="">
@@ -35,13 +35,11 @@
         <div id="LoadingSplash">        
             <div id="login-prompt" class="logon overthrow">
             	<div>
-                	<img alt="Welcome" id="about-toggle" title="Click here to learn about this project" src="icon/netention-logo.png" />
+                	<img alt="Welcome" id="about-toggle" title="Click here to learn about this project" src="/doc/zertify-chart2.png" />
                     <h3 style="text-align:center;">Login</h3>
                     <ul>
                     	<li id="AnonymousLoginButton"><a href="/anonymous"><img src="icon/anonymous-login.png" alt="Anonymous Login" title="Anonymous Login" /></a></li>
-                    	<li><img src="icon/facebook.png" alt="Facebook Login" title="Login with your Facebook Account" /></li>
                     	<li><a href="/auth/google"><img src="icon/google.png" alt="Google Login" title="Login with your Google Account" /></a></li>
-                    	<li><!--<a href="/auth/twitter">--><img src="icon/twitter.png" alt="Twitter Login" title="Login with your Twitter Account" /><!--</a>--></li>
                     	<li><img src="icon/openid.png" alt="Open ID Login" title="Login with your Open ID" id="openid-toggle" /></li>
                     </ul>
                     <div id="openid-login" style="display:none">
@@ -51,8 +49,10 @@
                       <input type="text" name="openid_identifier"/><input type="submit" value="OpenID Login"/>
                     </form>
                     </div>
-                    <div id="about-netention" style="display:none">
-                    <p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p>
+                    <div id="about-netention" style="display:block;text-align:center">
+			<h2>Curiosumé  :  The Knowledge Inventory	</h2>
+<p>Introduction @ <a href="http://www.ingenesist.com/general-info/collaboration-nation.html" target="_blank"  >Ingesist.com</a></p> 
+                    <!--p>Contribute to the <a href="http://netention.org/" target="_blank">&ldquo;<em>Netention</em>&rdquo;</a> open-source project on <a href="https://github.com/automenta/netentionjs2" target="_blank">Github</a> and read about the upcoming <a href="http://climateviewer.com/" target="_blank">Global Survival System</a>. Contact Jim Lee on <a href="http://twitter.com/rezn8d" target="_blank">Twitter</a>, <a href="http://www.facebook.com/rezn8d" target="_blank">Facebook</a>, or Skype user &ldquo;rezn8d&rdquo; if you are interested in helping.  Works best on <a href="http://chrome.google.com/" target="_blank">Chrome</a> or <a href="http://www.firefox.com/" target="_blank">Firefox</a>.</p-->
                     </div>
                 </div>    
             </div>           
@@ -83,7 +83,7 @@
                         <input type="radio" id="plan" name="ViewControls" /><label for="plan">Plan</label>
                         <input type="radio" id="graph" name="ViewControls" /><label for="graph">Graph</label>
                         <input type="radio" id="trends" name="ViewControls" /><label for="trends">Trends</label>
-                        <input type="radio" id="options" name="ViewControls" /><label for="options">Options</label>
+                        <!-- <input type="radio" id="options" name="ViewControls" /><label for="options">Options</label> -->
                     </form>
                 </div>
 
